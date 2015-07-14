@@ -47,6 +47,25 @@ controller('provedoresController',function($scope,$http,$modal){
   	});
   };
 
+
+  $scope.elimProvedor = function(index){
+
+    var modalInstance = $modal.open({
+
+      animation: true,
+          templateUrl: '/modal/provedores/elimProvedor.html',
+          controller: 'elimProvedorCtrl',
+          resolve: {
+             obtenerProvedores: function () {
+                return $scope.obtenerProvedores;
+             },
+             id:function () {
+                return index;
+             }
+         }
+    });
+  };
+
 	$scope.obtenerProvedores();
 
 });
@@ -170,6 +189,44 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
       obtenerProvedores();
 
  	});
+ };
+
+});
+
+angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $modalInstance, $http, obtenerProvedores,id) {
+
+  $scope.btnVisivilidad = true;
+
+  $scope.eliminar = function () {
+    $scope.delet();
+  };
+
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+
+  $scope.closeAlert = function(index){
+
+    $scope.alerts.splice(index,1);
+
+  };
+
+
+ $scope.delet = function(){
+
+  $http.post('/elimProvedor/' + id)
+    .success(function(response){
+
+      $scope.alerts = [];
+      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+    
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+     
+      obtenerProvedores();
+  });
+
  };
 
 });

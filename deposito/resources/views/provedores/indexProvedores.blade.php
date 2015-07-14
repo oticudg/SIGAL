@@ -41,7 +41,7 @@
 				<td>{#provedor.direccion#}</td>
 				<td>{#provedor.email#}</td>
 				<td><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)">Editar</button></td>
-				<td><button class="btn btn-danger">Eliminar</button></td>
+				<td><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)">Eliminar</button></td>
 			</tr>
 		</tbody>
 
