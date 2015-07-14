@@ -33,3 +33,5 @@ Route::post('registraProvedor' ,'provedoresController@registrar');
 Route::get('getProvedores','provedoresController@allProvedores');
 //Obtiene un provedor por su id
 Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
+//Edita un provedor cuyo id se pase
+Route::get('editProvedor/{id}', 'provedoresController@editProvedor');

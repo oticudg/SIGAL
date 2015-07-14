@@ -70,5 +70,48 @@ class provedoresController extends Controller
         }
 
     }
+
+    public function editProvedor(Request $request,$id){
+
+        $provedor = Provedore::where('id',$id)->first();
+
+        if(!$provedor){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este provedor no exist']);            
+        }
+        else{
+            
+            $data = $request->all();
+
+            $validator = Validator::make($data,[
+
+                'nombre'        =>  'required',
+                'telefono'      =>  'required',
+                'direccion'     =>  'required',
+                'contacto'      =>  'required',
+                'email'         =>  'required'
+            ]);
+
+
+            if($validator->fails()){
+
+                return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+            }
+            else{
+               
+                Provedore::where('id',$id)->update([
+
+                    'nombre'        => $data['nombre'],
+                    'telefono'      => $data['telefono'],
+                    'direccion'     => $data['direccion'],
+                    'contacto'      => $data['contacto'],
+                    'email'         => $data['email']
+                ]);
+
+                return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
+
+            }
+        }
+    }
     
 }
