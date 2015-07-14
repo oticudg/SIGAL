@@ -39,15 +39,13 @@ controller('provedoresController',function($scope,$http,$modal){
       		resolve: {
        			 obtenerProvedores: function () {
           			return $scope.obtenerProvedores;
-        		 }
-      		}
-
-		});
-	};
-
-
-
-
+        		 },
+             id:function () {
+                return index;
+             }
+      	 }
+  	});
+  };
 
 	$scope.obtenerProvedores();
 
@@ -110,7 +108,7 @@ angular.module('deposito').controller('registraProvedorCtrl', function ($scope, 
 });
 
 
-angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $modalInstance, $http, obtenerProvedores) {
+angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $modalInstance, $http, obtenerProvedores,id) {
 
   $scope.btnVisivilidad = true;
   $scope.rif = '';
@@ -120,8 +118,19 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
   $scope.email = ''; 
   $scope.direccion= '';
 
+  $http.get('/getProvedor/' + id)
+    .success(function(response){
 
-  $scope.registrar = function () {
+        $scope.rif       = response.rif;
+        $scope.nombre    = response.nombre;
+        $scope.telefono  = response.telefono;
+        $scope.contacto  = response.contacto;
+        $scope.email     = response.email;
+        $scope.direccion = response.direccion;
+  });
+
+
+  $scope.modificar = function () {
   	$scope.save();
   };
 
@@ -142,7 +151,6 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
 
  	var $data = {
 
-		'rif'		:  $scope.rif,
 		'nombre'	:  $scope.nombre,
 		'telefono'	:  $scope.telefono,
 		'contacto'	:  $scope.contacto,
@@ -151,7 +159,7 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
  	};
 
 
- 	$http.post('/registraProvedor',$data)
+ 	$http.post('',$data)
  		.success(function(response){
 
  			$scope.alerts = [];

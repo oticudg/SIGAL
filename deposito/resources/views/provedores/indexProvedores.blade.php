@@ -5,7 +5,6 @@
 @endsection
 
 @section('conten')
-	
 
 	<br>
 	<br>

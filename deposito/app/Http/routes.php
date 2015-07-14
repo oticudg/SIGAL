@@ -25,8 +25,11 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 
-
+//Muesta el panel de provedores
 Route::get('provedores','provedoresController@index');
+//Registra un provedor
 Route::post('registraProvedor' ,'provedoresController@registrar');
+//Regresa todos los provedores que existan
 Route::get('getProvedores','provedoresController@allProvedores');
+//Obtiene un provedor por su id
 Route::get('getProvedor/{id}', 'provedoresController@getProvedor');

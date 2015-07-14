@@ -4,13 +4,14 @@
 <div class="modal-body">
 
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
-
+	
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<input class="form-control" type="text" placeholder="Rif" ng-model="rif">
+		<div class="col-md-4 col-md-offset-4">	
+			<center><h3>Rif:<strong class="text-success">{#rif#}</strong></h3></center>
 		</div>
 	</div>
 
+	<br>
 	<br>
 
 	<div class="row">
@@ -53,7 +54,7 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="registrar()">Registrar</button>
+    <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()">Modificar</button>
     <button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()">Cancelar</button>
     <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()">Ok</button>	
 </div>
