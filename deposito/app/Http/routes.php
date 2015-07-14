@@ -29,3 +29,4 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('provedores','provedoresController@index');
 Route::post('registraProvedor' ,'provedoresController@registrar');
 Route::get('getProvedores','provedoresController@allProvedores');
+Route::get('getProvedor/{id}', 'provedoresController@getProvedor');

@@ -10,6 +10,7 @@ use App\Provedore;
 
 class provedoresController extends Controller
 {   
+
     public function index(){
 
         return view('provedores/indexProvedores');
@@ -53,6 +54,21 @@ class provedoresController extends Controller
     public function allProvedores(){
 
         return Provedore::get();
+    }
+
+    public function getProvedor($id){
+
+        $provedor = Provedore::where('id',$id)->first();
+
+        if(!$provedor){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este provedor no exist']);            
+        }
+        else{
+
+            return $provedor; 
+        }
+
     }
     
 }
