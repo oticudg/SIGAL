@@ -159,7 +159,7 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
  	};
 
 
- 	$http.post('',$data)
+ 	$http.post('/editProvedor/' + id ,$data)
  		.success(function(response){
 
  			$scope.alerts = [];

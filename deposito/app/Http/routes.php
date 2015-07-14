@@ -34,4 +34,6 @@ Route::get('getProvedores','provedoresController@allProvedores');
 //Obtiene un provedor por su id
 Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
 //Edita un provedor cuyo id se pase
-Route::get('editProvedor/{id}', 'provedoresController@editProvedor');
+Route::post('editProvedor/{id}', 'provedoresController@editProvedor');
+//Elimina un provedor cuyo id se pase
+Route::post('elimProvedor/{id}','provedoresController@elimProvedor');

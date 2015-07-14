@@ -113,5 +113,21 @@ class provedoresController extends Controller
             }
         }
     }
+
+    public function elimProvedor(Request $request,$id){
+
+         $provedor = Provedore::where('id',$id)->first();
+
+        if(!$provedor){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este provedor no exist']);            
+        }
+        else{
+            
+            Provedore::where('id',$id)->delete();
+            return Response()->json(['status' => 'success', 'menssage' => 'Provedor Eliminado']);
+            
+        }
+    }
     
 }
