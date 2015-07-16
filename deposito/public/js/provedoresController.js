@@ -10,7 +10,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
     	var modalInstance = $modal.open({
      		animation: true,
-      		templateUrl: '/modal/provedores/registraProvedor.html',
+      		templateUrl: '/registraProvedor',
       		size:'lg',
       		controller: 'registraProvedorCtrl',
       		resolve: {
@@ -33,7 +33,7 @@ controller('provedoresController',function($scope,$http,$modal){
 		var modalInstance = $modal.open({
 
 			animation: true,
-      		templateUrl: '/modal/provedores/editarProvedor.html',
+      		templateUrl: '/editarProvedor',
       		size:'lg',
       		controller: 'editarProvedorCtrl',
       		resolve: {
@@ -53,7 +53,7 @@ controller('provedoresController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/modal/provedores/elimProvedor.html',
+          templateUrl: '/elimProvedor',
           controller: 'elimProvedorCtrl',
           resolve: {
              obtenerProvedores: function () {
@@ -201,18 +201,15 @@ angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $mod
     $scope.delet();
   };
 
-
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
   };
-
 
   $scope.closeAlert = function(index){
 
     $scope.alerts.splice(index,1);
 
   };
-
 
  $scope.delet = function(){
 

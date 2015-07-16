@@ -16,6 +16,26 @@ class provedoresController extends Controller
         return view('provedores/indexProvedores');
     }
 
+    public function viewRegistro(){
+
+        return view('provedores/registraProvedor');
+    }
+
+
+    public function viewEditar(){
+
+
+        return view('provedores/editarProvedor');
+    }
+
+
+    public function viewEliminar(){
+
+        return view('provedores/eliminarProvedor');
+
+    }
+
+
     public function registrar(Request $request){   
 
         $data = $request->all();
