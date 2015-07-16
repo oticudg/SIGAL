@@ -24,6 +24,9 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+
+/*** Modulo Provedores ***/
+
 //Muesta el panel de provedores
 Route::get('provedores','provedoresController@index');
 
@@ -46,3 +49,26 @@ Route::post('elimProvedor/{id}','provedoresController@elimProvedor');
 Route::get('getProvedores','provedoresController@allProvedores');
 //Obtiene un provedor por su id
 Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
+
+/*** fin de modulo provedores ***/
+
+
+/*** Modulo presentaciones ***/
+
+Route::get('presentaciones' , 'presentacionesController@index');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
