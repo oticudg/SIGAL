@@ -29,7 +29,7 @@
 				<th>Contacto</th>
 				<th>Direccion</th>
 				<th>Gmail</th>
-				<th>Editar</th>
+				<th colspan="2">Editar</th>
 			</tr>
 		</thead>
 		<tbody>

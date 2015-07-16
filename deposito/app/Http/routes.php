@@ -55,12 +55,18 @@ Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
 
 /*** Modulo presentaciones ***/
 
+//Muestra el panel de presentaciones 
 Route::get('presentaciones' , 'presentacionesController@index');
 
+//Muestra vista de registro de presentaciones
+Route::get('registrarPresentacion','presentacionesController@viewRegistro');
+//Registra una presentacion
+Route::post('registrarPresentacion' ,'presentacionesController@registrar');
 
+//Regresa todas las presentaciones que existan
+Route::get('getPresentaciones','presentacionesController@allPresentaciones');
 
-
-
+/*** fin de modulo presentaciones ***/
 
 
 
