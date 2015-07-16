@@ -47,17 +47,16 @@ controller('presentacionesController',function($scope,$http,$modal){
   	});
   };
 
-  /*
-  $scope.elimProvedor = function(index){
+  $scope.eliminarPresentacion = function(index){
 
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/elimProvedor',
-          controller: 'elimProvedorCtrl',
+          templateUrl: '/eliminarPresentacion',
+          controller: 'eliminarPresentacionCtrl',
           resolve: {
-             obtenerProvedores: function () {
-                return $scope.obtenerProvedores;
+             obtenerPresentaciones: function () {
+                return $scope.obtenerPresentaciones;
              },
              id:function () {
                 return index;
@@ -65,7 +64,6 @@ controller('presentacionesController',function($scope,$http,$modal){
          }
     });
   };
-  */
 
 	$scope.obtenerPresentaciones();
 
@@ -168,8 +166,7 @@ angular.module('deposito').controller('editarPresentacionCtrl', function ($scope
 
 });
 
-/*
-angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $modalInstance, $http, obtenerProvedores,id) {
+angular.module('deposito').controller('eliminarPresentacionCtrl', function ($scope, $modalInstance, $http, obtenerPresentaciones,id) {
 
   $scope.btnVisivilidad = true;
 
@@ -189,7 +186,7 @@ angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $mod
 
  $scope.delet = function(){
 
-  $http.post('/elimProvedor/' + id)
+  $http.post('/eliminarPresentacion/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -197,11 +194,8 @@ angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $mod
     
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
      
-      obtenerProvedores();
+      obtenerPresentaciones();
   });
-
  };
 
 });
-
-*/

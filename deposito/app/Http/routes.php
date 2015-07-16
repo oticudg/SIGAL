@@ -68,6 +68,11 @@ Route::get('editarPresentacion', 'presentacionesController@viewEditar');
 //Edita uná presentacion cuyo id se pase
 Route::post('editarPresentacion/{id}', 'presentacionesController@editPresentacion');
 
+//Muestra la vista de eliminacion de provedores
+Route::get('eliminarPresentacion','presentacionesController@viewEliminar');
+//Elimina un provedor cuyo id se pase
+Route::post('eliminarPresentacion/{id}','presentacionesController@elimPresentacion');
+
 //Regresa todas las presentaciones que existan
 Route::get('getPresentaciones','presentacionesController@allPresentaciones');
 //Obtiene una presentacion por su id

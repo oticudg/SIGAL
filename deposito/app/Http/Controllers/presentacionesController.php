@@ -26,6 +26,12 @@ class presentacionesController extends Controller
         return view('presentaciones/editarPresentacion');
     }
 
+    public function viewEliminar(){
+
+
+        return view('presentaciones/eliminarPresentacion');
+    }
+
 
    
     public function registrar(Request $request){   
@@ -104,6 +110,22 @@ class presentacionesController extends Controller
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
             }
+        }
+    }
+
+    public function elimPresentacion(Request $request,$id){
+
+         $presentacion = Presentacione::where('id',$id)->first();
+
+        if(!$presentacion){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta presentacion no exist']);            
+        }
+        else{
+            
+            Presentacione::where('id',$id)->delete();
+            return Response()->json(['status' => 'success', 'menssage' => 'Presentacion Eliminado']);
+            
         }
     }
 

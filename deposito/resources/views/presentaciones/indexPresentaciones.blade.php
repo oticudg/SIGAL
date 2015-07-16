@@ -31,7 +31,7 @@
 			<tr ng-repeat="presentacion in presentaciones | filter:busqueda">
 				<td>{#presentacion.nombre#}</td>
 				<td><button class="btn btn-warning" ng-click="editarPresentacion(presentacion.id)">Editar</button></td>
-				<td><button class="btn btn-danger"  ng-click="elimProvedor(presentacion.id)">Eliminar</button></td>
+				<td><button class="btn btn-danger"  ng-click="eliminarPresentacion(presentacion.id)">Eliminar</button></td>
 			</tr>
 		</tbody>
 
