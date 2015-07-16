@@ -63,8 +63,15 @@ Route::get('registrarPresentacion','presentacionesController@viewRegistro');
 //Registra una presentacion
 Route::post('registrarPresentacion' ,'presentacionesController@registrar');
 
+//Muesta la vista de edicion de Presentaciones
+Route::get('editarPresentacion', 'presentacionesController@viewEditar');
+//Edita uná presentacion cuyo id se pase
+Route::post('editarPresentacion/{id}', 'presentacionesController@editPresentacion');
+
 //Regresa todas las presentaciones que existan
 Route::get('getPresentaciones','presentacionesController@allPresentaciones');
+//Obtiene una presentacion por su id
+Route::get('getPresentacion/{id}', 'presentacionesController@getPresentacion');
 
 /*** fin de modulo presentaciones ***/
 

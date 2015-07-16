@@ -21,7 +21,6 @@ class provedoresController extends Controller
         return view('provedores/registraProvedor');
     }
 
-
     public function viewEditar(){
 
 

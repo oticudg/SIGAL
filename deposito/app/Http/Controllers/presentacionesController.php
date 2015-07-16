@@ -20,6 +20,13 @@ class presentacionesController extends Controller
         return view('presentaciones/registrarPresentacion');
     }
 
+    public function viewEditar(){
+
+
+        return view('presentaciones/editarPresentacion');
+    }
+
+
    
     public function registrar(Request $request){   
 
@@ -49,6 +56,55 @@ class presentacionesController extends Controller
     public function allPresentaciones(){
 
         return Presentacione::get();
+    }
+
+    public function getPresentacion($id){
+
+        $presentacion = Presentacione::where('id',$id)->first();
+
+        if(!$presentacion){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta presentacion no exist']);            
+        }
+        else{
+
+            return $presentacion; 
+        }
+
+    }
+
+    public function editPresentacion(Request $request,$id){
+
+        $presentacion = Presentacione::where('id',$id)->first();
+
+        if(!$presentacion){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta presentacion no exist']);            
+        }
+        else{
+            
+            $data = $request->all();
+
+            $validator = Validator::make($data,[
+
+                'nombre'        =>  'required'
+            ]);
+
+
+            if($validator->fails()){
+
+                return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+            }
+            else{
+               
+                Presentacione::where('id',$id)->update([
+
+                    'nombre'        => $data['nombre']
+                ]);
+
+                return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
+            }
+        }
     }
 
 }

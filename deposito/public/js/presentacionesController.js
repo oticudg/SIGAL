@@ -14,31 +14,31 @@ controller('presentacionesController',function($scope,$http,$modal){
       		size:'lg',
       		controller: 'registraPresentacionCtrl',
       		resolve: {
-       			 obtenerProvedores: function () {
-          			return $scope.obtenerProvedores;
+       			 obtenerPresentaciones: function () {
+          			return $scope.obtenerPresentaciones;
         		 }
       		}
 	    });
 	}
 
-	$scope.obtenerProvedores = function(){
+	$scope.obtenerPresentaciones = function(){
 
 		$http.get('/getPresentaciones')
 			.success( function(response){$scope.presentaciones = response});
 	};
 
 
-	$scope.editarProvedor = function(index){
+	$scope.editarPresentacion = function(index){
 
 		var modalInstance = $modal.open({
 
 			animation: true,
-      		templateUrl: '/editarProvedor',
+      		templateUrl: '/editarPresentacion',
       		size:'lg',
-      		controller: 'editarProvedorCtrl',
+      		controller: 'editarPresentacionCtrl',
       		resolve: {
-       			 obtenerProvedores: function () {
-          			return $scope.obtenerProvedores;
+       			 obtenerPresentaciones: function () {
+          			return $scope.obtenerPresentaciones;
         		 },
              id:function () {
                 return index;
@@ -47,7 +47,7 @@ controller('presentacionesController',function($scope,$http,$modal){
   	});
   };
 
-
+  /*
   $scope.elimProvedor = function(index){
 
     var modalInstance = $modal.open({
@@ -65,12 +65,13 @@ controller('presentacionesController',function($scope,$http,$modal){
          }
     });
   };
+  */
 
-	$scope.obtenerProvedores();
+	$scope.obtenerPresentaciones();
 
 });
 
-angular.module('deposito').controller('registraPresentacionCtrl', function ($scope, $modalInstance, $http, obtenerProvedores) {
+angular.module('deposito').controller('registraPresentacionCtrl', function ($scope, $modalInstance, $http, obtenerPresentaciones) {
 
   $scope.btnVisivilidad = true;
   $scope.nombre = '';
@@ -108,7 +109,7 @@ angular.module('deposito').controller('registraPresentacionCtrl', function ($sco
  			
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
 
-      obtenerProvedores();
+      obtenerPresentaciones();
 
  	});
  };
@@ -116,25 +117,14 @@ angular.module('deposito').controller('registraPresentacionCtrl', function ($sco
 });
 
 
-angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $modalInstance, $http, obtenerProvedores,id) {
+angular.module('deposito').controller('editarPresentacionCtrl', function ($scope, $modalInstance, $http, obtenerPresentaciones,id) {
 
   $scope.btnVisivilidad = true;
-  $scope.rif = '';
   $scope.nombre = '';
-  $scope.telefono = '';
-  $scope.contacto = '';
-  $scope.email = ''; 
-  $scope.direccion= '';
 
-  $http.get('/getProvedor/' + id)
+  $http.get('/getPresentacion/' + id)
     .success(function(response){
-
-        $scope.rif       = response.rif;
         $scope.nombre    = response.nombre;
-        $scope.telefono  = response.telefono;
-        $scope.contacto  = response.contacto;
-        $scope.email     = response.email;
-        $scope.direccion = response.direccion;
   });
 
 
@@ -159,15 +149,11 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
 
  	var $data = {
 
-		'nombre'	:  $scope.nombre,
-		'telefono'	:  $scope.telefono,
-		'contacto'	:  $scope.contacto,
-		'email'		:  $scope.email,
-		'direccion' :  $scope.direccion
+		'nombre'	:  $scope.nombre
  	};
 
 
- 	$http.post('/editProvedor/' + id ,$data)
+ 	$http.post('/editarPresentacion/' + id ,$data)
  		.success(function(response){
 
  			$scope.alerts = [];
@@ -175,13 +161,14 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
  			
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
 
-      obtenerProvedores();
+      obtenerPresentaciones();
 
  	});
  };
 
 });
 
+/*
 angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $modalInstance, $http, obtenerProvedores,id) {
 
   $scope.btnVisivilidad = true;
@@ -216,3 +203,5 @@ angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $mod
  };
 
 });
+
+*/
