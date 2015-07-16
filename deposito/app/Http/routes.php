@@ -78,6 +78,12 @@ Route::get('getPresentaciones','presentacionesController@allPresentaciones');
 //Obtiene una presentacion por su id
 Route::get('getPresentacion/{id}', 'presentacionesController@getPresentacion');
 
+
+/*** fin de modulo presentaciones ***/
+
+//Muestra el panel de secciones 
+Route::get('secciones' , 'seccionesController@index');
+
 /*** fin de modulo presentaciones ***/
 
 
