@@ -1,7 +1,7 @@
 @extends('base')
-@section('bodytag', 'ng-controller="presentacionesController"')
+@section('bodytag', 'ng-controller="seccionesController"')
 @section('addscript')
-<script src="{{asset('js/presentacionesController.js')}}"></script>
+<script src="{{asset('js/seccionesController.js')}}"></script>
 @endsection
 
 @section('conten')
@@ -10,7 +10,7 @@
 	<br>
 	<br>
 			
-	<button class="btn btn-success" ng-click="registrarPresentacion()">Nueva Presentacion</button>
+	<button class="btn btn-success" ng-click="registrarSeccion()">Nueva Sección</button>
 	
 	<br>
 	<br>
@@ -28,10 +28,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="presentacion in presentaciones | filter:busqueda">
-				<td>{#presentacion.nombre#}</td>
-				<td><button class="btn btn-warning" ng-click="editarPresentacion(presentacion.id)">Editar</button></td>
-				<td><button class="btn btn-danger"  ng-click="eliminarPresentacion(presentacion.id)">Eliminar</button></td>
+			<tr ng-repeat="seccion in secciones| filter:busqueda">
+				<td>{#seccion.nombre#}</td>
+				<td><button class="btn btn-warning" ng-click="editarSeccion(seccion.id)">Editar</button></td>
+				<td><button class="btn btn-danger"  ng-click="eliminarSeccion(seccion.id)">Eliminar</button></td>
 			</tr>
 		</tbody>
 

@@ -78,13 +78,35 @@ Route::get('getPresentaciones','presentacionesController@allPresentaciones');
 //Obtiene una presentacion por su id
 Route::get('getPresentacion/{id}', 'presentacionesController@getPresentacion');
 
-
 /*** fin de modulo presentaciones ***/
+
+
+/*** Modulo secciones ***/
 
 //Muestra el panel de secciones 
 Route::get('secciones' , 'seccionesController@index');
 
-/*** fin de modulo presentaciones ***/
+//Muestra vista de registro de secciones
+Route::get('registrarSeccion','seccionesController@viewRegistro');
+//Registra una presentacion
+Route::post('registrarSeccion' ,'seccionesController@registrar');
+
+//Muesta la vista de edicion de Presentaciones
+Route::get('editarSeccion', 'seccionesController@viewEditar');
+//Edita uná presentacion cuyo id se pase
+Route::post('editarSeccion/{id}', 'seccionesController@editSeccion');
+
+//Muestra la vista de eliminacion de provedores
+Route::get('eliminarSeccion','seccionesController@viewEliminar');
+//Elimina un provedor cuyo id se pase
+Route::post('eliminarSeccion/{id}','seccionesController@elimSeccion');
+
+//Regresa todas las secciones que existan
+Route::get('getSecciones','seccionesController@allSecciones');
+//Obtiene una seccion por su id
+Route::get('getSeccion/{id}', 'seccionesController@getSeccion');
+
+/*** fin de modulo secciones ***/
 
 
 
