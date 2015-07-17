@@ -16,12 +16,12 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('cedula');
+            $table->string('cedula')->unique();
             $table->enum('rol',['farmacia','alimentacion']);
             $table->enum('rango',['director','jefe','trabajador']);
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->rememberToken();
+            $table->string('remember_token');
             $table->timestamps();
         });
     }

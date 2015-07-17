@@ -20,10 +20,6 @@ Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-// Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
-
 
 /*** Modulo Provedores ***/
 
@@ -110,7 +106,32 @@ Route::get('getSeccion/{id}', 'seccionesController@getSeccion');
 
 
 
+/*** Modulo de usuarios ***/
 
+//Muestra el panel de usuarios 
+Route::get('usuarios' , 'usersController@index');
+
+//Muestra vista de registro de usuarios
+Route::get('registrarUser','usersController@viewRegistrar');
+//Registra un usuario
+Route::post('registrarUsuario' ,'usersController@registrar');
+
+//Muesta la vista de edicion de Usuarios
+Route::get('editarUsuario', 'usersController@viewEditar');
+//Edita un usuario cuyo id se pase
+Route::post('editarUsuario/{id}', 'usersController@editUsuario');
+
+//Muestra la vista de eliminacion de usuarios
+Route::get('eliminarUsuario','usersController@viewEliminar');
+//Elimina un usuario cuyo id se pase
+Route::post('eliminarUsuario/{id}','usersController@elimUsuario');
+
+//Regresa todas los usuarios que existan
+Route::get('getUsuarios','usersController@allUsuarios');
+//Obtiene un usuario por su id
+Route::get('getUsuario/{id}', 'usersController@getUsuario');
+
+/*** fin de modulo usuario ***/
 
 
 
