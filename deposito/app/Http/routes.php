@@ -105,7 +105,6 @@ Route::get('getSeccion/{id}', 'seccionesController@getSeccion');
 /*** fin de modulo secciones ***/
 
 
-
 /*** Modulo de usuarios ***/
 
 //Muestra el panel de usuarios 
@@ -134,8 +133,10 @@ Route::get('getUsuario/{id}', 'usersController@getUsuario');
 /*** fin de modulo usuario ***/
 
 
+/*** Modulo de departamentos ***/
 
-
-
+//Muestra el panel de departamentos 
+Route::get('departamentos','departamentosController@index');
+/*** fin de modulo departamentos ***/
 
 

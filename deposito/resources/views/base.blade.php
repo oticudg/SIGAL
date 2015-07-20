@@ -16,6 +16,7 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/5.0.9/ng-file-upload.js"></script>
 	<script src="{{asset('js/config.js')}}" type="text/javascript"></script>
 	@yield('addscript')
 	
