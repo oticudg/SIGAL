@@ -3,24 +3,10 @@
 
 angular.module('deposito').
 controller('departamentosController',function($scope,$http,$modal){
-/*
+
 	$scope.presentaciones = [];
 
-	$scope.registrarPresentacion = function() {
-
-    	var modalInstance = $modal.open({
-     		animation: true,
-      		templateUrl: '/registrarPresentacion',
-      		size:'lg',
-      		controller: 'registraPresentacionCtrl',
-      		resolve: {
-       			 obtenerPresentaciones: function () {
-          			return $scope.obtenerPresentaciones;
-        		 }
-      		}
-	    });
-	}
-
+/*
 	$scope.obtenerPresentaciones = function(){
 
 		$http.get('/getPresentaciones')

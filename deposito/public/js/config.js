@@ -1,7 +1,7 @@
 "use strict";
 
 
-var deposito = angular.module('deposito',['ui.bootstrap']);
+var deposito = angular.module('deposito',['ui.bootstrap','ngFileUpload']);
 
 deposito.config( function($interpolateProvider){
 

@@ -137,6 +137,13 @@ Route::get('getUsuario/{id}', 'usersController@getUsuario');
 
 //Muestra el panel de departamentos 
 Route::get('departamentos','departamentosController@index');
+
+//Muestra vista de registro de departamento
+Route::get('registrarDepartamento','departamentosController@viewRegistrar');
+//Registra un Departamento
+Route::post('registrarDepartamento' ,'departamentosController@registrar');
+
 /*** fin de modulo departamentos ***/
+
 
 

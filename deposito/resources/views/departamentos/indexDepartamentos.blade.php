@@ -10,7 +10,7 @@
 	<br>
 	<br>
 			
-	<button class="btn btn-success" ng-click="registrarPresentacion()">Nuevo Departamento</button>
+	<a href="/registrarDepartamento"><button class="btn btn-success">Nuevo Departamento</button></a>
 	
 	<br>
 	<br>
