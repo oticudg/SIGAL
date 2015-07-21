@@ -29,11 +29,11 @@
 
 		<div class="row">
 			<div class="col-md-4 col-md-offset-2">
-				<input class="form-control" type="text" placeholder="Nombre" ng-model="nombre" name="nombre">
+				<input class="form-control" type="text" placeholder="Nombre" name="nombre">
 			</div>
 
 			<div class="col-md-4">
-				<input class="form-control" type="text" placeholder="División" ng-model="division" name="division">
+				<input class="form-control" type="text" placeholder="División" name="division">
 			</div>
 		</div>
 		
@@ -52,7 +52,7 @@
 		</div>
 		
 		<br><br>
-
+		
 		<div class="row">
 			<div class="col-md-4 col-md-offset-2">
 				<img ng-show="sello[0] != null" ngf-src="sello[0]" class="img-thumbnail"  width="304" height="236">
@@ -65,6 +65,7 @@
 
 		<hr>
 		<center><button type="submit" class="btn btn-success">Guardar</button></center>
-	</form>	
+	</form>
+
 </div>
 @endsection	

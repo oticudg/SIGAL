@@ -143,6 +143,14 @@ Route::get('registrarDepartamento','departamentosController@viewRegistrar');
 //Registra un Departamento
 Route::post('registrarDepartamento' ,'departamentosController@registrar');
 
+//Muestra la vista de eliminacion de departamentos
+Route::get('eliminarDepartamento','departamentosController@viewEliminar');
+//Elimina un departamento cuyo id se pase
+Route::post('eliminarDepartamento/{id}','departamentosController@elimDepartamento');
+
+//Regresa todas los departamentos que existan
+Route::get('getDepartamentos','departamentosController@allDepartamentos');
+
 /*** fin de modulo departamentos ***/
 
 

@@ -20,6 +20,12 @@ class departamentosController extends Controller
         return view('departamentos/registrarDepartamento');
     }
 
+    public function viewEliminar(){
+
+        return view('departamentos/eliminarDepartamento');
+    }
+
+
     public function registrar(Request $request){
 
         $data = $request->all();
@@ -60,5 +66,27 @@ class departamentosController extends Controller
             return view('departamentos/registrarDepartamento',['success' => 'Departamento registrado']);  
         }
     }
+
+    public function allDepartamentos(){
+
+        return Departamento::get();
+    }
+
+    public function elimDepartamento(Request $request,$id){
+
+         $departamento = Departamento::where('id',$id)->first();
+
+        if(!$departamento){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta departamento no exist']);            
+        }
+        else{
+            
+            Departamento::where('id',$id)->delete();
+            return Response()->json(['status' => 'success', 'menssage' => 'Departamento Eliminado']);
+            
+        }
+    }
+
 
 }

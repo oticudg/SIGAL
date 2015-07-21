@@ -4,45 +4,24 @@
 angular.module('deposito').
 controller('departamentosController',function($scope,$http,$modal){
 
-	$scope.presentaciones = [];
+	$scope.departamentos = [];
 
-/*
-	$scope.obtenerPresentaciones = function(){
+	$scope.obtenerDepartamentos = function(){
 
-		$http.get('/getPresentaciones')
-			.success( function(response){$scope.presentaciones = response});
+		$http.get('/getDepartamentos')
+			.success( function(response){$scope.departamentos = response});
 	};
 
-
-	$scope.editarPresentacion = function(index){
-
-		var modalInstance = $modal.open({
-
-			animation: true,
-      		templateUrl: '/editarPresentacion',
-      		size:'lg',
-      		controller: 'editarPresentacionCtrl',
-      		resolve: {
-       			 obtenerPresentaciones: function () {
-          			return $scope.obtenerPresentaciones;
-        		 },
-             id:function () {
-                return index;
-             }
-      	 }
-  	});
-  };
-
-  $scope.eliminarPresentacion = function(index){
+  $scope.eliminarDepartamento = function(index){
 
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarPresentacion',
-          controller: 'eliminarPresentacionCtrl',
+          templateUrl: '/eliminarDepartamento',
+          controller: 'eliminarDepartamentoCtrl',
           resolve: {
-             obtenerPresentaciones: function () {
-                return $scope.obtenerPresentaciones;
+             obtenerDepartamentos: function () {
+                return $scope.obtenerDepartamentos;
              },
              id:function () {
                 return index;
@@ -50,7 +29,42 @@ controller('departamentosController',function($scope,$http,$modal){
          }
     });
   };
+  
+	$scope.obtenerDepartamentos();
 
-	$scope.obtenerPresentaciones();
-*/
+});
+
+
+angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos,id) {
+
+  $scope.btnVisivilidad = true;
+
+  $scope.eliminar = function () {
+    $scope.delet();
+  };
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.closeAlert = function(index){
+
+    $scope.alerts.splice(index,1);
+
+  };
+
+ $scope.delet = function(){
+
+  $http.post('/eliminarDepartamento/' + id)
+    .success(function(response){
+
+      $scope.alerts = [];
+      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+    
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+     
+      obtenerDepartamentos();
+  });
+ };
+
 });
