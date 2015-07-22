@@ -47,8 +47,8 @@ class departamentosController extends Controller
             $sello = $data['sello'];
             $firma = $data['firma'];
 
-            $selloNombre = $data['nombre'].'Sello.'.$sello->getClientOriginalExtension();
-            $firmaNombre = $data['nombre'].'Firma.'.$firma->getClientOriginalExtension();
+            $selloNombre = date("d-m-y-h-i-s").'Sello.'.$sello->getClientOriginalExtension();
+            $firmaNombre = date("d-m-y-h-i-s").'Firma.'.$firma->getClientOriginalExtension();
 
             $sello->move(public_path().'/files/sellos',$selloNombre);
             $firma->move(public_path().'/files/firmas',$firmaNombre);
