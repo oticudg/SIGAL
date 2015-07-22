@@ -10,7 +10,7 @@
 	<br>
 	<br>
 			
-	<button class="btn btn-success" ng-click="registraProvedor()">Nuevo Insumo</button>
+	<button class="btn btn-success" ng-click="registrarInsumo()">Nuevo Insumo</button>
 	<br>
 	<br>
 	<br>

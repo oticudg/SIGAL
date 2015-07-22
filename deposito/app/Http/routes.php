@@ -160,4 +160,9 @@ Route::get('getDepartamentos','departamentosController@allDepartamentos');
 //Muestra el panel de insumos 
 Route::get('insumos','insumosController@index');
 
+//Muestra vista de registro de insumo
+Route::get('registrarInsumo','insumosController@viewRegistrar');
+//Registra un insumo
+Route::post('registrarInsumo' ,'insumosController@registrar');
+
 /*** fin de modulo departamentos ***/
