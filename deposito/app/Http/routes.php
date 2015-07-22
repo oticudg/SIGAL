@@ -155,3 +155,9 @@ Route::get('getDepartamentos','departamentosController@allDepartamentos');
 
 
 
+/*** Modulo de departamentos ***/
+
+//Muestra el panel de insumos 
+Route::get('insumos','insumosController@index');
+
+/*** fin de modulo departamentos ***/
