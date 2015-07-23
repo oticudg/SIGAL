@@ -23,25 +23,23 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Rif</th>
-				<th>Nombre</th>
-				<th>Telefono</th>
-				<th>Contacto</th>
-				<th>Direccion</th>
-				<th>Gmail</th>
-				<th colspan="2">Editar</th>
+				<th>Presentacion</th>
+				<th>Codigo</th>
+				<th>Descripcion</th>
+				<th>Deposito</th>
+				<th>Ubicacion</th>
+				<th colspan="3">Editar</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="provedor in provedores | filter:busqueda">
-				<td>{#provedor.rif#}</td>
-				<td>{#provedor.nombre#}</td>
-				<td>{#provedor.telefono#}</td>
-				<td>{#provedor.contacto#}</td>
-				<td>{#provedor.direccion#}</td>
-				<td>{#provedor.email#}</td>
-				<td><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)">Editar</button></td>
-				<td><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)">Eliminar</button></td>
+			<tr ng-repeat="insumo in insumos | filter:busqueda">
+				<td><img src="files/insumos/{#insumo.imagen#}" class="img-thumbnail"  width="100" height="236"></td>
+				<td>{#insumo.codigo#}</td>
+				<td>{#insumo.descripcion#}</td>
+				<td>{#insumo.deposito#}</td>
+				<td>{#insumo.ubicacion#}</td>
+				<td><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)">Editar</button></td>
+				<td><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)">Eliminar</button></td>
 			</tr>
 		</tbody>
 

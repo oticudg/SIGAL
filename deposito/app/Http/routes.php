@@ -155,7 +155,7 @@ Route::get('getDepartamentos','departamentosController@allDepartamentos');
 
 
 
-/*** Modulo de departamentos ***/
+/*** Modulo de Insumos ***/
 
 //Muestra el panel de insumos 
 Route::get('insumos','insumosController@index');
@@ -165,4 +165,15 @@ Route::get('registrarInsumo','insumosController@viewRegistrar');
 //Registra un insumo
 Route::post('registrarInsumo' ,'insumosController@registrar');
 
-/*** fin de modulo departamentos ***/
+//Muesta la vista de edicion de insumo
+Route::get('editarInsumo', 'insumosController@viewEditar');
+//Edita un insumo cuyo id se pase
+Route::post('editarInsumo/{id}', 'insumosController@editInsumo');
+
+
+//Regresa todas los insumos que existan
+Route::get('getInsumos','insumosController@allInsumos');
+//Obtiene un insumo por su id
+Route::get('getInsumo/{id}', 'insumosController@getInsumo');
+
+/*** fin de modulo Insumos ***/

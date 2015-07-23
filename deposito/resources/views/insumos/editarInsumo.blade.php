@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 style="color:#54AF54;" class="modal-title">Nuevo Insumo</h3>
+    <h3 style="color:#54AF54;" class="modal-title">Editar Insumo</h3>
 </div>
 <div class="modal-body">
 
@@ -89,13 +89,15 @@
 		</div>
 		
 		<div class="col-md-8">
-			<center><img ng-show="file[0] != null" ngf-src="file[0]" class="img-thumbnail"  width="304" height="236"></center>
+			<center>
+					<img ng-show="file[0] != null" ngf-src="file[0]" class="img-thumbnail"  width="304" height="236">
+					<img ng-hide="file[0]" src="files/insumos/{#imagen#}" class="img-thumbnail"  width="304" height="236">
+			</center>
 		</div>
 	</div>
-	
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="registrar()">Registrar</button>
+    <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()">Modificar</button>
     <button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()">Cancelar</button>
     <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()">Ok</button>	
 </div>

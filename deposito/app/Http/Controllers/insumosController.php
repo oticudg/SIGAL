@@ -18,6 +18,12 @@ class insumosController extends Controller
     	return view('insumos/registrarInsumo');
     }
 
+
+    public function viewEditar(){
+        return view('insumos/editarInsumo');
+    }
+
+
     public function registrar(Request $request){   
 
         $data = $request->all();
@@ -34,7 +40,7 @@ class insumosController extends Controller
             'cantidadX'			=>  'required',
             'ubicacion'			=>  'required',
             'deposito'			=>  'required',
-            'descipcion'		=>	'required',
+            'descripcion'		=>	'required',
         	'file'				=>  'required'
         ]);
 
@@ -53,7 +59,8 @@ class insumosController extends Controller
 
             	'codigo' 			=> $data['codigo'],
             	'id_presentacion'	=> $data['presentacion'],
-            	'id_secction'		=> $data['seccion'],
+            	'id_seccion'		=> $data['seccion'],
+                'descripcion'       => $data['descripcion'],
             	'un_med'			=> $data['medida'],
             	'cant_min'          => $data['cantidadM'],
             	'cant_max'			=> $data['cantidadX'],
@@ -68,5 +75,91 @@ class insumosController extends Controller
             return Response()->json(['status' => 'success', 'menssage' => 'Insumo registrado']);
         }
     }
+
+    public function allInsumos(){
+
+        return Insumo::get();
+    }
+    
+    public function getInsumo($id){
+
+        $insumo = Insumo::where('id',$id)->first();
+
+        if(!$insumo){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no exist']);            
+        }
+        else{
+
+            return $insumo; 
+        }
+    }
+
+    public function editInsumo(Request $request,$id){
+
+        $insumo = Insumo::where('id',$id)->first();
+
+        if(!$insumo){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no exist']);            
+        }
+        else{
+            
+            $data = $request->all();
+
+            $validator = Validator::make($data,[
+
+                'codigo'            =>  'required',
+                'principio_activo'  =>  'required',
+                'marca'             =>  'required',
+                'presentacion'      =>  'required',
+                'seccion'           =>  'required',
+                'medida'            =>  'required',
+                'cantidadM'         =>  'required',
+                'cantidadX'         =>  'required',
+                'ubicacion'         =>  'required',
+                'deposito'          =>  'required',
+                'descripcion'       =>  'required'
+            ]);
+
+            if($validator->fails()){
+
+                return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+            }
+            else{
+
+                if( !empty($data['file']) ){
+
+                    $file = $data['file'];
+
+                    $fileNombre = date("d-m-y-h-i-s").'Insumo.'.$file->getClientOriginalExtension();
+                    $file->move(public_path().'/files/insumos',$fileNombre);
+
+                    insumo::where('id',$id)->update(['imagen' => $fileNombre]);
+
+                }
+
+                insumo::where('id',$id)->update([
+
+                    'codigo'            => $data['codigo'],
+                    'id_presentacion'   => $data['presentacion'],
+                    'id_seccion'        => $data['seccion'],
+                    'descripcion'       => $data['descripcion'],
+                    'un_med'            => $data['medida'],
+                    'cant_min'          => $data['cantidadM'],
+                    'cant_max'          => $data['cantidadX'],
+                    'marca'             => $data['marca'],
+                    'ubicacion'         => $data['ubicacion'],
+                    'principio_act'     => $data['principio_activo'],
+                    'deposito'          => $data['deposito'],
+                ]);
+
+                return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
+            }
+        }
+    }
+
+
+
 
 }
