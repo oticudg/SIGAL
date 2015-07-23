@@ -170,6 +170,10 @@ Route::get('editarInsumo', 'insumosController@viewEditar');
 //Edita un insumo cuyo id se pase
 Route::post('editarInsumo/{id}', 'insumosController@editInsumo');
 
+//Muestra la vista de eliminacion de insumo
+Route::get('eliminarInsumo','insumosController@viewEliminar');
+//Elimina un insumo cuyo id se pase
+Route::post('eliminarInsumo/{id}','insumosController@elimInsumo');
 
 //Regresa todas los insumos que existan
 Route::get('getInsumos','insumosController@allInsumos');

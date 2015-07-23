@@ -45,6 +45,25 @@ controller('insumosController',function($scope,$http,$modal){
     });
   };
 
+
+  $scope.elimInsumo = function(index){
+
+    var modalInstance = $modal.open({
+
+      animation: true,
+          templateUrl: '/eliminarInsumo',
+          controller: 'eliminarInsumoCtrl',
+          resolve: {
+             obtenerInsumos: function () {
+                return $scope.obtenerInsumos;
+             },
+             id:function () {
+                return index;
+             }
+         }
+    });
+  };
+
 	$scope.obtenerInsumos();
 
 });
@@ -219,6 +238,40 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
     obtenerInsumos();
   });
 
+ };
+
+});
+
+angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $modalInstance, $http, obtenerInsumos,id) {
+
+  $scope.btnVisivilidad = true;
+
+  $scope.eliminar = function () {
+    $scope.delet();
+  };
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.closeAlert = function(index){
+
+    $scope.alerts.splice(index,1);
+
+  };
+
+ $scope.delet = function(){
+
+  $http.post('/eliminarInsumo/' + id)
+    .success(function(response){
+
+      $scope.alerts = [];
+      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+    
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+     
+      obtenerInsumos();
+  });
  };
 
 });

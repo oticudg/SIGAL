@@ -18,9 +18,12 @@ class insumosController extends Controller
     	return view('insumos/registrarInsumo');
     }
 
-
     public function viewEditar(){
         return view('insumos/editarInsumo');
+    }
+
+    public function viewEliminar(){
+        return view('insumos/eliminarInsumo');
     }
 
 
@@ -93,6 +96,7 @@ class insumosController extends Controller
 
             return $insumo; 
         }
+
     }
 
     public function editInsumo(Request $request,$id){
@@ -159,7 +163,20 @@ class insumosController extends Controller
         }
     }
 
+    public function elimInsumo(Request $request,$id){
 
+         $insumo = Insumo::where('id',$id)->first();
 
+        if(!$insumo){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta insumo no exist']);            
+        }
+        else{
+            
+            Insumo::where('id',$id)->delete();
+            return Response()->json(['status' => 'success', 'menssage' => 'Insumo Eliminado']);
+            
+        }
+    }
 
 }

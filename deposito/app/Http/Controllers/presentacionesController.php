@@ -124,7 +124,7 @@ class presentacionesController extends Controller
         else{
             
             Presentacione::where('id',$id)->delete();
-            return Response()->json(['status' => 'success', 'menssage' => 'Presentacion Eliminado']);
+            return Response()->json(['status' => 'success', 'menssage' => 'Presentacion Eliminada']);
             
         }
     }
