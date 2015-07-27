@@ -39,12 +39,7 @@
 		<div class="col-md-4">
 			<select class="form-control" ng-model="medida">
 				<option value="">Unidad de Medida</option>	
-				<option value="Unidades">Unidades</option>
-				<option value="Gramos">Gramos</option>
-				<option value="Kilogramos">Kilogramos</option>
-				<option value="Mililitros">Mililitros</option>
-				<option value="Litros">Litros</option>
-				<option value="Toneladas">Toneladas</option>
+				<option value="{#unidadMedida.id#}" ng-repeat="unidadMedida in unidadMedidas">{#unidadMedida.nombre#}
 			</select>
 		</div>
 	</div>

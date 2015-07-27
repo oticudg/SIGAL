@@ -74,6 +74,7 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
   $scope.nombre = '';
   $scope.secciones= [];
   $scope.presentaciones = [];
+  $scope.unidadMedidas = [];
 
 
   $http.get('/getSecciones')
@@ -82,6 +83,8 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
   $http.get('/getPresentaciones')
   	.success(function(response){$scope.presentaciones = response});
 
+  $http.get('/getMedidas')
+  .success(function(response){$scope.unidadMedidas = response});
 
   $scope.registrar = function () {
   	$scope.save();
@@ -156,10 +159,13 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
 
   $scope.secciones= [];
   $scope.presentaciones = [];
-
+  $scope.unidadMedidas = [];
 
   $http.get('/getSecciones')
     .success(function(response){$scope.secciones = response});
+
+  $http.get('/getMedidas')
+  .success(function(response){$scope.unidadMedidas = response});
 
   $http.get('/getPresentaciones')
     .success(
@@ -176,16 +182,15 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
           $scope.marca              =   response.marca;
           $scope.presentacion       =   response.id_presentacion.toString();
           $scope.seccion            =   response.id_seccion.toString();
-          $scope.medida             =   response.un_med;
+          $scope.medida             =   response.id_medida.toString();
           $scope.cantidadM          =   response.cant_min;
           $scope.cantidadX          =   response.cant_max;
           $scope.ubicacion          =   response.ubicacion;
           $scope.deposito           =   response.deposito;
           $scope.descripcion        =   response.descripcion;
           $scope.imagen             =   response.imagen;
-
-        });
-    });
+      });
+  });
 
 
   $scope.modificar = function () {

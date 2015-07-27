@@ -18,7 +18,7 @@ class CreaTableInsumos extends Migration
             $table->text('descripcion');
             $table->integer('id_presentacion');
             $table->integer('id_seccion');
-            $table->string('un_med');
+            $table->integer('id_medida');
             $table->integer('cant_min');
             $table->integer('cant_max');
             $table->string('marca');
