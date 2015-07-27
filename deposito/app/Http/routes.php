@@ -204,7 +204,7 @@ Route::get('eliminarMedida','unidadMedidasController@viewEliminar');
 Route::post('eliminarMedida/{id}','unidadMedidasController@elimUnidad');
 
 //Regresa todas las unidades de medidas  que existan
-Route::get('getUnidades','unidadMedidasController@allUnidades');
+Route::get('getMedidas','unidadMedidasController@allUnidades');
 //Obtiene una unidad de medida por su id
 Route::get('getMedida/{id}', 'unidadMedidasController@getUnidad');
 

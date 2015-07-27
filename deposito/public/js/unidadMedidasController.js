@@ -23,7 +23,7 @@ controller('unidadMedidasController',function($scope,$http,$modal){
 
   $scope.obtenerUnidadMedidas = function(){
 
-    $http.get('/getUnidades')
+    $http.get('/getMedidas')
       .success( function(response){$scope.unidadMedidas = response});
   };
 
