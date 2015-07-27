@@ -181,3 +181,12 @@ Route::get('getInsumos','insumosController@allInsumos');
 Route::get('getInsumo/{id}', 'insumosController@getInsumo');
 
 /*** fin de modulo Insumos ***/
+
+
+/*** Modulo de unidad de medidas ***/
+
+//Muestra el panel de unidades de medidas 
+Route::get('medidas','unidadMedidasController@index');
+
+
+/*** Fin de modulo unidad de medidas ***/
