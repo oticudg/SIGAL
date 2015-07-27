@@ -46,6 +46,23 @@ controller('unidadMedidasController',function($scope,$http,$modal){
     });
   };
 
+  $scope.eliminarUnidadMedida = function(index){
+
+    var modalInstance = $modal.open({
+
+      animation: true,
+          templateUrl: '/eliminarMedida',
+          controller: 'eliminarMedidaCtrl',
+          resolve: {
+             obtenerUnidadMedidas: function () {
+                return $scope.obtenerUnidadMedidas;
+             },
+             id:function () {
+                return index;
+             }
+         }
+    });
+  };
 
   $scope.obtenerUnidadMedidas();
 
@@ -142,6 +159,40 @@ angular.module('deposito').controller('editarMedidaCtrl', function ($scope, $mod
 
       obtenerUnidadMedidas();
 
+  });
+ };
+
+});
+
+angular.module('deposito').controller('eliminarMedidaCtrl', function ($scope, $modalInstance, $http, obtenerUnidadMedidas,id) {
+
+  $scope.btnVisivilidad = true;
+
+  $scope.eliminar = function () {
+    $scope.delet();
+  };
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.closeAlert = function(index){
+
+    $scope.alerts.splice(index,1);
+
+  };
+
+ $scope.delet = function(){
+
+  $http.post('/eliminarMedida/' + id)
+    .success(function(response){
+
+      $scope.alerts = [];
+      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+    
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+     
+      obtenerUnidadMedidas();
   });
  };
 

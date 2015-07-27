@@ -198,6 +198,11 @@ Route::get('editarMedida', 'unidadMedidasController@viewEditar');
 //Edita una unidad de medida cuyo id se pase
 Route::post('editarMedida/{id}', 'unidadMedidasController@editUnidad');
 
+//Muestra la vista de eliminacion de unidad de medidas
+Route::get('eliminarMedida','unidadMedidasController@viewEliminar');
+//Elimina una unidad de medida cuyo id se pase
+Route::post('eliminarMedida/{id}','unidadMedidasController@elimUnidad');
+
 //Regresa todas las unidades de medidas  que existan
 Route::get('getUnidades','unidadMedidasController@allUnidades');
 //Obtiene una unidad de medida por su id

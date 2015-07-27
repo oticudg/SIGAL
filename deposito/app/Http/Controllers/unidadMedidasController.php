@@ -25,6 +25,11 @@ class unidadMedidasController extends Controller
         return view('unidadMedidas/editarUnidadMedidas');
     }
 
+    public function viewEliminar(){
+
+        return view('unidadMedidas/eliminarUnidadMedidas');
+    }
+
     public function registrar(Request $request){   
 
         $data = $request->all();
@@ -102,5 +107,24 @@ class unidadMedidasController extends Controller
             }
         }
     }
+
+    public function elimUnidad(Request $request,$id){
+
+         $medida = Unidad_medida::where('id',$id)->first();
+
+        if(!$medida){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta medida no exist']);            
+        }
+        else{
+            
+            Unidad_medida::where('id',$id)->delete();
+            return Response()->json(['status' => 'success', 'menssage' => 'Unidad de medida Eliminada']);
+            
+        }
+    }
+
+
+
 
 }

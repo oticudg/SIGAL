@@ -31,7 +31,7 @@
 			<tr ng-repeat="unidadMedida in unidadMedidas | filter:busqueda">
 				<td>{#unidadMedida.nombre#}</td>
 				<td><button class="btn btn-warning" ng-click="editarUnidadMedida(unidadMedida.id)">Editar</button></td>
-				<td><button class="btn btn-danger"  ng-click="eliminarPresentacion(presentacion.id)">Eliminar</button></td>
+				<td><button class="btn btn-danger"  ng-click="eliminarUnidadMedida(unidadMedida.id)">Eliminar</button></td>
 			</tr>
 		</tbody>
 
