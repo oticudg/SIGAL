@@ -188,5 +188,13 @@ Route::get('getInsumo/{id}', 'insumosController@getInsumo');
 //Muestra el panel de unidades de medidas 
 Route::get('medidas','unidadMedidasController@index');
 
+//Muestra vista de registro de unidad de medida
+Route::get('registrarMedida','unidadMedidasController@viewRegistrar');
+//Registra una unidad de medida
+Route::post('registrarMedida' ,'unidadMedidasController@registrar');
+
+
+//Regresa todas las unidades de medidas  que existan
+Route::get('getUnidades','unidadMedidasController@allUnidades');
 
 /*** Fin de modulo unidad de medidas ***/

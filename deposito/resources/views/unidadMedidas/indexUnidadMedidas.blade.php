@@ -10,7 +10,7 @@
 	<br>
 	<br>
 			
-	<button class="btn btn-success" ng-click="registrarPresentacion()">Nueva Unidad de Medida</button>
+	<button class="btn btn-success" ng-click="registrarUnidadMedida()">Nueva Unidad de Medida</button>
 	
 	<br>
 	<br>
@@ -28,8 +28,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="presentacion in presentaciones | filter:busqueda">
-				<td>{#presentacion.nombre#}</td>
+			<tr ng-repeat="unidadMedida in unidadMedidas | filter:busqueda">
+				<td>{#unidadMedida.nombre#}</td>
 				<td><button class="btn btn-warning" ng-click="editarPresentacion(presentacion.id)">Editar</button></td>
 				<td><button class="btn btn-danger"  ng-click="eliminarPresentacion(presentacion.id)">Eliminar</button></td>
 			</tr>
