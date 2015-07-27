@@ -193,8 +193,14 @@ Route::get('registrarMedida','unidadMedidasController@viewRegistrar');
 //Registra una unidad de medida
 Route::post('registrarMedida' ,'unidadMedidasController@registrar');
 
+//Muesta la vista de edicion de unidad de medida
+Route::get('editarMedida', 'unidadMedidasController@viewEditar');
+//Edita una unidad de medida cuyo id se pase
+Route::post('editarMedida/{id}', 'unidadMedidasController@editUnidad');
 
 //Regresa todas las unidades de medidas  que existan
 Route::get('getUnidades','unidadMedidasController@allUnidades');
+//Obtiene una unidad de medida por su id
+Route::get('getMedida/{id}', 'unidadMedidasController@getUnidad');
 
 /*** Fin de modulo unidad de medidas ***/
