@@ -1,31 +1,46 @@
-<form method="POST" action="login">
-    {!! csrf_field() !!}
+@extends('base')
+@section('addstyle')
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+@endsection
 
-    @if(count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-    
-    <div>
-        Email
-        <input type="email" name="email" value="{{ old('email') }}">
-    </div>
+@section('conten')
 
-    <div>
-        Password
-        <input type="password" name="password" id="password">
-    </div>
+ <div id="login" class="col-md-4 col-md-offset-4">
+        
+        <h1 id="formTitle">Inicio de Sesión</h1>
+        <hr>        
+       @if($errors->has())
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{$errors->first()}}
+            </div>
+       @endif
+        
+        <div class="col-md-6 col-md-offset-3">
+            <form method="POST" action="/auth/login">
+                {!! csrf_field() !!}
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                        <input class="form-control" type="email" name="email" placeholder="Correo electronico" value="{{ old('email') }}">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Contraseña">
+                    </div>
+                </div>
 
-    <div>
-        <input type="checkbox" name="remember"> Remember Me
-    </div>
+                <div>
+                    <button class="btn btn-default btn-block" type="submit">Ingresar</button>
+                </div>
+            </form>
+        </div>
+ </div>
 
-    <div>
-        <button type="submit">Login</button>
-    </div>
-</form>
+@endsection

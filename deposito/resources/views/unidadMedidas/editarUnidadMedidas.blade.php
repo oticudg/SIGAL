@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 style="color:#54AF54;" class="modal-title">Editar unidad de medida</h3>
+    <h3 style="color:#54AF54;" class="modal-title"><span class="glyphicon glyphicon-pencil"></span> Editar unidad de medida</h3>
 </div>
 <div class="modal-body">
 
@@ -12,7 +12,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()">Modificar</button>
-    <button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()">Cancelar</button>
-    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()">Ok</button>	
+	<button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> modificar</button>
+    <button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
+    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
 </div>

@@ -1,0 +1,156 @@
+/*** Barra de menu ***/
+
+#bar-menu{
+	margin-bottom: 0px;
+}
+
+.custon-bar{
+	margin-bottom: 0px;
+	border-radius: 0px;
+}
+
+/*** fin de barra menu ***/
+
+
+/*** textos de paginas ***/
+
+.text-title{
+	color: #7E0606;
+}
+
+/*** fin  de texto de paginas ***/
+
+
+/*** Mensage de bienvenida al sistema ***/
+
+#bienvenida{
+	
+	text-align: center;
+}
+
+/*** Fin de mensage de bienvenida al sistema ***/
+
+
+/*** Contenido de la pagina de bienvenida ***/
+
+#contenido{
+	
+	margin-top: 2%;
+	padding: 10px;
+	text-align: center;
+}
+
+.custon-imagen{
+	
+	width: 800px;
+
+}
+
+#contenedor-imagen{
+	
+	padding: 10px;
+	padding-top: 40px;
+}
+
+/*** Fin del contenido de la pagina de bienvenida ***/
+
+
+/*** Fromulario de inicio de sesion ***/
+
+#login{
+	
+	margin-top:5%;
+	margin-bottom: 10%; 
+	background-color: #7E0606;
+	color: white;
+	padding:0px;
+	padding-bottom: 60px; 
+	box-shadow: 4px 4px 6px dimgrey;
+}
+
+/* Titulo de formulario */ 
+#formTitle{
+	
+	padding-top: 10px;
+	text-align: center;
+	height: 50px;
+	margin: 0px;
+}
+
+/*** Fin de formulario de inicio de sesion ***/
+
+
+/*** Contenido de las paginas  ***/
+
+#front-page{	
+	padding-top:3%;
+	padding-bottom:10%;
+}
+
+/*** Fin de contenido de las paginas ***/
+
+
+
+/*** Menu de navegacion lateral ***/
+
+#side-menu{
+	background-color: #262626;
+	position: fixed;
+	height:100%;
+	padding:0px;
+	padding-top: 5%;
+}
+
+.panel-default > .panel-heading {
+   background: #262626;
+   color: dimgrey;
+}
+
+.panel-default > a:link, a:visited { 
+    color:  #262626;
+    text-decoration: none;
+}
+
+.panel-default > a:link:active, a:visited:active { 
+    color:  #262626;
+}
+
+.panel-default > .panel-heading a{
+	text-decoration: none;
+}
+
+#onlyLink{
+	color: dimgrey;
+}
+
+.panel-default > .panel-heading:hover #onlyLink{
+	color: white;
+}
+
+.panel-default > .panel-heading:hover{
+	color: white;
+	background-color: black;
+}
+
+.panel-default{
+	background-color:black; 
+	border: none;
+	margin: 0px;
+	border-bottom:1px solid black;
+}
+
+.panel-default .enlace{
+	margin-bottom: 5%;
+	margin-left: 8%;
+}
+
+.panel-default .enlace a{	
+	color:dimgrey;
+	text-decoration: none;
+}
+
+.panel-default .enlace a:hover{
+	color: white;
+}
+
+/*** Fin de menu de navegacion lateral ***/

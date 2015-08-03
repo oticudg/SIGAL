@@ -1,26 +1,33 @@
-@extends('base')
+@extends('panel')
 @section('bodytag', 'ng-controller="insumosController"')
 @section('addscript')
 <script src="{{asset('js/insumosController.js')}}"></script>
 @endsection
 
-@section('conten')
+@section('front-page')
 
 	<br>
 	<br>
 	<br>
 			
-	<button class="btn btn-success" ng-click="registrarInsumo()">Nuevo Insumo</button>
+	<button class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Insumo</button>
 	<br>
 	<br>
 	<br>
 
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="input-group">
+		  		<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+		  		<input type="text" class="form-control" ng-model="busqueda">
+			</div>
+		</div>
+	</div>
 
-	<input type="text" class="form-control" ng-model="busqueda">
 	<br>
 	<br>
 
-	<table class="table">
+	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
 				<th>Presentacion</th>
@@ -38,8 +45,8 @@
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.deposito#}</td>
 				<td>{#insumo.ubicacion#}</td>
-				<td><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)">Editar</button></td>
-				<td><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)">Eliminar</button></td>
+				<td><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+				<td><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>
 		</tbody>
 

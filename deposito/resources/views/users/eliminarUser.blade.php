@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 style="color:#C93A36;" class="modal-title">Eliminar Usuario</h3>
+    <h3 style="color:#C93A36;" class="modal-title"><span class="glyphicon glyphicon-remove"></span> Eliminar Usuario</h3>
 </div>
 <div class="modal-body">
 
@@ -10,8 +10,8 @@
 </div>
 <div class="modal-footer">
     <center>
-    	<button class="btn btn-danger" ng-show="btnVisivilidad" ng-click="eliminar()">Eliminar</button>
-    	<button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()">Cancelar</button>
-   	    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()">Ok</button>	
+    	<button class="btn btn-danger" ng-show="btnVisivilidad" ng-click="eliminar()"><span class="glyphicon glyphicon-ban-circle"></span>  Eliminar</button>
+    	<button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
+   	    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>	
 	</center>
 </div>

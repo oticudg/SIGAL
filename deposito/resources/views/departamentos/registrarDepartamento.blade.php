@@ -1,12 +1,8 @@
 @extends('departamentos.indexDepartamentos')
-@section('addscript')
-	@parent
-	<script src="{{asset('js/vendor/jquery-2.1.4.min.js')}}"></script>
-	<script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>
-@endsection
-@section('conten')
+
+@section('front-page')
 <div>
-	<h3 style="color:#54AF54;">Nuevo Departamento</h3>
+	<h3 style="color:#54AF54;"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</h3>
 	<hr>
 
 	<form method="POST" action="/registrarDepartamento" enctype="multipart/form-data">
@@ -64,7 +60,7 @@
 		</div>
 
 		<hr>
-		<center><button type="submit" class="btn btn-success">Guardar</button></center>
+		<center><button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Registrar</button></center>
 	</form>
 
 </div>
