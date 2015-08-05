@@ -60,8 +60,19 @@
 		</div>
 
 		<hr>
-		<center><button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Registrar</button></center>
+		<center>
+			@if(!isset($success))
+				<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Registrar</button>
+			@endif
+		</center>
 	</form>
+	
+	<center>
+		@if(isset($success))
+			<a href="/departamentos" class="btn btn-success" style="color:white"><span class="glyphicon glyphicon-ok-sign"></span> Ok</a>
+		@endif
+	</center>
+	
 
 </div>
 @endsection	

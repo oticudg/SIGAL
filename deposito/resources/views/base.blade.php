@@ -23,7 +23,7 @@
 			      <ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-							<span class="glyphicon glyphicon-user"></span> {{ ucwords(Auth::user()->nombre) ." ". ucwords(Auth::user()->apellido)}} <span class="caret"></span>
+							<span class="glyphicon glyphicon-user"></span> {{ ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}} <span class="caret"></span>
 						</a>
 				        <ul class="dropdown-menu" role="menu">
 				        	<li><a href="/auth/logout">Salir</a></li>
@@ -46,7 +46,9 @@
 	<script src="{{asset('js/vendor/angular.min.js')}}"></script>
 	<script src="{{asset('js/vendor/ui-bootstrap-tpls-0.13.0.min.js')}}"></script>
 	<script src="{{asset('js/vendor/ng-file-upload.js')}}"></script>
+	<script src="{{asset('js/vendor/dirPagination.js')}}"></script>
 	<script src="{{asset('js/config.js')}}" type="text/javascript"></script>
+
 	@yield('addscript')
 	
 </body>
