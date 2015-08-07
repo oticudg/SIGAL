@@ -30,7 +30,7 @@
 
 	<br>
 	<br>
-
+	
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
@@ -40,7 +40,7 @@
 		</thead>
 		<tbody>
 			<tr dir-paginate="presentacion in presentaciones | filter:busqueda | itemsPerPage:5">
-				<td>{#presentacion.nombre#}</td>
+				<td>{#presentacion.nombre | capitalize#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarPresentacion(presentacion.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="eliminarPresentacion(presentacion.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>

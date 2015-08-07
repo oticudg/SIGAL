@@ -129,28 +129,42 @@
 #front-page{	
 	padding-top:3%;
 	padding-bottom:10%;
+	overflow: auto;
 }
-
 
 /* Tabla de visualizacion */
-.table th{
-	
+.table th{	
 	background-color: #419641;
 	color: white;
-}
-
-.table-edit{
-
-	width: 100px;
 	text-align: center;
 }
 
-/* Fin de tabla de visualizacion */
+.table td{
+	text-align: center;
+}
 
+.table-edit{
+	width: 100px;
+}
 
+.table-img-lg{
+	width: 300px;
+}
 
-.scroll{ 
-	overflow: scroll;
+.table-img-sm{
+	width: 200px;
+}
+
+.img-lg{
+
+	width:300px; 
+	height:300px;
+} 
+
+.img-sm{
+
+	width:200px; 
+	height:200px;
 }
 
 /*** Fin de contenido de las paginas ***/

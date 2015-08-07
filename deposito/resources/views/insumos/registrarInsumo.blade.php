@@ -84,7 +84,7 @@
 		</div>
 		
 		<div class="col-md-8">
-			<center><img ng-show="file[0] != null" ngf-src="file[0]" class="img-thumbnail"  width="304" height="236"></center>
+			<center><img ng-show="file[0] != null" ngf-src="file[0]" class="img-thumbnail img-lg"></center>
 		</div>
 	</div>
 	

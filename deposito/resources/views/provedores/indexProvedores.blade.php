@@ -29,7 +29,7 @@
 
 	<br>
 	<br>
-
+	
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
@@ -44,10 +44,10 @@
 		</thead>
 		<tbody>
 			<tr dir-paginate="provedor in provedores | filter:busqueda | itemsPerPage:5">
-				<td>{#provedor.rif#}</td>
-				<td>{#provedor.nombre#}</td>
+				<td>{#provedor.rif | capitalize#}</td>
+				<td>{#provedor.nombre | capitalize#}</td>
 				<td>{#provedor.telefono#}</td>
-				<td>{#provedor.contacto#}</td>
+				<td>{#provedor.contacto | capitalize#}</td>
 				<td>{#provedor.direccion#}</td>
 				<td>{#provedor.email#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>

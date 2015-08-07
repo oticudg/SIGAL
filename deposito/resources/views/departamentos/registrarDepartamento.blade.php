@@ -51,11 +51,11 @@
 		
 		<div class="row">
 			<div class="col-md-4 col-md-offset-2">
-				<img ng-show="sello[0] != null" ngf-src="sello[0]" class="img-thumbnail"  width="304" height="236">
+				<img ng-show="sello[0] != null" ngf-src="sello[0]" class="img-thumbnail img-lg">
 			</div>
 
 			<div class="col-md-4">
-				<img ng-show="firma[0] != null" ngf-src="firma[0]" class="img-thumbnail"  width="304" height="236">
+				<img ng-show="firma[0] != null" ngf-src="firma[0]" class="img-thumbnail img-lg">
 			</div>
 		</div>
 

@@ -40,7 +40,7 @@
 		</thead>
 		<tbody>
 			<tr dir-paginate="unidadMedida in unidadMedidas | filter:busqueda | itemsPerPage:5">
-				<td>{#unidadMedida.nombre#}</td>
+				<td>{#unidadMedida.nombre | capitalize#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarUnidadMedida(unidadMedida.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="eliminarUnidadMedida(unidadMedida.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>

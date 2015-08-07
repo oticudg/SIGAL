@@ -40,9 +40,9 @@
 		</thead>
 		<tbody>
 			<tr dir-paginate="usuario in usuarios | filter:busqueda | itemsPerPage:5 ">
-				<td>{#usuario.nombre + " " + usuario.apellido#}</td>
+				<td>{#usuario.nombre + " " + usuario.apellido | capitalize#}</td>
 				<td>{#usuario.email#}</td>
-				<td>{#usuario.rol | uppercase#}</td>
+				<td>{#usuario.rol | capitalize#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimUsuario(usuario.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>

@@ -35,17 +35,17 @@
 			<tr>
 				<th>Nombre</th>
 				<th>Division</th>
-				<th>Sello</th>
-				<th>Firma</th>
+				<th class="table-img">Sello</th>
+				<th class="table-img">Firma</th>
 				<th class="table-edit">Editar</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:2">
-				<td>{#departamento.nombre#}</td>
-				<td>{#departamento.division#}</td>
-				<td><img src="/files/sellos/{#departamento.sello#}"class="img-thumbnail"  style="width:304px; height:236px"></td>
-				<td><img src="/files/firmas/{#departamento.firma#}"class="img-thumbnail"  style="width:304px; height:236px"></td>
+			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:1">
+				<td>{#departamento.nombre | capitalize#}</td>
+				<td>{#departamento.division | capitalize#}</td>
+				<td class="table-img-lg"><img src="/files/sellos/{#departamento.sello#}"class="img-thumbnail img-lg"></td>
+				<td class="table-img-lg"><img src="/files/firmas/{#departamento.firma#}"class="img-thumbnail img-lg"></td>
 				<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>
 		</tbody>
@@ -56,8 +56,6 @@
      	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
       </div>
     </div>
-
-
 
 @endsection
 

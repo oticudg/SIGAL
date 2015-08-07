@@ -41,11 +41,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:5">
-				<td><img src="files/insumos/{#insumo.imagen#}" class="img-thumbnail"  width="100" height="236"></td>
+			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:2">
+				<td class="table-img-sm"><img src="files/insumos/{#insumo.imagen#}" class="img-thumbnail img-sm"></td>
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
-				<td>{#insumo.deposito#}</td>
+				<td>{#insumo.deposito | capitalize#}</td>
 				<td>{#insumo.ubicacion#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>

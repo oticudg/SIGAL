@@ -85,8 +85,8 @@
 		
 		<div class="col-md-8">
 			<center>
-					<img ng-show="file[0] != null" ngf-src="file[0]" class="img-thumbnail"  width="304" height="236">
-					<img ng-hide="file[0]" src="files/insumos/{#imagen#}" class="img-thumbnail"  width="304" height="236">
+					<img ng-show="file[0] != null" ngf-src="file[0]" class="img-thumbnail img-lg">
+					<img ng-hide="file[0]" src="files/insumos/{#imagen#}" class="img-thumbnail img-lg">
 			</center>
 		</div>
 	</div>
