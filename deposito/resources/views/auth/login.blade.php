@@ -1,10 +1,4 @@
 @extends('base')
-@section('addstyle')
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-@endsection
-
 @section('conten')
 
  <div id="login" class="col-md-4 col-md-offset-4">

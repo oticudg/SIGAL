@@ -24,7 +24,7 @@ controller('usersController',function($scope,$http,$modal){
 	$scope.obtenerUsuarios = function(){
 
 		$http.get('/getUsuarios')
-			.success( function(response){$scope.usuarios = response});
+			.success( function(response){$scope.usuarios = response;});
 	};
 
 	$scope.editarUsuario = function(index){

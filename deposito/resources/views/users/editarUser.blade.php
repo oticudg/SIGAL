@@ -50,7 +50,7 @@
 			<select  class="form-control" ng-model="rango">
 				<option value="director">Director</option>
 				<option value="jefe">Jefe</option>
-				<option value="trabajador">Empleado</option>
+				<option value="empleado">Empleado</option>
 			</select>
 		</div>
 	</div>

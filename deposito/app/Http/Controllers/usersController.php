@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 
 class usersController extends Controller
-{
+{   
     public function index()
     {
         return view('users/indexUsers');    
@@ -34,22 +34,21 @@ class usersController extends Controller
 
         $validator = Validator::make($data,[
             
-            'nombre'   => 'required|max:255',
-            'apellido' => 'required|max:255',
-            'cedula'   => 'required',
-            'rol'      => 'required',
-            'rango'    => 'required',
-            'email'    => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6'
+            'nombre'   => 'required|alpha|min:2|max:15',
+            'apellido' => 'required|alpha|min:2|max:20',
+            'cedula'   => 'required|regex:/^([0-9]{6,8})$/',
+            'email'    => 'required|email|max:50|unique:users',
+            'password' => 'required|min:8|confirmed',
+            'rol'      => 'required|in:farmacia,alimentacion',
+            'rango'    => 'required|in:director,jefe,empleado'
         ]);
-
 
         if($validator->fails()){
 
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
-           
+            
             User::create([
                 'nombre'   => $data['nombre'],
                 'apellido' => $data['apellido'],
@@ -57,7 +56,7 @@ class usersController extends Controller
                 'rol'      => $data['rol'],
                 'rango'    => $data['rango'],
                 'email'    => $data['email'],
-                'password' => bcrypt($data['password']),
+                'password' => bcrypt($data['password'])
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Usuario registrado']);
@@ -97,12 +96,11 @@ class usersController extends Controller
             $data = $request->all();
 
             $validator = Validator::make($data,[
-
-                'nombre'        =>  'required',
-                'apellido'      =>  'required',
-                'cedula'        =>  'required',
-                'rol'           =>  'required',
-                'rango'         =>  'required'
+                    'nombre'   => 'required|alpha|min:3|max:15',
+                    'apellido' => 'required|alpha|min:3|max:20',
+                    'cedula'   => 'required|regex:/^([0-9]{6,8})$/',
+                    'rol'      => 'required|in:farmacia,alimentacion',
+                    'rango'    => 'required|in:director,jefe,empleado'
             ]);
 
 
@@ -142,7 +140,5 @@ class usersController extends Controller
             
         }
     }
-
-
-
+    
 }
