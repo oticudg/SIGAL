@@ -9,7 +9,15 @@ use App\Http\Controllers\Controller;
 use App\User;
 
 class usersController extends Controller
-{   
+{
+
+    private $menssage = [
+
+        'rol.required' => 'Por favor seleccione un departamento',
+        'rango.required' => 'Por favor seleccione un rango'
+
+    ];
+
     public function index()
     {
         return view('users/indexUsers');    
@@ -36,12 +44,12 @@ class usersController extends Controller
             
             'nombre'   => 'required|alpha|min:2|max:15',
             'apellido' => 'required|alpha|min:2|max:20',
-            'cedula'   => 'required|regex:/^([0-9]{6,8})$/',
+            'cedula'   => 'required|cedula',
             'email'    => 'required|email|max:50|unique:users',
             'password' => 'required|min:8|confirmed',
             'rol'      => 'required|in:farmacia,alimentacion',
             'rango'    => 'required|in:director,jefe,empleado'
-        ]);
+        ], $this->menssage);
 
         if($validator->fails()){
 
@@ -98,10 +106,10 @@ class usersController extends Controller
             $validator = Validator::make($data,[
                     'nombre'   => 'required|alpha|min:3|max:15',
                     'apellido' => 'required|alpha|min:3|max:20',
-                    'cedula'   => 'required|regex:/^([0-9]{6,8})$/',
+                    'cedula'   => 'required|cedula',
                     'rol'      => 'required|in:farmacia,alimentacion',
                     'rango'    => 'required|in:director,jefe,empleado'
-            ]);
+            ], $this->menssage);
 
 
             if($validator->fails()){

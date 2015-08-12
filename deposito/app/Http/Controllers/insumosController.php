@@ -10,6 +10,17 @@ use App\Insumo;
 
 class insumosController extends Controller
 {   
+
+    private $menssage = [
+
+        "cantidadM.required" => "Indique una cantidad minima",
+        "cantidadM.numeric"  => "Indique una cantidad minima valida",
+        "cantidadX.required" => "Indique una cantidad maxima",
+        "cantidadX.numeric"  => "Indique una cantidad maxima valida",
+        "file.required"      => "Seleccione una imagen de presentacion",
+        "file.image"         => "Seleccione una imagen valida"   
+    ];
+
     public function index(){
         return view('insumos/indexInsumos');
     }
@@ -33,19 +44,20 @@ class insumosController extends Controller
 
         $validator = Validator::make($data,[
 
-            'codigo'  			=>  'required',
-            'principio_activo'	=>  'required',
-            'marca'				=>  'required',
-            'presentacion'		=>  'required',
-            'seccion'			=>  'required',
-            'medida'			=>  'required',
-            'cantidadM'			=>	'required',
-            'cantidadX'			=>  'required',
-            'ubicacion'			=>  'required',
-            'deposito'			=>  'required',
+            'codigo'  			=>  'required|unique:insumos',
+            'principio_activo'	=>  'required|alpha_spaces',
+            'marca'				=>  'required|alpha_spaces',
+            'presentacion'		=>  'required|exists:presentaciones,id',
+            'seccion'			=>  'required|exists:secciones,id',
+            'medida'			=>  'required|exists:unidad_medidas,id',
+            'cantidadM'			=>	'required|numeric',
+            'cantidadX'			=>  'required|numeric',
+            'ubicacion'			=>  'required|alpha_spaces',
+            'deposito'			=>  'required|in:farmacia,alimentacion',
             'descripcion'		=>	'required',
-        	'file'				=>  'required'
-        ]);
+        	'file'				=>  'required|image'
+
+        ], $this->menssage);
 
         if($validator->fails()){
 
@@ -113,18 +125,18 @@ class insumosController extends Controller
 
             $validator = Validator::make($data,[
 
-                'codigo'            =>  'required',
-                'principio_activo'  =>  'required',
-                'marca'             =>  'required',
-                'presentacion'      =>  'required',
-                'seccion'           =>  'required',
-                'medida'            =>  'required',
-                'cantidadM'         =>  'required',
-                'cantidadX'         =>  'required',
-                'ubicacion'         =>  'required',
-                'deposito'          =>  'required',
-                'descripcion'       =>  'required'
-            ]);
+                'principio_activo'  =>  'required|alpha_spaces',
+                'marca'             =>  'required|alpha_spaces',
+                'presentacion'      =>  'required|exists:presentaciones,id',
+                'seccion'           =>  'required|exists:secciones,id',
+                'medida'            =>  'required|exists:unidad_medidas,id',
+                'cantidadM'         =>  'required|numeric',
+                'cantidadX'         =>  'required|numeric',
+                'ubicacion'         =>  'required|alpha_spaces',
+                'deposito'          =>  'required|in:farmacia,alimentacion',
+                'descripcion'       =>  'required',
+                'file'              =>  'image'
+            ], $this->menssage);
 
             if($validator->fails()){
 
@@ -145,7 +157,6 @@ class insumosController extends Controller
 
                 insumo::where('id',$id)->update([
 
-                    'codigo'            => $data['codigo'],
                     'id_presentacion'   => $data['presentacion'],
                     'id_seccion'        => $data['seccion'],
                     'descripcion'       => $data['descripcion'],

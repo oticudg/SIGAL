@@ -44,7 +44,7 @@
 			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:2">
 				<td class="table-img-sm"><img src="files/insumos/{#insumo.imagen#}" class="img-thumbnail img-sm"></td>
 				<td>{#insumo.codigo#}</td>
-				<td>{#insumo.descripcion#}</td>
+				<td class="col-md-2">{#insumo.descripcion#}</td>
 				<td>{#insumo.deposito | capitalize#}</td>
 				<td>{#insumo.ubicacion#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>

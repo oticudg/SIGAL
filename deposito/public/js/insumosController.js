@@ -213,8 +213,6 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
  $scope.save = function(){
 
   var $data = {
-
-    'codigo'            :  $scope.codigo,
     'principio_activo'  :  $scope.principio_activo,
     'marca'             :  $scope.marca,
     'presentacion'      :  $scope.presentacion,

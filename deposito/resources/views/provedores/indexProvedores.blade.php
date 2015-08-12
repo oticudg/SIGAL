@@ -48,7 +48,7 @@
 				<td>{#provedor.nombre | capitalize#}</td>
 				<td>{#provedor.telefono#}</td>
 				<td>{#provedor.contacto | capitalize#}</td>
-				<td>{#provedor.direccion#}</td>
+				<td class="col-md-2">{#provedor.direccion#}</td>
 				<td>{#provedor.email#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>

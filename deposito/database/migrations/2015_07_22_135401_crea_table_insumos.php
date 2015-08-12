@@ -14,7 +14,7 @@ class CreaTableInsumos extends Migration
     {
         Schema::create('insumos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo');
+            $table->string('codigo')->unique();
             $table->text('descripcion');
             $table->integer('id_presentacion');
             $table->integer('id_seccion');

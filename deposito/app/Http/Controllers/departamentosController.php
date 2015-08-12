@@ -9,7 +9,14 @@ use App\Http\Controllers\Controller;
 use App\Departamento;
 
 class departamentosController extends Controller
-{
+{   
+
+    private $menssage = [
+        'nombre.unique' => 'Ya fue registrado un departamento con este nombre',
+        'sello.image'   => 'El sello debe ser una imagen',
+        'firma.image'   => 'La firma debe ser una imagen'
+    ];
+
     public function index(){
 
         return view('departamentos/indexDepartamentos');
@@ -32,15 +39,17 @@ class departamentosController extends Controller
 
         $validator = Validator::make($data,[
 
-            'nombre'        =>  'required',
-            'division'      =>  'required',
-            'sello'         =>  'required',
-            'firma'         =>  'required'
-        ]);
+            'nombre'        =>  'required|alpha_spaces|min:3|max:30|unique:departamentos',
+            'division'      =>  'required|alpha|min:3|max:30',
+            'sello'         =>  'required|image',
+            'firma'         =>  'required|image'
+
+        ], $this->menssage);
 
         if($validator->fails()){
 
-            return redirect('registrarDepartamento')->withErrors($validator);
+            $request->flash();
+            return redirect('registrarDepartamento')->withErrors($validator)->withInput();
         }
         else{
             
@@ -61,7 +70,6 @@ class departamentosController extends Controller
                 'firma'     => $firmaNombre
 
             ]);
-
 
             return view('departamentos/registrarDepartamento',['success' => 'Departamento registrado']);  
         }
@@ -84,7 +92,6 @@ class departamentosController extends Controller
             
             Departamento::where('id',$id)->delete();
             return Response()->json(['status' => 'success', 'menssage' => 'Departamento Eliminado']);
-            
         }
     }
 

@@ -6,11 +6,16 @@
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
 	
 	<div class="row">
-		<div class="col-md-4">
-			<input class="form-control" type="text" placeholder="Codigo" ng-model="codigo">
+		<div class="col-md-4 col-md-offset-4">	
+			<center>
+				<h3>Codigo</h3>
+				<h3><strong class="text-success">{#codigo#}</strong><h3>
+			</center>
 		</div>
+	</div>
 
-		<div class="col-md-4">
+	<div class="row">
+		<div class="col-md-offset-2 col-md-4">
 			<input class="form-control" type="text" placeholder="Principio Activo" ng-model="principio_activo">
 		</div>
 

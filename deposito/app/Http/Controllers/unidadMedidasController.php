@@ -9,7 +9,13 @@ use App\Http\Controllers\Controller;
 use App\Unidad_medida;
 
 class unidadMedidasController extends Controller
-{
+{   
+    private $menssage = [
+
+        'nombre.unique' => 'Esta unidad de medida ya ha sido registrada'
+    ];
+
+
     public function index()
     {
         return view('unidadMedidas/indexUnidadMedidas');
@@ -36,9 +42,9 @@ class unidadMedidasController extends Controller
 
         $validator = Validator::make($data,[
 
-            'nombre'  =>  'required',
+            'nombre'  =>  'required|unique:unidad_medidas',
 
-        ]);
+        ], $this->menssage);
 
         if($validator->fails()){
 
@@ -88,8 +94,8 @@ class unidadMedidasController extends Controller
 
             $validator = Validator::make($data,[
 
-                'nombre'  =>  'required'
-            ]);
+                'nombre'  =>  'required|unique:unidad_medidas'
+            ], $this->menssage);
 
 
             if($validator->fails()){

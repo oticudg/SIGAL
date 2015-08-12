@@ -105,4 +105,17 @@ return [
 
     'attributes' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Rules
+    |--------------------------------------------------------------------------
+    |
+    | Custom rules
+    |
+    */
+    "alpha_spaces"  =>  ":attribute solo puede contener letras y espacios.",
+    "cedula"        =>  "El formato de cedula es invalido",
+    "rif"           =>  "El formato de rif es invalido",   
+
+
 ];

@@ -11,6 +11,12 @@ use App\Provedore;
 class provedoresController extends Controller
 {   
 
+    private $menssage = [
+
+        'telefono.numeric' => 'Por favor ingrese un telefono valido'
+
+    ];
+
     public function index(){
 
         return view('provedores/indexProvedores');
@@ -41,13 +47,14 @@ class provedoresController extends Controller
 
         $validator = Validator::make($data,[
 
-            'rif'           =>  'required',
-            'nombre'        =>  'required',
-            'telefono'      =>  'required',
-            'direccion'     =>  'required',
-            'contacto'      =>  'required',
-            'email'         =>  'required'
-        ]);
+            'rif'           =>  'required|rif|unique:provedores',
+            'nombre'        =>  'required|alpha_spaces',
+            'telefono'      =>  'required|numeric',
+            'contacto'      =>  'required|alpha_spaces',
+            'email'         =>  'required|email',
+            'direccion'     =>  'required'
+
+        ], $this->menssage);
 
 
         if($validator->fails()){
@@ -61,7 +68,7 @@ class provedoresController extends Controller
                 'rif'           => $data['rif'],
                 'nombre'        => $data['nombre'],
                 'telefono'      => $data['telefono'],
-                'direccion'   => $data['direccion'],
+                'direccion'     => $data['direccion'],
                 'contacto'      => $data['contacto'],
                 'email'         => $data['email']
             ]);
@@ -104,12 +111,13 @@ class provedoresController extends Controller
 
             $validator = Validator::make($data,[
 
-                'nombre'        =>  'required',
-                'telefono'      =>  'required',
-                'direccion'     =>  'required',
-                'contacto'      =>  'required',
-                'email'         =>  'required'
-            ]);
+                'nombre'        =>  'required|alpha_spaces',
+                'telefono'      =>  'required|numeric',
+                'contacto'      =>  'required|alpha_spaces',
+                'email'         =>  'required|email',
+                'direccion'     =>  'required'
+            
+            ], $this->menssage);
 
 
             if($validator->fails()){

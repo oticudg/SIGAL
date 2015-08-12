@@ -10,6 +10,11 @@ use App\Presentacione;
 
 class presentacionesController extends Controller
 {
+    private $menssage = [
+
+        "nombre.unique" => "Esta presentacion ya ha sido registrada"
+    ];
+
     public function index()
     {
         return view('presentaciones/indexPresentaciones');
@@ -40,9 +45,9 @@ class presentacionesController extends Controller
 
         $validator = Validator::make($data,[
 
-            'nombre'  =>  'required',
+            'nombre'  =>  'required|unique:presentaciones',
 
-        ]);
+        ], $this->menssage);
 
 
         if($validator->fails()){
@@ -52,7 +57,7 @@ class presentacionesController extends Controller
         else{
            
             Presentacione::create([
-                'nombre'        => $data['nombre']
+                'nombre'  => $data['nombre']
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Presentacion registrada']);
@@ -91,10 +96,12 @@ class presentacionesController extends Controller
             
             $data = $request->all();
 
+       
             $validator = Validator::make($data,[
 
-                'nombre'        =>  'required'
-            ]);
+                'nombre'  =>  'required|unique:presentaciones',
+
+            ], $this->menssage);
 
 
             if($validator->fails()){
@@ -105,7 +112,7 @@ class presentacionesController extends Controller
                
                 Presentacione::where('id',$id)->update([
 
-                    'nombre'        => $data['nombre']
+                    'nombre'  => $data['nombre']
                 ]);
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);

@@ -8,7 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Seccione;
 
 class seccionesController extends Controller
-{
+{   
+
+    private $menssage = [
+        'nombre.unique' => 'Esta seccion ya ha sido registrada'
+    ];
 
     public function index()
     {
@@ -35,8 +39,8 @@ class seccionesController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'nombre'  =>  'required',
-        ]);
+            'nombre'  =>  'required|unique:secciones',
+        ], $this->menssage);
 
         if($validator->fails()){
 
@@ -85,10 +89,8 @@ class seccionesController extends Controller
             $data = $request->all();
 
             $validator = Validator::make($data,[
-
-                'nombre'        =>  'required'
-            ]);
-
+                'nombre'  =>  'required|unique:secciones',
+            ], $this->menssage);
 
             if($validator->fails()){
 
