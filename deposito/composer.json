@@ -2,10 +2,7 @@
     "name": "sahum/deposito",
     "description": "Sistema de deposito del Sahum",
     "keywords": ["deposito", "laravel" , "inventario"],
-    "license": [
-       "LGPL-2.1",
-       "GPL-3.0+"
-    ],
+    "license":"MIT",
     "authors": [
         {
             "name": "Mario Gonzalez",
