@@ -15,7 +15,7 @@
 		<nav class="navbar navbar-inverse custon-bar navbar-fixed-top">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="/inicio">Deposito Shaum</a>
+		      <a class="navbar-brand" href="/inicio">Deposito Sahum</a>
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
 			    @if(Auth::check())

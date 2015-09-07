@@ -211,3 +211,29 @@ Route::get('getMedidas','unidadMedidasController@allUnidades');
 Route::get('getMedida/{id}', 'unidadMedidasController@getUnidad');
 
 /*** Fin de modulo unidad de medidas ***/
+
+
+/*** Modulo de inventario ***/
+
+//Muestra el panel de inventario
+Route::get('inventario','inventarioController@index');
+
+//Regresa todas las insumos en el inventario
+Route::get('getInventario','inventarioController@allInsumos');
+
+/*** Fin de modulo de inventario ***/
+
+
+
+/*** Modulo de entradas ***/
+
+//Muestra el panel de inventario
+Route::get('entradas','entradasController@index');
+
+//Regresa todas las entradas
+Route::get('getEntradas','entradasController@allEntradas');
+
+/*** Fin de modulo de entradas ***/
+
+
+
