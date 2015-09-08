@@ -64,6 +64,19 @@
 
 /*** fin  de texto de paginas ***/
 
+/*** Tablas personalizadas ***/
+.custon-table-bottom-off{
+	
+	margin-bottom: 0px; 
+}
+
+.custon-table-top-off{
+	
+	margin-top: 0px; 
+}
+
+/*** Fin de tablas personalizadas ***/
+
 
 /*** Mensage de bienvenida al sistema ***/
 

@@ -16,7 +16,6 @@ class CreateTableEntradas extends Migration
             $table->increments('id');
             $table->string('codigo');
             $table->integer('provedor');
-            $table->integer('departamento');
             $table->integer('usuario');
             $table->timestamps();
         });

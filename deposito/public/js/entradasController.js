@@ -4,24 +4,41 @@ angular.module('deposito').
 controller('entradasController',function($scope,$http,$modal){
 
 	$scope.entradas = [];
+  $scope.entradasInsumos = [];
+  $scope.status = true;
 
-	$scope.obtenerInsumos = function(){
+	$scope.obtenerEntradas = function(){
 
 		$http.get('/getEntradas')
 			.success( function(response){$scope.entradas = response});
 	};
 
-  $scope.elimInsumo = function(index){
+  $scope.obtenerEntradasInsumos = function(){
+
+    $http.get('/getInsumosEntradas')
+      .success( function(response){$scope.entradasInsumos = response});
+  };
+
+  $scope.registrosProformas = function(){
+    $scope.status = true;
+    $scope.obtenerEntradas();
+  };
+
+  $scope.registrosInsumos = function(){
+    $scope.status = false;
+    $scope.obtenerEntradasInsumos();
+  };
+
+  $scope.detallesEntrada = function(index){
 
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarInsumo',
-          controller: 'eliminarInsumoCtrl',
+          templateUrl: '/detallesEntrada',
+          controller: 'detallesEntradaCtrl',
+          size:'lg',
           resolve: {
-             obtenerInsumos: function () {
-                return $scope.obtenerInsumos;
-             },
+
              id:function () {
                 return index;
              }
@@ -29,17 +46,13 @@ controller('entradasController',function($scope,$http,$modal){
     });
   };
 
-	$scope.obtenerInsumos();
+	$scope.obtenerEntradas();
 
 });
 
-angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $modalInstance, $http, obtenerInsumos,id) {
+angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $modalInstance, $http, id) {
 
   $scope.btnVisivilidad = true;
-
-  $scope.eliminar = function () {
-    $scope.delet();
-  };
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
@@ -60,8 +73,7 @@ angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $m
       $scope.alerts.push( {"type":response.status , "msg":response.menssage});
     
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-     
-      obtenerInsumos();
+
   });
  };
 

@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h3 style="color:#54AF54;" class="modal-title">
+    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada <strong>785569</strong></h3>
+</div>
+<div class="modal-body">
+	
+	<table class="table table-bordered custon-table-bottom-off" >
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Hora</th>
+				<th>Provedor</th>
+				<th>Usuario</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>18/01/2014</td>
+				<td>12:41:50</td>
+				<td>Sefar</td>
+				<td>mario@gmail.com</td>
+			</tr>
+		</tbody>	
+	</table>
+		
+	<table class="table table-striped custon-table-top-off">
+		<thead>
+			<tr>
+				<th>Codigo</th>
+				<th>Descripcion</th>
+				<th>Cantidad</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+			<tr>
+				<td>445585</td>
+				<td>Hojillas de Bisturi</td>
+				<td>16000</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
+</div>
