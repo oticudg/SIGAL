@@ -32,21 +32,15 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Presentacion</th>
 				<th>Codigo</th>
 				<th>Descripcion</th>
-				<th>Deposito</th>
-				<th>Ubicacion</th>
 				<th colspan="2" class="table-edit">Editar</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:2">
-				<td class="table-img-sm"><img src="files/insumos/{#insumo.imagen#}" class="img-thumbnail img-sm"></td>
-				<td>{#insumo.codigo#}</td>
-				<td class="col-md-2">{#insumo.descripcion#}</td>
-				<td>{#insumo.deposito | capitalize#}</td>
-				<td>{#insumo.ubicacion#}</td>
+				<td class="col-md-2">{#insumo.codigo#}</td>
+				<td>{#insumo.descripcion#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>

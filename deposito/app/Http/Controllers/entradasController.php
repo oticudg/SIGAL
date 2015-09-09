@@ -36,7 +36,7 @@ class entradasController extends Controller
         return DB::table('entradas')
             ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
-                'provedores.nombre as provedor')
+                'provedores.nombre as provedor', 'entradas.id')
             ->get();
     }
 
@@ -55,14 +55,15 @@ class entradasController extends Controller
                 ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                     DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
                     'provedores.nombre as provedor', 'users.email as usuario')
-                ->get();
+                ->first();
 
            $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
                 ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
                 ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
                 ->get();
 
-            return $insumos;
+            return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+
         }
 
     }

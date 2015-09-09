@@ -45,7 +45,6 @@ controller('insumosController',function($scope,$http,$modal){
     });
   };
 
-
   $scope.elimInsumo = function(index){
 
     var modalInstance = $modal.open({
@@ -68,73 +67,41 @@ controller('insumosController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $modalInstance, $http, Upload, obtenerInsumos) {
+angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $modalInstance, $http, Upload, obtenerInsumos){
 
   $scope.btnVisivilidad = true;
-  $scope.nombre = '';
-  $scope.secciones= [];
-  $scope.presentaciones = [];
-  $scope.unidadMedidas = [];
-
-
-  $http.get('/getSecciones')
-  	.success(function(response){$scope.secciones = response});
-
-  $http.get('/getPresentaciones')
-  	.success(function(response){$scope.presentaciones = response});
-
-  $http.get('/getMedidas')
-  .success(function(response){$scope.unidadMedidas = response});
 
   $scope.registrar = function () {
   	$scope.save();
   };
 
-
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
   };
 
-
   $scope.closeAlert = function(index){
 
-  	$scope.alerts.splice(index,1);
+    $scope.alerts.splice(index,1);
 
   };
 
+  $scope.save = function(){
 
- $scope.save = function(){
+   	var $data = {
 
- 	var $data = {
+  		'codigo'			:  $scope.codigo,
+  		'descripcion'		:  $scope.descripcion,
+ 	  };
 
-		'codigo'			:  $scope.codigo,
-		'principio_activo'	:  $scope.principio_activo,
-		'marca'				:  $scope.marca,
-		'presentacion'		:  $scope.presentacion,
-		'seccion'			:  $scope.seccion,
-		'medida'			:  $scope.medida,
-		'cantidadM'			:  $scope.cantidadM,
-		'cantidadX'			:  $scope.cantidadX,
-		'ubicacion'			:  $scope.ubicacion,
-		'deposito'			:  $scope.deposito,
-		'descripcion'		:  $scope.descripcion,
- 	};
+    $http.post('/registrarInsumo', $data)
+      .success(function(response){
 
-
- 	Upload.upload({
-        url: '/registrarInsumo',
-        fields: $data,
-        file: $scope.file
-
-    }).success(function(response){
-
-		$scope.alerts = [];
-		$scope.alerts.push( {"type":response.status , "msg":response.menssage});
- 			
-      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-      obtenerInsumos();
-
- 	});
+    		$scope.alerts = [];
+    		$scope.alerts.push( {"type":response.status , "msg":response.menssage});
+     
+          $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+          obtenerInsumos();
+   	});
 
  };
 
@@ -144,54 +111,15 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
 
   $scope.btnVisivilidad = true;
 
-  $scope.codigo             =   "";    
-  $scope.principio_activo   =   "";
-  $scope.marca              =   "";
-  $scope.presentacion       =   "";
-  $scope.seccion            =   "";
-  $scope.medida             =   "";
-  $scope.cantidadM          =   "";
-  $scope.cantidadX          =   "";
-  $scope.ubicacion          =   "";
-  $scope.deposito           =   "";
-  $scope.descripcion        =   "";
-  $scope.imagen             =   "";
+  $scope.codigo       =   "";    
+  $scope.descripcion  =   "";
 
-  $scope.secciones= [];
-  $scope.presentaciones = [];
-  $scope.unidadMedidas = [];
+    $http.get('/getInsumo/' + id)
+        .success(function(response){
 
-  $http.get('/getSecciones')
-    .success(function(response){$scope.secciones = response});
-
-  $http.get('/getMedidas')
-  .success(function(response){$scope.unidadMedidas = response});
-
-  $http.get('/getPresentaciones')
-    .success(
-
-      function(response){
-        
-        $scope.presentaciones = response
-
-        $http.get('/getInsumo/' + id)
-          .success(function(response){
-
-          $scope.codigo             =   response.codigo;    
-          $scope.principio_activo   =   response.principio_act;
-          $scope.marca              =   response.marca;
-          $scope.presentacion       =   response.id_presentacion.toString();
-          $scope.seccion            =   response.id_seccion.toString();
-          $scope.medida             =   response.id_medida.toString();
-          $scope.cantidadM          =   response.cant_min;
-          $scope.cantidadX          =   response.cant_max;
-          $scope.ubicacion          =   response.ubicacion;
-          $scope.deposito           =   response.deposito;
-          $scope.descripcion        =   response.descripcion;
-          $scope.imagen             =   response.imagen;
-      });
-  });
-
+        $scope.codigo             =   response.codigo;    
+        $scope.descripcion        =   response.descripcion;
+    });
 
   $scope.modificar = function () {
     $scope.save();
@@ -209,40 +137,25 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
 
   };
 
-
  $scope.save = function(){
 
   var $data = {
-    'principio_activo'  :  $scope.principio_activo,
-    'marca'             :  $scope.marca,
-    'presentacion'      :  $scope.presentacion,
-    'seccion'           :  $scope.seccion,
-    'medida'            :  $scope.medida,
-    'cantidadM'         :  $scope.cantidadM,
-    'cantidadX'         :  $scope.cantidadX,
-    'ubicacion'         :  $scope.ubicacion,
-    'deposito'          :  $scope.deposito,
-    'descripcion'       :  $scope.descripcion
+    'descripcion': $scope.descripcion
   };
 
 
-  
-  Upload.upload({
-        url: '/editarInsumo/' + id,
-        fields: $data,
-        file: $scope.file
+  $http.post('/editarInsumo/' + id , $data)
+    .success(function(response){
 
-  }).success(function(response){
-
-    $scope.alerts = [];
-    $scope.alerts.push( {"type":response.status , "msg":response.menssage});
-    
-    $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-    obtenerInsumos();
+      $scope.alerts = [];
+      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+      
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+      obtenerInsumos();
   });
 
  };
-
+ 
 });
 
 angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $modalInstance, $http, obtenerInsumos,id) {

@@ -20,13 +20,20 @@ controller('entradasController',function($scope,$http,$modal){
   };
 
   $scope.registrosProformas = function(){
+    $scope.busqueda = '';
     $scope.status = true;
     $scope.obtenerEntradas();
   };
 
   $scope.registrosInsumos = function(){
+    $scope.busqueda = '';
     $scope.status = false;
     $scope.obtenerEntradasInsumos();
+  };
+
+  $scope.localizarEntrada = function(entrada){
+    $scope.status = true;
+    $scope.busqueda = entrada;
   };
 
   $scope.detallesEntrada = function(index){
@@ -52,29 +59,25 @@ controller('entradasController',function($scope,$http,$modal){
 
 angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $modalInstance, $http, id) {
 
-  $scope.btnVisivilidad = true;
+  $scope.entrada = {};
+  $scope.insumos = [];
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
+  
   };
 
-  $scope.closeAlert = function(index){
+  $scope.detalles = function(){
 
-    $scope.alerts.splice(index,1);
+    $http.get('/getEntrada/' + id)
+      .success(function(response){
 
+        $scope.entrada = response.entrada;
+        $scope.insumos = response.insumos;
+
+    });
   };
 
- $scope.delet = function(){
-
-  $http.post('/eliminarInsumo/' + id)
-    .success(function(response){
-
-      $scope.alerts = [];
-      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
-    
-      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-
-  });
- };
+  $scope.detalles(id);
 
 });

@@ -52,7 +52,7 @@
 				<td>{#entrada.fecha#}</td>
 				<td>{#entrada.codigo#}</td>
 				<td>{#entrada.provedor#}</td>
-				<td><button class="btn btn-warning" ng-click="detallesEntrada(insumo.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 			</tr>
 		</tbody>
 	</table>
@@ -73,17 +73,15 @@
 				<th class="col-md-2">Codigo de Insumo</th>
 				<th class="col-md-3">Descripcion</th>
 				<th class="col-md-2">Cantidad</th>
-				<th class="col-md-1">Detalles</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr dir-paginate="insumo in entradasInsumos | filter:busqueda | itemsPerPage:1" pagination-id="insumos">
 				<td>{#insumo.fecha#}</td>
-				<td>{#insumo.entrada#}</td>
+				<td ng-click="localizarEntrada(insumo.entrada)"><span class="text-enlace">{#insumo.entrada#}</span></td>
 				<td>{#insumo.codigo#}
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.cantidad#}</td>
-				<td><button class="btn btn-warning" ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 			</tr>
 		</tbody>
 		<tfoot>

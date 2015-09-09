@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h3 style="color:#54AF54;" class="modal-title">
-    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada <strong>785569</strong></h3>
+    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada <strong>{#entrada.codigo#}</strong></h3>
 </div>
 <div class="modal-body">
 	
@@ -15,10 +15,10 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>18/01/2014</td>
-				<td>12:41:50</td>
-				<td>Sefar</td>
-				<td>mario@gmail.com</td>
+				<td>{#entrada.fecha#}</td>
+				<td>{#entrada.hora#}</td>
+				<td>{#entrada.provedor#}</td>
+				<td>{#entrada.usuario#}</td>
 			</tr>
 		</tbody>	
 	</table>
@@ -32,40 +32,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
-			</tr>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
-			</tr>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
-			</tr>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
-			</tr>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
-			</tr>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
-			</tr>
-			<tr>
-				<td>445585</td>
-				<td>Hojillas de Bisturi</td>
-				<td>16000</td>
+			<tr ng-repeat="insumo in insumos">
+				<td>{#insumo.codigo#}</td>
+				<td>{#insumo.descripcion#}</td>
+				<td>{#insumo.cantidad#}</td>
 			</tr>
 		</tbody>
 	</table>

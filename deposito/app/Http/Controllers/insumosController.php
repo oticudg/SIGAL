@@ -10,15 +10,9 @@ use App\Insumo;
 
 class insumosController extends Controller
 {   
-
     private $menssage = [
-
-        "cantidadM.required" => "Indique una cantidad minima",
-        "cantidadM.numeric"  => "Indique una cantidad minima valida",
-        "cantidadX.required" => "Indique una cantidad maxima",
-        "cantidadX.numeric"  => "Indique una cantidad maxima valida",
-        "file.required"      => "Seleccione una imagen de presentacion",
-        "file.image"         => "Seleccione una imagen valida"   
+        'codigo.unique' => 'Este codigo ya ha sido registrado',
+        'descripcion.unique' => 'Esta descripción ya se encuantra en uso' 
     ];
 
     public function index(){
@@ -45,17 +39,7 @@ class insumosController extends Controller
         $validator = Validator::make($data,[
 
             'codigo'  			=>  'required|unique:insumos',
-            'principio_activo'	=>  'required|alpha_spaces',
-            'marca'				=>  'required|alpha_spaces',
-            'presentacion'		=>  'required|exists:presentaciones,id',
-            'seccion'			=>  'required|exists:secciones,id',
-            'medida'			=>  'required|exists:unidad_medidas,id',
-            'cantidadM'			=>	'required|numeric',
-            'cantidadX'			=>  'required|numeric',
-            'ubicacion'			=>  'required|alpha_spaces',
-            'deposito'			=>  'required|in:farmacia,alimentacion',
-            'descripcion'		=>	'required',
-        	'file'				=>  'required|image'
+            'descripcion'		=>	'required|unique:insumos'
 
         ], $this->menssage);
 
@@ -64,27 +48,10 @@ class insumosController extends Controller
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
 	    else{
-
-	    	$file = $data['file'];
-
-            $fileNombre = date("d-m-y-h-i-s").'Insumo.'.$file->getClientOriginalExtension();
-            $file->move(public_path().'/files/insumos',$fileNombre);
-			          
+          
             Insumo::create([
-
             	'codigo' 			=> $data['codigo'],
-            	'id_presentacion'	=> $data['presentacion'],
-            	'id_seccion'		=> $data['seccion'],
-                'descripcion'       => $data['descripcion'],
-            	'id_medida'			=> $data['medida'],
-            	'cant_min'          => $data['cantidadM'],
-            	'cant_max'			=> $data['cantidadX'],
-            	'marca'				=> $data['marca'],
-            	'ubicacion'			=> $data['ubicacion'],
-            	'principio_act'		=> $data['principio_activo'],
-            	'deposito'			=> $data['deposito'],
-            	'imagen'			=> $fileNombre
-
+                'descripcion'       => $data['descripcion']
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Insumo registrado']);
@@ -123,19 +90,8 @@ class insumosController extends Controller
             
             $data = $request->all();
 
-            $validator = Validator::make($data,[
-
-                'principio_activo'  =>  'required|alpha_spaces',
-                'marca'             =>  'required|alpha_spaces',
-                'presentacion'      =>  'required|exists:presentaciones,id',
-                'seccion'           =>  'required|exists:secciones,id',
-                'medida'            =>  'required|exists:unidad_medidas,id',
-                'cantidadM'         =>  'required|numeric',
-                'cantidadX'         =>  'required|numeric',
-                'ubicacion'         =>  'required|alpha_spaces',
-                'deposito'          =>  'required|in:farmacia,alimentacion',
-                'descripcion'       =>  'required',
-                'file'              =>  'image'
+            $validator = Validator::make($data,[    
+                'descripcion' =>  'required|unique:insumos'
             ], $this->menssage);
 
             if($validator->fails()){
@@ -144,29 +100,8 @@ class insumosController extends Controller
             }
             else{
 
-                if( !empty($data['file']) ){
-
-                    $file = $data['file'];
-
-                    $fileNombre = date("d-m-y-h-i-s").'Insumo.'.$file->getClientOriginalExtension();
-                    $file->move(public_path().'/files/insumos',$fileNombre);
-
-                    insumo::where('id',$id)->update(['imagen' => $fileNombre]);
-
-                }
-
                 insumo::where('id',$id)->update([
-
-                    'id_presentacion'   => $data['presentacion'],
-                    'id_seccion'        => $data['seccion'],
-                    'descripcion'       => $data['descripcion'],
-                    'id_medida'         => $data['medida'],
-                    'cant_min'          => $data['cantidadM'],
-                    'cant_max'          => $data['cantidadX'],
-                    'marca'             => $data['marca'],
-                    'ubicacion'         => $data['ubicacion'],
-                    'principio_act'     => $data['principio_activo'],
-                    'deposito'          => $data['deposito'],
+                    'descripcion'       => $data['descripcion']
                 ]);
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
