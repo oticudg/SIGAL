@@ -181,6 +181,8 @@ Route::post('eliminarInsumo/{id}','insumosController@elimInsumo');
 Route::get('getInsumos','insumosController@allInsumos');
 //Obtiene un insumo por su id
 Route::get('getInsumo/{id}', 'insumosController@getInsumo');
+//Obtiene un insumo por su codigo 
+Route::get('getInsumoCode/{code}','insumosController@codeInsumo');
 
 /*** fin de modulo Insumos ***/
 
@@ -229,6 +231,9 @@ Route::get('getInventario','inventarioController@allInsumos');
 
 //Muestra el panel de entradas
 Route::get('entradas','entradasController@index');
+
+//Muestra la vista de registro de entrada
+Route::get('registrarEntrada', 'entradasController@viewRegistrar');
 
 //Muestra la vista detallada de una entrada
 Route::get('detallesEntrada','entradasController@detalles');

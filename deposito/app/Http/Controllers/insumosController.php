@@ -75,7 +75,20 @@ class insumosController extends Controller
 
             return $insumo; 
         }
+    }
+    
+    public function codeInsumo($code){
 
+        $insumo = Insumo::where('codigo',$code)->first();
+
+        if(!$insumo){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no exist']);            
+        }
+        else{
+
+            return $insumo; 
+        }
     }
 
     public function editInsumo(Request $request,$id){

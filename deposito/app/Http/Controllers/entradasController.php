@@ -17,6 +17,10 @@ class entradasController extends Controller
         return view('entradas/indexEntradas');
     }
 
+    function viewRegistrar(){  
+        return view('entradas/registrarEntrada');
+    }
+
     function detalles(){
         return view('entradas/detallesEntrada');
     }
@@ -63,9 +67,6 @@ class entradasController extends Controller
                 ->get();
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
-
         }
-
     }
-
 }
