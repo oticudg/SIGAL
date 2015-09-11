@@ -5,7 +5,7 @@
 @endsection
 
 @section('front-page')
-	
+
 	<h5 class="text-muted">
 		<span class="glyphicon glyphicon-cog"></span> Administración > 
 		<span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada
@@ -17,6 +17,8 @@
 	
 	<br>
 
+	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
+	
 	<div class="row">
 		<div class="col-md-3">
 			<input class="form-control" type="text" placeholder="Orden de Compra N°" ng-model="codigo">
@@ -30,7 +32,7 @@
 		<div class="form-group col-md-3 text-title-modal">
   			<select class="form-control" id="provedor" ng-model="provedor">
   				<option value="" selected disabled>Proveedor</option>
-  				<option value="">Sefar</option>
+  				<option value="{#provedore.id#}" ng-repeat="provedore in provedores">{#provedore.nombre#}</option>
   			</select>
 		</div>
 
@@ -39,7 +41,7 @@
 			<div class="input-group"> 
 				<input class="form-control" type="text" placeholder="Codigo de Insumo" ng-model="codigoInsumo">	
 				<div class="input-group-btn">
-				    <button class="btn btn-success" ng-click="agregarInsumos()">Agregar</button>
+				    <button class="btn btn-success" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
 				</div>
 			</div>
 		</div>
@@ -61,10 +63,10 @@
 				<td class="col-md-2">{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td class="col-md-2">
-					<input class="form-control" type="text" ng-model="insumo.cantidad">
+					<input class="form-control" type="number" ng-model="insumo.cantidad">
 				</td>
 				<td class="col-md-1">
-					<button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>
+					<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 					</button>
 				</td>
 			</tr>
@@ -74,7 +76,7 @@
 	<br>
 
 	<center>
-		<button class="btn btn-success">Registar</button>
+		<button class="btn btn-success" ng-click="registroEntrada()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 	</center>	
 
 @endsection

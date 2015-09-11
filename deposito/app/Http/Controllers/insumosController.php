@@ -69,7 +69,7 @@ class insumosController extends Controller
 
         if(!$insumo){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no existe']);            
         }
         else{
 
@@ -83,7 +83,7 @@ class insumosController extends Controller
 
         if(!$insumo){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no existe']);            
         }
         else{
 
@@ -97,7 +97,7 @@ class insumosController extends Controller
 
         if(!$insumo){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este insumo no existe']);            
         }
         else{
             
@@ -128,7 +128,7 @@ class insumosController extends Controller
 
         if(!$insumo){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta insumo no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta insumo no existe']);            
         }
         else{
             
