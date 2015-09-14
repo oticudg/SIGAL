@@ -3,29 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use DB;
+use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\entrada;
 use App\insumos_entrada;
 
 class entradasController extends Controller
-{
+{   
+    private $menssage = [
+        'codigo.required'    =>  'Especifique un numero de orden de compra',
+        'provedor.required'  =>  'Seleccione un proveedor', 
+        'insumos.required'   =>  'No se han especificado insumos para esta entrada',
+        'insumos.insumos'    =>  'Valores de insumos no validos'
+    ];
 
-    function index(){
+    public function index(){
         return view('entradas/indexEntradas');
     }
 
-    function viewRegistrar(){  
+    public function viewRegistrar(){  
         return view('entradas/registrarEntrada');
     }
 
-    function detalles(){
+    public function detalles(){
         return view('entradas/detallesEntrada');
     }
 
-    function allInsumos(){
+    public function allInsumos(){
 
         return DB::table('insumos_entradas')
             ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
@@ -35,7 +41,7 @@ class entradasController extends Controller
             ->get();
     }
 
-    function allEntradas(){
+    public function allEntradas(){
 
         return DB::table('entradas')
             ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
@@ -44,7 +50,7 @@ class entradasController extends Controller
             ->get();
     }
 
-    function getEntrada($id){
+    public function getEntrada($id){
 
         $entrada = Entrada::where('id',$id)->first();
 
@@ -67,6 +73,24 @@ class entradasController extends Controller
                 ->get();
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+        }
+    }
+
+    public function registrar(Request $request){
+        
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'codigo'   =>  'required',
+            'provedor' =>  'required',
+            'insumos'  =>  'required|insumos',
+        ], $this->menssage);
+
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+        }
+        else{
+          return  Response()->json(['status'  => 'success', 'menssage' => 'Registro Conpletado']);
         }
     }
 }

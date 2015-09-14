@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Validator;
+use App\Insumo;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,23 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([J,G]-([0-9]{8,9})-[0-9])$/', $value);
         });
         
+        Validator::extend('insumos', function($attribute, $value)
+        {   
+            if( empty($value) || !is_array($value)){
+                return false; 
+            }
+            else{
+
+                foreach ($value as $insumo){
+                    if( !isset($insumo['cantidad']) || !isset($insumo['id']) || $insumo['cantidad'] <= 0
+                        || !Insumo::where('id',$insumo['id'])->first())
+
+                        return false;
+                }
+            }
+            
+            return true;
+        });
     }
 
     /**

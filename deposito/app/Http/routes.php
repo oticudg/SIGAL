@@ -234,6 +234,8 @@ Route::get('entradas','entradasController@index');
 
 //Muestra la vista de registro de entrada
 Route::get('registrarEntrada', 'entradasController@viewRegistrar');
+//Registra una entrada
+Route::post('registrarEntrada' ,'entradasController@registrar');
 
 //Muestra la vista detallada de una entrada
 Route::get('detallesEntrada','entradasController@detalles');
