@@ -17,6 +17,7 @@ class CreaTableInsumos extends Migration
             $table->string('codigo')->unique();
             $table->text('descripcion')->unique;
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
