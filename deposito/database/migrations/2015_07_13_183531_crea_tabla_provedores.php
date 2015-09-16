@@ -21,6 +21,7 @@ class CreaTablaProvedores extends Migration
             $table->string('contacto');
             $table->string('email');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
