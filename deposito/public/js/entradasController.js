@@ -4,7 +4,9 @@ angular.module('deposito').
 controller('entradasController',function($scope,$http,$modal){
 
 	$scope.entradas = [];
+  $scope.indice = 'Pro-Formas';
   $scope.entradasInsumos = [];
+  $scope.cRegistro = '5';
   $scope.status = true;
 
 	$scope.obtenerEntradas = function(){
@@ -21,17 +23,20 @@ controller('entradasController',function($scope,$http,$modal){
 
   $scope.registrosProformas = function(){
     $scope.busqueda = '';
+    $scope.indice = 'Pro-Formas';
     $scope.status = true;
     $scope.obtenerEntradas();
   };
 
   $scope.registrosInsumos = function(){
     $scope.busqueda = '';
+    $scope.indice = 'Insumos';
     $scope.status = false;
     $scope.obtenerEntradasInsumos();
   };
 
   $scope.localizarEntrada = function(entrada){
+    $scope.indice = 'Pro-Formas';
     $scope.status = true;
     $scope.busqueda = entrada;
   };

@@ -26,32 +26,19 @@ class inventarioController extends Controller
 
     public static function almacenaInsumo($insumo, $cantidad){
 
-    	if($cantidad <= 0 || !is_numeric($cantidad))
-    		return false;
-
     	if( Inventario::where('insumo', $insumo)->first() ){
 
     		$existencia = Inventario::where('insumo', $insumo)->value('existencia');
     		$existencia += $cantidad;
 
     		Inventario::where('insumo' , $insumo)->update(['existencia' => $existencia]);
-
-    		return true;
     	}
     	else{
-    		
-    		if( !Insumo::where('id',$insumo)->first() ){
-    			return false;
-    		}
-    		else{
 
-    			Inventario::create([
-    				'insumo' => $insumo,
-    				'existencia' => $cantidad
-    			]);
-
-    			return true;
-    		} 
+    		Inventario::create([
+    			'insumo' => $insumo,
+    			'existencia' => $cantidad
+    		]);
     	}
     }
 }

@@ -11,7 +11,7 @@ controller('registroEntradaController',function($scope,$http){
   $scope.alert = {};
   
   getProvedores();
-
+  
   $scope.agregarInsumos = function(){
 
     if( $scope.codigoInsumo  == ''){
@@ -57,6 +57,10 @@ controller('registroEntradaController',function($scope,$http){
       .success( 
         function(response){
           $scope.alert = {type:response.status , msg: response.menssage};
+          
+          if( response.status == 'success'){
+            restablecer();
+          }
         }
       );
   }
@@ -85,7 +89,8 @@ controller('registroEntradaController',function($scope,$http){
     var index;
 
     for( index in $scope.insumos){
-      if( !$scope.insumos[index].cantidad || $scope.insumos[index].cantidad  < 0 )
+      if( !$scope.insumos[index].cantidad || $scope.insumos[index].cantidad  < 0 || 
+          !Number.isInteger($scope.insumos[index].cantidad))
         return false;
     }
 
@@ -100,14 +105,20 @@ controller('registroEntradaController',function($scope,$http){
 
   function empaquetaData(){
 
-      var index;
-      var insumos = [];
+    var index;
+    var insumos = [];
 
-      for( index in $scope.insumos){
-        insumos.push({'id': $scope.insumos[index].id, 'cantidad':$scope.insumos[index].cantidad});
-      }
+    for( index in $scope.insumos){
+      insumos.push({'id': $scope.insumos[index].id, 'cantidad':$scope.insumos[index].cantidad});
+    }
 
-      return insumos;
+    return insumos;
+  }
+
+  function restablecer(){
+    $scope.insumos  = [];
+    $scope.codigo   = '';
+    $scope.provedor = '';
   }
 
 });

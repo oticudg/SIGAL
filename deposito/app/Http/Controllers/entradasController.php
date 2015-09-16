@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\entrada;
-use App\insumos_entrada;
+use App\Entrada;
+use App\Insumos_entrada;
 
 class entradasController extends Controller
 {   
@@ -16,7 +17,8 @@ class entradasController extends Controller
         'codigo.required'    =>  'Especifique un numero de orden de compra',
         'provedor.required'  =>  'Seleccione un proveedor', 
         'insumos.required'   =>  'No se han especificado insumos para esta entrada',
-        'insumos.insumos'    =>  'Valores de insumos no validos'
+        'insumos.insumos'    =>  'Valores de insumos no validos',
+        'codigo.unique'     =>  'Este numero de orden de compra ya ha sido registrado'
     ];
 
     public function index(){
@@ -81,16 +83,37 @@ class entradasController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'codigo'   =>  'required',
+            'codigo'   =>  'required|unique:entradas',
             'provedor' =>  'required',
-            'insumos'  =>  'required|insumos',
+            'insumos'  =>  'required|insumos'
         ], $this->menssage);
 
         if($validator->fails()){
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
         }
         else{
-          return  Response()->json(['status'  => 'success', 'menssage' => 'Registro Conpletado']);
+
+            $insumos = $data['insumos'];
+
+            $entrada = Entrada::create([
+                        'codigo'   => $data['codigo'],
+                        'provedor' => $data['provedor'],
+                        'usuario'  => Auth::user()->id
+                    ])['id'];
+
+            foreach ($insumos as $insumo) {
+                
+                Insumos_entrada::create([
+                    'entrada'   => $entrada,
+                    'insumo'    => $insumo['id'],
+                    'cantidad'  => $insumo['cantidad']
+                ]);
+
+                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
+            }
+
+            return Response()->json(['status' => 'success', 'menssage' => 
+                'Registro completado satisfactoriamente']);
         }
     }
 }

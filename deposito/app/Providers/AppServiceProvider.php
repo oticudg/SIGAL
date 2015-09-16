@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
 
                 foreach ($value as $insumo){
                     if( !isset($insumo['cantidad']) || !isset($insumo['id']) || $insumo['cantidad'] <= 0
-                        || !Insumo::where('id',$insumo['id'])->first())
+                        || !is_int($insumo['cantidad']) || !Insumo::where('id',$insumo['id'])->first())
 
                         return false;
                 }

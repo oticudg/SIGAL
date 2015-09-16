@@ -20,6 +20,17 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-md-1">
+    		<label for="cantidad">Registros</label>
+			<select id="cantidad" class="form-control" ng-model="cRegistro">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>	
+			</select>
+		</div>
+	</div>
 
 	<br>
 	<br>
@@ -33,7 +44,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:2">
+			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>

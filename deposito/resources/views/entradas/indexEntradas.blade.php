@@ -21,7 +21,7 @@
 		  		<div class="input-group-btn">
 			        <button type="button" class="btn btn-success dropdown-toggle"
 			                data-toggle="dropdown">
-			         	Registros <span class="caret"></span>
+			         	{#indice#} <span class="caret"></span>
 			        </button>
 			 
 			        <ul class="dropdown-menu pull-right" role="menu">
@@ -30,6 +30,17 @@
 			        </ul>
 				</div>
 			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-1">
+    		<label for="cantidad">Registros</label>
+			<select id="cantidad" class="form-control" ng-model="cRegistro">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>	
+			</select>
 		</div>
 	</div>
 
@@ -48,7 +59,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:1" pagination-id="proformas">
+			<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
 				<td>{#entrada.fecha#}</td>
 				<td>{#entrada.codigo#}</td>
 				<td>{#entrada.provedor#}</td>
@@ -76,7 +87,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in entradasInsumos | filter:busqueda | itemsPerPage:1" pagination-id="insumos">
+			<tr dir-paginate="insumo in entradasInsumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumos">
 				<td>{#insumo.fecha#}</td>
 				<td ng-click="localizarEntrada(insumo.entrada)"><span class="text-enlace">{#insumo.entrada#}</span></td>
 				<td>{#insumo.codigo#}
