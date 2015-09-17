@@ -4,10 +4,11 @@ angular.module('deposito').
 controller('insumosController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
+  $scope.cRegistro = '5';
 
 	$scope.registrarInsumo = function() {
 
-    	var modalInstance = $modal.open({
+      $modal.open({
      		animation: true,
       		templateUrl: '/registrarInsumo',
       		size:'lg',
@@ -28,7 +29,7 @@ controller('insumosController',function($scope,$http,$modal){
 
   $scope.editarInsumo = function(index){
 
-    var modalInstance = $modal.open({
+    $modal.open({
 
       animation: true,
           templateUrl: '/editarInsumo',
@@ -47,7 +48,7 @@ controller('insumosController',function($scope,$http,$modal){
 
   $scope.elimInsumo = function(index){
 
-    var modalInstance = $modal.open({
+    $modal.open({
 
       animation: true,
           templateUrl: '/eliminarInsumo',

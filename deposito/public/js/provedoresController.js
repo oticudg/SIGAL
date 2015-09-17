@@ -5,10 +5,11 @@ angular.module('deposito').
 controller('provedoresController',function($scope,$http,$modal){
 
 	$scope.provedores = [];
+  $scope.cRegistro = '5';
 
 	$scope.registraProvedor = function() {
 
-    	var modalInstance = $modal.open({
+    	$modal.open({
      		animation: true,
       		templateUrl: '/registraProvedor',
       		size:'lg',
@@ -30,7 +31,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
 	$scope.editarProvedor = function(index){
 
-		var modalInstance = $modal.open({
+		$modal.open({
 
 			animation: true,
       		templateUrl: '/editarProvedor',
@@ -50,7 +51,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
   $scope.elimProvedor = function(index){
 
-    var modalInstance = $modal.open({
+    $modal.open({
 
       animation: true,
           templateUrl: '/elimProvedor',

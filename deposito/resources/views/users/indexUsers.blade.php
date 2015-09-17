@@ -26,6 +26,18 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-md-1">
+    		<label for="cantidad">Registros</label>
+			<select id="cantidad" class="form-control" ng-model="cRegistro">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>	
+			</select>
+		</div>
+	</div>
+
 	<br>
 	<br>
 
@@ -39,7 +51,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="usuario in usuarios | filter:busqueda | itemsPerPage:5 ">
+			<tr dir-paginate="usuario in usuarios | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#usuario.nombre + " " + usuario.apellido | capitalize#}</td>
 				<td>{#usuario.email#}</td>
 				<td>{#usuario.rol | capitalize#}</td>

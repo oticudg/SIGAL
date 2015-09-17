@@ -5,10 +5,11 @@ angular.module('deposito').
 controller('usersController',function($scope,$http,$modal){
 
 	$scope.usuarios = [];
+  $scope.cRegistro = '5';
 
 	$scope.registrarUser = function() {
 
-    	var modalInstance = $modal.open({
+    	$modal.open({
      		animation: true,
       		templateUrl: '/registrarUser',
       		size:'lg',
@@ -29,7 +30,7 @@ controller('usersController',function($scope,$http,$modal){
 
 	$scope.editarUsuario = function(index){
 
-		var modalInstance = $modal.open({
+	  $modal.open({
 
 			animation: true,
       		templateUrl: '/editarUsuario',
@@ -48,7 +49,7 @@ controller('usersController',function($scope,$http,$modal){
 
   $scope.elimUsuario = function(index){
 
-    var modalInstance = $modal.open({
+    $modal.open({
 
       animation: true,
           templateUrl: '/eliminarUsuario',
