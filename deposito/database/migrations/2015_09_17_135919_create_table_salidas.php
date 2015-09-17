@@ -14,7 +14,7 @@ class CreateTableSalidas extends Migration
     {
         Schema::create('salidas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo');
+            $table->string('codigo')->unique();
             $table->integer('departamento');
             $table->integer('usuario');
             $table->timestamps();

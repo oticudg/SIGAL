@@ -226,7 +226,6 @@ Route::get('getInventario','inventarioController@allInsumos');
 /*** Fin de modulo de inventario ***/
 
 
-
 /*** Modulo de entradas ***/
 
 //Muestra el panel de entradas
@@ -252,4 +251,19 @@ Route::get('getEntrada/{id}', 'entradasController@getEntrada');
 /*** Fin de modulo de entradas ***/
 
 
+/*** Modulo de salidas ***/
+
+//Muestra la vista detallada de una salida
+Route::get('detallesSalida','salidasController@detalles');
+
+//Muestra el panel de salidas
+Route::get('salidas','salidasController@index');
+
+//Regresa todas las salidas
+Route::get('getSalidas','salidasController@allSalidas');
+
+//Regresa todos los insumos que han salido
+Route::get('getInsumosSalidas','salidasController@allInsumos');
+
+/*** Fin de modulo de salidas ***/
 
