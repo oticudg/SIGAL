@@ -16,7 +16,8 @@ class CreateTableInsumosSalidas extends Migration
             $table->increments('id');
             $table->integer('salida');
             $table->integer('insumo');
-            $table->double('cantidad');
+            $table->double('solicitado');
+            $table->double('despachado');
             $table->timestamps();
         });
     }

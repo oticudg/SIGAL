@@ -26,7 +26,8 @@ class salidasController extends Controller
             ->join('salidas', 'salidas.id', '=', 'insumos_salidas.salida')
             ->join('insumos', 'insumos.id' , '=', 'insumos_salidas.insumo')
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo as salida',
-                'insumos.codigo','insumos.descripcion','insumos_salidas.cantidad')
+                'insumos.codigo','insumos.descripcion','insumos_salidas.solicitado', 
+                'insumos_salidas.despachado')
             ->get();
     }
 
@@ -58,7 +59,8 @@ class salidasController extends Controller
 
            $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
                 ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.cantidad')
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.solicitado',
+                	'insumos_salidas.despachado')
                 ->get();
 
             return Response()->json(['status' => 'success', 'salida' => $salida , 'insumos' => $insumos]);

@@ -22,20 +22,22 @@
 			</tr>
 		</tbody>	
 	</table>
-		
+
 	<table class="table table-striped custon-table-top-off">
 		<thead>
 			<tr>
-				<th>Codigo</th>
-				<th>Descripcion</th>
-				<th>Cantidad</th>
+				<th class="2">Codigo</th>
+				<th class="6">Descripcion</th>
+				<th class="2">Solicitado</th>
+				<th class="2">Despachado</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="insumo in insumos">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
-				<td>{#insumo.cantidad#}</td>
+				<td>{#insumo.solicitado#}</td>
+				<td>{#insumo.despachado#}</td>
 			</tr>
 		</tbody>
 	</table>

@@ -78,11 +78,12 @@
 		<thead>
 			<caption>Insumos que han Salido</caption>
 			<tr>
-				<th class="col-md-2">Fecha</th>
+				<th class="col-md-1">Fecha</th>
 				<th class="col-md-2">Pro-Forma de Pedido</th>
 				<th class="col-md-2">Codigo de Insumo</th>
-				<th class="col-md-3">Descripcion</th>
-				<th class="col-md-2">Cantidad</th>
+				<th class="col-md-5">Descripcion</th>
+				<th class="col-md-1">Solicitado</th>
+				<th class="col-md-1">Despachado</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -91,7 +92,8 @@
 				<td ng-click="localizarSalida(insumo.salida)"><span class="text-enlace">{#insumo.salida#}</span></td>
 				<td>{#insumo.codigo#}
 				<td>{#insumo.descripcion#}</td>
-				<td>{#insumo.cantidad#}</td>
+				<td>{#insumo.solicitado#}</td>
+				<td>{#insumo.despachado#}</td>
 			</tr>
 		</tbody>
 		<tfoot>
