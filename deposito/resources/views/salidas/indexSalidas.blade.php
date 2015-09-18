@@ -8,7 +8,7 @@
 	
 	<h5 class="text-muted">
 		<span class="glyphicon glyphicon-cog"></span> Administración > 
-		<span class="glyphicon glyphicon-circle-arrow-down"></span> Salidas
+		<span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas
 	</h5>
 	<br>
 	

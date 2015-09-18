@@ -265,5 +265,8 @@ Route::get('getSalidas','salidasController@allSalidas');
 //Regresa todos los insumos que han salido
 Route::get('getInsumosSalidas','salidasController@allInsumos');
 
+//Regresa los todos los datos de una salida cuyo id se pase
+Route::get('getSalida/{id}', 'salidasController@getSalida');
+
 /*** Fin de modulo de salidas ***/
 

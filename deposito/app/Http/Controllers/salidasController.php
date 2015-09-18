@@ -39,4 +39,29 @@ class salidasController extends Controller
             ->get();
     }
 
+    public function getSalida($id){
+
+        $salida = Salida::where('id',$id)->first();
+
+        if(!$salida){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);            
+        }
+        else{
+
+           $salida = DB::table('salidas')->where('salidas.id',$id)
+                ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
+                ->join('users', 'salidas.usuario' , '=', 'users.id' )
+                ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
+                    DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora'), 'salidas.codigo',
+                    'departamentos.nombre as departamento', 'users.email as usuario')
+                ->first();
+
+           $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
+                ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.cantidad')
+                ->get();
+
+            return Response()->json(['status' => 'success', 'salida' => $salida , 'insumos' => $insumos]);
+        }
+    }
 }

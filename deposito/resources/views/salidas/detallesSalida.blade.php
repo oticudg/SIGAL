@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h3 style="color:#54AF54;" class="modal-title">
-    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Pedido <strong>{#entrada.codigo#}</strong></h3>
+    	<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido <strong>{#salida.codigo#}</strong></h3>
 </div>
 <div class="modal-body">
 	
@@ -9,16 +9,16 @@
 			<tr>
 				<th>Fecha</th>
 				<th>Hora</th>
-				<th>Provedor</th>
+				<th>Servicio</th>
 				<th>Usuario</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>{#entrada.fecha#}</td>
-				<td>{#entrada.hora#}</td>
-				<td>{#entrada.provedor#}</td>
-				<td>{#entrada.usuario#}</td>
+				<td>{#salida.fecha#}</td>
+				<td>{#salida.hora#}</td>
+				<td>{#salida.departamento#}</td>
+				<td>{#salida.usuario#}</td>
 			</tr>
 		</tbody>	
 	</table>

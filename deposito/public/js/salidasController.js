@@ -64,13 +64,26 @@ controller('salidasController',function($scope,$http,$modal){
 
 angular.module('deposito').controller('detallesSalidaCtrl', function ($scope, $modalInstance, $http, id) {
 
-  $scope.salidas = {};
+  $scope.salida = {};
   $scope.insumos = [];
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
   
   };
+
+  $scope.detalles = function(){
+
+    $http.get('/getSalida/' + id)
+      .success(function(response){
+
+        $scope.salida = response.salida;
+        $scope.insumos = response.insumos;
+
+    });
+  };
+
+  $scope.detalles(id);
 
 
 });
