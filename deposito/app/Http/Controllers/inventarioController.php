@@ -41,4 +41,28 @@ class inventarioController extends Controller
     		]);
     	}
     }
+
+    public static function reduceInsumo($insumo, $cantidad){
+
+        if( Inventario::where('insumo', $insumo)->first() ){
+
+            $existencia = Inventario::where('insumo', $insumo)->value('existencia');
+            $existencia -= $cantidad;
+
+            Inventario::where('insumo' , $insumo)->update(['existencia' => $existencia]);
+        }
+    }
+
+    public static function validaExist($insumos){
+
+        $invalidos = [];
+
+        foreach ($insumos as $insumo) {
+            if( !Inventario::where('id' , $insumo['id'])->first() ||
+                Inventario::where('id' , $insumo['id'])->value('existencia') < $insumo['despachado'])
+                array_push($invalidos, $insumo['id']);
+        }
+
+        return $invalidos;
+    }
 }

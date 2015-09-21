@@ -51,6 +51,27 @@ class AppServiceProvider extends ServiceProvider
             
             return true;
         });
+
+        Validator::extend('insumos_salida', function($attribute, $value)
+        {   
+            if( empty($value) || !is_array($value)){
+                return false; 
+            }
+            else{
+
+                foreach ($value as $insumo){
+                    if( !isset($insumo['solicitado']) || !isset($insumo['despachado']) || 
+                        !isset($insumo['id']) || $insumo['solicitado'] <= 0 ||
+                        $insumo['despachado'] <= 0 || $insumo['solicitado'] < $insumo['despachado'] ||
+                        !is_int($insumo['solicitado']) || !is_int($insumo['despachado']) ||  
+                        !Insumo::where('id',$insumo['id'])->first())
+
+                        return false;
+                }
+            }
+            
+            return true;
+        });
     }
 
     /**

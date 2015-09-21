@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Auth;
+use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Salida;
-use App\insumos_salida;
+use App\Insumos_salida;
 
 class salidasController extends Controller
-{
+{   
+    private $menssage = [
+        'departamento.required'   =>  'Seleccione un Servicio', 
+        'insumos.required'        =>  'No se han especificado insumos para esta salida',
+        'insumos.insumos_salida'  =>  'Valores de insumos no validos',
+    ];
+
 	public function index(){
     	return view('salidas/indexSalidas');
+    }
+
+    public function viewRegistrar(){
+        return view('salidas/registrarSalida');
     }
 
     public function detalles(){
@@ -64,6 +76,54 @@ class salidasController extends Controller
                 ->get();
 
             return Response()->json(['status' => 'success', 'salida' => $salida , 'insumos' => $insumos]);
+        }
+    }
+
+    public function registrar(Request $request){
+        
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'departamento' =>  'required',
+            'insumos'  =>  'required|insumos_salida'
+        ], $this->menssage);
+
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+        }
+        else{
+        
+            $insumos = $data['insumos'];
+            $insumosInvalidos = inventarioController::validaExist($insumos);
+
+            if($insumosInvalidos){
+
+                return $insumosInvalidos;
+            }
+            else{
+                
+                $salida = Salida::create([
+                            'codigo'       => rand(10000, 19999),
+                            'departamento' => $data['departamento'],
+                            'usuario'      => Auth::user()->id
+                        ])['id'];
+                
+                foreach ($insumos as $insumo) {
+
+                    Insumos_salida::create([
+                        'salida'      => $salida,
+                        'insumo'      => $insumo['id'],
+                        'solicitado'  => $insumo['solicitado'],
+                        'despachado'  => $insumo['despachado']
+                    ]);
+
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado']);
+    
+                }
+
+                return Response()->json(['status' => 'success', 'menssage' => 
+                    'Salida completado satisfactoriamente']);
+            }
         }
     }
 }

@@ -256,6 +256,11 @@ Route::get('getEntrada/{id}', 'entradasController@getEntrada');
 //Muestra la vista detallada de una salida
 Route::get('detallesSalida','salidasController@detalles');
 
+//Muestra la vista de registro de salida
+Route::get('registrarSalida', 'salidasController@viewRegistrar');
+//Registra una salida
+Route::post('registrarSalida' ,'salidasController@registrar');
+
 //Muestra el panel de salidas
 Route::get('salidas','salidasController@index');
 
