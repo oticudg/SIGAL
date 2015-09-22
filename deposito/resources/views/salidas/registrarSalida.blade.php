@@ -55,7 +55,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="insumo in insumos">
+			<tr ng-class="insumo.style" ng-repeat="insumo in insumos">
 				<td class="col-md-2">{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td class="col-md-2">
@@ -76,6 +76,23 @@
 
 	<center>
 		<button class="btn btn-success" ng-click="registroEntrada()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
-	</center>	
+	</center>
+	
+	<script type="text/ng-template" id="successRegister.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-title-modal">{#response.menssage#}</h3>
+        </div>
+        <div class="modal-body">
+        	<center>
+        		<h3>Codigo unico de la salida</h3>
+        		<h2><mark>{#response.codigo#}</mark></h2>
+        	</center>
+        </div>
+        <div class="modal-footer">
+        	<center>
+            	<button class="btn btn-success" type="button" ng-click="ok()">OK</button>
+           	</center>
+        </div>
+    </script>	
 
 @endsection

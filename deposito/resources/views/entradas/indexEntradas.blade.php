@@ -79,10 +79,10 @@
 		<thead>
 			<caption>Insumos que han Entrado</caption>
 			<tr>
-				<th class="col-md-2">Fecha</th>
+				<th class="col-md-1">Fecha</th>
 				<th class="col-md-2">Pro-Forma de Entrada</th>
 				<th class="col-md-2">Codigo de Insumo</th>
-				<th class="col-md-3">Descripcion</th>
+				<th class="col-md-5">Descripcion</th>
 				<th class="col-md-2">Cantidad</th>
 			</tr>
 		</thead>

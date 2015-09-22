@@ -98,12 +98,14 @@ class salidasController extends Controller
 
             if($insumosInvalidos){
 
-                return $insumosInvalidos;
+                return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
             }
             else{
                 
+                $code =  str_random(8);
+
                 $salida = Salida::create([
-                            'codigo'       => rand(10000, 19999),
+                            'codigo'       => $code,
                             'departamento' => $data['departamento'],
                             'usuario'      => Auth::user()->id
                         ])['id'];
@@ -122,7 +124,7 @@ class salidasController extends Controller
                 }
 
                 return Response()->json(['status' => 'success', 'menssage' => 
-                    'Salida completado satisfactoriamente']);
+                    'Salida completada satisfactoriamente', 'codigo' => $code]);
             }
         }
     }

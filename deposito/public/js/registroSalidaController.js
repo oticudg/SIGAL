@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('deposito').
-controller('registroSalidaController',function($scope,$http){
+controller('registroSalidaController',function($scope,$http,$modal){
 
   $scope.codigoInsumo = '';
   $scope.departamentos = [];
@@ -19,7 +19,7 @@ controller('registroSalidaController',function($scope,$http){
     }
 
     if( insumoExist($scope.codigoInsumo) ){
-      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
+      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta salida"};
       return; 
     }
 
@@ -53,12 +53,32 @@ controller('registroSalidaController',function($scope,$http){
     $http.post('/registrarSalida', $data)
       .success( 
         function(response){
-          /*$scope.alert = {type:response.status , msg: response.menssage};
-          
+  
+          if(response.status == 'unexist'){
+
+            marcaInsumos(response.data);
+            $scope.alert = {type:'danger', msg:'La cantidad de los insumos marcados son insuficientes'};
+            return;
+          }
+
           if( response.status == 'success'){
+            
+            $modal.open({
+                animation: true,
+                templateUrl: 'successRegister.html',
+                controller: 'successRegisterCtrl',
+                resolve: {
+                  response: function () {
+                    return response;
+                  }
+                }
+            });
+
             restablecer();
-          }*/
-          console.log(response);
+            return;
+          }
+
+          $scope.alert = {type:response.status , msg: response.menssage};
         }
       );
   }
@@ -115,9 +135,38 @@ controller('registroSalidaController',function($scope,$http){
     return insumos;
   }
 
+  function marcaInsumos(ids){
+    var index;
+    var id;
+
+    for(index in $scope.insumos){
+      $scope.insumos[index].style = '';
+    }
+
+    for( id in ids){
+      for(index = 0; index < $scope.insumos.length; index++)
+
+        if($scope.insumos[index].id == ids[id] ){
+          $scope.insumos[index].style = 'danger';
+          break;
+        }
+    }
+  }
+
   function restablecer(){
     $scope.insumos  = [];
     $scope.servicio = '';
+    $scope.alert = {};
   }
+
+});
+
+angular.module('deposito').controller('successRegisterCtrl', function ($scope, $modalInstance, response) {
+
+  $scope.response = response;
+
+  $scope.ok = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
 });
