@@ -40,7 +40,7 @@ class salidasController extends Controller
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo as salida',
                 'insumos.codigo','insumos.descripcion','insumos_salidas.solicitado', 
                 'insumos_salidas.despachado')
-            ->get();
+            ->orderBy('insumos_salidas.id', 'desc')->get();
     }
 
     public function allSalidas(){
@@ -49,7 +49,7 @@ class salidasController extends Controller
             ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
                 'departamentos.nombre as departamento', 'salidas.id')
-            ->get();
+            ->orderBy('salidas.id', 'desc')->get();
     }
 
     public function getSalida($id){

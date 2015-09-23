@@ -40,7 +40,7 @@ class entradasController extends Controller
             ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
                 'insumos.codigo','insumos.descripcion','insumos_entradas.cantidad')
-            ->get();
+            ->orderBy('insumos_entradas.id', 'desc')->get();
     }
 
     public function allEntradas(){
@@ -49,7 +49,7 @@ class entradasController extends Controller
             ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
                 'provedores.nombre as provedor', 'entradas.id')
-            ->get();
+             ->orderBy('entradas.id', 'desc')->get();
     }
 
     public function getEntrada($id){
