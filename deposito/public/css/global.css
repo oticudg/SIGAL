@@ -164,7 +164,7 @@
 /*** Contenido de las paginas  ***/
 
 #front-page{	
-	padding-top:3%;
+	padding-top:4em;
 	padding-bottom:10%;
 	overflow: auto;
 }
@@ -215,7 +215,7 @@
 	position: fixed;
 	height:100%;
 	padding:0px;
-	padding-top: 5%;
+	padding-top: 5em;
 }
 
 .panel-default > .panel-heading {
@@ -271,3 +271,13 @@
 }
 
 /*** Fin de menu de navegacion lateral ***/
+
+
+/*** Custom ui-selec ***/
+
+.ui-select-bootstrap .ui-select-choices-row.active>a {
+    background-color: #DFF0D8;
+    color: black;
+}
+
+/*** Fin de custon ui-selec ***/

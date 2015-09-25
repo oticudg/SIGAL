@@ -31,9 +31,14 @@
 
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
-
 			<div class="input-group"> 
-				<input class="form-control" type="text" placeholder="Codigo de Insumo" ng-model="codigoInsumo">	
+				<ui-select ng-model="insumoSelect.selected" theme="bootstrap">
+		            <ui-select-match placeholder="Indique un insumo">{#$select.selected.descripcion#}</ui-select-match>
+		            <ui-select-choices repeat="item in listInsumos | filter: $select.search">
+		              <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
+		              <small ng-bind-html="item.codigo | highlight: $select.search"></small>
+		            </ui-select-choices>
+          		</ui-select>
 				<div class="input-group-btn">
 				    <button class="btn btn-success" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
 				</div>

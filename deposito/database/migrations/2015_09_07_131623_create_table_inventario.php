@@ -15,8 +15,8 @@ class CreateTableInventario extends Migration
         Schema::create('inventarios', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('insumo');
-            $table->double('existencia')->default(0);
-            $table->double('Cmax')->default(0);
+            $table->double('existencia');
+            $table->double('Cmed')->default(0);
             $table->double('Cmin')->default(0);
             $table->timestamps();
         });

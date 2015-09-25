@@ -11,5 +11,5 @@ class Provedore extends Model
 
    protected $dates = ['deleted_at'];	
    protected $fillable = ['rif','nombre','telefono','direccion','contacto','email'];
-   protected $hidden   = ['created_at' , 'updated_at'];
+   protected $hidden   = ['created_at' , 'updated_at', 'deleted_at'];
 }

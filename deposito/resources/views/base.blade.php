@@ -6,6 +6,7 @@
 	<title>Deposito</title>
 	<link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('css/vendor/bootstrap-theme.min.css')}}">
+	<link rel="stylesheet" href="{{asset('css/vendor/select.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/global.css')}}">
 	@yield('addstyle')
 </head>
@@ -47,8 +48,9 @@
 	<script src="{{asset('js/vendor/ui-bootstrap-tpls-0.13.0.min.js')}}"></script>
 	<script src="{{asset('js/vendor/ng-file-upload.js')}}"></script>
 	<script src="{{asset('js/vendor/dirPagination.js')}}"></script>
+	<script src="{{asset('js/vendor/angular-sanitize.min.js')}}"></script>
+	<script src="{{asset('js/vendor/select.min.js')}}"></script>
 	<script src="{{asset('js/config.js')}}" type="text/javascript"></script>
-
 	@yield('addscript')
 	
 </body>

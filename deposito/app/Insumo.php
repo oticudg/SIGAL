@@ -11,5 +11,5 @@ class Insumo extends Model
 
 	protected $dates = ['deleted_at'];
     protected $fillable = ['codigo','descripcion'];
-   	protected $hidden   = ['created_at' , 'updated_at'];
+   	protected $hidden   = ['created_at' , 'updated_at','deleted_at'];
 }

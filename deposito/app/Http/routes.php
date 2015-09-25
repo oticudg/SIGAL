@@ -181,8 +181,6 @@ Route::post('eliminarInsumo/{id}','insumosController@elimInsumo');
 Route::get('getInsumos','insumosController@allInsumos');
 //Obtiene un insumo por su id
 Route::get('getInsumo/{id}', 'insumosController@getInsumo');
-//Obtiene un insumo por su codigo 
-Route::get('getInsumoCode/{code}','insumosController@codeInsumo');
 
 /*** fin de modulo Insumos ***/
 

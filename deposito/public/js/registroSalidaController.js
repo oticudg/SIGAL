@@ -3,39 +3,40 @@
 angular.module('deposito').
 controller('registroSalidaController',function($scope,$http,$modal){
 
-  $scope.codigoInsumo = '';
+  $scope.insumoSelect = {}; 
   $scope.departamentos = [];
+  $scope.listInsumos = [];
   $scope.servicio = '';
   $scope.insumos = [];
   $scope.alert = {};
   
-  getDepartamentos();
+  $http.get('/getInsumos')
+    .success( function(response){ $scope.listInsumos = response;});
+
+  $http.get('/getDepartamentos')
+      .success( function(response){ $scope.departamentos = response;});
   
   $scope.agregarInsumos = function(){
 
-    if( $scope.codigoInsumo  == ''){
+    if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
     }
-
-    if( insumoExist($scope.codigoInsumo) ){
-      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta salida"};
+    
+    if( insumoExist($scope.insumoSelect.selected.codigo) ){
+      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
       return; 
     }
+    
+    $scope.insumos.push(
+      {
+        'id':$scope.insumoSelect.selected.id, 
+        'codigo':$scope.insumoSelect.selected.codigo, 
+        'descripcion':$scope.insumoSelect.selected.descripcion
+      }
+    );
 
-    $http.get('/getInsumoCode/' + $scope.codigoInsumo)
-      .success(
-
-        function(response){
-          if( response.status == 'danger'){
-            $scope.alert = {"type":response.status , "msg":response.menssage};
-          }
-          else{
-            $scope.insumos.push(response);
-            $scope.codigoInsumo = '';
-          }
-        }
-      );
+    $scope.insumoSelect = {};
   }
 
   $scope.registroEntrada = function(){
@@ -114,12 +115,6 @@ controller('registroSalidaController',function($scope,$http,$modal){
     }
 
     return true;
-  }
-
-  function getDepartamentos(){
-
-    $http.get('/getDepartamentos')
-      .success( function(response){ $scope.departamentos = response;});
   }
 
   function empaquetaData(){

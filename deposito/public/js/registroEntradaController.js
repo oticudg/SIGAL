@@ -4,39 +4,40 @@ angular.module('deposito').
 controller('registroEntradaController',function($scope,$http){
 
   $scope.codigo;
-  $scope.codigoInsumo = '';
+  $scope.insumoSelect = {};  
   $scope.provedores = [];
   $scope.provedor;
   $scope.insumos = [];
+  $scope.listInsumos = [];
   $scope.alert = {};
-  
-  getProvedores();
-  
+
+  $http.get('/getProvedores')
+    .success( function(response){ $scope.provedores = response;});
+
+  $http.get('/getInsumos')
+    .success( function(response){ $scope.listInsumos = response;});
+
   $scope.agregarInsumos = function(){
 
-    if( $scope.codigoInsumo  == ''){
+    if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
     }
-
-    if( insumoExist($scope.codigoInsumo) ){
+    
+    if( insumoExist($scope.insumoSelect.selected.codigo) ){
       $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
       return; 
     }
 
-    $http.get('/getInsumoCode/' + $scope.codigoInsumo)
-      .success(
+    $scope.insumos.push(
+      {
+        'id':$scope.insumoSelect.selected.id, 
+        'codigo':$scope.insumoSelect.selected.codigo, 
+        'descripcion':$scope.insumoSelect.selected.descripcion
+      }
+    );
 
-        function(response){
-          if( response.status == 'danger'){
-            $scope.alert = {"type":response.status , "msg":response.menssage};
-          }
-          else{
-            $scope.insumos.push(response);
-            $scope.codigoInsumo = '';
-          }
-        }
-      );
+    $scope.insumoSelect = {};
   }
 
   $scope.registroEntrada = function(){
@@ -95,12 +96,6 @@ controller('registroEntradaController',function($scope,$http){
     }
 
     return true;
-  }
-
-  function getProvedores(){
-
-    $http.get('/getProvedores')
-      .success( function(response){ $scope.provedores = response;});
   }
 
   function empaquetaData(){
