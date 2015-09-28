@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Inventario; 
@@ -16,12 +17,47 @@ class inventarioController extends Controller
         return view('inventario/indexInventario');
     }
 
+    public function viewHerramientas(){
+        return view('inventario/herramientasInventario');
+    }
+
     public function allInsumos(){
 
         return DB::table('insumos')
             ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
             ->where('inventarios.existencia', '>' , 0)
-            ->select('insumos.codigo','insumos.descripcion','inventarios.existencia')->get();
+            ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
+                'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+            ->get();
+    }
+
+    public function configuraAlarmas(Request $request){
+
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'insumos' =>  'required',
+        ]);
+
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+        }
+        else{
+
+            $insumos = $data['insumos'];
+
+            foreach($insumos as $insumo) {
+
+                Inventario::where('insumo' , $insumo['id'])->update([
+                    'Cmin' => $insumo['min'],
+                    'Cmed' => $insumo['med']
+                ]);                
+            }
+
+            return Response()->json(['status' => 'success', 'menssage' => 
+                'Alarmas configuradas exitosamente']);
+        }
+
     }
 
     public static function almacenaInsumo($insumo, $cantidad){

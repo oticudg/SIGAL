@@ -12,6 +12,11 @@
 	</h5>
 	<br>
 	
+	<button class="btn btn-success" ng-click="herramientas()"><span class="glyphicon glyphicon-wrench"></span> Herramientas</button>
+	<br>
+	<br>
+	<br>
+
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">

@@ -3,7 +3,6 @@
 angular.module('deposito').
 controller('registroEntradaController',function($scope,$http){
 
-  $scope.codigo;
   $scope.insumoSelect = {};  
   $scope.provedores = [];
   $scope.provedor;

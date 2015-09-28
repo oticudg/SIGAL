@@ -218,8 +218,14 @@ Route::get('getMedida/{id}', 'unidadMedidasController@getUnidad');
 //Muestra el panel de inventario
 Route::get('inventario','inventarioController@index');
 
+//Muestra la vista de herramientas
+Route::get('inventarioHerramientas','inventarioController@viewHerramientas');
+
 //Regresa todos las insumos en el inventario
 Route::get('getInventario','inventarioController@allInsumos');
+
+//configura el valor min y med de los insumos que se especifiquen
+Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
 
 /*** Fin de modulo de inventario ***/
 
