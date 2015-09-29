@@ -12,6 +12,17 @@ controller('inventarioController',function($scope,$http,$modal){
 			.success( function(response){$scope.insumos = response});
 	};
 
+	$scope.calculaEstatus = function( min , med , exit){
+
+		if( min == 0)
+			return;
+
+		if( exit <=  min)
+			return "danger";
+
+		if(exit <= med)
+			return "warning";
+	}
 
 	$scope.herramientas = function(){
 		

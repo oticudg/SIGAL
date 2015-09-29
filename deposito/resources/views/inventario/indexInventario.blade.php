@@ -49,7 +49,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
+			<tr ng-class="calculaEstatus(insumo.min, insumo.med, insumo.existencia)" dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>
