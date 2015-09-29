@@ -116,7 +116,7 @@ angular.module('deposito')
           !Number.isInteger($scope.insumos[index].med))
         return false;
 
-      if( $scope.insumos[index].min > $scope.insumos[index].med )
+      if( $scope.insumos[index].min >= $scope.insumos[index].med )
         return false;
 
     }

@@ -36,7 +36,7 @@ class inventarioController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'insumos' =>  'required',
+            'insumos' =>  'required|insumos_alarmas',
         ]);
 
         if($validator->fails()){

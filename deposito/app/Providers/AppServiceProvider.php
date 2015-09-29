@@ -72,6 +72,27 @@ class AppServiceProvider extends ServiceProvider
             
             return true;
         });
+
+        Validator::extend('insumos_alarmas', function($attribute, $value)
+        {   
+            if( empty($value) || !is_array($value)){
+                return false; 
+            }
+            else{
+
+                foreach ($value as $insumo){
+                    if( !isset($insumo['id']) || !isset($insumo['min']) || 
+                        !isset($insumo['med']))
+                        return false;
+
+                    if($insumo['min'] <= 0 || $insumo['med'] <= 0 || 
+                        $insumo['min'] >= $insumo['med'])
+                           return false;
+                }
+            }
+            
+            return true;
+        });
     }
 
     /**
