@@ -43,7 +43,7 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Codigo</th>
+				<th class="col-md-1">Codigo</th>
 				<th>Descripcion</th>
 				<th colspan="2" class="table-edit">Editar</th>
 			</tr>

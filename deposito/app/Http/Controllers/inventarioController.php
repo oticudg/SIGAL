@@ -25,7 +25,6 @@ class inventarioController extends Controller
 
         return DB::table('insumos')
             ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
-            ->where('inventarios.existencia', '>' , 0)
             ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                 'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
             ->get();

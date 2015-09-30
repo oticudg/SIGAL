@@ -44,11 +44,11 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Rif</th>
-				<th>Nombre</th>
+				<th class="col-md-2">Rif</th>
+				<th class="col-md-2">Nombre</th>
 				<th>Telefono</th>
-				<th>Contacto</th>
-				<th>Direccion</th>
+				<th class="col-md-1">Contacto</th>
+				<th class="col-md-2">Direccion</th>
 				<th>Gmail</th>
 				<th colspan="2" class="table-edit">Editar</th>
 			</tr>
@@ -59,7 +59,7 @@
 				<td>{#provedor.nombre | capitalize#}</td>
 				<td>{#provedor.telefono#}</td>
 				<td>{#provedor.contacto | capitalize#}</td>
-				<td class="col-md-2">{#provedor.direccion#}</td>
+				<td>{#provedor.direccion#}</td>
 				<td>{#provedor.email#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>

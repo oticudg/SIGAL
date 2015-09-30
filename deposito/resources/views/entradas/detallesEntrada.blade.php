@@ -7,10 +7,10 @@
 	<table class="table table-bordered custon-table-bottom-off" >
 		<thead>
 			<tr>
-				<th>Fecha</th>
-				<th>Hora</th>
+				<th class="col-md-1">Fecha</th>
+				<th class="col-md-1">Hora</th>
 				<th>Provedor</th>
-				<th>Usuario</th>
+				<th class="col-md-3">Usuario</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,9 +26,9 @@
 	<table class="table table-striped custon-table-top-off">
 		<thead>
 			<tr>
-				<th>Codigo</th>
+				<th class="col-md-2">Codigo</th>
 				<th>Descripcion</th>
-				<th>Cantidad</th>
+				<th class="col-md-1">Cantidad</th>
 			</tr>
 		</thead>
 		<tbody>

@@ -7,10 +7,10 @@
 	<table class="table table-bordered custon-table-bottom-off" >
 		<thead>
 			<tr>
-				<th>Fecha</th>
-				<th>Hora</th>
+				<th class="col-md-1">Fecha</th>
+				<th class="col-md-1">Hora</th>
 				<th>Servicio</th>
-				<th>Usuario</th>
+				<th class="col-md-3">Usuario</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,10 +26,10 @@
 	<table class="table table-striped custon-table-top-off">
 		<thead>
 			<tr>
-				<th class="2">Codigo</th>
-				<th class="6">Descripcion</th>
-				<th class="2">Solicitado</th>
-				<th class="2">Despachado</th>
+				<th class="col-md-2">Codigo</th>
+				<th>Descripcion</th>
+				<th class="col-md-1">Solicitado</th>
+				<th class="col-md-1">Despachado</th>
 			</tr>
 		</thead>
 		<tbody>

@@ -16,7 +16,7 @@
 				<div class="col-md-6 col-md-offset-3">
 					<div class="input-group">
 						<ui-select ng-model="insumoSelect.selected" theme="bootstrap">
-				            <ui-select-match placeholder="Indique un insumo">{#$select.selected.descripcion#}</ui-select-match>
+				            <ui-select-match placeholder="Indique un insumo">{#$select.selected.codigo#}</ui-select-match>
 				            <ui-select-choices repeat="item in listInsumos | filter: $select.search">
 				              <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
 				              <small ng-bind-html="item.codigo | highlight: $select.search"></small>

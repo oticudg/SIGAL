@@ -14,9 +14,6 @@ controller('inventarioController',function($scope,$http,$modal){
 
 	$scope.calculaEstatus = function( min , med , exit){
 
-		if( min == 0)
-			return;
-
 		if( exit <=  min)
 			return "danger";
 
