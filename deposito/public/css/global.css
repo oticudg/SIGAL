@@ -166,7 +166,6 @@
 #front-page{	
 	padding-top:4em;
 	padding-bottom:10%;
-	overflow: auto;
 }
 
 /* Tabla de visualizacion */
@@ -211,7 +210,6 @@
 /*** Menu de navegacion lateral ***/
 
 #side-menu{
-	background-color: #262626;
 	position: fixed;
 	height:100%;
 	padding:0px;
@@ -224,12 +222,8 @@
 }
 
 .panel-default > a:link, a:visited { 
-    color:  #262626;
+    color:#363636;
     text-decoration: none;
-}
-
-.panel-default > a:link:active, a:visited:active { 
-    color:  #262626;
 }
 
 .panel-default > .panel-heading a{
@@ -281,3 +275,4 @@
 }
 
 /*** Fin de custon ui-selec ***/
+

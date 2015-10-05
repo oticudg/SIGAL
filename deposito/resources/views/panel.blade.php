@@ -1,7 +1,7 @@
 @extends('base')
 @section('conten')
 	
-	<div id="side-menu" class="col-md-2">
+	<nav id="side-menu" class="col-md-2 navbar navbar-inverse custon-bar">
 		<accordion class="accordion-body">
 		    <accordion-group is-disabled="true">
 		    	<accordion-heading>
@@ -21,8 +21,7 @@
 		       <div class="enlace"><a href="/medidas"><span class="glyphicon glyphicon-tasks"></span> Medidas</a></div>
 		    </accordion-group>
 		</accordion>
-
-	</div>
+	</nav>
 
 	<div id="front-page" class="col-md-10 col-md-offset-2">
 		@yield('front-page')
