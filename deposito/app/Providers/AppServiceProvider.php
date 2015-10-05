@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Validator;
+use Input;
 use App\Insumo;
+use App\Entrada;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +34,22 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('rif', function($attribute, $value)
         {
             return preg_match('/^([J,G]-([0-9]{8,9})-[0-9])$/', $value);
+        });
+
+        Validator::extend('equal_provedor', function($attribute, $value, $parameters)
+        {   
+            $codigo = Input::get($parameters[0]);
+            $entrada  = Entrada::where('codigo', $codigo)->first(); 
+
+            if(!$entrada){
+                return true;
+            }
+            else{
+                if( $value != $entrada['provedor'])
+                    return false;
+            }
+
+            return true;
         });
         
         Validator::extend('insumos', function($attribute, $value)

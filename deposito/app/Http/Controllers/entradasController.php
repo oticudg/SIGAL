@@ -14,11 +14,12 @@ use App\Insumos_entrada;
 class entradasController extends Controller
 {   
     private $menssage = [
-        'codigo.required'    =>  'Especifique un numero de orden de compra',
-        'provedor.required'  =>  'Seleccione un proveedor', 
-        'insumos.required'   =>  'No se han especificado insumos para esta entrada',
-        'insumos.insumos'    =>  'Valores de insumos no validos',
-        'codigo.unique'     =>  'Este numero de orden de compra ya ha sido registrado'
+        'codigo.required'             =>  'Especifique un numero de orden de compra',
+        'provedor.required'           =>  'Seleccione un proveedor', 
+        'insumos.required'            =>  'No se han especificado insumos para esta entrada',
+        'insumos.insumos'             =>  'Valores de insumos no validos',
+        'codigo.unique'               =>  'Este numero de orden de compra ya ha sido registrado',
+        'provedor.equal_provedor'     =>  'El provedor de esta orden de compra no coincide'
     ];
 
     public function index(){
@@ -83,8 +84,8 @@ class entradasController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'codigo'   =>  'required|unique:entradas',
-            'provedor' =>  'required',
+            'codigo'   =>  'required|',
+            'provedor' =>  'required|equal_provedor:codigo',
             'insumos'  =>  'required|insumos'
         ], $this->menssage);
 
