@@ -85,7 +85,7 @@ class salidasController extends Controller
 
         $validator = Validator::make($data,[
             'departamento' =>  'required',
-            'insumos'  =>  'required|insumos_salida'
+            'insumos'      =>  'required|insumos_salida'
         ], $this->menssage);
 
         if($validator->fails()){

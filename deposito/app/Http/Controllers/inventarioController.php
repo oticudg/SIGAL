@@ -93,8 +93,8 @@ class inventarioController extends Controller
         $invalidos = [];
 
         foreach ($insumos as $insumo) {
-            if( !Inventario::where('id' , $insumo['id'])->first() ||
-                Inventario::where('id' , $insumo['id'])->value('existencia') < $insumo['despachado'])
+            if( !Inventario::where('insumo' , $insumo['id'])->first() ||
+                Inventario::where('insumo' , $insumo['id'])->value('existencia') < $insumo['despachado'])
                 array_push($invalidos, $insumo['id']);
         }
 
