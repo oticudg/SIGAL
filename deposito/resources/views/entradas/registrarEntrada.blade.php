@@ -21,7 +21,7 @@
 	
 	<div class="row">
 		<div class="col-md-3">
-			<input class="form-control" type="text" placeholder="Orden de Compra N°" ng-model="codigo">
+			<input class="form-control" type="text" placeholder="Orden de Compra N°" ng-model="orden">
 		</div>
 	</div>
 
@@ -83,5 +83,22 @@
 	<center>
 		<button class="btn btn-success" ng-click="registroEntrada()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 	</center>	
+	
+	<script type="text/ng-template" id="successRegister.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-title-modal">{#response.menssage#}</h3>
+        </div>
+        <div class="modal-body">
+        	<center>
+        		<h3>Codigo unico de la Entrada</h3>
+        		<h2><mark>{#response.codigo#}</mark></h2>
+        	</center>
+        </div>
+        <div class="modal-footer">
+        	<center>
+            	<button class="btn btn-success" type="button" ng-click="ok()">OK</button>
+           	</center>
+        </div>
+    </script>
 
 @endsection

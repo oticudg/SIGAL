@@ -8,6 +8,7 @@ controller('salidasController',function($scope,$http,$modal){
   $scope.salidasInsumos = [];
   $scope.cRegistro = '5';
   $scope.status = true;
+  $scope.only = false;
 
 	$scope.obtenerSalidas = function(){
 
@@ -25,6 +26,7 @@ controller('salidasController',function($scope,$http,$modal){
     $scope.busqueda = '';
     $scope.indice = 'Pro-Formas';
     $scope.status = true;
+    $scope.only = false;
     $scope.obtenerSalidas();
   };
 
@@ -38,6 +40,7 @@ controller('salidasController',function($scope,$http,$modal){
   $scope.localizarSalida = function(entrada){
     $scope.indice = 'Pro-Formas';
     $scope.status = true;
+    $scope.only = true;
     $scope.busqueda = entrada;
   };
 

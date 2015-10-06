@@ -1,6 +1,12 @@
 <div class="modal-header">
-    <h3 style="color:#54AF54;" class="modal-title">
-    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada <strong>{#entrada.codigo#}</strong></h3>
+    <div class="row">
+	    <h3 class="modal-title text-title-modal col-md-9">
+	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo#}</strong>
+	    </h3>
+		<h3 class="modal-title text-title-modal">
+	    	N° Orden: <strong>{#entrada.orden#}</strong>
+	    </h3>
+	</div>
 </div>
 <div class="modal-body">
 	
@@ -28,7 +34,7 @@
 			<tr>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripcion</th>
-				<th class="col-md-1">Cantidad</th>
+				<th class="col-md-2">Cantidad</th>
 			</tr>
 		</thead>
 		<tbody>

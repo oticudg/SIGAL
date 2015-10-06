@@ -54,14 +54,16 @@
 			<tr>
 				<th class="col-md-1">Fecha</th>
 				<th class="col-md-1">Codigo</th>
+				<th class="col-md-1">N° Orden</th>
 				<th class="col-md-6">Proveedor</th>
 				<th class="col-md-1">Detalles</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+			<tr dir-paginate="entrada in entradas | filter:busqueda:only | itemsPerPage:cRegistro" pagination-id="proformas">
 				<td>{#entrada.fecha#}</td>
 				<td>{#entrada.codigo#}</td>
+				<td>{#entrada.orden#}</td>
 				<td>{#entrada.provedor#}</td>
 				<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 			</tr>

@@ -59,7 +59,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="salida in salidas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+			<tr dir-paginate="salida in salidas | filter:busqueda:only | itemsPerPage:cRegistro" pagination-id="proformas">
 				<td>{#salida.fecha#}</td>
 				<td>{#salida.codigo#}</td>
 				<td>{#salida.departamento#}</td>

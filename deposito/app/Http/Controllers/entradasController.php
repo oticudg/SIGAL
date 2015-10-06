@@ -14,11 +14,10 @@ use App\Insumos_entrada;
 class entradasController extends Controller
 {   
     private $menssage = [
-        'codigo.required'             =>  'Especifique un numero de orden de compra',
+        'orden.required'             =>   'Especifique un numero de orden de compra',
         'provedor.required'           =>  'Seleccione un proveedor', 
         'insumos.required'            =>  'No se han especificado insumos para esta entrada',
         'insumos.insumos'             =>  'Valores de insumos no validos',
-        'codigo.unique'               =>  'Este numero de orden de compra ya ha sido registrado',
         'provedor.equal_provedor'     =>  'El provedor de esta orden de compra no coincide'
     ];
 
@@ -40,7 +39,7 @@ class entradasController extends Controller
             ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
             ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
-                'insumos.codigo','insumos.descripcion','insumos_entradas.cantidad')
+                'entradas.orden','insumos.codigo','insumos.descripcion','insumos_entradas.cantidad')
             ->orderBy('insumos_entradas.id', 'desc')->get();
     }
 
@@ -49,7 +48,7 @@ class entradasController extends Controller
         return DB::table('entradas')
             ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
-                'provedores.nombre as provedor', 'entradas.id')
+                'entradas.orden','provedores.nombre as provedor', 'entradas.id')
              ->orderBy('entradas.id', 'desc')->get();
     }
 
@@ -67,7 +66,7 @@ class entradasController extends Controller
                 ->join('users', 'entradas.usuario' , '=', 'users.id' )
                 ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                     DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                    'provedores.nombre as provedor', 'users.email as usuario')
+                    'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario')
                 ->first();
 
            $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
@@ -84,8 +83,8 @@ class entradasController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'codigo'   =>  'required|',
-            'provedor' =>  'required|equal_provedor:codigo',
+            'orden'   =>  'required|',
+            'provedor' =>  'required|equal_provedor:orden',
             'insumos'  =>  'required|insumos'
         ], $this->menssage);
 
@@ -95,9 +94,11 @@ class entradasController extends Controller
         else{
 
             $insumos = $data['insumos'];
+            $code =  str_random(8);
 
             $entrada = Entrada::create([
-                        'codigo'   => $data['codigo'],
+                        'codigo'   => $code,
+                        'orden'    => $data['orden'],
                         'provedor' => $data['provedor'],
                         'usuario'  => Auth::user()->id
                     ])['id'];
@@ -114,7 +115,7 @@ class entradasController extends Controller
             }
 
             return Response()->json(['status' => 'success', 'menssage' => 
-                'Registro completado satisfactoriamente']);
+                'Entrada completada satisfactoriamente', 'codigo' => $code]);
         }
     }
 }

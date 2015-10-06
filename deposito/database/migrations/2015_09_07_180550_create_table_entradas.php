@@ -14,7 +14,8 @@ class CreateTableEntradas extends Migration
     {
         Schema::create('entradas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo');
+            $table->string('codigo')->unique();
+            $table->string('orden');
             $table->integer('provedor');
             $table->integer('usuario');
             $table->timestamps();

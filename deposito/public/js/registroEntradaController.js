@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('deposito').
-controller('registroEntradaController',function($scope,$http){
+controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.insumoSelect = {};  
   $scope.provedores = [];
@@ -43,7 +43,7 @@ controller('registroEntradaController',function($scope,$http){
 
     var $data = {
 
-      'codigo'  : $scope.codigo,
+      'orden'  : $scope.orden,
       'provedor': $scope.provedor,
       'insumos' : empaquetaData()
     };
@@ -56,11 +56,25 @@ controller('registroEntradaController',function($scope,$http){
     $http.post('/registrarEntrada', $data)
       .success( 
         function(response){
-          $scope.alert = {type:response.status , msg: response.menssage};
           
           if( response.status == 'success'){
+            
+            $modal.open({
+                animation: true,
+                templateUrl: 'successRegister.html',
+                controller: 'successRegisterCtrl',
+                resolve: {
+                  response: function () {
+                    return response;
+                  }
+                }
+            });
+
             restablecer();
+            return;
           }
+
+          $scope.alert = {type:response.status , msg: response.menssage};
         }
       );
   }
@@ -111,8 +125,19 @@ controller('registroEntradaController',function($scope,$http){
 
   function restablecer(){
     $scope.insumos  = [];
-    $scope.codigo   = '';
+    $scope.orden   = '';
     $scope.provedor = '';
+    $scope.alert = {};
   }
+
+});
+
+angular.module('deposito').controller('successRegisterCtrl', function ($scope, $modalInstance, response) {
+
+  $scope.response = response;
+
+  $scope.ok = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
 });

@@ -38,8 +38,8 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('equal_provedor', function($attribute, $value, $parameters)
         {   
-            $codigo = Input::get($parameters[0]);
-            $entrada  = Entrada::where('codigo', $codigo)->first(); 
+            $orden = Input::get($parameters[0]);
+            $entrada  = Entrada::where('orden', $orden)->first(); 
 
             if(!$entrada){
                 return true;
