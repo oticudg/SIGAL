@@ -48,62 +48,64 @@
 	<br>
 	
 	{{--Tabla que muestra las pre-formas de salidas--}}
-	<table ng-show="status" class="table table-bordered table-hover">
-		<thead>
-			<caption>Pro-Formas de Pedido</caption>
-			<tr>
-				<th class="col-md-1">Fecha</th>
-				<th class="col-md-1">Codigo</th>
-				<th class="col-md-6">Servicio</th>
-				<th class="col-md-1">Detalles</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr dir-paginate="salida in salidas | filter:busqueda:only | itemsPerPage:cRegistro" pagination-id="proformas">
-				<td>{#salida.fecha#}</td>
-				<td>{#salida.codigo#}</td>
-				<td>{#salida.departamento#}</td>
-				<td><button class="btn btn-warning" ng-click="detallesSalida(salida.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
-			</tr>
-		</tbody>
-	</table>
+	<div ng-show="status">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<caption>Pro-Formas de Pedido</caption>
+				<tr>
+					<th class="col-md-1">Fecha</th>
+					<th class="col-md-1">Codigo</th>
+					<th class="col-md-6">Servicio</th>
+					<th class="col-md-1">Detalles</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr dir-paginate="salida in salidas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+					<td>{#salida.fecha#}</td>
+					<td>{#salida.codigo#}</td>
+					<td>{#salida.departamento#}</td>
+					<td><button class="btn btn-warning" ng-click="detallesSalida(salida.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				</tr>
+			</tbody>
+		</table>
 
-	{{--Paginacion de la tabla de Pro-Formas--}}	
-    <div ng-show="status" class="text-center">
- 	 <dir-pagination-controls boundary-links="true" pagination-id="proformas" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
-  	</div>
+		{{--Paginacion de la tabla de Pro-Formas--}}	
+	    <div class="text-center">
+	 	 <dir-pagination-controls boundary-links="true" pagination-id="proformas" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+	  	</div>
+	</div>
 
 	{{--Tabla que muestra los insumos que han salido--}}
-	<table ng-hide="status" class="table table-bordered table-hover">
-		<thead>
-			<caption>Insumos que han Salido</caption>
-			<tr>
-				<th class="col-md-1">Fecha</th>
-				<th class="col-md-2">Pro-Forma de Pedido</th>
-				<th class="col-md-2">Codigo de Insumo</th>
-				<th class="col-md-5">Descripcion</th>
-				<th class="col-md-1">Solicitado</th>
-				<th class="col-md-1">Despachado</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr dir-paginate="insumo in salidasInsumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumos">
-				<td>{#insumo.fecha#}</td>
-				<td ng-click="localizarSalida(insumo.salida)"><span class="text-enlace">{#insumo.salida#}</span></td>
-				<td>{#insumo.codigo#}
-				<td>{#insumo.descripcion#}</td>
-				<td>{#insumo.solicitado#}</td>
-				<td>{#insumo.despachado#}</td>
-			</tr>
-		</tbody>
-		<tfoot>
-			
-		</tfoot>
-	</table>
+	<div ng-hide="status">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<caption>Insumos que han Salido</caption>
+				<tr>
+					<th class="col-md-1">Fecha</th>
+					<th class="col-md-2">Pro-Forma de Pedido</th>
+					<th class="col-md-2">Codigo de Insumo</th>
+					<th class="col-md-5">Descripcion</th>
+					<th class="col-md-1">Solicitado</th>
+					<th class="col-md-1">Despachado</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr dir-paginate="insumo in salidasInsumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumos">
+					<td>{#insumo.fecha#}</td>
+					<td><span class="text-enlace" ng-click="detallesSalida(insumo.salidaId)">
+					{#insumo.salida#}</span></td>
+					<td>{#insumo.codigo#}</td>
+					<td>{#insumo.descripcion#}</td>
+					<td>{#insumo.solicitado#}</td>
+					<td>{#insumo.despachado#}</td>
+				</tr>
+			</tbody>
+		</table>
 
-	{{--Paginacion de la tabla de insumos--}}
-    <div ng-hide="status" class="text-center">
-     	 <dir-pagination-controls boundary-links="true" pagination-id="insumos" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
-    </div>
-  
+		{{--Paginacion de la tabla de insumos--}}
+	    <div class="text-center">
+	     	 <dir-pagination-controls boundary-links="true" pagination-id="insumos" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+	    </div>
+	</div>
+
 @endsection

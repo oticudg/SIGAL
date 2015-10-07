@@ -48,63 +48,106 @@
 	<br>
 	
 	{{--Tabla que muestra las pre-formas de entradas--}}
-	<table ng-show="status" class="table table-bordered table-hover">
-		<thead>
-			<caption>Pro-Formas de Entrada</caption>
-			<tr>
-				<th class="col-md-1">Fecha</th>
-				<th class="col-md-1">Codigo</th>
-				<th class="col-md-1">N° Orden</th>
-				<th class="col-md-6">Proveedor</th>
-				<th class="col-md-1">Detalles</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr dir-paginate="entrada in entradas | filter:busqueda:only | itemsPerPage:cRegistro" pagination-id="proformas">
-				<td>{#entrada.fecha#}</td>
-				<td>{#entrada.codigo#}</td>
-				<td>{#entrada.orden#}</td>
-				<td>{#entrada.provedor#}</td>
-				<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
-			</tr>
-		</tbody>
-	</table>
+	<div ng-show="proformaVisivility">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<caption>Pro-Formas de Entrada</caption>
+				<tr>
+					<th class="col-md-1">Fecha</th>
+					<th class="col-md-1">Codigo</th>
+					<th class="col-md-1">N° Orden</th>
+					<th class="col-md-6">Proveedor</th>
+					<th class="col-md-1">Detalles</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+					<td>{#entrada.fecha#}</td>
+					<td>{#entrada.codigo#}</td>
+					<td><span ng-click="detallesOrden(entrada.orden)"
+					class="text-enlace">{#entrada.orden#}</span></td>
+					<td>{#entrada.provedor#}</td>
+					<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				</tr>
+			</tbody>
+		</table>
 
-	{{--Paginacion de la tabla de Pro-Formas--}}	
-    <div ng-show="status" class="text-center">
- 	 <dir-pagination-controls boundary-links="true" pagination-id="proformas" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
-  	</div>
-
+		{{--Paginacion de la tabla de Pro-Formas--}}	
+	    <div class="text-center">
+	 	 <dir-pagination-controls boundary-links="true" pagination-id="proformas" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+	  	</div>
+	</div>
 
 	{{--Tabla que muestra los insumos que han entrado--}}
-	<table ng-hide="status" class="table table-bordered table-hover">
-		<thead>
-			<caption>Insumos que han Entrado</caption>
-			<tr>
-				<th class="col-md-1">Fecha</th>
-				<th class="col-md-2">Pro-Forma de Entrada</th>
-				<th class="col-md-2">Codigo de Insumo</th>
-				<th class="col-md-5">Descripcion</th>
-				<th class="col-md-2">Cantidad</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr dir-paginate="insumo in entradasInsumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumos">
-				<td>{#insumo.fecha#}</td>
-				<td ng-click="localizarEntrada(insumo.entrada)"><span class="text-enlace">{#insumo.entrada#}</span></td>
-				<td>{#insumo.codigo#}
-				<td>{#insumo.descripcion#}</td>
-				<td>{#insumo.cantidad#}</td>
-			</tr>
-		</tbody>
-		<tfoot>
-			
-		</tfoot>
-	</table>
+	<div ng-show="insumosVisivility">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<caption>Insumos que han Entrado</caption>
+				<tr>
+					<th class="col-md-1">Fecha</th>
+					<th class="col-md-2">Pro-Forma de Entrada</th>
+					<th class="col-md-2">Codigo de Insumo</th>
+					<th class="col-md-6">Descripcion</th>
+					<th class="col-md-1">Cantidad</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr dir-paginate="insumo in entradasInsumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumos">
+					<td>{#insumo.fecha#}</td>
+					<td><span ng-click="detallesEntrada(insumo.entradaId)"
+					class="text-enlace">{#insumo.entrada#}</span></td>
+					<td>{#insumo.codigo#}
+					<td>{#insumo.descripcion#}</td>
+					<td>{#insumo.cantidad#}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				
+			</tfoot>
+		</table>
+		{{--Paginacion de la tabla de insumos--}}
+	    <div class="text-center">
+	     	 <dir-pagination-controls boundary-links="true" pagination-id="insumos" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+	    </div>
+  	</div>
+	
+	{{--Tabla que muestra todos los insumos de una orden de compra--}}
+	<div ng-show="ordenVisivility">
+		<table class="table table-bordered custon-table-bottom-off" >
+			<thead>
+				<tr>
+					<th class="col-md-2">N° Orden de Compra</th>
+					<th>Proveedor</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{#orden.numero#}</td>
+					<td>{#orden.provedor#}</td>
+				</tr>
+			</tbody>	
+		</table>		
+		<table class="table table-bordered table-striped custon-table-top-off">
+			<thead>
+				<tr>
+					<th class="col-md-1">Fecha</th>
+					<th class="col-md-2">N° Proforma-Entrada</th>
+					<th class="col-md-2">Codigo Insumo</th>
+					<th class="col-md-6">Descripción</th>
+					<th class="col-md-1">Cantidad</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="insumo in insumos | filter:busqueda">
+					<td>{#insumo.fecha#}</td>
+					<td><span ng-click="detallesEntrada(insumo.entradaId)"
+					class="text-enlace">{#insumo.entrada#}</span></td>
+					<td>{#insumo.codigo#}</td>
+					<td>{#insumo.descripcion#}</td>
+					<td>{#insumo.cantidad#}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-	{{--Paginacion de la tabla de insumos--}}
-    <div ng-hide="status" class="text-center">
-     	 <dir-pagination-controls boundary-links="true" pagination-id="insumos" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
-    </div>
-  
 @endsection

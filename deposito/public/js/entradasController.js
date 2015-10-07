@@ -7,8 +7,11 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.indice = 'Pro-Formas';
   $scope.entradasInsumos = [];
   $scope.cRegistro = '5';
-  $scope.status = true;
-  $scope.only = false;
+  $scope.proformaVisivility = true;
+  $scope.insumosVisivility = false;
+  $scope.ordenVisivility = false;
+  $scope.orden = {};
+  $scope.insumos = [];
 
 	$scope.obtenerEntradas = function(){
 
@@ -25,24 +28,28 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.registrosProformas = function(){
     $scope.busqueda = '';
     $scope.indice = 'Pro-Formas';
-    $scope.status = true;
-    $scope.only = false;
+    uiVisivility(1);
     $scope.obtenerEntradas();
   };
 
   $scope.registrosInsumos = function(){
     $scope.busqueda = '';
     $scope.indice = 'Insumos';
-    $scope.status = false;
+    uiVisivility(2)
     $scope.obtenerEntradasInsumos();
   };
 
-  $scope.localizarEntrada = function(entrada){
-    $scope.indice = 'Pro-Formas';
-    $scope.status = true;
-    $scope.only = true;
-    $scope.busqueda = entrada;
-  };
+  $scope.detallesOrden = function(orden){
+
+    $http.get('/getOrden/'+ orden)
+      .success( 
+        function(response){
+          $scope.orden   = response.orden;
+          $scope.insumos = response.insumos;
+          uiVisivility(3);
+          $scope.busqueda = '';
+      });
+  }
 
   $scope.detallesEntrada = function(index){
 
@@ -60,6 +67,27 @@ controller('entradasController',function($scope,$http,$modal){
          }
     });
   };
+
+  function uiVisivility(menu){
+    switch(menu){
+      case 1:
+        $scope.proformaVisivility = true;
+        $scope.insumosVisivility = false;
+        $scope.ordenVisivility = false;
+      break;
+
+      case 2:
+        $scope.proformaVisivility = false;
+        $scope.insumosVisivility = true;
+        $scope.ordenVisivility = false;
+      break;
+
+      case 3:
+        $scope.proformaVisivility = false;
+        $scope.insumosVisivility = false;
+        $scope.ordenVisivility = true;
+    }
+  }
 
 	$scope.obtenerEntradas();
 

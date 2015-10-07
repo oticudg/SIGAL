@@ -39,7 +39,8 @@ class entradasController extends Controller
             ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
             ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
-                'entradas.orden','insumos.codigo','insumos.descripcion','insumos_entradas.cantidad')
+                'entradas.orden','entradas.id as entradaId','insumos.codigo',
+                'insumos.descripcion','insumos_entradas.cantidad')
             ->orderBy('insumos_entradas.id', 'desc')->get();
     }
 
@@ -75,6 +76,36 @@ class entradasController extends Controller
                 ->get();
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+        }
+    }
+
+    public function getOrden($number){
+
+        $entrada = Entrada::where('orden',$number)->first();
+
+        if(!$entrada){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Orden no existe']);   
+        }
+        else{
+
+            $orden = DB::table('entradas')->where('entradas.orden', $number)
+                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                     ->select('entradas.orden as numero', 'provedores.nombre as provedor')
+                     ->first();  
+
+            $entradas = Entrada::where('entradas.orden',$number)->lists('id');
+            
+            $insumos  = DB::table('insumos_entradas')->whereIn('entrada', $entradas)
+                        ->join('entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
+                        ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
+                        ->select('entradas.codigo as entrada','insumos.codigo as codigo',
+                            DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                            'entradas.id as entradaId','insumos.descripcion as descripcion',
+                            'insumos_entradas.cantidad as cantidad')
+                        ->orderBy('insumos_entradas.id', 'desc')->get();
+
+            return Response()->json(['status' => 'success', 'orden' => $orden, 'insumos' => $insumos]);
+            
         }
     }
 

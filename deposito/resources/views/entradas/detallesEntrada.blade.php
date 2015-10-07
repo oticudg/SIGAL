@@ -15,7 +15,7 @@
 			<tr>
 				<th class="col-md-1">Fecha</th>
 				<th class="col-md-1">Hora</th>
-				<th>Provedor</th>
+				<th>Proveedor</th>
 				<th class="col-md-3">Usuario</th>
 			</tr>
 		</thead>

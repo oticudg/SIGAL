@@ -252,6 +252,9 @@ Route::get('getInsumosEntradas','entradasController@allInsumos');
 //Regresa los todos los datos de una entrada cuyo id se pase
 Route::get('getEntrada/{id}', 'entradasController@getEntrada');
 
+//Regresa todas las entradas de el numero de orden que se expecifique
+Route::get('getOrden/{number}', 'entradasController@getOrden');
+
 /*** Fin de modulo de entradas ***/
 
 
