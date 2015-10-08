@@ -260,6 +260,9 @@ Route::get('getOrden/{number}', 'entradasController@getOrden');
 
 /*** Modulo de salidas ***/
 
+//Muestra el panel de salidas
+Route::get('salidas','salidasController@index');
+
 //Muestra la vista detallada de una salida
 Route::get('detallesSalida','salidasController@detalles');
 
@@ -267,9 +270,6 @@ Route::get('detallesSalida','salidasController@detalles');
 Route::get('registrarSalida', 'salidasController@viewRegistrar');
 //Registra una salida
 Route::post('registrarSalida' ,'salidasController@registrar');
-
-//Muestra el panel de salidas
-Route::get('salidas','salidasController@index');
 
 //Regresa todas las salidas
 Route::get('getSalidas','salidasController@allSalidas');
@@ -281,4 +281,15 @@ Route::get('getInsumosSalidas','salidasController@allInsumos');
 Route::get('getSalida/{id}', 'salidasController@getSalida');
 
 /*** Fin de modulo de salidas ***/
+
+
+/*** Modulo de Modificaciones ***/
+
+//Muestra el panel de modificaciones
+Route::get('modificaciones','modificacionesController@index');
+
+//Regresa todas las entradas modificadas
+Route::get('getEntradasModificadas','modificacionesController@allEntradas');
+
+/*** Fin de modulo de modificaciones ***/
 
