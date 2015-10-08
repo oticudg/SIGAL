@@ -95,7 +95,8 @@
         </div>
         <div class="modal-footer">
         	<center>
-            	<button class="btn btn-success" type="button" ng-click="ok()">OK</button>
+            	<button class="btn btn-success" type="button" ng-click="ok()"><span class="glyphicon glyphicon-ok-sign">
+            	</span> OK</button>
            	</center>
         </div>
     </script>	

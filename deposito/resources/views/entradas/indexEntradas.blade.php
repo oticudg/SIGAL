@@ -96,14 +96,11 @@
 					<td>{#insumo.fecha#}</td>
 					<td><span ng-click="detallesEntrada(insumo.entradaId)"
 					class="text-enlace">{#insumo.entrada#}</span></td>
-					<td>{#insumo.codigo#}
+					<td>{#insumo.codigo#}</td>
 					<td>{#insumo.descripcion#}</td>
 					<td>{#insumo.cantidad#}</td>
 				</tr>
 			</tbody>
-			<tfoot>
-				
-			</tfoot>
 		</table>
 		{{--Paginacion de la tabla de insumos--}}
 	    <div class="text-center">
@@ -115,6 +112,7 @@
 	<div ng-show="ordenVisivility">
 		<table class="table table-bordered custon-table-bottom-off" >
 			<thead>
+				<caption>Entradas de esta orden de compra</caption>
 				<tr>
 					<th class="col-md-2">N° Orden de Compra</th>
 					<th>Proveedor</th>
@@ -138,7 +136,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="insumo in insumos | filter:busqueda">
+				<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" 
+				pagination-id="ordenInsumos">
 					<td>{#insumo.fecha#}</td>
 					<td><span ng-click="detallesEntrada(insumo.entradaId)"
 					class="text-enlace">{#insumo.entrada#}</span></td>
@@ -148,6 +147,11 @@
 				</tr>
 			</tbody>
 		</table>
+
+		{{--Paginacion de la tabla de insumos de la orden de compra--}}
+	    <div class="text-center">
+	     	 <dir-pagination-controls boundary-links="true" pagination-id="ordenInsumos" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+	    </div>
 	</div>
 
 @endsection
