@@ -51,7 +51,7 @@
 				<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
 					<td>{#entrada.fecha#}</td>
 					<td>{#entrada.codigo#}</td>
-					<td><button class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+					<td><button ng-click="detallesModificacion(entrada.id)" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				</tr>
 			</tbody>
 		</table>

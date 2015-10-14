@@ -288,8 +288,14 @@ Route::get('getSalida/{id}', 'salidasController@getSalida');
 //Muestra el panel de modificaciones
 Route::get('modificaciones','modificacionesController@index');
 
+//Muestra la vista detallada de una entrada modificada
+Route::get('detallesEntradaModificada','modificacionesController@detallesEntrada');
+
 //Regresa todas las entradas modificadas
 Route::get('getEntradasModificadas','modificacionesController@allEntradas');
+
+//Regresa todos los datos de una entrada modificada cuyo id se pase
+Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
 
 /*** Fin de modulo de modificaciones ***/
 
