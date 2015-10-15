@@ -24,20 +24,23 @@
 		</tbody>	
 	</table>
 
-	<table ng-show="entrada" class="table table-bordered custon-table-bottom-off custon-table-top-off" >
+	<table class="table table-bordered custon-table-bottom-off custon-table-top-off" >
 		<thead>
 			<tr>
-				<th ng-show="entrada.orden" class="col-md-4" colspan="2" >N° orden Conpra <span class="glyphicon glyphicon-resize-horizontal"></span> Modificacion</th>
-				<th ng-show="entrada.provedor" class="col-md-8" colspan="2">Proveedor <span class="glyphicon glyphicon-resize-horizontal"></span>
-				Modificacion</th>
+				<th ng-hide="entrada.Morden" class="col-md-4">N° Orden</th>
+				<th ng-show="entrada.Morden" class="col-md-4">N° Orden <span class="glyphicon glyphicon-resize-horizontal"></span> Modificada</th>
+				<th ng-hide="entrada.Mprovedor"class="col-md-8">Proveedor</th>
+				<th ng-show="entrada.Mprovedor" class="col-md-8" colspan="2">Proveedor <span class="glyphicon glyphicon-resize-horizontal"></span> Modificado</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td ng-show="entrada.orden">{#entrada.orden#}</td>
-				<td ng-show="entrada.orden" class="warning" >{#entrada.Morden#}</td>
-				<td ng-show="entrada.provedor">{#entrada.provedor#}</td>
-				<td ng-show="entrada.provedor" class="warning">{#entrada.Mprovedor#}</td>
+				<td class="col-md-4" ng-hide="entrada.Morden">{#entrada.orden#}</td>
+				<td class="col-md-2 warning" ng-show="entrada.Morden">
+				{#entrada.orden#} <span class="glyphicon glyphicon-resize-horizontal"></span> {#entrada.Morden#}</td>
+				<td class="col-md-8" ng-hide="entrada.Mprovedor">{#entrada.provedor#}</td>
+				<td class="col-md-4 warning" ng-show="entrada.Mprovedor">{#entrada.provedor#}</td>
+				<td class="col-md-4 warning" ng-show="entrada.Mprovedor">{#entrada.Mprovedor#}</td>
 			</tr>
 		</tbody>	
 	</table>
@@ -56,7 +59,7 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.cantidad#}</td>
-				<td>{#insumo.modificacion#}</td>
+				<td class="warning">{#insumo.modificacion#}</td>
 			</tr>
 		</tbody>
 	</table>

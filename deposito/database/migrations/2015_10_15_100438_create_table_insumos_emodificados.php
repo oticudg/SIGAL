@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableInsumosEModificados extends Migration
+class CreateTableInsumosEmodificados extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateTableInsumosEModificados extends Migration
      */
     public function up()
     {
-        Schema::create('insumos_Emodificados', function (Blueprint $table) {
+        Schema::create('insumos_emodificados', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('entrada');
             $table->integer('insumo');
             $table->double('Ocantidad');
-            $table->double('Mcantidad');
+            $table->double('Mcantidad')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTableInsumosEModificados extends Migration
      */
     public function down()
     {
-        Schema::drop('insumos_modificados');
+        Schema::drop('insumos_emodificados');
     }
 }

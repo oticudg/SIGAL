@@ -8,7 +8,7 @@ use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entradas_modificada;
-use App\Insumos_Emodificado;
+use App\Insumos_emodificado;
 
 class modificacionesController extends Controller
 {
@@ -47,37 +47,48 @@ class modificacionesController extends Controller
                                     'users.email as usuario', 'entradas.codigo as codigo')
                             ->first();
 
-
-           if(  Entradas_modificada::where('id',$id)->value('Mprovedor') == NULL && 
-                Entradas_modificada::where('id',$id)->value('Morden') == NULL){
+            if( Entradas_modificada::where('id', $id)->value('Mprovedor') == NULL  &&
+                Entradas_modificada::where('id', $id)->value('Morden') == NULL ){
                 
-                $entrada = NULL;  
-            }
-            elseif(Entradas_modificada::where('id',$id)->value('Mprovedor') == NULL){
+                $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
+                              ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
+                              ->select('provedores.nombre as provedor','entradas_modificadas.Oorden as orden')   
+                              ->first();                
                 
-               $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
-                          ->select('entradas_modificadas.Oorden as orden', 'entradas_modificadas.Morden as Morden')   
-                          ->first();
             }
-            elseif(Entradas_modificada::where('id',$id)->value('Morden') == NULL){
+            elseif(Entradas_modificada::where('id', $id)->value('Mprovedor') != NULL){
 
-               $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
-                          ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
-                          ->join('provedores as Mprovedores', 'entradas_modificadas.Mprovedor', '=', 'Mprovedores.id')
-                          ->select('provedores.nombre as provedor', 'Mprovedores.nombre as Mprovedor')   
-                          ->first();   
+                $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
+                              ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
+                              ->join('provedores as Mprovedores', 'entradas_modificadas.Mprovedor', '=', 'Mprovedores.id')
+                              ->select('provedores.nombre as provedor', 'Mprovedores.nombre as Mprovedor', 
+                                'entradas_modificadas.Oorden as orden', 'entradas_modificadas.Morden as Morden')   
+                              ->first();
             }
             else{
 
                 $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
-                          ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
-                          ->join('provedores as Mprovedores', 'entradas_modificadas.Mprovedor', '=', 'Mprovedores.id')
-                          ->select('provedores.nombre as provedor', 'Mprovedores.nombre as Mprovedor', 
-                            'entradas_modificadas.Oorden as orden', 'entradas_modificadas.Morden as Morden')   
-                          ->first();
+                              ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
+                              ->select('provedores.nombre as provedor','entradas_modificadas.Oorden as orden', 
+                                'entradas_modificadas.Morden as Morden')   
+                              ->first();
             }
 
-            $insumos  = false;
+
+            $insumos  = Insumos_emodificado::where('entrada',$id)->get();
+
+            if( $insumos->isEmpty() ){
+                $insumos = NULL;
+            }
+            else{
+
+                $insumos = DB::table('insumos_emodificados')->where('insumos_emodificados.entrada',$id)
+                          ->join('insumos', 'insumos_emodificados.insumo', '=', 'insumos.id')
+                          ->select('insumos.codigo as codigo', 'insumos.descripcion as descripcion', 
+                            'insumos_emodificados.Ocantidad as cantidad', 
+                            'insumos_emodificados.Mcantidad as modificacion')   
+                          ->get();
+            }   
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos, 
                     'modificacion' => $modificacion]);

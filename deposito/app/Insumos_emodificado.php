@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Insumos_Emodificado extends Model
+class Insumos_emodificado extends Model
 {
     //
 }
