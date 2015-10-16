@@ -47,16 +47,7 @@ class modificacionesController extends Controller
                                     'users.email as usuario', 'entradas.codigo as codigo')
                             ->first();
 
-            if( Entradas_modificada::where('id', $id)->value('Mprovedor') == NULL  &&
-                Entradas_modificada::where('id', $id)->value('Morden') == NULL ){
-                
-                $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
-                              ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
-                              ->select('provedores.nombre as provedor','entradas_modificadas.Oorden as orden')   
-                              ->first();                
-                
-            }
-            elseif(Entradas_modificada::where('id', $id)->value('Mprovedor') != NULL){
+            if(Entradas_modificada::where('id', $id)->value('Mprovedor') != NULL){
 
                 $entrada = DB::table('entradas_modificadas')->where('entradas_modificadas.id',$id)
                               ->join('provedores', 'entradas_modificadas.Oprovedor', '=', 'provedores.id')
