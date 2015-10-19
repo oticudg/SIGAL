@@ -79,6 +79,31 @@ class entradasController extends Controller
         }
     }
 
+    public function getEntradaCodigo($code){
+
+        $entrada = Entrada::where('codigo',$code)->first();
+
+        if(!$entrada){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+        }
+        else{
+
+           $entrada = DB::table('entradas')->where('entradas.codigo',$code)
+                ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                ->select('entradas.codigo','entradas.orden','entradas.id', 
+                    'provedores.nombre as provedor')
+                ->first();
+
+           $insumos = DB::table('entradas')->where('entradas.codigo', $code)
+                ->join('insumos_entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
+                ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
+                ->get();
+
+            return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+        }
+    }
+
     public function getOrden($number){
 
         $entrada = Entrada::where('orden',$number)->first();

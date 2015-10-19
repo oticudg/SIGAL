@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use Auth;
 use Illuminate\Http\Request;
-
 use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entradas_modificada;
 use App\Insumos_emodificado;
+use App\Entrada;
 
 class modificacionesController extends Controller
 {
@@ -20,6 +22,12 @@ class modificacionesController extends Controller
 
         return view('modificaciones/detallesEntradaModificada');
     }
+
+    public function viewRegistrar(){
+
+        return view('modificaciones/registrarModificacion');
+    }
+
 
     public function allEntradas(){
 
@@ -83,6 +91,37 @@ class modificacionesController extends Controller
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos, 
                     'modificacion' => $modificacion]);
+        }
+    }
+
+    public function registrar(Request $request){
+
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'entrada' => 'required'
+        ]);
+        
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+        }
+        else{
+
+            $entrada = Entrada::where('id', $data['entrada'])->first();
+
+            $provedor = $data['provedor'] != '' ? $data['provedor'] : NULL;
+            $orden    = $data['orden']    != '' ? $data['orden'] : NULL;
+
+            Entradas_modificada::create([
+                'entrada'   => $data['entrada'],
+                'Oprovedor' => $entrada->provedor,
+                'Mprovedor' => $provedor,
+                'Oorden'    => $entrada->orden,
+                'Morden'    => $orden,
+                'usuario'   => Auth::user()->id    
+            ]);
+
+            return Response()->json(['status' => 'success', 'menssage' => 'Modificacion registrada']);   
         }
     }
 

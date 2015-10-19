@@ -252,6 +252,9 @@ Route::get('getInsumosEntradas','entradasController@allInsumos');
 //Regresa los todos los datos de una entrada cuyo id se pase
 Route::get('getEntrada/{id}', 'entradasController@getEntrada');
 
+//Regresa los todos los datos de una entrada cuyo codigo se especifique
+Route::get('getEntradaCodigo/{code}', 'entradasController@getEntradaCodigo');
+
 //Regresa todas las entradas de el numero de orden que se expecifique
 Route::get('getOrden/{number}', 'entradasController@getOrden');
 
@@ -290,6 +293,11 @@ Route::get('modificaciones','modificacionesController@index');
 
 //Muestra la vista detallada de una entrada modificada
 Route::get('detallesEntradaModificada','modificacionesController@detallesEntrada');
+
+//Muestra la vista de registro de modificacion
+Route::get('registrarModificacionEntrada', 'modificacionesController@viewRegistrar');
+//Registra una modificacion
+Route::post('registrarModificacionEntrada', 'modificacionesController@registrar');
 
 //Regresa todas las entradas modificadas
 Route::get('getEntradasModificadas','modificacionesController@allEntradas');

@@ -12,6 +12,11 @@
 	</h5>
 	<br>
 	
+	<button class="btn btn-success" ng-click="registrarModificacion()"><span class="glyphicon glyphicon-plus"></span> Nuevo Modificación</button>
+	<br>
+	<br>
+	<br>
+
 	{{--Buscador y Seleccion de Listados de datos--}}
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">

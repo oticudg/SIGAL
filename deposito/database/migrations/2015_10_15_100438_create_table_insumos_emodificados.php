@@ -17,7 +17,7 @@ class CreateTableInsumosEmodificados extends Migration
             $table->integer('entrada');
             $table->integer('insumo');
             $table->double('Ocantidad');
-            $table->double('Mcantidad')->nullable();
+            $table->double('Mcantidad');
             $table->timestamps();
         });
     }
