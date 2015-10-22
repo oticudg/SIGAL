@@ -4,7 +4,7 @@
 
 @section('front-page')
 
-	<div id="bienvenida" class="container">
+	<div id="bienvenida">
 		<div>
 			<h1 class="text-title">Bienvenido</h1>
 			<hr>

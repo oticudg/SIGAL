@@ -39,19 +39,55 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('equal_provedor', function($attribute, $value, $parameters)
         {   
             $orden = Input::get($parameters[0]);
-            $entrada  = Entrada::where('orden', $orden)->first(); 
+            $entrada  = Entrada::where('orden', $orden)->value('provedor'); 
 
             if(!$entrada){
                 return true;
             }
             else{
-                if( $value != $entrada['provedor'])
+                
+                if( $value != $entrada)
                     return false;
+
+                return true;
             }
 
-            return true;
         });
         
+        Validator::extend('diff_provedor', function($attribute, $value, $parameters)
+        {   
+            if( empty($value) ){
+                return true;                
+            }
+            else{
+
+                $id = Input::get($parameters[0]);    
+                $entrada = Entrada::where('id', $id)->value('provedor');
+
+                if( $value == $entrada)
+                    return false;
+
+                return true;
+            }
+        });
+
+        Validator::extend('diff_orden', function($attribute, $value, $parameters)
+        {   
+            if( empty($value) ){
+                return true;                
+            }
+            else{
+
+                $id = Input::get($parameters[0]);    
+                $entrada = Entrada::where('id', $id)->value('orden');
+
+                if( $value == $entrada)
+                    return false;
+
+                return true;
+            }
+        });
+
         Validator::extend('insumos', function($attribute, $value)
         {   
             if( empty($value) || !is_array($value)){
@@ -106,6 +142,22 @@ class AppServiceProvider extends ServiceProvider
                     if($insumo['min'] <= 0 || $insumo['med'] <= 0 || 
                         $insumo['min'] >= $insumo['med'])
                            return false;
+                }
+            }
+            
+            return true;
+        });
+
+        Validator::extend('insumos_validate', function($attribute, $value)
+        {   
+            if( empty($value) || !is_array($value)){
+                return false; 
+            }
+            else{
+
+                foreach ($value as $insumo){
+                    if( !isset($insumo['id']) || !Insumo::where('id',$insumo['id'])->first())
+                        return false;
                 }
             }
             

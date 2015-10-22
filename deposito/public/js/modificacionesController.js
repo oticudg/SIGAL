@@ -115,7 +115,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
   	for( index in $scope.insumos){
 
   		insumos.push({'id':$scope.insumos[index].id, 
-  			'modificacion':$scope.insumos[index].modificacion});
+  			'cantidad':$scope.insumos[index].modificacion});
   	}
 
   	return insumos;

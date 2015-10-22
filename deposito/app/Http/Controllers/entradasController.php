@@ -17,8 +17,7 @@ class entradasController extends Controller
         'orden.required'             =>   'Especifique un numero de orden de compra',
         'provedor.required'           =>  'Seleccione un proveedor', 
         'insumos.required'            =>  'No se han especificado insumos para esta entrada',
-        'insumos.insumos'             =>  'Valores de insumos no validos',
-        'provedor.equal_provedor'     =>  'El provedor de esta orden de compra no coincide'
+        'insumos.insumos'             =>  'Valores de insumos no validos'
     ];
 
     public function index(){
@@ -97,7 +96,7 @@ class entradasController extends Controller
            $insumos = DB::table('entradas')->where('entradas.codigo', $code)
                 ->join('insumos_entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                 ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad', 'insumos.id')
                 ->get();
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);

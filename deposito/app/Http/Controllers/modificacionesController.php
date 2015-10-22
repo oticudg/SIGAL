@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Entradas_modificada;
 use App\Insumos_emodificado;
 use App\Entrada;
+use App\Insumos_entrada;
 
 class modificacionesController extends Controller
 {
@@ -99,7 +100,10 @@ class modificacionesController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'entrada' => 'required'
+            'entrada'  => 'required',
+            'orden'    => 'diff_orden:entrada',
+            'provedor' => 'diff_provedor:entrada',
+            'insumos'  => 'insumos_validate'
         ]);
         
         if($validator->fails()){
@@ -107,22 +111,67 @@ class modificacionesController extends Controller
         }
         else{
 
-            $entrada = Entrada::where('id', $data['entrada'])->first();
+            $provedor  = $data['provedor'] != '' ? $data['provedor'] : NULL;
+            $orden     = $data['orden']    != '' ? $data['orden'] : NULL;
+            $idEntrada = $data['entrada'];
+            $insumos   = [];
 
-            $provedor = $data['provedor'] != '' ? $data['provedor'] : NULL;
-            $orden    = $data['orden']    != '' ? $data['orden'] : NULL;
+            foreach ($data['insumos'] as $insumo) {
+                if( isset($insumo['cantidad']) ){
+
+                    $originalC = Insumos_entrada::where('entrada', $idEntrada)->
+                        where('insumo', $insumo['id'])->value('cantidad');
+
+                    array_push($insumos, ['id' => $insumo['id'], 'originalC' => $originalC, 
+                        'modificarC' => $insumo['cantidad']]);
+                }
+            }
+
+            if( $orden == NULL && empty( $insumos )){
+                return Response()->json(['status' => 'danger', 'menssage' => 'No se han hecho modificaciones']);       
+            }
+                
+            if( empty($provedor) ){ 
+
+                $entradaActual      = Entrada::where('id',$idEntrada)->value('provedor');
+                $entradaAmodificar  = Entrada::where('orden', $orden)->value('provedor');
+                    
+                if( !empty($entradaAmodificar) && $entradaActual != $entradaAmodificar)
+                    return Response()->json(['status' => 'danger', 'menssage' => 
+                        'El proveedor de esta orden de compra no coincide']);               
+            }
+            else{
+                
+                $entradaActual  = Entrada::where('orden', $orden)->value('provedor');
+
+                if( !empty($entradaActual) && $provedor != $entradaActual)
+                     return Response()->json(['status' => 'danger', 'menssage' => 
+                        'El proveedor de esta orden de compra no coincide']);
+            }
+
+
+            $originalP = Entrada::where('id', $idEntrada)->value('provedor');
+            $originalO = Entrada::where('id', $idEntrada)->value('orden');
 
             Entradas_modificada::create([
-                'entrada'   => $data['entrada'],
-                'Oprovedor' => $entrada->provedor,
+                'entrada'   => $idEntrada,
+                'Oprovedor' => $originalP,
                 'Mprovedor' => $provedor,
-                'Oorden'    => $entrada->orden,
+                'Oorden'    => $originalO,
                 'Morden'    => $orden,
                 'usuario'   => Auth::user()->id    
+            ]);
+            
+            $provedor = $provedor == NULL ? $originalP:$provedor;
+            $orden    = $orden == NULL ? $originalO:$orden;
+
+            Entrada::where('id', $idEntrada)->update([
+                'orden'     => $orden,
+                'provedor'  => $provedor
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Modificacion registrada']);   
         }
     }
-
+    
 }

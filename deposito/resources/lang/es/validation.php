@@ -113,9 +113,11 @@ return [
     | Custom rules
     |
     */
-    "alpha_spaces"  =>  ":attribute solo puede contener letras y espacios.",
-    "cedula"        =>  "El formato de cedula es invalido",
-    "rif"           =>  "El formato de rif es invalido",   
-
-
+    "alpha_spaces"       =>  ":attribute solo puede contener letras y espacios.",
+    "cedula"             =>  "El formato de cedula es invalido",
+    "rif"                =>  "El formato de rif es invalido",   
+    "equal_provedor"     =>  "El provedor de esta orden de compra no coincide",
+    "diff_orden"         =>  "Especifique un numero de orden diferente para realizar la modificacion",
+    "diff_provedor"      =>  "Especifique un provedor diferente para realizar la modificacion",
+    "insumos_modificar"  =>  "Los insumos son invalidos",
 ];

@@ -37,15 +37,15 @@
 		<table class="table table-bordered custon-table-bottom-off custon-table-top-off">
 			<thead>
 				<th class="col-md-2">Modificar Orden</th>
-				<th>Modificar Proveedor</th>
+				<th><span ng-show="orden">Modificar Proveedor</span></th>
 			</thead>
 			<tbody>
 				<td class="warning">
 					<input class="form-control text-center" type="text" 
 					placeholder="N° de orden" ng-model="orden"></td>
-				<td class="warning">
+				<td ng-show="orden" class="warning">
 					<select class="form-control" ng-model="provedor">
-						<option value="" selected >Proveedor</option>
+						<option value=" " selected >Proveedor</option>
 						<option value="{#provedor.id#}" ng-repeat="provedor in provedores">{#provedor.nombre#}</option>
 					</select>
 				</td>

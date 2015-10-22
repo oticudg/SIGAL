@@ -8,7 +8,7 @@
 	
 	<h5 class="text-muted">
 		<span class="glyphicon glyphicon-cog"></span> Administración > 
-		<span class="glyphicon glyphicon-th"></span> Inventario
+		<span class="glyphicon glyphicon-th-list"></span> Inventario
 	</h5>
 	<br>
 	
