@@ -120,4 +120,6 @@ return [
     "diff_orden"         =>  "Especifique un numero de orden diferente para realizar la modificacion",
     "diff_provedor"      =>  "Especifique un provedor diferente para realizar la modificacion",
     "insumos_modificar"  =>  "Los insumos son invalidos",
+    "insumos_validate"   =>  "Valores de insumos no validos",
+    "insumos"            =>  "Valores de insumos no validos" 
 ];

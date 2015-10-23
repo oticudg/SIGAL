@@ -16,8 +16,7 @@ class entradasController extends Controller
     private $menssage = [
         'orden.required'             =>   'Especifique un numero de orden de compra',
         'provedor.required'           =>  'Seleccione un proveedor', 
-        'insumos.required'            =>  'No se han especificado insumos para esta entrada',
-        'insumos.insumos'             =>  'Valores de insumos no validos'
+        'insumos.required'            =>  'No se han especificado insumos para esta entrada'
     ];
 
     public function index(){
@@ -96,7 +95,7 @@ class entradasController extends Controller
            $insumos = DB::table('entradas')->where('entradas.codigo', $code)
                 ->join('insumos_entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                 ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad', 'insumos.id')
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad', 'insumos_entradas.id as id')
                 ->get();
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);

@@ -100,4 +100,20 @@ class inventarioController extends Controller
 
         return $invalidos;
     }
+
+    public static function validaModificacion($insumos){
+
+        $invalidos = [];
+
+        foreach ($insumos as $insumo){            
+            
+            $existencia = Inventario::where('insumo' , $insumo['id'])->value('existencia');
+                
+            if( ($existencia - $insumo['originalC'] + $insumo['modificarC'] ) < 0 )
+                array_push($invalidos, $insumo['id']);
+            
+        }
+
+        return $invalidos;
+    }
 }

@@ -6,6 +6,7 @@ use Validator;
 use Input;
 use App\Insumo;
 use App\Entrada;
+use App\Insumos_entrada;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -149,16 +150,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('insumos_validate', function($attribute, $value)
-        {   
-            if( empty($value) || !is_array($value)){
-                return false; 
-            }
-            else{
+        {           
+            foreach ($value as $insumo){
 
-                foreach ($value as $insumo){
-                    if( !isset($insumo['id']) || !Insumo::where('id',$insumo['id'])->first())
-                        return false;
-                }
+                if(!isset($insumo['cantidad']))
+                    continue;
+
+                if( !isset($insumo['id']) || !Insumos_entrada::where('id',$insumo['id'])->first() ||
+                    !is_int($insumo['cantidad']) || $insumo['cantidad'] < 0)  
+                    return false; 
             }
             
             return true;
