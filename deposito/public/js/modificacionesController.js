@@ -52,7 +52,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 	function ($scope, $modalInstance, $http, obtenerEntradas){
 
   $scope.btnVisivilidad = true;
-  $scope.alerts = [];
+  $scope.alert = {};
   $scope.codigo = '';
   $scope.orden = '';
   $scope.provedor = '';
@@ -72,16 +72,16 @@ angular.module('deposito').controller('registraModificacionCtrl',
     $modalInstance.dismiss('cancel');
   };
 
-  $scope.closeAlert = function(index){
+  $scope.closeAlert = function(){
 
-    $scope.alerts.splice(index,1);
+    $scope.alert = {};
 
   };
 
   $scope.ubicarEntrada = function(){
 
   	if($scope.codigo == ''){
-  		$scope.alerts.push( {'type':'danger' , 'msg':'Espefifique un codigo de Pro-Forma'});
+  		$scope.alert = {'type':'danger' , 'msg':'Espefifique un codigo de Pro-Forma'};
   	}
   	else{
 
@@ -90,14 +90,14 @@ angular.module('deposito').controller('registraModificacionCtrl',
   				function(response){
 
   					if( response.status == 'danger'){
-						$scope.alerts.push( {'type':response.status , 'msg':response.menssage});					
+						$scope.alert = {'type':response.status , 'msg':response.menssage};					
   						return;
   					}
   					else{
 
   						$scope.entrada = response.entrada;
   						$scope.insumos = response.insumos;
-  						$scope.alerts = [];
+  						$scope.alert = {};
   						$scope.status = true;
   						return;
   					}
@@ -105,6 +105,24 @@ angular.module('deposito').controller('registraModificacionCtrl',
   		);
   	}
 
+  }
+
+  function marcaInsumos(ids){
+    var index;
+    var id;
+
+    for(index in $scope.insumos){
+      $scope.insumos[index].style = '';
+    }
+
+    for( id in ids){
+      for(index = 0; index < $scope.insumos.length; index++)
+
+        if($scope.insumos[index].id == ids[id] ){
+          $scope.insumos[index].style = 'danger';
+          break;
+        }
+    }
   }
 
   function serializeInsumos(){
@@ -135,11 +153,23 @@ angular.module('deposito').controller('registraModificacionCtrl',
     $http.post('registrarModificacionEntrada', $data)
       .success(function(response){
 
-    		$scope.alerts = [];
-    	  	$scope.alerts.push( {"type":response.status , "msg":response.menssage});
-     
-          	$scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-          	obtenerEntradas();
+    		$scope.alert = {};
+
+        if(response.status == 'unexist'){
+
+          marcaInsumos(response.data);
+          $scope.alert = {type:'danger', 
+            msg:'La cantidad de los insumos marcados no puede ser modificada por este monto, por favor verifique el inventario'};
+          return;
+        }
+    	  
+        $scope.alert = {"type":response.status , "msg":response.menssage};
+
+        if( response.status == "success"){
+          $scope.btnVisivilidad = false; 
+          obtenerEntradas();
+        }
+        
    	});
 
  };

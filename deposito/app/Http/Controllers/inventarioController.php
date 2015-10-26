@@ -110,7 +110,7 @@ class inventarioController extends Controller
             $existencia = Inventario::where('insumo' , $insumo['id'])->value('existencia');
                 
             if( ($existencia - $insumo['originalC'] + $insumo['modificarC'] ) < 0 )
-                array_push($invalidos, $insumo['id']);
+                array_push($invalidos, $insumo['index']);
             
         }
 

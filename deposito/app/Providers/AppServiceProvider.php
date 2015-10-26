@@ -163,6 +163,18 @@ class AppServiceProvider extends ServiceProvider
             
             return true;
         });
+
+        Validator::extend('one_insumo', function($attribute, $value, $parameters)
+        {   
+            $entrada = Input::get($parameters[0]);
+            $insumos = Insumos_entrada::where('entrada', $entrada)->get(); 
+
+            if($insumos->count() == 1 && isset($value[0]['cantidad']) && $value[0]['cantidad'] == 0)
+                return false;
+
+            return true;
+
+        });
     }
 
     /**

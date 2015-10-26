@@ -103,7 +103,7 @@ class modificacionesController extends Controller
             'entrada'  => 'required',
             'orden'    => 'diff_orden:entrada',
             'provedor' => 'diff_provedor:entrada',
-            'insumos'  => 'insumos_validate'
+            'insumos'  => 'insumos_validate|one_insumo:entrada'
         ]);
         
         if($validator->fails()){
@@ -111,8 +111,8 @@ class modificacionesController extends Controller
         }
         else{
 
-            $provedor  = $data['provedor'] != '' ? $data['provedor'] : NULL;
-            $orden     = $data['orden']    != '' ? $data['orden'] : NULL;
+            $provedor  = $data['provedor'] != " " ? $data['provedor'] : NULL;
+            $orden     = $data['orden']    != " " ? $data['orden'] : NULL;
             $originalE = Entrada::where('id', $data['entrada'])->first(['id','provedor','orden']);
             $insumos   = [];
 
@@ -122,15 +122,15 @@ class modificacionesController extends Controller
                     $originalI = Insumos_entrada::where('id', $insumo['id'])->first(['insumo','cantidad']);
 
                     array_push($insumos, ['id' => $originalI['insumo'], 'originalC' => $originalI['cantidad'], 
-                        'modificarC' => $insumo['cantidad']]);
+                        'modificarC' => $insumo['cantidad'], 'index' => $insumo['id']]);
                 }
             }
             
-            if( $orden == NULL && empty( $insumos )){
+            if( empty( $orden ) && empty( $insumos ) ){
                 return Response()->json(['status' => 'danger', 'menssage' => 'No se han hecho modificaciones']);       
             }  
-            else if( inventarioController::validaModificacion($insumos) != [] ){
-                return Response()->json(['status' => 'danger', 'menssage' => 'Error']);
+            else if( ($insumosInvalidos = inventarioController::validaModificacion($insumos)) != [] ){
+                return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
             }
 
             if( empty($provedor) ){ 
@@ -147,7 +147,7 @@ class modificacionesController extends Controller
 
                 if( !empty($provedorModificar) && $provedor != $provedorModificar)
                      return Response()->json(['status' => 'danger', 'menssage' => 
-                        'El proveedor de esta orden de compra no coincideeee']);
+                        'El proveedor de esta orden de compra no coincide']);
             }
 
             $entrada = Entradas_modificada::create([

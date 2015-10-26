@@ -118,8 +118,9 @@ return [
     "rif"                =>  "El formato de rif es invalido",   
     "equal_provedor"     =>  "El provedor de esta orden de compra no coincide",
     "diff_orden"         =>  "Especifique un numero de orden diferente para realizar la modificacion",
-    "diff_provedor"      =>  "Especifique un provedor diferente para realizar la modificacion",
+    "diff_provedor"      =>  "Especifique un proveedor diferente para realizar la modificacion",
     "insumos_modificar"  =>  "Los insumos son invalidos",
     "insumos_validate"   =>  "Valores de insumos no validos",
-    "insumos"            =>  "Valores de insumos no validos" 
+    "insumos"            =>  "Valores de insumos no validos",
+    "one_insumo"         =>  "No es posible borrar el unico insumo de esta entrada"
 ];

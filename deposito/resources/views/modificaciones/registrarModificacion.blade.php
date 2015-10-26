@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
 
-	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
+	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 	
 	<div ng-hide="status">
 		<div class="row">
@@ -62,7 +62,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="insumo in insumos">
+				<tr ng-class="insumo.style" ng-repeat="insumo in insumos">
 					<td class="col-md-2">{#insumo.codigo#}</td>
 					<td>{#insumo.descripcion#}</td>
 					<td class="col-md-2">{#insumo.cantidad#}</td>
