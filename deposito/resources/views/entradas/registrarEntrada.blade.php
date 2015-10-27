@@ -26,7 +26,6 @@
 	</div>
 
 	<br>
-	<br>
 
 	<div class="row">
 		<div class="form-group col-md-3 text-title-modal">
@@ -35,15 +34,26 @@
   				<option value="{#provedore.id#}" ng-repeat="provedore in provedores">{#provedore.nombre#}</option>
   			</select>
 		</div>
-		<div class="col-md-4 col-md-offset-1">
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">
-				<ui-select ng-model="insumoSelect.selected" theme="bootstrap">
-		            <ui-select-match placeholder="Indique un insumo">{#$select.selected.codigo#}</ui-select-match>
-		            <ui-select-choices repeat="item in listInsumos | filter: $select.search">
-		              <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
-		              <small ng-bind-html="item.codigo | highlight: $select.search"></small>
-		            </ui-select-choices>
-          		</ui-select>
+
+          			<ui-select ng-model="insumoSelect.selected"
+				             ng-disabled="disabled"
+				             reset-search-input="true">
+				    <ui-select-match placeholder="Ingrese una Descripción o un codigo">
+				    {#$select.selected.descripcion#}</ui-select-match>
+				    <ui-select-choices repeat="insumo in listInsumos track by $index"
+				             refresh="refreshInsumos($select.search)"
+				             refresh-delay="0">
+				      <div ng-bind-html="insumo.descripcion | highlight: $select.search"></div>
+				       <small ng-bind-html="insumo.codigo"></small>
+				    </ui-select-choices>
+				    </ui-select>
 
 				<div class="input-group-btn">
 				    <button class="btn btn-success" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>

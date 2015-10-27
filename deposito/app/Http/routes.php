@@ -182,6 +182,9 @@ Route::get('getInsumos','insumosController@allInsumos');
 //Obtiene un insumo por su id
 Route::get('getInsumo/{id}', 'insumosController@getInsumo');
 
+//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
+Route::get('getInsumosConsulta', 'insumosController@getInsumosConsulta');
+
 /*** fin de modulo Insumos ***/
 
 
@@ -224,6 +227,8 @@ Route::get('inventarioHerramientas','inventarioController@viewHerramientas');
 //Regresa todos las insumos en el inventario
 Route::get('getInventario','inventarioController@allInsumos');
 
+//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
+Route::get('getInventarioConsulta', 'inventarioController@getInsumosConsulta');
 //configura el valor min y med de los insumos que se especifiquen
 Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
 
@@ -306,4 +311,3 @@ Route::get('getEntradasModificadas','modificacionesController@allEntradas');
 Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
 
 /*** Fin de modulo de modificaciones ***/
-

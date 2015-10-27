@@ -10,11 +10,18 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.listInsumos = [];
   $scope.alert = {};
 
+  $scope.refreshInsumos = function(insumo) {
+      var params = {insumo: insumo};
+      return $http.get(
+        '/getInsumosConsulta',
+        {params: params}
+      ).then(function(response){
+        $scope.listInsumos =  response.data
+      });
+  };
+
   $http.get('/getProvedores')
     .success( function(response){ $scope.provedores = response;});
-
-  $http.get('/getInsumos')
-    .success( function(response){ $scope.listInsumos = response;});
 
   $scope.agregarInsumos = function(){
 

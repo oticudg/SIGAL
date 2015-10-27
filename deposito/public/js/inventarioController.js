@@ -48,7 +48,15 @@ angular.module('deposito')
    $scope.listInsumos = [];
    $scope.insumos = [];
 
-   getInsumos();
+    $scope.refreshInsumos = function(insumo) {
+        var params = {insumo: insumo};
+        return $http.get(
+          '/getInventarioConsulta',
+          {params: params}
+        ).then(function(response){
+          $scope.listInsumos =  response.data
+        });
+    };
 
    $scope.agregarInsumos = function(){
 
@@ -103,12 +111,6 @@ angular.module('deposito')
   function restablecer(){
     $scope.insumos  = [];
     getInsumos();
-  }
-
-  function getInsumos(){
-  	
-  	$http.get('/getInventario')
-    .success( function(response){ $scope.listInsumos = response;});
   }
 
   function validaCantidad(){

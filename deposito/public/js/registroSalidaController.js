@@ -10,8 +10,15 @@ controller('registroSalidaController',function($scope,$http,$modal){
   $scope.insumos = [];
   $scope.alert = {};
   
-  $http.get('/getInsumos')
-    .success( function(response){ $scope.listInsumos = response;});
+  $scope.refreshInsumos = function(insumo) {
+    var params = {insumo: insumo};
+    return $http.get(
+      '/getInsumosConsulta',
+      {params: params}
+    ).then(function(response){
+      $scope.listInsumos =  response.data
+    });
+  };
 
   $http.get('/getDepartamentos')
       .success( function(response){ $scope.departamentos = response;});

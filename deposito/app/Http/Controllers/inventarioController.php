@@ -30,6 +30,24 @@ class inventarioController extends Controller
             ->get();
     }
 
+    public function getInsumosConsulta(Request $request){
+
+        $consulta = $request->input('insumo');
+
+        if($consulta != ""){
+
+            return DB::table('insumos')
+                        ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
+                        ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
+                            'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+                        ->where('insumos.descripcion', 'like', $consulta.'%')
+                        ->orwhere('insumos.codigo', 'like', $consulta.'%')
+                        ->take(20)->get();
+        }
+
+        return "[]"; 
+    }
+
     public function configuraAlarmas(Request $request){
 
         $data = $request->all();

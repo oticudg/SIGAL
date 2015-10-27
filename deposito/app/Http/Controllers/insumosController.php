@@ -76,7 +76,20 @@ class insumosController extends Controller
             return $insumo; 
         }
     }
-    
+
+    public function getInsumosConsulta(Request $request){
+
+        $consulta = $request->input('insumo');
+
+        if($consulta != ""){
+
+            return Insumo::where('descripcion', 'like', $consulta.'%')
+                   ->orwhere('codigo', 'like', $consulta.'%')->take(20)->get();
+        }
+
+        return "[]"; 
+    }
+
     public function editInsumo(Request $request,$id){
 
         $insumo = Insumo::where('id',$id)->first();
