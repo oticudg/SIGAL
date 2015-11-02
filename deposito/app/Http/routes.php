@@ -311,3 +311,11 @@ Route::get('getEntradasModificadas','modificacionesController@allEntradas');
 Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
 
 /*** Fin de modulo de modificaciones ***/
+
+
+/*** Modulo de Estadisticas ***/
+
+//Muesta el panel de estadisticas 
+Route::get('estadisticas', 'estadisticasController@index');
+
+/*** Fin de modulo de Estadisticas ***/
