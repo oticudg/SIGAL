@@ -318,4 +318,13 @@ Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
 //Muesta el panel de estadisticas 
 Route::get('estadisticas', 'estadisticasController@index');
 
+//Regresa las salidas de todo los servicios del mes actual
+Route::get('getEstadisticas', 'estadisticasController@getServicios');
+
+//Regresa todas las salidad de un insumo por sevicio en un rango de fecha
+Route::post('estadisticasInsumo', 'estadisticasController@getInsumo');
+
+//Regresa todas los insumos que han salido de un servicio en un ranfo de fecha
+Route::post('estadisticasServicio', 'estadisticasController@getServicio');
+
 /*** Fin de modulo de Estadisticas ***/

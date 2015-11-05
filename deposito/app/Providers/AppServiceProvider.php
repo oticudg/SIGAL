@@ -175,6 +175,14 @@ class AppServiceProvider extends ServiceProvider
             return true;
 
         });
+
+        Validator::extend('insumo', function($attribute, $value)
+        {
+            if( !Insumo::where('id', $value)->first())
+                return false;
+
+            return true;
+        });
     }
 
     /**
