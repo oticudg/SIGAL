@@ -15,10 +15,10 @@ class CreaTablaDepartamentos extends Migration
         Schema::create('departamentos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre')->unique();
-            $table->string('division');
             $table->string('sello');
             $table->string('firma');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

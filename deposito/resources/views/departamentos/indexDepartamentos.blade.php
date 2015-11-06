@@ -27,6 +27,17 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="col-md-1">
+    		<label for="cantidad">Registros</label>
+			<select id="cantidad" class="form-control" ng-model="cRegistro">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>	
+			</select>
+		</div>
+	</div>
+
 	<br>
 	<br>
 
@@ -34,18 +45,16 @@
 		<thead>
 			<tr>
 				<th>Nombre</th>
-				<th>Division</th>
-				<th class="table-img">Sello</th>
-				<th class="table-img">Firma</th>
+				<th class="col-md-1">Sello</th>
+				<th class="col-md-1">Firma</th>
 				<th class="table-edit">Editar</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:1">
+			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#departamento.nombre | capitalize#}</td>
-				<td>{#departamento.division | capitalize#}</td>
-				<td class="table-img-lg"><img src="/files/sellos/{#departamento.sello#}"class="img-thumbnail img-lg"></td>
-				<td class="table-img-lg"><img src="/files/firmas/{#departamento.firma#}"class="img-thumbnail img-lg"></td>
+				<td><button class="btn btn-warning" ng-click="openImagen('/files/sellos/' + departamento.sello)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				<td><button class="btn btn-warning" ng-click="openImagen('/files/firmas/' + departamento.firma)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>
 		</tbody>
@@ -56,6 +65,17 @@
      	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
       </div>
     </div>
+
+    <script type="text/ng-template" id="imagen.html">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+        	<center><img src="{#imagen#}" class="img-thumbnail"></center>
+        </div>
+        <div class="modal-footer">
+            	<button class="btn btn-warning" type="button" ng-click="cerrar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
+        </div>
+    </script>
 
 @endsection
 

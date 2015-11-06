@@ -40,7 +40,6 @@ class departamentosController extends Controller
         $validator = Validator::make($data,[
 
             'nombre'        =>  'required|alpha_spaces|min:3|max:30|unique:departamentos',
-            'division'      =>  'required|alpha|min:3|max:30',
             'sello'         =>  'required|image',
             'firma'         =>  'required|image'
 
@@ -65,7 +64,6 @@ class departamentosController extends Controller
             Departamento::create([
 
                 'nombre'    => $data['nombre'],
-                'division'  => $data['division'],
                 'sello'     => $selloNombre,
                 'firma'     => $firmaNombre
 

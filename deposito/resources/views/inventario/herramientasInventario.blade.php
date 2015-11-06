@@ -66,7 +66,6 @@
 				<button ng-show="existInsumos()" ng-click="guardar()" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
     		</center>
     	</tab>
-    	<tab heading="Reportes">Herramienta en Construccion</tab>
   	</tabset>
 	
 </div>

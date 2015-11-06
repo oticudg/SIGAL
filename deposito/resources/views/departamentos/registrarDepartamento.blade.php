@@ -24,12 +24,8 @@
   		@endif
 
 		<div class="row">
-			<div class="col-md-4 col-md-offset-2">
+			<div class="col-md-4 col-md-offset-4">
 				<input class="form-control" type="text" placeholder="Nombre" name="nombre" value="{{old('nombre')}}">
-			</div>
-
-			<div class="col-md-4">
-				<input class="form-control" type="text" placeholder="División" name="division" value="{{old('division')}}">
 			</div>
 		</div>
 		
@@ -37,14 +33,17 @@
 
 		<div class="row">
 			<center>
-				<div class="col-md-4 col-md-offset-2">
-					<label>Sello</label>
-					<input ngf-select ng-model="sello" type="file" name="sello"/>
-				</div>
-
-				<div class="col-md-4">
-					<label>Firma</label>
-					<input ngf-select ng-model="firma" type="file" name="firma">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="row">
+						<div class="col-md-6">
+							<label>Sello</label>
+							<input ngf-select ng-model="sello" type="file" name="sello"/>
+						</div>
+						<div class="col-md-6">
+							<label>Firma</label>
+							<input ngf-select ng-model="firma" type="file" name="firma">
+						</div>
+					</div>
 				</div>
 			</center>
 		</div>

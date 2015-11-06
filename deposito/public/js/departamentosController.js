@@ -5,6 +5,7 @@ angular.module('deposito').
 controller('departamentosController',function($scope,$http,$modal){
 
 	$scope.departamentos = [];
+  $scope.cRegistro = '5';
 
 	$scope.obtenerDepartamentos = function(){
 
@@ -29,7 +30,21 @@ controller('departamentosController',function($scope,$http,$modal){
          }
     });
   };
-  
+
+  $scope.openImagen = function(sello){
+
+    $modal.open({
+      animation: true,
+      templateUrl: 'imagen.html',
+      controller: 'imagenCtrl',
+      resolve: {
+        sello: function () {
+          return sello;
+        }
+      }
+    });
+  }
+
 	$scope.obtenerDepartamentos();
 
 });
@@ -68,3 +83,17 @@ angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($sco
  };
 
 });
+
+angular.module('deposito').controller('imagenCtrl', function ($scope, $modalInstance, sello) {
+
+  $scope.btnVisivilidad = true;
+  $scope.imagen = sello;
+
+  $scope.cerrar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+
+});
+
+

@@ -46,7 +46,6 @@ controller('estadisticasController',function($scope,$http){
 
 	$scope.formCerrar = function(){
 		$scope.formVisivility = true;
-		estadisticas();
 	}
 
 	var chartOption = {
