@@ -72,15 +72,6 @@ controller('usersController',function($scope,$http,$modal){
 angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $modalInstance, $http, obtenerUsuarios) {
 
   $scope.btnVisivilidad = true;
-  $scope.nombre = '';
-  $scope.apellido = '';
-  $scope.cedula = '';
-  $scope.email = ''; 
-  $scope.password = '';
-  $scope.password_confirmation = '';
-  $scope.rol = '';
-  $scope.rango = '';
-
 
   $scope.registrar = function () {
   	$scope.save();
@@ -101,21 +92,7 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
 
  $scope.save = function(){
 
- 	var $data = {
-
-  'nombre':$scope.nombre,
-  'apellido':$scope.apellido,
-  'cedula':$scope.cedula,
-  'email':$scope.email,
-  'password':$scope.password,
-  'password_confirmation' : $scope.password_confirmation,
-  'rol':$scope.rol,
-  'rango':$scope.rango
-
-  };
-
-
- 	$http.post('/registrarUsuario',$data)
+ 	$http.post('/registrarUsuario',$scope.data)
  		.success(function(response){
 
  			$scope.alerts = [];
