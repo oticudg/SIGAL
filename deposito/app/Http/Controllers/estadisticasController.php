@@ -90,7 +90,7 @@ class estadisticasController extends Controller
       else{
 
           $insumo = Insumo::where('id', $data['insumo'])->value('descripcion');
-          $insumos = DB::table('insumos_salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%e")'), 
+          $insumos = DB::table('insumos_salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%d")'), 
                       [$data['fechaI'], $data['fechaF'] ])
                       ->where('insumos_salidas.insumo', $data['insumo'])
                       ->join('salidas', 'insumos_salidas.salida', '=', 'salidas.id')
@@ -122,7 +122,7 @@ class estadisticasController extends Controller
       else{
 
           $servicio =  Departamento::where('id', $data['servicio'])->value('nombre');
-          $insumos = DB::table('salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%e")'), 
+          $insumos = DB::table('salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%d")'), 
                       [$data['fechaI'], $data['fechaF'] ])
                       ->where('salidas.departamento', $data['servicio'])
                       ->join('insumos_salidas', 'insumos_salidas.salida', '=', 'salidas.id')

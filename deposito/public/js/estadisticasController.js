@@ -119,8 +119,19 @@ controller('estadisticasController',function($scope,$http){
 
 	function dataForamat(data){
 
-		if(data != null)
-			return data.getFullYear() + '-' + (data.getMonth() + 1) + '-' + data.getDate();
+		if(data != null){
+
+			var month = data.getMonth() + 1;
+			var day = data.getDate();
+
+			if( day < 10 )
+				day = "0"+day;
+
+			if(month < 10)
+				month = "0"+month;
+
+			return data.getFullYear() + '-' + month + '-' + day;
+		}
 	}
 
 	$scope.consultaInsumo = function(){
