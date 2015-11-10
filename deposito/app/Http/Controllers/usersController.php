@@ -46,9 +46,7 @@ class usersController extends Controller
             'apellido' => 'required|alpha|min:2|max:20',
             'cedula'   => 'required|cedula',
             'email'    => 'required|email|max:50|unique:users',
-            'password' => 'required|min:8|confirmed',
-            'rol'      => 'required|in:farmacia,alimentacion',
-            'rango'    => 'required|in:director,jefe,empleado'
+            'password' => 'required|min:8|confirmed'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -61,8 +59,6 @@ class usersController extends Controller
                 'nombre'   => $data['nombre'],
                 'apellido' => $data['apellido'],
                 'cedula'   => $data['cedula'],
-                'rol'      => $data['rol'],
-                'rango'    => $data['rango'],
                 'email'    => $data['email'],
                 'password' => bcrypt($data['password'])
             ]);

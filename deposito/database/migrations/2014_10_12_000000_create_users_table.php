@@ -17,8 +17,6 @@ class CreateUsersTable extends Migration
             $table->string('nombre', 15);
             $table->string('apellido', 20);
             $table->string('cedula');
-            $table->enum('rol',['farmacia','alimentacion']);
-            $table->enum('rango',['director','jefe','empleado']);
             $table->string('email',50)->unique();
             $table->string('password', 60);
             $table->string('remember_token');
