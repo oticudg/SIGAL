@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Privilegio;
 
 class usersController extends Controller
 {
 
     private $menssage = [
-
-        'rol.required' => 'Por favor seleccione un departamento',
-        'rango.required' => 'Por favor seleccione un rango'
-
+        'password.required'  => 'El campo contraseña es obligatorio',
+        'password.min'       => 'La contraseña debe contener al menos 8 caracteres',
+        'password.confirmed' => 'La contraseña no coincide'
     ];
 
     public function index()
@@ -41,12 +42,32 @@ class usersController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            
-            'nombre'   => 'required|alpha|min:2|max:15',
-            'apellido' => 'required|alpha|min:2|max:20',
-            'cedula'   => 'required|cedula',
-            'email'    => 'required|email|max:50|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'nombre'         => 'required|alpha|min:2|max:15',
+            'apellido'       => 'required|alpha|min:2|max:20',
+            'cedula'         => 'required|cedula',
+            'email'          => 'required|email|max:50|unique:users',
+            'password'       => 'required|min:8|confirmed',
+            'pUsuario'       => 'required',
+            'pUsuarioR'      => 'required',
+            'pUsuarioM'      => 'required',
+            'pUsuarioE'      => 'required',
+            'pDepartamento'  => 'required',
+            'pDepartamentoR' => 'required',
+            'pDepartamentoE' => 'required',
+            'pInsumo'        => 'required',
+            'pInsumoR'       => 'required',
+            'pInsumoM'       => 'required',
+            'pInsumoE'       => 'required',
+            'pInventario'    => 'required',
+            'pInventarioH'   => 'required',
+            'pModificacion'  => 'required',
+            'pEntrada'       => 'required',
+            'pEntradaV'      => 'required',
+            'pEntradaR'      => 'required',
+            'pSalida'        => 'required',
+            'pSalidaV'       => 'required',
+            'pSalidaR'       => 'required',
+            'pEstadistica'   => 'required'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -54,13 +75,48 @@ class usersController extends Controller
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
+
+            if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
+                && $data['pInventario'] == null && $data['pModificacion'] == null && 
+                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null){
+
+                return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
+            }
             
-            User::create([
-                'nombre'   => $data['nombre'],
-                'apellido' => $data['apellido'],
-                'cedula'   => $data['cedula'],
-                'email'    => $data['email'],
-                'password' => bcrypt($data['password'])
+            $usuario = User::create([
+                        'nombre'   => $data['nombre'],
+                        'apellido' => $data['apellido'],
+                        'cedula'   => $data['cedula'],
+                        'email'    => $data['email'],
+                        'password' => bcrypt($data['password'])
+                    ])['id'];
+
+            Privilegio::create([
+                'usuario'        => $usuario,
+                'usuarios'       => $data['pUsuario'],
+                'usuarioN'       => $data['pUsuarioR'],
+                'usuarioM'       => $data['pUsuarioM'],
+                'usuarioD'       => $data['pUsuarioE'],
+                'provedores'     => $data['pProvedor'],
+                'provedoreN'     => $data['pProvedorR'],
+                'provedoreM'     => $data['pProvedorM'],
+                'provedoreD'     => $data['pProvedorE'],
+                'departamentos'  => $data['pDepartamento'],
+                'departamentoN'  => $data['pDepartamentoR'],
+                'departamentoD'  => $data['pDepartamentoE'],
+                'insumos'        => $data['pInsumo'],
+                'insumoN'        => $data['pInsumoR'],
+                'insumoM'        => $data['pInsumoM'],
+                'insumoD'        => $data['pInsumoE'],
+                'insumos'        => $data['pInsumo'],
+                'inventarios'    => $data['pInventario'],
+                'inventarioH'    => $data['pInventarioH'],
+                'modificaciones' => $data['pModificacion'],
+                'entradas'       => $data['pEntradaV'],
+                'entradaR'       => $data['pEntradaR'],
+                'salidas'        => $data['pSalidaV'],
+                'salidaR'        => $data['pSalidaR'],
+                'estadisticas'   => $data['pEstadistica']
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Usuario registrado']);
@@ -69,12 +125,23 @@ class usersController extends Controller
 
     public function allUsuarios(){
 
-        return User::get();
+        return User::select(DB::raw('CONCAT(nombre, " " , apellido) as nombre'), 'cedula', 
+            'email', 'id')->get();
     }
 
     public function getUsuario($id){
 
-        $usuario = User::where('id',$id)->first();
+        $usuario = DB::table('users')
+                  ->where('users.id',$id)
+                  ->join('privilegios', 'users.id', '=', 'privilegios.usuario')
+                  ->select('users.nombre', 'users.apellido', 'users.id', 'users.email', 'users.cedula',
+                    'usuarios as pUsuario', 'usuarioN as pUsuarioR', 'usuarioM as pUsuarioM', 'usuarioD as pUsuarioE',
+                    'provedores as pProvedor', 'provedoreN as pProvedorR', 'provedoreM as pProvedorM', 'provedoreD as pProvedorE',
+                    'departamentos as pDepartamento', 'departamentoN as pDepartamentoR', 'departamentoD as pDepartamentoE',
+                    'insumos as pInsumo', 'insumoN as pInsumoR', 'insumoM as pInsumoM', 'insumoD as pInsumoE',
+                    'inventarios as pInventario', 'inventarioH as pInventarioH', 'modificaciones as pModificacion',
+                    'entradas as pEntradaV', 'entradaR as pEntradaR', 'salidas as pSalidaV', 'salidaR as pSalidaR', 'estadisticas as pEstadistica')
+                  ->first();
 
         if(!$usuario){
 
@@ -82,9 +149,8 @@ class usersController extends Controller
         }
         else{
 
-            return $usuario; 
+            return ['usuario' => $usuario]; 
         }
-
     }
 
     public function editUsuario(Request $request,$id){
@@ -103,8 +169,28 @@ class usersController extends Controller
                     'nombre'   => 'required|alpha|min:3|max:15',
                     'apellido' => 'required|alpha|min:3|max:20',
                     'cedula'   => 'required|cedula',
-                    'rol'      => 'required|in:farmacia,alimentacion',
-                    'rango'    => 'required|in:director,jefe,empleado'
+                    'password'       => 'min:8|confirmed',
+                    'pUsuario'       => 'required',
+                    'pUsuarioR'      => 'required',
+                    'pUsuarioM'      => 'required',
+                    'pUsuarioE'      => 'required',
+                    'pDepartamento'  => 'required',
+                    'pDepartamentoR' => 'required',
+                    'pDepartamentoE' => 'required',
+                    'pInsumo'        => 'required',
+                    'pInsumoR'       => 'required',
+                    'pInsumoM'       => 'required',
+                    'pInsumoE'       => 'required',
+                    'pInventario'    => 'required',
+                    'pInventarioH'   => 'required',
+                    'pModificacion'  => 'required',
+                    'pEntrada'       => 'required',
+                    'pEntradaV'      => 'required',
+                    'pEntradaR'      => 'required',
+                    'pSalida'        => 'required',
+                    'pSalidaV'       => 'required',
+                    'pSalidaR'       => 'required',
+                    'pEstadistica'   => 'required'
             ], $this->menssage);
 
 
@@ -113,18 +199,56 @@ class usersController extends Controller
                 return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
             }
             else{
-               
+                
+                if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
+                && $data['pInventario'] == null && $data['pModificacion'] == null && 
+                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null){
+
+                    return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
+                }
+
+                if( isset($data['password']) ){
+                    
+                    User::where('id',$id)->update([
+                        'password' => bcrypt($data['password'])
+                    ]);
+                }
+
                 User::where('id',$id)->update([
 
                     'nombre'        => $data['nombre'],
                     'apellido'      => $data['apellido'],
-                    'cedula'        => $data['cedula'],
-                    'rol'           => $data['rol'],
-                    'rango'         => $data['rango']
+                    'cedula'        => $data['cedula']
+                ]);
+
+                Privilegio::where('usuario', $id)->update([
+                    'usuarios'       => $data['pUsuario'],
+                    'usuarioN'       => $data['pUsuarioR'],
+                    'usuarioM'       => $data['pUsuarioM'],
+                    'usuarioD'       => $data['pUsuarioE'],
+                    'provedores'     => $data['pProvedor'],
+                    'provedoreN'     => $data['pProvedorR'],
+                    'provedoreM'     => $data['pProvedorM'],
+                    'provedoreD'     => $data['pProvedorE'],
+                    'departamentos'  => $data['pDepartamento'],
+                    'departamentoN'  => $data['pDepartamentoR'],
+                    'departamentoD'  => $data['pDepartamentoE'],
+                    'insumos'        => $data['pInsumo'],
+                    'insumoN'        => $data['pInsumoR'],
+                    'insumoM'        => $data['pInsumoM'],
+                    'insumoD'        => $data['pInsumoE'],
+                    'insumos'        => $data['pInsumo'],
+                    'inventarios'    => $data['pInventario'],
+                    'inventarioH'    => $data['pInventarioH'],
+                    'modificaciones' => $data['pModificacion'],
+                    'entradas'       => $data['pEntradaV'],
+                    'entradaR'       => $data['pEntradaR'],
+                    'salidas'        => $data['pSalidaV'],
+                    'salidaR'        => $data['pSalidaR'],
+                    'estadisticas'   => $data['pEstadistica']
                 ]);
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
-
             }
         }
     }

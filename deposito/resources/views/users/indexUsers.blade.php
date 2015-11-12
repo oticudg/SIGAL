@@ -44,17 +44,17 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Nombre</th>
+				<th class="col-md-3">Nombre</th>
 				<th>Usuario</th>
-				<th>Departamento</th>
+				<th class="col-md-2">Cedula</th>
 				<th class="table-edit" colspan="2">Editar</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr dir-paginate="usuario in usuarios | filter:busqueda | itemsPerPage:cRegistro">
-				<td>{#usuario.nombre + " " + usuario.apellido | capitalize#}</td>
+				<td>{#usuario.nombre| capitalize#}</td>
 				<td>{#usuario.email#}</td>
-				<td>{#usuario.rol | capitalize#}</td>
+				<td>{#usuario.cedula#}</td>
 				<td class="table-edit"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimUsuario(usuario.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 			</tr>

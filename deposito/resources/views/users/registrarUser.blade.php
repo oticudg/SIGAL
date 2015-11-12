@@ -62,7 +62,7 @@
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Usuarios</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pUsuario">Usuarios</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="usuarioActive()" ng-model="data.pUsuario">Usuarios</label>
 			<div ng-show="data.pUsuario">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
@@ -84,7 +84,7 @@
 
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Proveedores</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pProvedor">Proveedores</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="provedorActive()" ng-model="data.pProvedor">Proveedores</label>
 			<div ng-show="data.pProvedor">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
@@ -107,7 +107,7 @@
 		
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Departamentos</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pDepartamento">Departamentos</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="departamentoActive()" ng-model="data.pDepartamento">Departamentos</label>
 			<div ng-show="data.pDepartamento">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
@@ -128,7 +128,7 @@
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Insumos</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pInsumo">Insumos</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="insumoActive()" ng-model="data.pInsumo">Insumos</label>
 			<div ng-show="data.pInsumo">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
@@ -150,7 +150,7 @@
 
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Inventario</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pInventario">Inventario</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="inventarioActive()" ng-model="data.pInventario">Inventario</label>
 			<div ng-show="data.pInventario">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
@@ -172,7 +172,7 @@
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Entradas</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pEntrada">Entradas</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="entradaActive()" ng-model="data.pEntrada">Entradas</label>
 			<div ng-show="data.pEntrada">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
@@ -181,7 +181,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
-						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pEntrada" ng-model="data.pEntradaV">Ver</label>
+						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pEntrada" ng-model="data.pEntradaV">Auditar</label>
 					</div>
 				</div>
 			</div>
@@ -198,7 +198,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
-						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pSalida" ng-model="data.pSalidaV">Ver</label>
+						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pSalida" ng-model="data.pSalidaV">Auditar</label>
 					</div>
 				</div>
 			</div>	
