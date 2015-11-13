@@ -13,9 +13,40 @@
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => str_random(10),
+        'nombre'         => 'root',
+        'apellido'	     => 'deposito',
+        'email'          => 'root@sahum.gob.ve',
+        'cedula'         => '02617525315',
+        'password' 		 => bcrypt('root'),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Privilegio::class, function (Faker\Generator $faker) {
+    return [
+        'usuario'        => 1,
+        'usuarios'       => 1,
+        'usuarioN'       => 1,
+        'usuarioM'       => 1,
+        'usuarioD'       => 1,
+        'provedores'     => 1,
+        'provedoreN'     => 1,
+        'provedoreM'     => 1,
+        'provedoreD'     => 1,
+        'departamentos'  => 1,
+        'departamentoN'  => 1,
+        'departamentoD'  => 1,
+        'insumos' 		 => 1,
+        'insumoN' 		 => 1,
+        'insumoM' 		 => 1,
+        'insumoD' 		 => 1,
+        'inventarios' 	 => 1,
+        'inventarioH' 	 => 1,
+        'entradas' 		 => 1,
+        'entradaR'       => 1,
+        'salidas' 		 => 1,
+        'salidaR' 		 => 1,
+        'modificaciones' => 1,
+        'estadisticas'   => 1
     ];
 });

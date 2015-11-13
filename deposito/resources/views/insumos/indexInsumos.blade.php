@@ -11,8 +11,9 @@
 		<span class="glyphicon glyphicon-th"></span> Insumos
 	</h5>
 	<br>
-			
-	<button class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Insumo</button>
+	@if( Auth::user()->haspermission('insumoN') )	
+		<button class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Insumo</button>
+	@endif
 	<br>
 	<br>
 	<br>
@@ -45,15 +46,23 @@
 			<tr>
 				<th class="col-md-1">Codigo</th>
 				<th>Descripcion</th>
-				<th colspan="2" class="table-edit">Editar</th>
+				@if( Auth::user()->haspermission('insumoD') && Auth::user()->haspermission('insumoM'))
+					<th colspan="2" class="table-edit">Editar</th>
+				@elseif( Auth::user()->haspermission('insumoD') || Auth::user()->haspermission('insumoM') )
+					<th class="table-edit">Editar</th>
+				@endif
 			</tr>
 		</thead>
 		<tbody>
 			<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
 				<td class="col-md-2">{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
-				<td class="table-edit"><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
-				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@if( Auth::user()->haspermission('insumoM') )
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+				@endif
+				@if( Auth::user()->haspermission('insumoD'))
+					<td class="table-edit"><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@endif
 			</tr>
 		</tbody>
 	</table>

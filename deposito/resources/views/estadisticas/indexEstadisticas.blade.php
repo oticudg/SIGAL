@@ -11,7 +11,6 @@
 @section('front-page')
 	
 	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-cog"></span> Administración > 
 		<span class="glyphicon glyphicon-tasks"></span> Estadísticas
 	</h5>
 	<br>

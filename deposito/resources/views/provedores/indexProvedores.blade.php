@@ -12,8 +12,9 @@
 	</h5>
 	
 	<br>
-			
-	<button class="btn btn-success" ng-click="registraProvedor()"><span class="glyphicon glyphicon-plus"></span> Nuevo provedor</button>
+	@if( Auth::user()->haspermission('provedoreN') )
+		<button class="btn btn-success" ng-click="registraProvedor()"><span class="glyphicon glyphicon-plus"></span> Nuevo provedor</button>
+	@endif		
 	<br>
 	<br>
 	<br>
@@ -50,7 +51,11 @@
 				<th class="col-md-1">Contacto</th>
 				<th class="col-md-2">Direccion</th>
 				<th>Gmail</th>
-				<th colspan="2" class="table-edit">Editar</th>
+				@if( Auth::user()->haspermission('provedoreD') && Auth::user()->haspermission('provedoreM'))
+					<th colspan="2" class="table-edit">Editar</th>		
+				@elseif( Auth::user()->haspermission('provedoreD') || Auth::user()->haspermission('provedoreM') )
+					<th class="table-edit">Editar</th>		
+				@endif
 			</tr>
 		</thead>
 		<tbody>
@@ -61,8 +66,12 @@
 				<td>{#provedor.contacto | capitalize#}</td>
 				<td>{#provedor.direccion#}</td>
 				<td>{#provedor.email#}</td>
-				<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
-				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@if( Auth::user()->haspermission('provedoreM') )
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+				@endif
+				@if( Auth::user()->haspermission('provedoreD') )
+					<td class="table-edit"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@endif
 			</tr>
 		</tbody>
 	</table>

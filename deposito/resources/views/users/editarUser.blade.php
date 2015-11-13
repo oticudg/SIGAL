@@ -154,7 +154,7 @@
 			<div ng-show="data.pInventario">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
-						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pInventario" ng-model="data.pInventarioH">Herramientas</label>
+						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pInventarioH" ng-model="data.pInventarioH">Herramientas</label>
 					</div>
 				</div>
 			</div>

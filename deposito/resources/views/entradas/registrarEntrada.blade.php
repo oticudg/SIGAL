@@ -7,7 +7,7 @@
 @section('front-page')
 
 	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-cog"></span> Administración > 
+		<span class="glyphicon glyphicon-transfer"></span> Tranferencias > 
 		<span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada
 	</h5>
 

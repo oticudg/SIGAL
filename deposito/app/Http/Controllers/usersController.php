@@ -67,7 +67,11 @@ class usersController extends Controller
             'pSalida'        => 'required',
             'pSalidaV'       => 'required',
             'pSalidaR'       => 'required',
-            'pEstadistica'   => 'required'
+            'pEstadistica'   => 'required',
+            'pProvedor'      => 'required',
+            'pProvedorR'     => 'required',
+            'pProvedorM'     => 'required',
+            'pProvedorE'     => 'required'  
         ], $this->menssage);
 
         if($validator->fails()){
@@ -78,7 +82,8 @@ class usersController extends Controller
 
             if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
                 && $data['pInventario'] == null && $data['pModificacion'] == null && 
-                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null){
+                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null &&
+                $data['pProvedor'] == null){
 
                 return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
             }
@@ -190,7 +195,11 @@ class usersController extends Controller
                     'pSalida'        => 'required',
                     'pSalidaV'       => 'required',
                     'pSalidaR'       => 'required',
-                    'pEstadistica'   => 'required'
+                    'pEstadistica'   => 'required',
+                    'pProvedor'      => 'required',
+                    'pProvedorR'     => 'required',
+                    'pProvedorM'     => 'required',
+                    'pProvedorE'     => 'required'
             ], $this->menssage);
 
 
@@ -202,7 +211,8 @@ class usersController extends Controller
                 
                 if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
                 && $data['pInventario'] == null && $data['pModificacion'] == null && 
-                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null){
+                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null && 
+                    $data['pProvedor'] == null){
 
                     return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
                 }

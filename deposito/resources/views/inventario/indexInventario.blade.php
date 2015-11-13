@@ -11,8 +11,9 @@
 		<span class="glyphicon glyphicon-th-list"></span> Inventario
 	</h5>
 	<br>
-	
-	<button class="btn btn-success" ng-click="herramientas()"><span class="glyphicon glyphicon-wrench"></span> Herramientas</button>
+	@if( Auth::user()->haspermission('inventarioH') )
+		<button class="btn btn-success" ng-click="herramientas()"><span class="glyphicon glyphicon-wrench"></span> Herramientas</button>
+	@endif
 	<br>
 	<br>
 	<br>

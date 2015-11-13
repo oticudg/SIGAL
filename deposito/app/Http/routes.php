@@ -26,31 +26,41 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo Provedores ***/
 
-	//Muesta el panel de provedores
-	Route::get('provedores','provedoresController@index');
+	Route::group(['middleware' => 'permission:provedores'], function(){
 
-	//Muestra la vista de registro de provedor
-	Route::get('registraProvedor','provedoresController@viewRegistro');
-	//Registra un provedor
-	Route::post('registraProvedor' ,'provedoresController@registrar');
+		//Muesta el panel de provedores
+		Route::get('provedores','provedoresController@index');
 
-	//Muesta la vista de edicion de provedores
-	Route::get('editarProvedor', 'provedoresController@viewEditar');
-	//Edita un provedor cuyo id se pase
-	Route::post('editProvedor/{id}', 'provedoresController@editProvedor');
+		Route::group(['middleware' => 'permission:provedoreN'], function(){
+			//Muestra la vista de registro de provedor
+			Route::get('registraProvedor','provedoresController@viewRegistro');
+			//Registra un provedor
+			Route::post('registraProvedor' ,'provedoresController@registrar');
+		});
 
-	//Muestra la vista de eliminacion de provedores
-	Route::get('elimProvedor','provedoresController@viewEliminar');
-	//Elimina un provedor cuyo id se pase
-	Route::post('elimProvedor/{id}','provedoresController@elimProvedor');
+		Route::group(['middleware' => 'permission:provedoreM'], function(){
+			//Muesta la vista de edicion de provedores
+			Route::get('editarProvedor', 'provedoresController@viewEditar');
+			//Edita un provedor cuyo id se pase
+			Route::post('editProvedor/{id}', 'provedoresController@editProvedor');
+		});
+		
+		Route::group(['middleware' => 'permission:provedoreD'], function(){
+			//Muestra la vista de eliminacion de provedores
+			Route::get('elimProvedor','provedoresController@viewEliminar');
+			//Elimina un provedor cuyo id se pase
+			Route::post('elimProvedor/{id}','provedoresController@elimProvedor');
+		});
+		
+		//Obtiene un provedor por su id
+		Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
+
+	});
 
 	//Regresa todos los provedores que existan
 	Route::get('getProvedores','provedoresController@allProvedores');
-	//Obtiene un provedor por su id
-	Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
 
 	/*** fin de modulo provedores ***/
-
 
 	/*** Modulo presentaciones ***/
 
@@ -110,46 +120,66 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de usuarios ***/
 
-	//Muestra el panel de usuarios 
-	Route::get('usuarios' , 'usersController@index');
+	Route::group(['middleware' => 'permission:usuarios'], function(){
 
-	//Muestra vista de registro de usuarios
-	Route::get('registrarUser','usersController@viewRegistrar');
-	//Registra un usuario
-	Route::post('registrarUsuario' ,'usersController@registrar');
+		//Muestra el panel de usuarios 
+		Route::get('usuarios' , 'usersController@index');
 
-	//Muesta la vista de edicion de Usuarios
-	Route::get('editarUsuario', 'usersController@viewEditar');
-	//Edita un usuario cuyo id se pase
-	Route::post('editarUsuario/{id}', 'usersController@editUsuario');
+		Route::group(['middleware' => 'permission:usuarioN'], function(){
+			//Muestra vista de registro de usuarios
+			Route::get('registrarUser','usersController@viewRegistrar');
+			//Registra un usuario
+			Route::post('registrarUsuario' ,'usersController@registrar');
+		});
 
-	//Muestra la vista de eliminacion de usuarios
-	Route::get('eliminarUsuario','usersController@viewEliminar');
-	//Elimina un usuario cuyo id se pase
-	Route::post('eliminarUsuario/{id}','usersController@elimUsuario');
+		Route::group(['middleware' => 'permission:usuarioM'], function(){
+			//Muesta la vista de edicion de Usuarios
+			Route::get('editarUsuario', 'usersController@viewEditar');
+			//Edita un usuario cuyo id se pase
+			Route::post('editarUsuario/{id}', 'usersController@editUsuario');
+		});
 
-	//Regresa todas los usuarios que existan
-	Route::get('getUsuarios','usersController@allUsuarios');
-	//Obtiene un usuario por su id
-	Route::get('getUsuario/{id}', 'usersController@getUsuario');
+		Route::group(['middleware' => 'permission:usuarioD'], function(){
+			//Muestra la vista de eliminacion de usuarios
+			Route::get('eliminarUsuario','usersController@viewEliminar');
+			//Elimina un usuario cuyo id se pase
+			Route::post('eliminarUsuario/{id}','usersController@elimUsuario');
+		});
 
+		//Regresa todas los usuarios que existan
+		Route::get('getUsuarios','usersController@allUsuarios');
+		//Obtiene un usuario por su id
+		Route::get('getUsuario/{id}', 'usersController@getUsuario');
+	});
+	
 	/*** fin de modulo usuario ***/
 
 
 	/*** Modulo de departamentos ***/
 
-	//Muestra el panel de departamentos 
-	Route::get('departamentos','departamentosController@index');
+	Route::group(['middleware' => 'permission:departamentos'], function(){
 
-	//Muestra vista de registro de departamento
-	Route::get('registrarDepartamento','departamentosController@viewRegistrar');
-	//Registra un Departamento
-	Route::post('registrarDepartamento' ,'departamentosController@registrar');
+		//Muestra el panel de departamentos 
+		Route::get('departamentos','departamentosController@index');
 
-	//Muestra la vista de eliminacion de departamentos
-	Route::get('eliminarDepartamento','departamentosController@viewEliminar');
-	//Elimina un departamento cuyo id se pase
-	Route::post('eliminarDepartamento/{id}','departamentosController@elimDepartamento');
+		Route::group(['middleware' => 'permission:departamentoN'], function(){
+			//Muestra vista de registro de departamento
+			Route::get('registrarDepartamento','departamentosController@viewRegistrar');
+			//Registra un Departamento
+			Route::post('registrarDepartamento' ,'departamentosController@registrar');
+		});
+		
+		Route::group(['middleware' => 'permission:departamentoD'], function(){
+			//Muestra la vista de eliminacion de departamentos
+			Route::get('eliminarDepartamento','departamentosController@viewEliminar');
+			//Elimina un departamento cuyo id se pase
+			Route::post('eliminarDepartamento/{id}','departamentosController@elimDepartamento');
+		});
+		
+		//Obtiene un provedor por su id
+		Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
+
+	});
 
 	//Regresa todas los departamentos que existan
 	Route::get('getDepartamentos','departamentosController@allDepartamentos');
@@ -160,28 +190,37 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de Insumos ***/
 
-	//Muestra el panel de insumos 
-	Route::get('insumos','insumosController@index');
+	Route::group(['middleware' => 'permission:insumos'], function(){
 
-	//Muestra vista de registro de insumo
-	Route::get('registrarInsumo','insumosController@viewRegistrar');
-	//Registra un insumo
-	Route::post('registrarInsumo' ,'insumosController@registrar');
+		//Muestra el panel de insumos 
+		Route::get('insumos','insumosController@index');
 
-	//Muesta la vista de edicion de insumo
-	Route::get('editarInsumo', 'insumosController@viewEditar');
-	//Edita un insumo cuyo id se pase
-	Route::post('editarInsumo/{id}', 'insumosController@editInsumo');
+		Route::group(['middleware' => 'permission:insumoN'], function(){
+			//Muestra vista de registro de insumo
+			Route::get('registrarInsumo','insumosController@viewRegistrar');
+			//Registra un insumo
+			Route::post('registrarInsumo' ,'insumosController@registrar');
+		});
 
-	//Muestra la vista de eliminacion de insumo
-	Route::get('eliminarInsumo','insumosController@viewEliminar');
-	//Elimina un insumo cuyo id se pase
-	Route::post('eliminarInsumo/{id}','insumosController@elimInsumo');
+		Route::group(['middleware' => 'permission:insumoM'], function(){	
+			//Muesta la vista de edicion de insumo
+			Route::get('editarInsumo', 'insumosController@viewEditar');
+			//Edita un insumo cuyo id se pase
+			Route::post('editarInsumo/{id}', 'insumosController@editInsumo');
+		});
+		
+		Route::group(['middleware' => 'permission:insumoD'], function(){
+			//Muestra la vista de eliminacion de insumo
+			Route::get('eliminarInsumo','insumosController@viewEliminar');
+			//Elimina un insumo cuyo id se pase
+			Route::post('eliminarInsumo/{id}','insumosController@elimInsumo');
+		});
 
-	//Regresa todas los insumos que existan
-	Route::get('getInsumos','insumosController@allInsumos');
-	//Obtiene un insumo por su id
-	Route::get('getInsumo/{id}', 'insumosController@getInsumo');
+		//Regresa todas los insumos que existan
+		Route::get('getInsumos','insumosController@allInsumos');
+		//Obtiene un insumo por su id
+		Route::get('getInsumo/{id}', 'insumosController@getInsumo');	
+	});
 
 	//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
 	Route::get('getInsumosConsulta', 'insumosController@getInsumosConsulta');
@@ -219,114 +258,123 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de inventario ***/
 
-	//Muestra el panel de inventario
-	Route::get('inventario','inventarioController@index');
+	Route::group(['middleware' => 'permission:inventarios'], function(){
 
-	//Muestra la vista de herramientas
-	Route::get('inventarioHerramientas','inventarioController@viewHerramientas');
+		//Muestra el panel de inventario
+		Route::get('inventario','inventarioController@index');
 
-	//Regresa todos las insumos en el inventario
-	Route::get('getInventario','inventarioController@allInsumos');
+		Route::group(['middleware' => 'permission:inventarioH'], function(){
+			//Muestra la vista de herramientas
+			Route::get('inventarioHerramientas','inventarioController@viewHerramientas');
+			//configura el valor min y med de los insumos que se especifiquen
+			Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
+			//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
+			Route::get('getInventarioConsulta', 'inventarioController@getInsumosConsulta');
+		});
 
-	//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
-	Route::get('getInventarioConsulta', 'inventarioController@getInsumosConsulta');
-	//configura el valor min y med de los insumos que se especifiquen
-	Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
-
+		//Regresa todos las insumos en el inventario
+		Route::get('getInventario','inventarioController@allInsumos');	
+	});
+	
 	/*** Fin de modulo de inventario ***/
 
 
 	/*** Modulo de entradas ***/
 
-	//Muestra el panel de entradas
-	Route::get('entradas','entradasController@index');
+	Route::group(['middleware' => 'permission:entradas'], function(){
 
-	//Muestra la vista de registro de entrada
-	Route::get('registrarEntrada', 'entradasController@viewRegistrar');
-	//Registra una entrada
-	Route::post('registrarEntrada' ,'entradasController@registrar');
+		//Muestra el panel de entradas
+		Route::get('entradas','entradasController@index');
 
-	//Muestra la vista detallada de una entrada
-	Route::get('detallesEntrada','entradasController@detalles');
+			//Muestra la vista detallada de una entrada
+		Route::get('detallesEntrada','entradasController@detalles');
 
-	//Regresa todas las entradas
-	Route::get('getEntradas','entradasController@allEntradas');
+		//Regresa todas las entradas
+		Route::get('getEntradas','entradasController@allEntradas');
 
-	//Regresa todos los insumos que han entrado
-	Route::get('getInsumosEntradas','entradasController@allInsumos');
+		//Regresa todos los insumos que han entrado
+		Route::get('getInsumosEntradas','entradasController@allInsumos');
 
-	//Regresa los todos los datos de una entrada cuyo id se pase
-	Route::get('getEntrada/{id}', 'entradasController@getEntrada');
+		//Regresa los todos los datos de una entrada cuyo id se pase
+		Route::get('getEntrada/{id}', 'entradasController@getEntrada');
+
+		//Regresa todas las entradas de el numero de orden que se expecifique
+		Route::get('getOrden/{number}', 'entradasController@getOrden');
+
+	});
+
+	Route::group(['middleware' => 'permission:entradaR'], function(){
+		//Muestra la vista de registro de entrada
+		Route::get('registrarEntrada', 'entradasController@viewRegistrar');
+		//Registra una entrada
+		Route::post('registrarEntrada' ,'entradasController@registrar');
+	});
 
 	//Regresa los todos los datos de una entrada cuyo codigo se especifique
 	Route::get('getEntradaCodigo/{code}', 'entradasController@getEntradaCodigo');
-
-	//Regresa todas las entradas de el numero de orden que se expecifique
-	Route::get('getOrden/{number}', 'entradasController@getOrden');
 
 	/*** Fin de modulo de entradas ***/
 
 
 	/*** Modulo de salidas ***/
 
-	//Muestra el panel de salidas
-	Route::get('salidas','salidasController@index');
+	Route::group(['middleware' => 'permission:salidas'], function(){
+		//Muestra el panel de salidas
+		Route::get('salidas','salidasController@index');
+		//Muestra la vista detallada de una salida
+		Route::get('detallesSalida','salidasController@detalles');
+		//Regresa todos los insumos que han salido
+		Route::get('getInsumosSalidas','salidasController@allInsumos');
+		//Regresa todas las salidas
+		Route::get('getSalidas','salidasController@allSalidas');
+		//Regresa los todos los datos de una salida cuyo id se pase
+		Route::get('getSalida/{id}', 'salidasController@getSalida');
+	});
 
-	//Muestra la vista detallada de una salida
-	Route::get('detallesSalida','salidasController@detalles');
-
-	//Muestra la vista de registro de salida
-	Route::get('registrarSalida', 'salidasController@viewRegistrar');
-	//Registra una salida
-	Route::post('registrarSalida' ,'salidasController@registrar');
-
-	//Regresa todas las salidas
-	Route::get('getSalidas','salidasController@allSalidas');
-
-	//Regresa todos los insumos que han salido
-	Route::get('getInsumosSalidas','salidasController@allInsumos');
-
-	//Regresa los todos los datos de una salida cuyo id se pase
-	Route::get('getSalida/{id}', 'salidasController@getSalida');
+	Route::group(['middleware' => 'permission:salidaR'], function(){
+		//Muestra la vista de registro de salida
+		Route::get('registrarSalida', 'salidasController@viewRegistrar');
+		//Registra una salida
+		Route::post('registrarSalida' ,'salidasController@registrar');
+	});
 
 	/*** Fin de modulo de salidas ***/
 
 
 	/*** Modulo de Modificaciones ***/
 
-	//Muestra el panel de modificaciones
-	Route::get('modificaciones','modificacionesController@index');
-
-	//Muestra la vista detallada de una entrada modificada
-	Route::get('detallesEntradaModificada','modificacionesController@detallesEntrada');
-
-	//Muestra la vista de registro de modificacion
-	Route::get('registrarModificacionEntrada', 'modificacionesController@viewRegistrar');
-	//Registra una modificacion
-	Route::post('registrarModificacionEntrada', 'modificacionesController@registrar');
-
-	//Regresa todas las entradas modificadas
-	Route::get('getEntradasModificadas','modificacionesController@allEntradas');
-
-	//Regresa todos los datos de una entrada modificada cuyo id se pase
-	Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
+	Route::group(['middleware' => 'permission:modificaciones'], function(){
+		//Muestra el panel de modificaciones
+		Route::get('modificaciones','modificacionesController@index');
+		//Muestra la vista detallada de una entrada modificada
+		Route::get('detallesEntradaModificada','modificacionesController@detallesEntrada');
+		//Muestra la vista de registro de modificacion
+		Route::get('registrarModificacionEntrada', 'modificacionesController@viewRegistrar');
+		//Registra una modificacion
+		Route::post('registrarModificacionEntrada', 'modificacionesController@registrar');
+		//Regresa todas las entradas modificadas
+		Route::get('getEntradasModificadas','modificacionesController@allEntradas');
+		//Regresa todos los datos de una entrada modificada cuyo id se pase
+		Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
+	});
 
 	/*** Fin de modulo de modificaciones ***/
 
-
 	/*** Modulo de Estadisticas ***/
 
-	//Muesta el panel de estadisticas 
-	Route::get('estadisticas', 'estadisticasController@index');
+	Route::group(['middleware' => 'permission:estadisticas'], function(){
+		//Muesta el panel de estadisticas 
+		Route::get('estadisticas', 'estadisticasController@index');
 
-	//Regresa las salidas de todo los servicios del mes actual
-	Route::get('getEstadisticas', 'estadisticasController@getServicios');
+		//Regresa las salidas de todo los servicios del mes actual
+		Route::get('getEstadisticas', 'estadisticasController@getServicios');
 
-	//Regresa todas las salidad de un insumo por sevicio en un rango de fecha
-	Route::post('estadisticasInsumo', 'estadisticasController@getInsumo');
+		//Regresa todas las salidad de un insumo por sevicio en un rango de fecha
+		Route::post('estadisticasInsumo', 'estadisticasController@getInsumo');
 
-	//Regresa todas los insumos que han salido de un servicio en un ranfo de fecha
-	Route::post('estadisticasServicio', 'estadisticasController@getServicio');
+		//Regresa todas los insumos que han salido de un servicio en un ranfo de fecha
+		Route::post('estadisticasServicio', 'estadisticasController@getServicio');
+	});
 
 	/*** Fin de modulo de Estadisticas ***/
 

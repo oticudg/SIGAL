@@ -11,8 +11,10 @@
 		<span class="glyphicon glyphicon-briefcase"></span> Departamentos
 	</h5>
 	<br>
-			
-	<a href="/registrarDepartamento"><button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button></a>
+	
+	@if( Auth::user()->haspermission('departamentoN') )		
+		<a href="/registrarDepartamento"><button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button></a>
+	@endif
 	
 	<br>
 	<br>
@@ -47,7 +49,9 @@
 				<th>Nombre</th>
 				<th class="col-md-1">Sello</th>
 				<th class="col-md-1">Firma</th>
-				<th class="table-edit">Editar</th>
+				@if( Auth::user()->haspermission('departamentoD') )
+					<th class="table-edit">Editar</th>		
+				@endif
 			</tr>
 		</thead>
 		<tbody>
@@ -55,7 +59,9 @@
 				<td>{#departamento.nombre | capitalize#}</td>
 				<td><button class="btn btn-warning" ng-click="openImagen('/files/sellos/' + departamento.sello)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				<td><button class="btn btn-warning" ng-click="openImagen('/files/firmas/' + departamento.firma)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
-				<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@if( Auth::user()->haspermission('departamentoD') )
+					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@endif
 			</tr>
 		</tbody>
 	</table>

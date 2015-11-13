@@ -12,9 +12,9 @@
 	</h5>
 
 	<br>
-			
-	<button class="btn btn-success" ng-click="registrarUser()"><span class="glyphicon glyphicon-plus"></span> Nuevo Usuario</button>
-	
+	@if( Auth::user()->haspermission('usuarioN') )
+		<button class="btn btn-success" ng-click="registrarUser()"><span class="glyphicon glyphicon-plus"></span> Nuevo Usuario</button>
+	@endif
 	<br>
 	<br>
 	<br>
@@ -47,7 +47,11 @@
 				<th class="col-md-3">Nombre</th>
 				<th>Usuario</th>
 				<th class="col-md-2">Cedula</th>
-				<th class="table-edit" colspan="2">Editar</th>
+				@if( Auth::user()->haspermission('usuarioD') && Auth::user()->haspermission('usuarioM'))
+					<th class="table-edit" colspan="2">Editar</th>
+				@elseif( Auth::user()->haspermission('usuarioD') || Auth::user()->haspermission('usuarioM') )
+					<th class="table-edit">Editar</th>
+				@endif
 			</tr>
 		</thead>
 		<tbody>
@@ -55,8 +59,12 @@
 				<td>{#usuario.nombre| capitalize#}</td>
 				<td>{#usuario.email#}</td>
 				<td>{#usuario.cedula#}</td>
-				<td class="table-edit"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
-				<td class="table-edit"><button class="btn btn-danger"  ng-click="elimUsuario(usuario.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@if( Auth::user()->haspermission('usuarioM') )
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+				@endif
+				@if( Auth::user()->haspermission('usuarioD'))
+					<td class="table-edit"><button class="btn btn-danger"  ng-click="elimUsuario(usuario.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+				@endif
 			</tr>
 		</tbody>
 	</table>
