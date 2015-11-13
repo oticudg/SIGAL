@@ -62,62 +62,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** fin de modulo provedores ***/
 
-	/*** Modulo presentaciones ***/
-
-	//Muestra el panel de presentaciones 
-	Route::get('presentaciones' , 'presentacionesController@index');
-
-	//Muestra vista de registro de presentaciones
-	Route::get('registrarPresentacion','presentacionesController@viewRegistro');
-	//Registra una presentacion
-	Route::post('registrarPresentacion' ,'presentacionesController@registrar');
-
-	//Muesta la vista de edicion de Presentaciones
-	Route::get('editarPresentacion', 'presentacionesController@viewEditar');
-	//Edita uná presentacion cuyo id se pase
-	Route::post('editarPresentacion/{id}', 'presentacionesController@editPresentacion');
-
-	//Muestra la vista de eliminacion de provedores
-	Route::get('eliminarPresentacion','presentacionesController@viewEliminar');
-	//Elimina un provedor cuyo id se pase
-	Route::post('eliminarPresentacion/{id}','presentacionesController@elimPresentacion');
-
-	//Regresa todas las presentaciones que existan
-	Route::get('getPresentaciones','presentacionesController@allPresentaciones');
-	//Obtiene una presentacion por su id
-	Route::get('getPresentacion/{id}', 'presentacionesController@getPresentacion');
-
-	/*** fin de modulo presentaciones ***/
-
-
-	/*** Modulo secciones ***/
-
-	//Muestra el panel de secciones 
-	Route::get('secciones' , 'seccionesController@index');
-
-	//Muestra vista de registro de secciones
-	Route::get('registrarSeccion','seccionesController@viewRegistro');
-	//Registra una presentacion
-	Route::post('registrarSeccion' ,'seccionesController@registrar');
-
-	//Muesta la vista de edicion de Presentaciones
-	Route::get('editarSeccion', 'seccionesController@viewEditar');
-	//Edita uná presentacion cuyo id se pase
-	Route::post('editarSeccion/{id}', 'seccionesController@editSeccion');
-
-	//Muestra la vista de eliminacion de provedores
-	Route::get('eliminarSeccion','seccionesController@viewEliminar');
-	//Elimina un provedor cuyo id se pase
-	Route::post('eliminarSeccion/{id}','seccionesController@elimSeccion');
-
-	//Regresa todas las secciones que existan
-	Route::get('getSecciones','seccionesController@allSecciones');
-	//Obtiene una seccion por su id
-	Route::get('getSeccion/{id}', 'seccionesController@getSeccion');
-
-	/*** fin de modulo secciones ***/
-
-
+	
 	/*** Modulo de usuarios ***/
 
 	Route::group(['middleware' => 'permission:usuarios'], function(){
@@ -187,7 +132,6 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** fin de modulo departamentos ***/
 
 
-
 	/*** Modulo de Insumos ***/
 
 	Route::group(['middleware' => 'permission:insumos'], function(){
@@ -226,34 +170,6 @@ Route::group(['middleware' => 'auth' ], function(){
 	Route::get('getInsumosConsulta', 'insumosController@getInsumosConsulta');
 
 	/*** fin de modulo Insumos ***/
-
-
-	/*** Modulo de unidad de medidas ***/
-
-	//Muestra el panel de unidades de medidas 
-	Route::get('medidas','unidadMedidasController@index');
-
-	//Muestra vista de registro de unidad de medida
-	Route::get('registrarMedida','unidadMedidasController@viewRegistrar');
-	//Registra una unidad de medida
-	Route::post('registrarMedida' ,'unidadMedidasController@registrar');
-
-	//Muesta la vista de edicion de unidad de medida
-	Route::get('editarMedida', 'unidadMedidasController@viewEditar');
-	//Edita una unidad de medida cuyo id se pase
-	Route::post('editarMedida/{id}', 'unidadMedidasController@editUnidad');
-
-	//Muestra la vista de eliminacion de unidad de medidas
-	Route::get('eliminarMedida','unidadMedidasController@viewEliminar');
-	//Elimina una unidad de medida cuyo id se pase
-	Route::post('eliminarMedida/{id}','unidadMedidasController@elimUnidad');
-
-	//Regresa todas las unidades de medidas  que existan
-	Route::get('getMedidas','unidadMedidasController@allUnidades');
-	//Obtiene una unidad de medida por su id
-	Route::get('getMedida/{id}', 'unidadMedidasController@getUnidad');
-
-	/*** Fin de modulo unidad de medidas ***/
 
 
 	/*** Modulo de inventario ***/
@@ -360,6 +276,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Fin de modulo de modificaciones ***/
 
+	
 	/*** Modulo de Estadisticas ***/
 
 	Route::group(['middleware' => 'permission:estadisticas'], function(){
