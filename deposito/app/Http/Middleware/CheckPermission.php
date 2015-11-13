@@ -18,7 +18,7 @@ class CheckPermission
     public function handle($request, Closure $next, $permission)
     {   
         if ( Auth::user()->haspermission($permission) != true){
-            return redirect('/');
+            return redirect('auth/logout');
         }
 
         return $next($request);
