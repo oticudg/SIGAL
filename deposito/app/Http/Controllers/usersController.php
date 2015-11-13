@@ -131,7 +131,7 @@ class usersController extends Controller
     public function allUsuarios(){
 
         return User::select(DB::raw('CONCAT(nombre, " " , apellido) as nombre'), 'cedula', 
-            'email', 'id')->get();
+            'email', 'id')->where('id', '!=', 1)->get();
     }
 
     public function getUsuario($id){
@@ -162,7 +162,7 @@ class usersController extends Controller
 
         $usuario = User::where('id',$id)->first();
 
-        if(!$usuario){
+        if(!$usuario || $usuario['id'] == 1){
 
             return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);            
         }
@@ -267,7 +267,7 @@ class usersController extends Controller
 
          $usuario = User::where('id',$id)->first();
 
-        if(!$usuario){
+        if(!$usuario || $usuario['id'] == 1){
 
             return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);            
         }

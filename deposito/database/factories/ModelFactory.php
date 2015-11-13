@@ -17,7 +17,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'apellido'	     => 'deposito',
         'email'          => 'root@sahum.gob.ve',
         'cedula'         => '02617525315',
-        'password' 		 => bcrypt('root'),
+        'password' 		 => bcrypt('rooot'),
         'remember_token' => str_random(10),
     ];
 });
