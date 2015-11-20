@@ -102,7 +102,7 @@ class salidasController extends Controller
             }
             else{
                 
-                $code =  str_random(8);
+                $code = strtoupper( str_random(8) );
 
                 $salida = Salida::create([
                             'codigo'       => $code,
