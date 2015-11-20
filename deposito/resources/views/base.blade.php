@@ -18,10 +18,16 @@
 		    <div class="navbar-header">
 		      <a class="navbar-brand" href="/inicio">Deposito Sahum</a>
 		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
+		    <div class="collapse navbar-collapse">
 			    @if(Auth::check())
-
 			      <ul class="nav navbar-nav navbar-right">
+			      	@if( Auth::user()->haspermission('inventarios') && ( $var = App\Inventario::alert() ) > 0 )
+				      	<li>
+							<a href="alertasInsumos">
+							  <span class="glyphicon glyphicon-bell"></span> <span class="badge">{{$var}}</span>
+							</a>
+						</li>
+					@endif
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
 							<span class="glyphicon glyphicon-user"></span> {{ ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}} <span class="caret"></span>
@@ -31,7 +37,6 @@
 				        </ul>
 					</li>
 			      </ul>
-
 			    @endif
 		    </div>
 		  </div>

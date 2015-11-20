@@ -179,6 +179,9 @@ Route::group(['middleware' => 'auth' ], function(){
 		//Muestra el panel de inventario
 		Route::get('inventario','inventarioController@index');
 
+		//Muestra la  vista de insumos en niveles bajos y criticos
+		Route::get('alertasInsumos',['middleware' => 'alert', 'uses' => 'inventarioController@viewInsumosAlertas']);
+
 		Route::group(['middleware' => 'permission:inventarioH'], function(){
 			//Muestra la vista de herramientas
 			Route::get('inventarioHerramientas','inventarioController@viewHerramientas');
@@ -189,7 +192,10 @@ Route::group(['middleware' => 'auth' ], function(){
 		});
 
 		//Regresa todos las insumos en el inventario
-		Route::get('getInventario','inventarioController@allInsumos');	
+		Route::get('getInventario','inventarioController@allInsumos');
+
+		//Regresa todos los insumos en alerta del inventario
+		Route::get('getAlertInsumos','inventarioController@insumosAlert');	
 	});
 	
 	/*** Fin de modulo de inventario ***/

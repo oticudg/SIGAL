@@ -21,6 +21,10 @@ class inventarioController extends Controller
         return view('inventario/herramientasInventario');
     }
 
+    public function viewInsumosAlertas(){
+        return view('inventario/nivelesInventario');
+    }
+
     public function allInsumos(){
 
         return DB::table('insumos')
@@ -74,6 +78,27 @@ class inventarioController extends Controller
             return Response()->json(['status' => 'success', 'menssage' => 
                 'Alarmas configuradas exitosamente']);
         }
+
+    }
+    
+    public function insumosAlert(){
+        
+        $registros = Inventario::get(['id', 'existencia', 'Cmed', 'Cmin']);
+        $ids = [];
+
+        foreach ($registros as $registro) {
+            if( $registro['existencia'] <= $registro['Cmed'] || $registro['existencia'] <= $registro['Cmin'])
+                array_push($ids, $registro['id']);
+        }
+
+        $insumos = DB::table('insumos')
+                   ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
+                   ->whereIn('inventarios.id', $ids)
+                   ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
+                    'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+                   ->get();
+
+        return $insumos;        
 
     }
 
