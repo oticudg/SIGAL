@@ -148,7 +148,7 @@ class entradasController extends Controller
         else{
 
             $insumos = $data['insumos'];
-            $code =  strtoupper( str_random(8) );
+            $code =  'E'.strtoupper( str_random(7) );
 
             $entrada = Entrada::create([
                         'codigo'   => $code,
