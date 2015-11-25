@@ -189,7 +189,7 @@
 		
 		<div class="col-md-3 col-md-offset-1">
 			<h4 class="text-muted">Salidas</h4>
-			<label class="checkbox-inline"><input type="checkbox" ng-model="data.pSalida">Salidas</label>
+			<label class="checkbox-inline"><input type="checkbox" ng-click="salidaActive()" ng-model="data.pSalida">Salidas</label>
 			<div ng-show="data.pSalida">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
