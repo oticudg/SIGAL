@@ -13,7 +13,7 @@
 	<br>
 	
 	@if( Auth::user()->haspermission('departamentoN') )		
-		<a href="/registrarDepartamento"><button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button></a>
+		<button class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button>
 	@endif
 	
 	<br>

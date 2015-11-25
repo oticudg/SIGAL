@@ -13,8 +13,6 @@ class departamentosController extends Controller
 
     private $menssage = [
         'nombre.unique' => 'Ya fue registrado un departamento con este nombre',
-        'sello.image'   => 'El sello debe ser una imagen',
-        'firma.image'   => 'La firma debe ser una imagen'
     ];
 
     public function index(){
@@ -32,44 +30,24 @@ class departamentosController extends Controller
         return view('departamentos/eliminarDepartamento');
     }
 
-
     public function registrar(Request $request){
 
         $data = $request->all();
 
         $validator = Validator::make($data,[
-
-            'nombre'        =>  'required|alpha_spaces|min:3|max:30|unique:departamentos',
-            'sello'         =>  'required|image',
-            'firma'         =>  'required|image'
-
+            'nombre'  =>  'required|min:3|max:30|unique:departamentos',
         ], $this->menssage);
 
         if($validator->fails()){
-
-            $request->flash();
-            return redirect('registrarDepartamento')->withErrors($validator)->withInput();
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
-            
-            $sello = $data['sello'];
-            $firma = $data['firma'];
-
-            $selloNombre = date("d-m-y-h-i-s").'Sello.'.$sello->getClientOriginalExtension();
-            $firmaNombre = date("d-m-y-h-i-s").'Firma.'.$firma->getClientOriginalExtension();
-
-            $sello->move(public_path().'/files/sellos',$selloNombre);
-            $firma->move(public_path().'/files/firmas',$firmaNombre);
-
+        
             Departamento::create([
-
-                'nombre'    => $data['nombre'],
-                'sello'     => $selloNombre,
-                'firma'     => $firmaNombre
-
+                'nombre'    => $data['nombre']
             ]);
 
-            return view('departamentos/registrarDepartamento',['success' => 'Departamento registrado']);  
+            return Response()->json(['status' => 'success', 'menssage' => 'Departamento registrado']);  
         }
     }
 
@@ -92,6 +70,4 @@ class departamentosController extends Controller
             return Response()->json(['status' => 'success', 'menssage' => 'Departamento Eliminado']);
         }
     }
-
-
 }
