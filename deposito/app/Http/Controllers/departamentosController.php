@@ -52,8 +52,7 @@ class departamentosController extends Controller
     }
 
     public function allDepartamentos(){
-
-        return Departamento::get();
+        return Departamento::orderBy('id', 'desc')->get();
     }
 
     public function elimDepartamento(Request $request,$id){
