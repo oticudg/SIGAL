@@ -54,7 +54,7 @@
 
 	<br>
 
-	<center><h3 class="text-title-modal">Permisos</h3></center>
+	<center><h3 class="text-title-modal">Privilegios</h3></center>
 	
 	<br>
 
@@ -112,6 +112,11 @@
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
 						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pDepartamentoR" ng-model="data.pDepartamentoR">Registrar</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-1">
+						<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pDepartamentoM" ng-model="data.pDepartamentoM">Editar</label>
 					</div>
 				</div>
 				<div class="row">

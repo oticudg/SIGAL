@@ -83,6 +83,7 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     'pProvedorE':false,
     'pDepartamento':false,
     'pDepartamentoR':false,
+    'pDepartamentoM':false,
     'pDepartamentoE':false,
     'pInsumo':false,
     'pInsumoR':false,
@@ -132,10 +133,12 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     
     if($scope.data.pDepartamento == true){
       $scope.data.pDepartamentoR = true;
+      $scope.data.pDepartamentoM = true;
       $scope.data.pDepartamentoE = true;
     }
     else{
       $scope.data.pDepartamentoR = false;
+      $scope.data.pDepartamentoM = false;
       $scope.data.pDepartamentoE = false;
     }
   }
@@ -240,6 +243,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
       usuario.pProvedorE = usuario.pProvedorE == 1 ? true : false;
       usuario.pDepartamento = usuario.pDepartamento == 1 ? true : false;
       usuario.pDepartamentoR = usuario.pDepartamentoR == 1 ? true : false;
+      usuario.pDepartamentoM = usuario.pDepartamentoM == 1 ? true : false;
       usuario.pDepartamentoE = usuario.pDepartamentoE == 1 ? true : false;
       usuario.pInsumo = usuario.pInsumo == 1 ? true : false;
       usuario.pInsumoR = usuario.pInsumoR == 1 ? true : false;
@@ -291,10 +295,12 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
     
     if($scope.data.pDepartamento == true){
       $scope.data.pDepartamentoR = true;
+      $scope.data.pDepartamentoM = true;
       $scope.data.pDepartamentoE = true;
     }
     else{
       $scope.data.pDepartamentoR = false;
+      $scope.data.pDepartamentoM = false;
       $scope.data.pDepartamentoE = false;
     }
   }

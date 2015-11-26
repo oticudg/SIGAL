@@ -53,6 +53,7 @@ class usersController extends Controller
             'pUsuarioE'      => 'required',
             'pDepartamento'  => 'required',
             'pDepartamentoR' => 'required',
+            'pDepartamentoM' => 'required',
             'pDepartamentoE' => 'required',
             'pInsumo'        => 'required',
             'pInsumoR'       => 'required',
@@ -108,6 +109,7 @@ class usersController extends Controller
                 'provedoreD'     => $data['pProvedorE'],
                 'departamentos'  => $data['pDepartamento'],
                 'departamentoN'  => $data['pDepartamentoR'],
+                'departamentoM'  => $data['pDepartamentoM'],
                 'departamentoD'  => $data['pDepartamentoE'],
                 'insumos'        => $data['pInsumo'],
                 'insumoN'        => $data['pInsumoR'],
@@ -145,7 +147,8 @@ class usersController extends Controller
                     'departamentos as pDepartamento', 'departamentoN as pDepartamentoR', 'departamentoD as pDepartamentoE',
                     'insumos as pInsumo', 'insumoN as pInsumoR', 'insumoM as pInsumoM', 'insumoD as pInsumoE',
                     'inventarios as pInventario', 'inventarioH as pInventarioH', 'modificaciones as pModificacion',
-                    'entradas as pEntradaV', 'entradaR as pEntradaR', 'salidas as pSalidaV', 'salidaR as pSalidaR', 'estadisticas as pEstadistica')
+                    'entradas as pEntradaV', 'entradaR as pEntradaR', 'salidas as pSalidaV', 'salidaR as pSalidaR', 'estadisticas as pEstadistica',
+                    'departamentoM as pDepartamentoM')
                   ->first();
 
         if(!$usuario){
@@ -181,6 +184,7 @@ class usersController extends Controller
                     'pUsuarioE'      => 'required',
                     'pDepartamento'  => 'required',
                     'pDepartamentoR' => 'required',
+                    'pDepartamentoM' => 'required',
                     'pDepartamentoE' => 'required',
                     'pInsumo'        => 'required',
                     'pInsumoR'       => 'required',
@@ -242,6 +246,7 @@ class usersController extends Controller
                     'provedoreD'     => $data['pProvedorE'],
                     'departamentos'  => $data['pDepartamento'],
                     'departamentoN'  => $data['pDepartamentoR'],
+                    'departamentoM'  => $data['pDepartamentoM'],
                     'departamentoD'  => $data['pDepartamentoE'],
                     'insumos'        => $data['pInsumo'],
                     'insumoN'        => $data['pInsumoR'],

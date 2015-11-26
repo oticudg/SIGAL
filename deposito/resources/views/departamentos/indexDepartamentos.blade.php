@@ -46,16 +46,20 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Departamentos</th>
-				@if( Auth::user()->haspermission('departamentoD') )
-					<th colspan="2" class="table-edit">Modificaciones</th>		
+				<th>Departamento</th>
+				@if( Auth::user()->haspermission('departamentoD') && Auth::user()->haspermission('departamentoM'))
+					<th colspan="2" class="table-edit">Modificaciones</th>
+				@elseif( Auth::user()->haspermission('departamentoD') || Auth::user()->haspermission('departamentoM') )
+					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
 		</thead>
 		<tbody>
 			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#departamento.nombre | capitalize#}</td>
-				<td class="table-edit"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+				@if( Auth::user()->haspermission('departamentoM') )
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+				@endif
 				@if( Auth::user()->haspermission('departamentoD') )
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif

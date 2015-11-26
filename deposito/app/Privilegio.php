@@ -11,5 +11,5 @@ class Privilegio extends Model
     	'departamentos', 'departamentoN', 'departamentoD', 'insumos',
     	'insumoN', 'insumoM', 'insumoD', 'inventarios', 'inventarioH',
     	'entradas', 'entradaR', 'salidas', 'salidaR', 'modificaciones',
-    	'estadisticas'];
+    	'estadisticas','departamentoM'];
 }

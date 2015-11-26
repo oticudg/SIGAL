@@ -35,6 +35,7 @@ $factory->define(App\Privilegio::class, function (Faker\Generator $faker) {
         'provedoreD'     => 1,
         'departamentos'  => 1,
         'departamentoN'  => 1,
+        'departamentoM'  => 1,
         'departamentoD'  => 1,
         'insumos' 		 => 1,
         'insumoN' 		 => 1,

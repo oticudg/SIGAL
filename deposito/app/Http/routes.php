@@ -114,10 +114,12 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::post('registrarDepartamento' ,'departamentosController@registrar');
 		});
 
-		//Muesta la vista de edicion de departamento
-		Route::get('editarDepartamento', 'departamentosController@viewEditar');
-		//Edita un departamento cuyo id se pase
-		Route::post('editarDepartamento/{id}', 'departamentosController@editDepartamento');
+		Route::group(['middleware' => 'permission:departamentoM'], function(){
+			//Muesta la vista de edicion de departamento
+			Route::get('editarDepartamento', 'departamentosController@viewEditar');
+			//Edita un departamento cuyo id se pase
+			Route::post('editarDepartamento/{id}', 'departamentosController@editDepartamento');
+		});
 
 		Route::group(['middleware' => 'permission:departamentoD'], function(){
 			//Muestra la vista de eliminacion de departamentos
