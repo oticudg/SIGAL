@@ -113,17 +113,22 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Registra un Departamento
 			Route::post('registrarDepartamento' ,'departamentosController@registrar');
 		});
-		
+
+		//Muesta la vista de edicion de departamento
+		Route::get('editarDepartamento', 'departamentosController@viewEditar');
+		//Edita un departamento cuyo id se pase
+		Route::post('editarDepartamento/{id}', 'departamentosController@editDepartamento');
+
 		Route::group(['middleware' => 'permission:departamentoD'], function(){
 			//Muestra la vista de eliminacion de departamentos
 			Route::get('eliminarDepartamento','departamentosController@viewEliminar');
 			//Elimina un departamento cuyo id se pase
 			Route::post('eliminarDepartamento/{id}','departamentosController@elimDepartamento');
 		});
-		
-		//Obtiene un provedor por su id
-		Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
 
+		//Obtiene un departamento por su id
+		Route::get('getDepartamento/{id}', 'departamentosController@getDepartamento');	
+		
 	});
 
 	//Regresa todas los departamentos que existan

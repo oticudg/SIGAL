@@ -13,7 +13,7 @@ controller('departamentosController',function($scope,$http,$modal){
 			.success( function(response){$scope.departamentos = response});
 	};
 
-  $scope.registrarInsumo = function() {
+  $scope.registrarDepartamento = function() {
 
       $modal.open({
         animation: true,
@@ -27,6 +27,25 @@ controller('departamentosController',function($scope,$http,$modal){
           }
       });
   }
+
+  $scope.editarDepartamento = function(index){
+
+    $modal.open({
+
+      animation: true,
+          templateUrl: '/editarDepartamento',
+          size:'lg',
+          controller: 'editarDepartamentoCtrl',
+          resolve: {
+             obtenerDepartamentos: function () {
+                return $scope.obtenerDepartamentos;
+             },
+             id:function () {
+                return index;
+             }
+         }
+    });
+  };
 
   $scope.eliminarDepartamento = function(index){
 
@@ -45,21 +64,7 @@ controller('departamentosController',function($scope,$http,$modal){
          }
     });
   };
-
-  $scope.openImagen = function(sello){
-
-    $modal.open({
-      animation: true,
-      templateUrl: 'imagen.html',
-      controller: 'imagenCtrl',
-      resolve: {
-        sello: function () {
-          return sello;
-        }
-      }
-    });
-  }
-
+  
 	$scope.obtenerDepartamentos();
 
 });
@@ -99,6 +104,54 @@ angular.module('deposito').controller('registrarDepartamentoCtrl', function ($sc
 
 });
 
+angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope, $modalInstance, $http, Upload, obtenerDepartamentos,id) {
+
+  $scope.btnVisivilidad = true;
+
+  $scope.nombre  =   "";
+
+    $http.get('/getDepartamento/' + id)
+        .success(function(response){
+        $scope.nombre = response.nombre;    
+    });
+
+  $scope.modificar = function () {
+    $scope.save();
+  };
+
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+
+  $scope.closeAlert = function(index){
+
+    $scope.alerts.splice(index,1);
+
+  };
+
+ $scope.save = function(){
+
+  var $data = {
+    'nombre': $scope.nombre
+  };
+
+
+  $http.post('/editarDepartamento/' + id , $data)
+    .success(function(response){
+
+      $scope.alerts = [];
+      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+      
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+      obtenerDepartamentos();
+  });
+
+ };
+ 
+});
+
 angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos,id) {
 
   $scope.btnVisivilidad = true;
@@ -132,17 +185,3 @@ angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($sco
  };
 
 });
-
-angular.module('deposito').controller('imagenCtrl', function ($scope, $modalInstance, sello) {
-
-  $scope.btnVisivilidad = true;
-  $scope.imagen = sello;
-
-  $scope.cerrar = function () {
-    $modalInstance.dismiss('cancel');
-  };
-
-
-});
-
-

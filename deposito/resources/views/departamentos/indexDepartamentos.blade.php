@@ -13,7 +13,7 @@
 	<br>
 	
 	@if( Auth::user()->haspermission('departamentoN') )		
-		<button class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button>
+		<button class="btn btn-success" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button>
 	@endif
 	
 	<br>
@@ -46,19 +46,16 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Nombre</th>
-				<th class="col-md-1">Sello</th>
-				<th class="col-md-1">Firma</th>
+				<th>Departamentos</th>
 				@if( Auth::user()->haspermission('departamentoD') )
-					<th class="table-edit">Editar</th>		
+					<th colspan="2" class="table-edit">Modificaciones</th>		
 				@endif
 			</tr>
 		</thead>
 		<tbody>
 			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#departamento.nombre | capitalize#}</td>
-				<td><button class="btn btn-warning" ng-click="openImagen('/files/sellos/' + departamento.sello)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
-				<td><button class="btn btn-warning" ng-click="openImagen('/files/firmas/' + departamento.firma)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				<td class="table-edit"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@if( Auth::user()->haspermission('departamentoD') )
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
@@ -71,17 +68,5 @@
      	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
       </div>
     </div>
-
-    <script type="text/ng-template" id="imagen.html">
-        <div class="modal-header">
-        </div>
-        <div class="modal-body">
-        	<center><img src="{#imagen#}" class="img-thumbnail"></center>
-        </div>
-        <div class="modal-footer">
-            	<button class="btn btn-warning" type="button" ng-click="cerrar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
-        </div>
-    </script>
-
 @endsection
 

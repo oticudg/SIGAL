@@ -10,6 +10,6 @@ class Departamento extends Model
 	use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-    protected $fillable = ['nombre','division','sello','firma'];
+    protected $fillable = ['nombre'];
    	protected $hidden   = ['created_at' , 'updated_at'];
 }
