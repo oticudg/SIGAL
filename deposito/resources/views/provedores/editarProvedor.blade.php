@@ -12,7 +12,6 @@
 	</div>
 
 	<br>
-	<br>
 
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
@@ -21,36 +20,6 @@
 	</div>
 
 	<br>
-
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<input class="form-control" type="text" placeholder="Telefono" ng-model="telefono">
-		</div>
-	</div>
-
-	<br>
-
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<input class="form-control" type="text" placeholder="Contacto" ng-model="contacto">
-		</div>
-	</div>
-
-	<br>
-
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<input class="form-control" type="text" placeholder="Email" ng-model="email">
-		</div>
-	</div>
-
-	<br>
-
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<textarea style="width:420px; max-width:420px;" class="form-control"  placeholder="Direccion" ng-model="direccion"></textarea>
-		</div>
-	</div>
 
 </div>
 <div class="modal-footer">

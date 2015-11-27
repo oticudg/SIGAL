@@ -46,11 +46,7 @@
 		<thead>
 			<tr>
 				<th class="col-md-2">Rif</th>
-				<th class="col-md-2">Nombre</th>
-				<th>Telefono</th>
-				<th class="col-md-1">Contacto</th>
-				<th class="col-md-2">Direccion</th>
-				<th>Gmail</th>
+				<th>Nombre</th>
 				@if( Auth::user()->haspermission('provedoreD') && Auth::user()->haspermission('provedoreM'))
 					<th colspan="2" class="table-edit">Editar</th>		
 				@elseif( Auth::user()->haspermission('provedoreD') || Auth::user()->haspermission('provedoreM') )
@@ -62,10 +58,6 @@
 			<tr dir-paginate="provedor in provedores | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#provedor.rif | capitalize#}</td>
 				<td>{#provedor.nombre | capitalize#}</td>
-				<td>{#provedor.telefono#}</td>
-				<td>{#provedor.contacto | capitalize#}</td>
-				<td>{#provedor.direccion#}</td>
-				<td>{#provedor.email#}</td>
 				@if( Auth::user()->haspermission('provedoreM') )
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif

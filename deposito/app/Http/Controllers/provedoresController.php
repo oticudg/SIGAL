@@ -48,11 +48,7 @@ class provedoresController extends Controller
         $validator = Validator::make($data,[
 
             'rif'           =>  'required|rif|unique:provedores',
-            'nombre'        =>  'required|alpha_spaces',
-            'telefono'      =>  'required|numeric',
-            'contacto'      =>  'required|alpha_spaces',
-            'email'         =>  'required|email',
-            'direccion'     =>  'required'
+            'nombre'        =>  'required',
 
         ], $this->menssage);
 
@@ -64,13 +60,8 @@ class provedoresController extends Controller
         else{
            
             Provedore::create([
-
                 'rif'           => $data['rif'],
-                'nombre'        => $data['nombre'],
-                'telefono'      => $data['telefono'],
-                'direccion'     => $data['direccion'],
-                'contacto'      => $data['contacto'],
-                'email'         => $data['email']
+                'nombre'        => $data['nombre']
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Provedor registrado']);
@@ -110,29 +101,17 @@ class provedoresController extends Controller
             $data = $request->all();
 
             $validator = Validator::make($data,[
-
-                'nombre'        =>  'required|alpha_spaces',
-                'telefono'      =>  'required|numeric',
-                'contacto'      =>  'required|alpha_spaces',
-                'email'         =>  'required|email',
-                'direccion'     =>  'required'
-            
+                'nombre'  =>  'required',
             ], $this->menssage);
 
 
             if($validator->fails()){
-
                 return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
             }
             else{
                
                 Provedore::where('id',$id)->update([
-
-                    'nombre'        => $data['nombre'],
-                    'telefono'      => $data['telefono'],
-                    'direccion'     => $data['direccion'],
-                    'contacto'      => $data['contacto'],
-                    'email'         => $data['email']
+                    'nombre'  => $data['nombre']
                 ]);
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
