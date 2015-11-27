@@ -62,7 +62,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-class="insumo.style" ng-repeat="insumo in insumos">
+				<tr ng-class="insumo.style" dir-paginate="insumo in insumos | itemsPerPage:5">
 					<td class="col-md-2">{#insumo.codigo#}</td>
 					<td>{#insumo.descripcion#}</td>
 					<td class="col-md-2">{#insumo.cantidad#}</td>
@@ -73,6 +73,11 @@
 			</tbody>
 		</table>
 	</div>
+	
+	{{--Paginacion de la tabla de insumos--}}	
+    <div class="text-center">
+ 	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+  	</div>
 
 </div>
 <div class="modal-footer">

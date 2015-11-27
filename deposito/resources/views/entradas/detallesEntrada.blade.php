@@ -38,13 +38,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="insumo in insumos">
+			<tr dir-paginate="insumo in insumos | itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.cantidad#}</td>
 			</tr>
 		</tbody>
 	</table>
+		
+	{{--Paginacion de la tabla de insumos--}}	
+    <div class="text-center">
+ 	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+  	</div>
 
 </div>
 <div class="modal-footer">
