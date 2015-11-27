@@ -44,7 +44,7 @@ class modificacionesController extends Controller
         $entrada = Entradas_modificada::where('id',$id)->first();
 
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta entrada no existe']);            
         }
         else{ 
 

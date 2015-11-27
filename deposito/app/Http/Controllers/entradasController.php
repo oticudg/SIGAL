@@ -82,7 +82,7 @@ class entradasController extends Controller
         $entrada = Entrada::where('codigo',$code)->first();
 
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta entrada no existe']);            
         }
         else{
 

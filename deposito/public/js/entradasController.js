@@ -58,7 +58,7 @@ controller('entradasController',function($scope,$http,$modal){
       animation: true,
           templateUrl: '/detallesEntrada',
           controller: 'detallesEntradaCtrl',
-          size:'lg',
+          windowClass: 'large-Modal',
           resolve: {
 
              id:function () {

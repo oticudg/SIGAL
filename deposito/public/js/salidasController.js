@@ -42,7 +42,7 @@ controller('salidasController',function($scope,$http,$modal){
       animation: true,
           templateUrl: '/detallesSalida',
           controller: 'detallesSalidaCtrl',
-          size:'lg',
+          windowClass: 'large-Modal',
           resolve: {
 
              id:function () {

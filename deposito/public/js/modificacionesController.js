@@ -17,7 +17,7 @@ controller('modificacionesController',function($scope,$http,$modal){
       $modal.open({
      		animation: true,
       		templateUrl: '/registrarModificacionEntrada',
-      		size:'lg',
+      		windowClass: 'large-Modal',
       		controller: 'registraModificacionCtrl',
       		resolve: {
        			 obtenerEntradas: function () {
@@ -34,7 +34,7 @@ controller('modificacionesController',function($scope,$http,$modal){
 	      animation: true,
 	          templateUrl: '/detallesEntradaModificada',
 	          controller: 'detallesModificacionCtrl',
-	          size:'lg',
+	          windowClass: 'large-Modal',
 	          resolve: {
 
 	             id:function () {
