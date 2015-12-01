@@ -6,16 +6,11 @@
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
 	
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">	
-			<center>
-				<h3>Departamento</h3>
-			</center>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<input class="form-control" type="text" placeholder="Nombre" ng-model="nombre">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label  class="text-muted" for="nombre">Nombre</label>
+				<input class="form-control" id="nombre" type="text" placeholder="Nombre" ng-model="nombre">
+			</div>
 		</div>		
 	</div>
 

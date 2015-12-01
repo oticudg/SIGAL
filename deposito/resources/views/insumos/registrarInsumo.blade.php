@@ -7,11 +7,17 @@
 	
 	<div class="row">
 		<div class="col-md-4">
-			<input class="form-control" type="text" placeholder="Codigo" ng-model="codigo">
+			<div class="form-group">
+				<label  class="text-muted" for="codi">Codigo</label>
+				<input class="form-control" id="codi" type="text" placeholder="Codigo" ng-model="codigo">
+			</div>
 		</div>
 			
 		<div class="col-md-8">
-			<textarea  class="form-control form-description" placeholder="Descripcion" ng-model="descripcion"></textarea>
+			<div class="form-group">
+				<label  class="text-muted" for="nombre">Descripción</label>
+				<textarea  class="form-control form-description" placeholder="Descripción" ng-model="descripcion"></textarea>
+			</div>
 		</div>
 	</div>
 </div>

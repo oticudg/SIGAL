@@ -12,7 +12,7 @@ controller('usersController',function($scope,$http,$modal){
     	$modal.open({
      		animation: true,
       		templateUrl: '/registrarUser',
-      		size:'lg',
+      		windowClass: 'large-Modal',
       		controller: 'registraUsuarioCtrl',
       		resolve: {
        			 obtenerUsuarios: function () {
@@ -34,7 +34,7 @@ controller('usersController',function($scope,$http,$modal){
 
 			animation: true,
       		templateUrl: '/editarUsuario',
-      		size:'lg',
+      		windowClass: 'large-Modal',
       		controller: 'editarUsuarioCtrl',
       		resolve: {
        			 obtenerUsuarios: function () {

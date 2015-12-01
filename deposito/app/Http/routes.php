@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth' ], function(){
 	Route::group(['middleware' => 'permission:provedores'], function(){
 
 		//Muesta el panel de provedores
-		Route::get('provedores','provedoresController@index');
+		Route::get('proveedores','provedoresController@index');
 
 		Route::group(['middleware' => 'permission:provedoreN'], function(){
 			//Muestra la vista de registro de provedor

@@ -8,12 +8,12 @@
 	
 	<h5 class="text-muted">
 		<span class="glyphicon glyphicon-cog"></span> Administración > 
-		<span class="glyphicon glyphicon-folder-open"></span> Provedores
+		<span class="glyphicon glyphicon-folder-open"></span> Proveedores
 	</h5>
 	
 	<br>
 	@if( Auth::user()->haspermission('provedoreN') )
-		<button class="btn btn-success" ng-click="registraProvedor()"><span class="glyphicon glyphicon-plus"></span> Nuevo provedor</button>
+		<button class="btn btn-success" ng-click="registraProvedor()"><span class="glyphicon glyphicon-plus"></span> Nuevo proveedor</button>
 	@endif		
 	<br>
 	<br>
@@ -48,9 +48,9 @@
 				<th class="col-md-2">Rif</th>
 				<th>Nombre</th>
 				@if( Auth::user()->haspermission('provedoreD') && Auth::user()->haspermission('provedoreM'))
-					<th colspan="2" class="table-edit">Editar</th>		
+					<th colspan="2" class="table-edit">Modificaciones</th>		
 				@elseif( Auth::user()->haspermission('provedoreD') || Auth::user()->haspermission('provedoreM') )
-					<th class="table-edit">Editar</th>		
+					<th class="table-edit">Modificaciones</th>		
 				@endif
 			</tr>
 		</thead>

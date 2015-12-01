@@ -26,7 +26,7 @@ controller('inventarioController',function($scope,$http,$modal){
 		$modal.open({
      		animation: true,
       		templateUrl: '/inventarioHerramientas',
-      		size:'lg',
+      		windowClass: 'large-Modal',
       		controller: 'herramientasCtrl',
       		resolve: {
        			 obtenerInsumos: function () {

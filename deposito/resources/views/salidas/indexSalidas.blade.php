@@ -84,7 +84,7 @@
 					<th class="col-md-1">Fecha</th>
 					<th class="col-md-2">Pro-Forma de Pedido</th>
 					<th class="col-md-2">Codigo de Insumo</th>
-					<th class="col-md-5">Descripcion</th>
+					<th class="col-md-5">Descripción</th>
 					<th class="col-md-1">Solicitado</th>
 					<th class="col-md-1">Despachado</th>
 				</tr>

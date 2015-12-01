@@ -87,7 +87,7 @@
 					<th class="col-md-1">Fecha</th>
 					<th class="col-md-2">Pro-Forma de Entrada</th>
 					<th class="col-md-2">Codigo de Insumo</th>
-					<th class="col-md-6">Descripcion</th>
+					<th class="col-md-6">Descripción</th>
 					<th class="col-md-1">Cantidad</th>
 				</tr>
 			</thead>

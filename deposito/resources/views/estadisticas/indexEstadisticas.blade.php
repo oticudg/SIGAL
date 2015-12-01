@@ -35,7 +35,7 @@
 		<div class="tab-content">
 			<div id="insumos" class="tab-pane fade in active">
 				  
-				<h3>Consulta por insumo</h3>
+				<h3 class="text-title-modal">Consulta por insumo</h3>
 
 				<div class="row">
 					<div class="form-group">
@@ -59,28 +59,32 @@
 				<br>
 				
 				<div class="row">
-					<div class="col-md-3 col-md-offset-2">
-					 	<div class="input-group">
-					 		<label for="dateI">Desde:</label>
-						 	<p class="input-group">
-				              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-			        		</p>
-			        	</div>
+					<div class="col-md-4 col-md-offset-2">
+						<div class="col-md-6 col-md-offset-3">
+						 	<div class="form-group">
+						 		<label class="text-muted" for="dateI">Desde</label>
+							 	<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
+				        	</div>
+				        </div>
 					</div>
 
-					<div class="col-md-3 col-md-offset-2">
-					 	<div class="input-group">
-					 		<label for="dateI">Hasta:</label>
-						 	<p class="input-group">
-				              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-			        		</p>
-			        	</div>
+					<div class="col-md-4">
+						<div class="col-md-6 col-md-offset-3">
+						 	<div class="form-group">
+						 		<label class="text-muted" for="dateI">Hasta</label>
+							 	<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
+				        	</div>
+				        </div>
 					</div>
 				</div>
 				
@@ -88,7 +92,7 @@
 
 			</div>
 		    <div id="servicios" class="tab-pane fade">
-		      <h3>Consulta por Servicio</h3>
+		      <h3 class="text-title-modal">Consulta por Servicio</h3>
 			
 			  <div class="row">
 			  		<div class="form-group col-md-4  col-md-offset-4 text-title-modal">
@@ -101,28 +105,32 @@
 			  </div>
 			  
 			  <div class="row">
-					<div class="col-md-3 col-md-offset-2">
-					 	<div class="input-group">
-					 		<label for="dateI">Desde:</label>
-						 	<p class="input-group">
-				              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-			        		</p>
-			        	</div>
+					<div class="col-md-4 col-md-offset-2">
+						<div class="col-md-6 col-md-offset-3">
+						 	<div class="form-group">
+						 		<label class="text-muted" for="dateI">Desde</label>
+							 	<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
+				        	</div>
+				        </div>
 					</div>
 
-					<div class="col-md-3 col-md-offset-2">
-					 	<div class="input-group">
-					 		<label for="dateI">Hasta:</label>
-						 	<p class="input-group">
-				              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-			        		</p>
-			        	</div>
+					<div class="col-md-4">
+						<div class="col-md-6 col-md-offset-3">
+						 	<div class="form-group">
+						 		<label class="text-muted" for="dateI">Hasta</label>
+							 	<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
+				        	</div>
+				        </div>
 					</div>
 				</div>
 				

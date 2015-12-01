@@ -1,11 +1,11 @@
 <div class="modal-header">
-    <h3 style="color:#C93A36;" class="modal-title"><span class="glyphicon glyphicon-remove"></span> Eliminar Provedor</h3>
+    <h3 style="color:#C93A36;" class="modal-title"><span class="glyphicon glyphicon-remove"></span> Eliminar Proveedor</h3>
 </div>
 <div class="modal-body">
 
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
 
-	<center><h3 class="text-danger" ng-show="btnVisivilidad">Esta seguro que desea borrar este provedor</h3></center>
+	<center><h3 class="text-danger" ng-show="btnVisivilidad">Esta seguro que desea borrar este proveedor</h3></center>
 
 </div>
 <div class="modal-footer">

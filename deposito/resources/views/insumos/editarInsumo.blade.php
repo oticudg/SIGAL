@@ -4,21 +4,22 @@
 <div class="modal-body">
 
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
-	
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4">	
-			<center>
-				<h3>Codigo</h3>
-				<h3><strong class="text-success">{#codigo#}</strong></h3>
-			</center>
-		</div>
-	</div>
-
+		
 	<center>
-		<div>
-			<textarea  class="form-control form-description" placeholder="Descripcion" ng-model="descripcion"></textarea>
-		</div>
+		<h3 class="text-title-modal">Codigo</h3>
+		<h3><strong class="text-muted">{#codigo#}</strong></h3>
 	</center>
+
+	<br>
+
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label  class="text-muted" for="descripcion">Descripción</label>
+				<textarea  class="form-control form-description" placeholder="Descripción" ng-model="descripcion"></textarea>
+			</div>
+		</div>		
+	</div>
 
 </div>
 <div class="modal-footer">

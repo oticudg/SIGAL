@@ -29,7 +29,7 @@
 			       @endif
 			       
 			       @if( Auth::user()->haspermission('provedores') )
-			       	 	<div class="enlace"><a href="/provedores"><span class="glyphicon glyphicon-folder-open"></span> Provedores</a></div>
+			       	 	<div class="enlace"><a href="/proveedores"><span class="glyphicon glyphicon-folder-open"></span> Proveedores</a></div>
 			       @endif
 			       
 			       @if( Auth::user()->haspermission('insumos') )

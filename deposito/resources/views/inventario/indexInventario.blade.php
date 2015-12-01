@@ -45,7 +45,7 @@
 		<thead>
 			<tr>
 				<th class="col-md-2">Codigo</th>
-				<th>Descripcion</th>
+				<th>Descripción</th>
 				<th class="col-md-2">Existencia en Unidades</th>
 			</tr>
 		</thead>

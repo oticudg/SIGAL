@@ -10,13 +10,6 @@ use App\Provedore;
 
 class provedoresController extends Controller
 {   
-
-    private $menssage = [
-
-        'telefono.numeric' => 'Por favor ingrese un telefono valido'
-
-    ];
-
     public function index(){
 
         return view('provedores/indexProvedores');
@@ -48,9 +41,9 @@ class provedoresController extends Controller
         $validator = Validator::make($data,[
 
             'rif'           =>  'required|rif|unique:provedores',
-            'nombre'        =>  'required',
+            'nombre'        =>  'required|',
 
-        ], $this->menssage);
+        ]);
 
 
         if($validator->fails()){
@@ -64,7 +57,7 @@ class provedoresController extends Controller
                 'nombre'        => $data['nombre']
             ]);
 
-            return Response()->json(['status' => 'success', 'menssage' => 'Provedor registrado']);
+            return Response()->json(['status' => 'success', 'menssage' => 'Proveedor registrado']);
         }
     }
 
@@ -79,7 +72,7 @@ class provedoresController extends Controller
 
         if(!$provedor){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este provedor no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este proveedor no exist']);            
         }
         else{
 
@@ -94,7 +87,7 @@ class provedoresController extends Controller
 
         if(!$provedor){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este provedor no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este proveedor no exist']);            
         }
         else{
             
@@ -102,7 +95,7 @@ class provedoresController extends Controller
 
             $validator = Validator::make($data,[
                 'nombre'  =>  'required',
-            ], $this->menssage);
+            ]);
 
 
             if($validator->fails()){
@@ -126,12 +119,12 @@ class provedoresController extends Controller
 
         if(!$provedor){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este provedor no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este proveedor no exist']);            
         }
         else{
             
             Provedore::where('id',$id)->delete();
-            return Response()->json(['status' => 'success', 'menssage' => 'Provedor Eliminado']);
+            return Response()->json(['status' => 'success', 'menssage' => 'Proveedor Eliminado']);
             
         }
     }

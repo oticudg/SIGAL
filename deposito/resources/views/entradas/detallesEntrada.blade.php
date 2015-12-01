@@ -33,7 +33,7 @@
 		<thead>
 			<tr>
 				<th class="col-md-2">Codigo</th>
-				<th>Descripcion</th>
+				<th>Descripción</th>
 				<th class="col-md-2">Cantidad</th>
 			</tr>
 		</thead>

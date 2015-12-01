@@ -48,9 +48,9 @@
 				<th>Usuario</th>
 				<th class="col-md-2">Cedula</th>
 				@if( Auth::user()->haspermission('usuarioD') && Auth::user()->haspermission('usuarioM'))
-					<th class="table-edit" colspan="2">Editar</th>
+					<th class="table-edit" colspan="2">Modificaciones</th>
 				@elseif( Auth::user()->haspermission('usuarioD') || Auth::user()->haspermission('usuarioM') )
-					<th class="table-edit">Editar</th>
+					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
 		</thead>

@@ -45,11 +45,11 @@
 		<thead>
 			<tr>
 				<th class="col-md-1">Codigo</th>
-				<th>Descripcion</th>
+				<th>Descripción</th>
 				@if( Auth::user()->haspermission('insumoD') && Auth::user()->haspermission('insumoM'))
-					<th colspan="2" class="table-edit">Editar</th>
+					<th colspan="2" class="table-edit">Modificaciones</th>
 				@elseif( Auth::user()->haspermission('insumoD') || Auth::user()->haspermission('insumoM') )
-					<th class="table-edit">Editar</th>
+					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
 		</thead>

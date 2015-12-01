@@ -42,9 +42,9 @@ class usersController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
+            'cedula'         => 'required|cedula',
             'nombre'         => 'required|alpha|min:2|max:15',
             'apellido'       => 'required|alpha|min:2|max:20',
-            'cedula'         => 'required|cedula',
             'email'          => 'required|email|max:50|unique:users',
             'password'       => 'required|min:8|confirmed',
             'pUsuario'       => 'required',
