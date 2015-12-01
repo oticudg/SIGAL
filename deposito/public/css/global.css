@@ -15,6 +15,12 @@
   margin: auto
 }
 
+.modal-body{
+	
+	max-height: 550px;
+	overflow: auto;
+}
+
 /* Paginacion */
 .pagination li a{	
 	color:#53AC53;

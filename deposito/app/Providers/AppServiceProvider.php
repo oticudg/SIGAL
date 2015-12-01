@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('rif', function($attribute, $value)
         {
-            return preg_match('/^([J,G]-([0-9]{8,9})-[0-9])$/', $value);
+            return preg_match('/^([J,G,N]-([0-9]{8,12}))$/', $value);
         });
 
         Validator::extend('equal_provedor', function($attribute, $value, $parameters)

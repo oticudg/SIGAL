@@ -2,9 +2,8 @@
     <h3 style="color:#54AF54;" class="modal-title"><span class="glyphicon glyphicon-plus"></span> Nuevo Usuario</h3>
 </div>
 <div class="modal-body">
-
+	
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
-
 
 	<div class="row">
 		<div class="col-md-4">

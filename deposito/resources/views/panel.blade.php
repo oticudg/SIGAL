@@ -1,6 +1,6 @@
 @extends('base')
 @section('conten')
-	
+
 	<nav id="side-menu" class="col-md-2 navbar navbar-inverse custon-bar">
 		<accordion class="accordion-body">
 		    <accordion-group is-disabled="true">
