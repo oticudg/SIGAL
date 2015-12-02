@@ -15,18 +15,18 @@ use App\Insumos_entrada;
 
 class modificacionesController extends Controller
 {
-    public function index(){
-        return view('modificaciones/indexModificaciones');
+    public function indexEntradas(){
+        return view('modificaciones/indexEntradas');
     }
 
     public function detallesEntrada(){
 
-        return view('modificaciones/detallesEntradaModificada');
+        return view('modificaciones/detallesEntrada');
     }
 
-    public function viewRegistrar(){
+    public function viewRegEntrada(){
 
-        return view('modificaciones/registrarModificacion');
+        return view('modificaciones/registrarEntrada');
     }
 
 
@@ -95,7 +95,7 @@ class modificacionesController extends Controller
         }
     }
 
-    public function registrar(Request $request){
+    public function registrarEntrada(Request $request){
 
         $data = $request->all();
 

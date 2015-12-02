@@ -8,7 +8,7 @@ controller('modificacionesController',function($scope,$http,$modal){
 
 	$scope.obtenerEntradas = function(){
 
-		$http.get('/getEntradasModificadas')
+		$http.get('/modificaciones/getEntradas')
 			.success( function(response){$scope.entradas = response});
 	};
 
@@ -16,7 +16,7 @@ controller('modificacionesController',function($scope,$http,$modal){
 
       $modal.open({
      		animation: true,
-      		templateUrl: '/registrarModificacionEntrada',
+      		templateUrl: '/modificaciones/registrarEntrada',
       		windowClass: 'large-Modal',
       		controller: 'registraModificacionCtrl',
       		resolve: {
@@ -32,7 +32,7 @@ controller('modificacionesController',function($scope,$http,$modal){
 	    var modalInstance = $modal.open({
 
 	      animation: true,
-	          templateUrl: '/detallesEntradaModificada',
+	          templateUrl: '/modificaciones/detallesEntrada',
 	          controller: 'detallesModificacionCtrl',
 	          windowClass: 'large-Modal',
 	          resolve: {
@@ -85,7 +85,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
   	}
   	else{
 
-  		$http.get('getEntradaCodigo/' + $scope.codigo)
+  		$http.get('/getEntradaCodigo/' + $scope.codigo)
   			.success(
   				function(response){
 
@@ -150,7 +150,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
   		'insumos'	: serializeInsumos()
  	};
 
-    $http.post('registrarModificacionEntrada', $data)
+    $http.post('/modificaciones/registrarEntrada', $data)
       .success(function(response){
 
     		$scope.alert = {};
@@ -188,7 +188,7 @@ angular.module('deposito').controller('detallesModificacionCtrl', function ($sco
 
   $scope.detalles = function(){
 
-    $http.get('/getEntradasModificada/' + id)
+    $http.get('/modificaciones/getEntradas/' + id)
       .success(function(response){
 
       	$scope.modificacion = response.modificacion;

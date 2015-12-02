@@ -272,19 +272,20 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de Modificaciones ***/
 
-	Route::group(['middleware' => 'permission:modificaciones'], function(){
-		//Muestra el panel de modificaciones
-		Route::get('modificaciones','modificacionesController@index');
+	Route::group(['prefix' => 'modificaciones', 'as' => 'modifi', 'middleware' => 'permission:modificaciones'], 
+		function(){
+		//Muestra el panel de modificacione de entradas
+		Route::get('entradas',['as' => 'Entrada', 'uses' => 'modificacionesController@indexEntradas']);
 		//Muestra la vista detallada de una entrada modificada
-		Route::get('detallesEntradaModificada','modificacionesController@detallesEntrada');
-		//Muestra la vista de registro de modificacion
-		Route::get('registrarModificacionEntrada', 'modificacionesController@viewRegistrar');
-		//Registra una modificacion
-		Route::post('registrarModificacionEntrada', 'modificacionesController@registrar');
+		Route::get('detallesEntrada', ['as' => 'DelleEntra', 'uses' => 'modificacionesController@detallesEntrada']);
+		//Muestra la vista de registro de modificacion de entrada
+		Route::get('registrarEntrada',['as' => 'RvEntra', 'uses' => 'modificacionesController@viewRegEntrada']);
+		//Registra una modificacion de entrada
+		Route::post('registrarEntrada', ['as' => 'RcEntra', 'uses' => 'modificacionesController@registrarEntrada']);
 		//Regresa todas las entradas modificadas
-		Route::get('getEntradasModificadas','modificacionesController@allEntradas');
+		Route::get('getEntradas',[ 'as' => 'AllEntra', 'uses' => 'modificacionesController@allEntradas']);
 		//Regresa todos los datos de una entrada modificada cuyo id se pase
-		Route::get('getEntradasModificada/{id}', 'modificacionesController@getEntrada');
+		Route::get('getEntradas/{id}',['as' => 'GetEntra', 'uses' => 'modificacionesController@getEntrada']);
 	});
 
 	/*** Fin de modulo de modificaciones ***/

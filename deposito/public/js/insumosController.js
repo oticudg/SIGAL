@@ -23,8 +23,10 @@ controller('insumosController',function($scope,$http,$modal){
 
 	$scope.obtenerInsumos = function(){
 
+    $scope.ver = true;
+
 		$http.get('/getInsumos')
-			.success( function(response){$scope.insumos = response});
+			.success( function(response){$scope.insumos = response;$scope.ver=false;});
 	};
 
   $scope.editarInsumo = function(index){

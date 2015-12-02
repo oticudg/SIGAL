@@ -47,10 +47,18 @@
 			       @if( Auth::user()->haspermission('salidas') )
 			       	 	<div class="enlace"><a href="/salidas"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></div>
 			       @endif
-			       
-			       @if( Auth::user()->haspermission('modificaciones') )
-			       	 	<div class="enlace"><a href="/modificaciones"><span class="glyphicon glyphicon glyphicon-edit"></span> Modificaciones</a></div>
-			       @endif
+			    </accordion-group>
+			@endif
+
+			@if( Auth::user()->haspermission('modificaciones') )
+				<accordion-group>
+			    	<accordion-heading>
+	            		<span class="glyphicon glyphicon glyphicon-edit"></span> Modificaciones
+	        		</accordion-heading>
+	        	    
+		       		<div class="enlace"><a href="{{route('modifiEntrada')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></div>
+			       	<div class="enlace"><a href="/registrarSalida"><span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida</a></div>
+			       	
 			    </accordion-group>
 			@endif
 			
