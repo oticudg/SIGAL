@@ -119,8 +119,12 @@ return [
     "equal_provedor"     =>  "El provedor de esta orden de compra no coincide",
     "diff_orden"         =>  "Especifique un numero de orden diferente para realizar la modificacion",
     "diff_provedor"      =>  "Especifique un proveedor diferente para realizar la modificacion",
+    "diff_departamento"  =>  "Especifique un servicio diferente para realizar la modificacion",
     "insumos_modificar"  =>  "Los insumos son invalidos",
-    "insumos_validate"   =>  "Valores de insumos no validos",
+    "insumos_validate_e" =>  "Valores de insumos no validos",
+    "insumos_validate_s" =>  "Valores de insumo no validos",
     "insumos"            =>  "Valores de insumos no validos",
-    "one_insumo"         =>  "No es posible borrar el unico insumo de esta entrada"
+    "one_insumo_entrada" =>  "No es posible borrar el unico insumo de esta entrada",
+    "one_insumo_salida"  =>  "No es posible borrar el unico insumo de esta salida"
+
 ];

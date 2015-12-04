@@ -9,9 +9,13 @@ use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entradas_modificada;
+use App\Salidas_modificada;
 use App\Insumos_emodificado;
+use App\Insumos_smodificado;
 use App\Entrada;
+use App\Salida;
 use App\Insumos_entrada;
+use App\Insumos_salida;
 
 class modificacionesController extends Controller
 {
@@ -19,14 +23,29 @@ class modificacionesController extends Controller
         return view('modificaciones/indexEntradas');
     }
 
+    public function indexSalidas(){
+        return view('modificaciones/indexSalidas');
+    }
+
     public function detallesEntrada(){
 
         return view('modificaciones/detallesEntrada');
     }
 
+    public function detallesSalida(){
+
+        return view('modificaciones/detallesSalida');
+    }
+
     public function viewRegEntrada(){
 
         return view('modificaciones/registrarEntrada');
+    }
+
+    public function viewRegSalida(){
+        
+        return view('modificaciones/registrarSalida');
+           
     }
 
 
@@ -37,6 +56,15 @@ class modificacionesController extends Controller
                 ->select(DB::raw('DATE_FORMAT(entradas_modificadas.created_at, "%d/%m/%Y") as fecha'),
                     'entradas.codigo as codigo', 'entradas_modificadas.id as id')
                 ->orderBy('entradas_modificadas.id', 'desc')->get();
+    }
+
+    public function allSalidas(){
+
+        return DB::table('salidas_modificadas')
+                ->join('salidas', 'salidas_modificadas.salida', '=', 'salidas.id')
+                ->select(DB::raw('DATE_FORMAT(salidas_modificadas.created_at, "%d/%m/%Y") as fecha'),
+                    'salidas.codigo as codigo', 'salidas_modificadas.id as id')
+                ->orderBy('salidas_modificadas.id', 'desc')->get();
     }
 
     public function getEntrada($id){
@@ -95,6 +123,60 @@ class modificacionesController extends Controller
         }
     }
 
+    public function getSalida($id){
+
+        $salida = Salidas_modificada::where('id',$id)->first();
+
+        if(!$salida){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta entrada no existe']);            
+        }
+        else{ 
+
+            $modificacion = DB::table('salidas_modificadas')->where('salidas_modificadas.id',$id)
+                            ->join('salidas', 'salidas_modificadas.salida', '=', 'salidas.id')
+                            ->join('users', 'salidas_modificadas.usuario' , '=', 'users.id' )
+                            ->select(DB::raw('DATE_FORMAT(salidas_modificadas.created_at, "%d/%m/%Y") as fecha'),
+                                    DB::raw('DATE_FORMAT(salidas_modificadas.created_at, "%H:%i:%s") as hora'),  
+                                    'users.email as usuario', 'salidas.codigo as codigo')
+                            ->first();
+
+            if(Salidas_modificada::where('id', $id)->value('Mdepartamento') != NULL){
+
+                $salida = DB::table('salidas_modificadas')->where('salidas_modificadas.id',$id)
+                              ->join('departamentos', 'salidas_modificadas.Odepartamento', '=', 'departamentos.id')
+                              ->join('departamentos as Mdepartamento', 'salidas_modificadas.Mdepartamento', '=', 'Mdepartamento.id')
+                              ->select('departamentos.nombre as departamento', 'Mdepartamento.nombre as Mdepartamento')   
+                              ->first();
+            }
+            else{
+
+                $salida = DB::table('salidas_modificadas')->where('salidas_modificadas.id',$id)
+                              ->join('departamentos', 'salidas_modificadas.Odepartamento', '=', 'departamentos.id')
+                              ->select('departamentos.nombre as departamento')   
+                              ->first();
+            }
+
+
+            $insumos  = Insumos_smodificado::where('salida',$id)->get();
+
+            if( $insumos->isEmpty() ){
+                $insumos = NULL;
+            }
+            else{
+
+                $insumos = DB::table('insumos_smodificados')->where('insumos_smodificados.salida',$id)
+                          ->join('insumos', 'insumos_smodificados.insumo', '=', 'insumos.id')
+                          ->select('insumos.codigo as codigo', 'insumos.descripcion as descripcion', 
+                            'insumos_smodificados.Osolicitado','insumos_smodificados.Msolicitado', 
+                            'insumos_smodificados.Odespachado', 'insumos_smodificados.Mdespachado')   
+                          ->get();
+            }   
+
+            return Response()->json(['status' => 'success', 'salida' => $salida , 'insumos' => $insumos, 
+                    'modificacion' => $modificacion]);
+        }
+    }
+
     public function registrarEntrada(Request $request){
 
         $data = $request->all();
@@ -103,7 +185,7 @@ class modificacionesController extends Controller
             'entrada'  => 'required',
             'orden'    => 'diff_orden:entrada',
             'provedor' => 'diff_provedor:entrada',
-            'insumos'  => 'insumos_validate|one_insumo:entrada'
+            'insumos'  => 'insumos_validate_e|one_insumo_entrada:entrada'
         ]);
         
         if($validator->fails()){
@@ -129,7 +211,7 @@ class modificacionesController extends Controller
             if( empty( $orden ) && empty( $insumos ) ){
                 return Response()->json(['status' => 'danger', 'menssage' => 'No se han hecho modificaciones']);       
             }  
-            else if( ($insumosInvalidos = inventarioController::validaModificacion($insumos)) != [] ){
+            else if( ($insumosInvalidos = inventarioController::validaModifiEntrada($insumos)) != [] ){
                 return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
             }
 
@@ -195,4 +277,91 @@ class modificacionesController extends Controller
         }
     }
     
+    public function registrarSalida(Request $request){
+
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'salida'        => 'required',
+            'departamento'  => 'diff_departamento:salida',
+            'insumos'       => 'insumos_validate_s|one_insumo_salida:salida'
+        ]);
+        
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+        }
+        else{
+
+            $departamento  = $data['departamento'] != " " ? $data['departamento'] : NULL;
+            $originalS = Salida::where('id', $data['salida'])->first(['id','departamento']);
+            $insumos   = [];
+
+            foreach($data['insumos'] as $insumo) {
+                if( isset($insumo['despachado']) ){
+
+                    $originalI = Insumos_salida::where('id', $insumo['id'])->first(['insumo', 'solicitado', 'despachado']);
+
+                    $insumo['solicitado'] = isset($insumo['solicitado']) ? $insumo['solicitado'] : NULL;
+
+                    array_push($insumos, ['id' => $originalI['insumo'], 'originalS' => $originalI['solicitado'], 
+                        'originalD' => $originalI['despachado'], 'modificarS' => $insumo['solicitado'],
+                        'modificarD' => $insumo['despachado'],'index' => $insumo['id']]);
+                }
+            }
+            
+            if( empty( $departamento ) && empty( $insumos ) ){
+                return Response()->json(['status' => 'danger', 'menssage' => 'No se han hecho modificaciones']);       
+            }  
+            else if( ($insumosInvalidos = inventarioController::validaModifiSalida($insumos)) != [] ){
+                return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
+            }
+
+            $salida = Salidas_modificada::create([
+                        'salida'       => $originalS->id,
+                        'Odepartamento' => $originalS->departamento,
+                        'Mdepartamento' => $departamento,
+                        'usuario'       => Auth::user()->id    
+                    ])['id'];
+
+            if( $departamento != NULL ){
+
+                Salida::where('id', $originalS->id)->update([
+                    'departamento' => $departamento,
+                ]);
+            }
+            
+            foreach ($insumos as $insumo){           
+
+                if( $insumo['modificarD'] == 0){
+                    inventarioController::almacenaInsumo($insumo['id'], $insumo['originalD']);
+                    Insumos_salida::where('salida',$originalS->id)->
+                        where('insumo', $insumo['id'])->delete();
+                }
+                else{
+                    
+                    inventarioController::almacenaInsumo($insumo['id'], $insumo['originalD']);
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['modificarD']);
+                    
+                    $solicitado = $insumo['modificarS'] == NULL ? $insumo['originalS'] : $insumo['modificarS'];   
+
+                    Insumos_salida::where('salida',$originalS->id)->where('insumo', $insumo['id'])
+                        ->update([
+                            'despachado' => $insumo['modificarD'],
+                            'solicitado' => $solicitado
+                        ]);
+                }
+
+                Insumos_smodificado::create([
+                    'salida'      => $salida,
+                    'insumo'      => $insumo['id'],
+                    'Odespachado' => $insumo['originalD'],
+                    'Mdespachado' => $insumo['modificarD'],
+                    'Osolicitado' => $insumo['originalS'],
+                    'Msolicitado' => $insumo['modificarS']
+                ]);
+            }
+            
+            return Response()->json(['status' => 'success', 'menssage' => 'Modificacion registrada']);   
+        }
+    }
 }

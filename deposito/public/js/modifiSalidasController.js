@@ -1,27 +1,27 @@
 "use strict";
 
 angular.module('deposito').
-controller('modificacionesController',function($scope,$http,$modal){
+controller('modifiSalidasController',function($scope,$http,$modal){
 
-	$scope.entradas = [];
-  	$scope.cRegistro = '5';
+	$scope.salidas = [];
+  $scope.cRegistro = '5';
 
-	$scope.obtenerEntradas = function(){
+	$scope.obtenerSalidas = function(){
 
-		$http.get('/modificaciones/getEntradas')
-			.success( function(response){$scope.entradas = response});
+		$http.get('/modificaciones/getSalidas')
+			.success( function(response){$scope.salidas = response});
 	};
 
 	$scope.registrarModificacion = function() {
 
       $modal.open({
      		animation: true,
-      		templateUrl: '/modificaciones/registrarEntrada',
+      		templateUrl: '/modificaciones/registrarSalida',
       		windowClass: 'large-Modal',
       		controller: 'registraModificacionCtrl',
       		resolve: {
-       			 obtenerEntradas: function () {
-          			return $scope.obtenerEntradas;
+       			 obtenerSalidas: function () {
+          			return $scope.obtenerSalidas;
         		 }
       		}
 	    });
@@ -32,7 +32,7 @@ controller('modificacionesController',function($scope,$http,$modal){
 	    var modalInstance = $modal.open({
 
 	      animation: true,
-	          templateUrl: '/modificaciones/detallesEntrada',
+	          templateUrl: '/modificaciones/detallesSalida',
 	          controller: 'detallesModificacionCtrl',
 	          windowClass: 'large-Modal',
 	          resolve: {
@@ -44,25 +44,25 @@ controller('modificacionesController',function($scope,$http,$modal){
 	    });
   	};
 
-  	$scope.obtenerEntradas();
+  	$scope.obtenerSalidas();
 
 });
 
 angular.module('deposito').controller('registraModificacionCtrl', 
-	function ($scope, $modalInstance, $http, obtenerEntradas){
+	function ($scope, $modalInstance, $http, obtenerSalidas){
 
   $scope.btnVisivilidad = true;
   $scope.alert = {};
   $scope.codigo = '';
   $scope.orden = '';
-  $scope.provedor = '';
-  $scope.entrada = {};
+  $scope.departamento = '';
+  $scope.salida = {};
   $scope.insumos = [];
   $scope.status = false;
-  $scope.provedores = [];
+  $scope.departamentos = [];
 
-  $http.get('/getProvedores')
-    .success( function(response){ $scope.provedores = response;});
+  $http.get('/getDepartamentos')
+    .success( function(response){ $scope.departamentos = response;});
 
   $scope.registrar = function () {
   	$scope.save();
@@ -78,14 +78,14 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
   };
 
-  $scope.ubicarEntrada = function(){
+  $scope.ubicarSalida = function(){
 
   	if($scope.codigo == ''){
   		$scope.alert = {'type':'danger' , 'msg':'Espefifique un codigo de Pro-Forma'};
   	}
   	else{
 
-  		$http.get('/getEntradaCodigo/' + $scope.codigo)
+  		$http.get('/getSalidaCodigo/' + $scope.codigo)
   			.success(
   				function(response){
 
@@ -95,7 +95,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
   					}
   					else{
 
-  						$scope.entrada = response.entrada;
+  						$scope.salida = response.salida;
   						$scope.insumos = response.insumos;
   						$scope.alert = {};
   						$scope.status = true;
@@ -132,8 +132,12 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
   	for( index in $scope.insumos){
 
-  		insumos.push({'id':$scope.insumos[index].id, 
-  			'cantidad':$scope.insumos[index].modificacion});
+  		insumos.push(
+        {
+         'id':$scope.insumos[index].id, 
+  			 'solicitado':$scope.insumos[index].Msolicitado, 
+         'despachado':$scope.insumos[index].Mdespachado
+      });
   	}
 
   	return insumos;
@@ -144,13 +148,12 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
    	var $data = {
 
-   		'entrada'	: $scope.entrada.id,
-  		'orden'		: $scope.orden,
-  		'provedor'	: $scope.provedor,
-  		'insumos'	: serializeInsumos()
+   		'salida'	      : $scope.salida.id,
+  		'departamento'	: $scope.departamento,
+  		'insumos'	      : serializeInsumos()
  	};
 
-    $http.post('/modificaciones/registrarEntrada', $data)
+    $http.post('/modificaciones/registrarSalida', $data)
       .success(function(response){
 
     		$scope.alert = {};
@@ -167,7 +170,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
         if( response.status == "success"){
           $scope.btnVisivilidad = false; 
-          obtenerEntradas();
+          obtenerSalidas();
         }
         
    	});
@@ -178,7 +181,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
 angular.module('deposito').controller('detallesModificacionCtrl', function ($scope, $modalInstance, $http, id) {
 
-  $scope.entrada = {};
+  $scope.salida = {};
   $scope.insumos = [];
 
   $scope.cancelar = function () {
@@ -188,11 +191,11 @@ angular.module('deposito').controller('detallesModificacionCtrl', function ($sco
 
   $scope.detalles = function(){
 
-    $http.get('/modificaciones/getEntradas/' + id)
+    $http.get('/modificaciones/getSalida/' + id)
       .success(function(response){
 
       	$scope.modificacion = response.modificacion;
-        $scope.entrada = response.entrada;
+        $scope.salida = response.salida;
         $scope.insumos = response.insumos;
 
     });

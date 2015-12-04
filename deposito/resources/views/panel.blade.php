@@ -57,7 +57,7 @@
 	        		</accordion-heading>
 	        	    
 		       		<div class="enlace"><a href="{{route('modifiEntrada')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></div>
-			       	<div class="enlace"><a href="/registrarSalida"><span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida</a></div>
+			       	<div class="enlace"><a href="{{route('modifiSalida')}}"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></div>
 			       	
 			    </accordion-group>
 			@endif

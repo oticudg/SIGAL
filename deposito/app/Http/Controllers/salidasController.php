@@ -79,6 +79,32 @@ class salidasController extends Controller
         }
     }
 
+    public function getSalidaCodigo($code){
+
+        $salida = Salida::where('codigo',$code)->first();
+
+        if(!$salida){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);            
+        }
+        else{
+
+           $salida = DB::table('salidas')->where('salidas.codigo',$code)
+                ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
+                ->select('salidas.codigo','salidas.id', 
+                    'departamentos.nombre as departamento')
+                ->first();
+
+           $insumos = DB::table('salidas')->where('salidas.codigo', $code)
+                ->join('insumos_salidas', 'salidas.id', '=', 'insumos_salidas.salida')
+                ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.despachado', 
+                    'insumos_salidas.solicitado','insumos_salidas.id as id')
+                ->get();
+
+            return Response()->json(['status' => 'success', 'salida' => $salida, 'insumos' => $insumos]);
+        }
+    }
+
     public function registrar(Request $request){
         
         $data = $request->all();

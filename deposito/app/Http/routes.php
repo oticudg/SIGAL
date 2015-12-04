@@ -267,6 +267,9 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::post('registrarSalida' ,'salidasController@registrar');
 	});
 
+	//Regresa los todos los datos de una salida cuyo codigo se especifique
+	Route::get('getSalidaCodigo/{code}', 'salidasController@getSalidaCodigo');
+
 	/*** Fin de modulo de salidas ***/
 
 
@@ -274,18 +277,36 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	Route::group(['prefix' => 'modificaciones', 'as' => 'modifi', 'middleware' => 'permission:modificaciones'], 
 		function(){
-		//Muestra el panel de modificacione de entradas
-		Route::get('entradas',['as' => 'Entrada', 'uses' => 'modificacionesController@indexEntradas']);
-		//Muestra la vista detallada de una entrada modificada
-		Route::get('detallesEntrada', ['as' => 'DelleEntra', 'uses' => 'modificacionesController@detallesEntrada']);
-		//Muestra la vista de registro de modificacion de entrada
-		Route::get('registrarEntrada',['as' => 'RvEntra', 'uses' => 'modificacionesController@viewRegEntrada']);
-		//Registra una modificacion de entrada
-		Route::post('registrarEntrada', ['as' => 'RcEntra', 'uses' => 'modificacionesController@registrarEntrada']);
-		//Regresa todas las entradas modificadas
-		Route::get('getEntradas',[ 'as' => 'AllEntra', 'uses' => 'modificacionesController@allEntradas']);
-		//Regresa todos los datos de una entrada modificada cuyo id se pase
-		Route::get('getEntradas/{id}',['as' => 'GetEntra', 'uses' => 'modificacionesController@getEntrada']);
+		
+		/** Modificaciones entradas **/
+
+			//Muestra el panel de modificacione de entradas
+			Route::get('entradas',['as' => 'Entrada', 'uses' => 'modificacionesController@indexEntradas']);
+			//Muestra la vista detallada de una entrada modificada
+			Route::get('detallesEntrada', ['as' => 'DelleEntra', 'uses' => 'modificacionesController@detallesEntrada']);
+			//Muestra la vista de registro de modificacion de entrada
+			Route::get('registrarEntrada',['as' => 'RvEntra', 'uses' => 'modificacionesController@viewRegEntrada']);
+			//Registra una modificacion de entrada
+			Route::post('registrarEntrada', ['as' => 'RcEntra', 'uses' => 'modificacionesController@registrarEntrada']);
+			//Regresa todas las entradas modificadas
+			Route::get('getEntradas',[ 'as' => 'AllEntra', 'uses' => 'modificacionesController@allEntradas']);
+			//Regresa todos los datos de una entrada modificada cuyo id se pase
+			Route::get('getEntradas/{id}',['as' => 'GetEntra', 'uses' => 'modificacionesController@getEntrada']);
+
+		/** Modificaciones salidas **/
+			
+			//Muestra el panel de modificacione de salidas
+			Route::get('salidas',['as' => 'Salida', 'uses' => 'modificacionesController@indexSalidas']);
+			//Muestra la vista detallada de una salida modificada
+			Route::get('detallesSalida', ['as' => 'DelleSalid', 'uses' => 'modificacionesController@detallesSalida']);
+			//Muestra la vista de registro de modificacion de salida
+			Route::get('registrarSalida',['as' => 'RvSalid', 'uses' => 'modificacionesController@viewRegSalida']);
+			//Registra una modificacion de salida
+			Route::post('registrarSalida', ['as' => 'RcSalid', 'uses' => 'modificacionesController@registrarSalida']);
+			//Regresa todas las salidas modificadas
+			Route::get('getSalidas',[ 'as' => 'AllSalid', 'uses' => 'modificacionesController@allSalidas']);
+			//Regresa todos los datos de una salida modificada cuyo id se pase
+			Route::get('getSalida/{id}',['as' => 'GetSalid', 'uses' => 'modificacionesController@getSalida']);
 	});
 
 	/*** Fin de modulo de modificaciones ***/

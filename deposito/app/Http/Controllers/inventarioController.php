@@ -144,7 +144,7 @@ class inventarioController extends Controller
         return $invalidos;
     }
 
-    public static function validaModificacion($insumos){
+    public static function validaModifiEntrada($insumos){
 
         $invalidos = [];
 
@@ -153,6 +153,22 @@ class inventarioController extends Controller
             $existencia = Inventario::where('insumo' , $insumo['id'])->value('existencia');
                 
             if( ($existencia - $insumo['originalC'] + $insumo['modificarC'] ) < 0 )
+                array_push($invalidos, $insumo['index']);
+            
+        }
+
+        return $invalidos;
+    }
+
+    public static function validaModifiSalida($insumos){
+
+        $invalidos = [];
+
+        foreach ($insumos as $insumo){            
+            
+            $existencia = Inventario::where('insumo' , $insumo['id'])->value('existencia');
+                
+            if( ($existencia + $insumo['originalD'] - $insumo['modificarD']) < 0 )
                 array_push($invalidos, $insumo['index']);
             
         }

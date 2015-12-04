@@ -6,7 +6,9 @@ use Validator;
 use Input;
 use App\Insumo;
 use App\Entrada;
+use App\Salida;
 use App\Insumos_entrada;
+use App\Insumos_salida;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -89,6 +91,18 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        Validator::extend('diff_departamento', function($attribute, $value, $parameters)
+        {   
+            $id = Input::get($parameters[0]);    
+            $salida = Salida::where('id', $id)->value('departamento');
+
+            if( $value == $salida)
+                return false;
+
+            return true;
+        
+        });
+
         Validator::extend('insumos', function($attribute, $value)
         {   
             if( empty($value) || !is_array($value)){
@@ -149,7 +163,7 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
-        Validator::extend('insumos_validate', function($attribute, $value)
+        Validator::extend('insumos_validate_e', function($attribute, $value)
         {           
             foreach ($value as $insumo){
 
@@ -164,7 +178,37 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
-        Validator::extend('one_insumo', function($attribute, $value, $parameters)
+        Validator::extend('insumos_validate_s', function($attribute, $value)
+        {           
+            foreach ($value as $insumo){
+
+                if(!isset($insumo['despachado']))
+                    continue;
+
+                $originalI = insumos_salida::where('id',$insumo['id'])->first();
+
+                if( !isset($insumo['id']) || ! $originalI ||
+                    $insumo['despachado'] == $originalI['despachado'] || 
+                    !is_int($insumo['despachado']) || $insumo['despachado'] < 0)  
+                    return false; 
+                
+                if( !isset( $insumo['solicitado'] ) ){
+
+                    if( $originalI['solicitado'] < $insumo['despachado'])
+                        return false;
+                }
+                else{
+
+                    if( !is_int($insumo['solicitado']) || $insumo['solicitado'] < 0 ||
+                        $insumo['solicitado'] == $originalI['solicitado'])
+                        return false;
+                }
+            }
+            
+            return true;
+        });
+
+        Validator::extend('one_insumo_entrada', function($attribute, $value, $parameters)
         {   
             $entrada = Input::get($parameters[0]);
             $insumos = Insumos_entrada::where('entrada', $entrada)->get(); 
@@ -175,6 +219,19 @@ class AppServiceProvider extends ServiceProvider
             return true;
 
         });
+
+        Validator::extend('one_insumo_salida', function($attribute, $value, $parameters)
+        {   
+            $salida = Input::get($parameters[0]);
+            $insumos = Insumos_salida::where('salida', $salida)->get(); 
+
+            if($insumos->count() == 1 && isset($value[0]['despachado']) && $value[0]['despachado'] == 0)
+                return false;
+
+            return true;
+
+        });
+
 
         Validator::extend('insumo', function($attribute, $value)
         {

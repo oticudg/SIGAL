@@ -1,14 +1,14 @@
 @extends('panel')
-@section('bodytag', 'ng-controller="modifiEntradasController"')
+@section('bodytag', 'ng-controller="modifiSalidasController"')
 @section('addscript')
-<script src="{{asset('js/modifiEntradasController.js')}}"></script>
+<script src="{{asset('js/modifiSalidasController.js')}}"></script>
 @endsection
 
 @section('front-page')
 	
 	<h5 class="text-muted">
 		<span class="glyphicon glyphicon-edit"></span> Modificaciones > 
-		<span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas
+		<span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas
 	</h5>
 	<br>
 	
@@ -41,22 +41,22 @@
 	<br>
 	<br>
 	
-	{{--Tabla que muestra las pre-formas de entradas modificadas--}}
+	{{--Tabla que muestra las pre-formas de salidas modificadas--}}
 	<div>
 		<table class="table table-bordered table-hover">
 			<thead>
-				<caption>Pro-Formas de entrada modificadas</caption>
+				<caption>Pro-Formas de salidas modificadas</caption>
 				<tr>
 					<th class="col-md-1">Fecha</th>
-					<th>Pro-Forma de entrada</th>
+					<th>Pro-Forma de salida</th>
 					<th class="col-md-1">Detalles</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
-					<td>{#entrada.fecha#}</td>
-					<td>{#entrada.codigo#}</td>
-					<td><button ng-click="detallesModificacion(entrada.id)" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				<tr dir-paginate="salida in salidas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+					<td>{#salida.fecha#}</td>
+					<td>{#salida.codigo#}</td>
+					<td><button ng-click="detallesModificacion(salida.id)" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				</tr>
 			</tbody>
 		</table>

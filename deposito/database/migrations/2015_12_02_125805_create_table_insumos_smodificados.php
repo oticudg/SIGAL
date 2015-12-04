@@ -17,7 +17,7 @@ class CreateTableInsumosSmodificados extends Migration
             $table->integer('salida');
             $table->integer('insumo');
             $table->double('Osolicitado');
-            $table->double('Msolicitado');
+            $table->double('Msolicitado')->nullable();
             $table->double('Odespachado');
             $table->double('Mdespachado');
             $table->timestamps();
