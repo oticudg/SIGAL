@@ -51,7 +51,6 @@
 	<script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>
 	<script src="{{asset('js/vendor/angular.min.js')}}"></script>
 	<script src="{{asset('js/vendor/ui-bootstrap-tpls-0.13.0.min.js')}}"></script>
-	<script src="{{asset('js/vendor/ng-file-upload.js')}}"></script>
 	<script src="{{asset('js/vendor/dirPagination.js')}}"></script>
 	<script src="{{asset('js/vendor/angular-sanitize.min.js')}}"></script>
 	<script src="{{asset('js/vendor/select.min.js')}}"></script>

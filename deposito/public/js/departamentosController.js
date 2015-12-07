@@ -104,7 +104,7 @@ angular.module('deposito').controller('registrarDepartamentoCtrl', function ($sc
 
 });
 
-angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope, $modalInstance, $http, Upload, obtenerDepartamentos,id) {
+angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos, id) {
 
   $scope.btnVisivilidad = true;
 

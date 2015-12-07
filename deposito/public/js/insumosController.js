@@ -70,7 +70,7 @@ controller('insumosController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $modalInstance, $http, Upload, obtenerInsumos){
+angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $modalInstance, $http, obtenerInsumos){
 
   $scope.btnVisivilidad = true;
 
@@ -110,7 +110,7 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
 
 });
 
-angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $modalInstance, $http, Upload, obtenerInsumos,id) {
+angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $modalInstance, $http, obtenerInsumos,id) {
 
   $scope.btnVisivilidad = true;
 
