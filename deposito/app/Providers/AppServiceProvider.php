@@ -170,7 +170,10 @@ class AppServiceProvider extends ServiceProvider
                 if(!isset($insumo['cantidad']))
                     continue;
 
-                if( !isset($insumo['id']) || !Insumos_entrada::where('id',$insumo['id'])->first() ||
+                $originalI = Insumos_entrada::where('id',$insumo['id'])->first();
+                
+                if( !isset($insumo['id']) || !$originalI ||
+                    $originalI['cantidad'] == $insumo['cantidad'] ||
                     !is_int($insumo['cantidad']) || $insumo['cantidad'] < 0)  
                     return false; 
             }
