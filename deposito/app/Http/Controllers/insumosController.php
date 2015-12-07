@@ -83,8 +83,11 @@ class insumosController extends Controller
 
         if($consulta != ""){
 
-            return Insumo::where('descripcion', 'like', $consulta.'%')
-                   ->orwhere('codigo', 'like', $consulta.'%')->take(20)->get();
+            return Insumo::where(function($query) use ($consulta){
+                $query->where('descripcion', 'like', '%'.$consulta.'%')
+                      ->orwhere('codigo', 'like', '%'.$consulta.'%');
+
+            })->take(30)->get();
         }
 
         return "[]"; 
