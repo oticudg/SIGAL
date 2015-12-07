@@ -8,7 +8,7 @@
 		<div>
 			<h1 class="text-title">Bienvenido</h1>
 			<hr>
-			<h3>La oficina de sistemas y tecnologías de información y comunicación OSTIC le da la bienvenida al sistema de gestion de deposito del Hospital Universitario de Maracaibo.</h3>		
+			<h3>La oficina de tecnologías de información y comunicación OTIC le da la bienvenida al sistema de gestion de deposito del Hospital Universitario de Maracaibo.</h3>		
 		</div>
 	</div>
 	
