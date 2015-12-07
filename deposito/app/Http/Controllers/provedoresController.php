@@ -63,7 +63,7 @@ class provedoresController extends Controller
 
     public function allProvedores(){
 
-        return Provedore::get();
+        return Provedore::orderBy('id', 'desc')->get();
     }
 
     public function getProvedor($id){

@@ -133,7 +133,7 @@ class usersController extends Controller
     public function allUsuarios(){
 
         return User::select(DB::raw('CONCAT(nombre, " " , apellido) as nombre'), 'cedula', 
-            'email', 'id')->where('id', '!=', 1)->get();
+            'email', 'id')->where('id', '!=', 1)->orderBy('id', 'desc')->get();
     }
 
     public function getUsuario($id){

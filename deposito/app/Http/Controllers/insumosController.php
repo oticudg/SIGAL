@@ -60,7 +60,7 @@ class insumosController extends Controller
 
     public function allInsumos(){
 
-        return Insumo::get();
+        return Insumo::orderBy('id', 'desc')->get();
     }
     
     public function getInsumo($id){
