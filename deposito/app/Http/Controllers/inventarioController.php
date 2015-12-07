@@ -31,6 +31,7 @@ class inventarioController extends Controller
             ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
             ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                 'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+            ->orderBy('inventarios.id', 'desc')
             ->get();
     }
 
