@@ -288,3 +288,28 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /*** Fin input style  ***/
+
+/*** Loader screen ***/
+#loader{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  background-color: black;
+  color:white;
+  opacity: 0.8;
+}
+
+.div_loader{
+  padding: 15%;
+  text-align: center;
+}
+
+.img_loader img{
+  width: 50px;
+  height: 50px;
+}
+
+/*** Fin de  Loader screen ***/  

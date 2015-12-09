@@ -54,5 +54,9 @@ filter('propsFilter', function() {
   };
 });
 
+$(window).load(function() {
+      $("#loader").fadeOut("fast"); 
+});
+
 
 
