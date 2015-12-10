@@ -1,7 +1,4 @@
 @extends('panel')
-
-
-
 @section('front-page')
 
 	<div id="bienvenida">

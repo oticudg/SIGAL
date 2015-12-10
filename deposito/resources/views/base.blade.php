@@ -11,13 +11,6 @@
 	@yield('addstyle')
 </head>
 <body @yield('bodytag')>
-	
-	<div id='loader' class="div_loader">
-		<div id="img_loader" class="img_loader">
-			<img src="{{asset('imagen/loader.gif')}}" alt="">
-			<p> Cargando ...</p>
-		</div>
-	</div>
 
 	<div id="bar-menu">
 		<nav class="navbar navbar-inverse custon-bar navbar-fixed-top">
@@ -49,7 +42,7 @@
 		  </div>
 		</nav>
 	</div>
-
+	
 	<div>
 		@yield('conten')
 	</div>
@@ -63,5 +56,6 @@
 	<script src="{{asset('js/vendor/select.min.js')}}"></script>
 	<script src="{{asset('js/config.js')}}" type="text/javascript"></script>
 	@yield('addscript')
+
 </body>
 </html>
