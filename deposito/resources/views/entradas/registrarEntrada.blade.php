@@ -174,7 +174,7 @@
 				<br>
 
 				<center>
-					<button class="btn btn-success" ng-click="registroOrden()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
+					<button class="btn btn-success" ng-click="registroDona()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 				</center>
 			</div>
 			

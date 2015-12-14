@@ -3,40 +3,75 @@
 angular.module('deposito').
 controller('entradasController',function($scope,$http,$modal){
 
-	$scope.entradas = [];
-  $scope.indice = 'Pro-Formas';
-  $scope.entradasInsumos = [];
+	$scope.entradasOrd = [];
+  $scope.entradasDon = [];
+  $scope.indiceOrd = 'Pro-Formas';
+  $scope.indiceDon = 'Pro-Formas';
+  $scope.insumosOrd = [];
+  $scope.insumosDon = [];
   $scope.cRegistro = '5';
-  $scope.proformaVisivility = true;
-  $scope.insumosVisivility = false;
-  $scope.ordenVisivility = false;
   $scope.orden = {};
   $scope.insumos = [];
+  $scope.uiOrd = {
+    'proformas' : true,
+    'insumos'  : false,
+    'ordenes'    : false
+  };
+  $scope.uiDon = {
+    'proformas' : true,
+    'insumos'  : false,
+  };
 
-	$scope.obtenerEntradas = function(){
+	$scope.obtenerOrds = function(){
 
-		$http.get('/getEntradas')
-			.success( function(response){$scope.entradas = response});
+		$http.get('/getEntradasOrd')
+			.success( function(response){$scope.entradasOrd = response});
 	};
 
-  $scope.obtenerEntradasInsumos = function(){
+  $scope.obtenerDons = function(){
 
-    $http.get('/getInsumosEntradas')
-      .success( function(response){$scope.entradasInsumos = response});
+    $http.get('/getEntradasDon')
+      .success( function(response){$scope.entradasDon = response});
   };
 
-  $scope.registrosProformas = function(){
-    $scope.busqueda = '';
-    $scope.indice = 'Pro-Formas';
-    uiVisivility(1);
-    $scope.obtenerEntradas();
+  $scope.obtenerInsumosOrd = function(){
+
+    $http.get('/getInsumosOrd')
+      .success( function(response){$scope.insumosOrd = response});
   };
 
-  $scope.registrosInsumos = function(){
+  $scope.obtenerInsumosDon = function(){
+
+    $http.get('/getInsumosDon')
+      .success( function(response){$scope.insumosDon = response});
+  };
+
+  $scope.registrosOrds = function(){
     $scope.busqueda = '';
-    $scope.indice = 'Insumos';
-    uiVisivility(2)
-    $scope.obtenerEntradasInsumos();
+    $scope.indiceOrd = 'Pro-Formas';
+    ordVisivility(1);
+    $scope.obtenerOrds();
+  };
+
+  $scope.registrosDons = function(){
+    $scope.busqueda = '';
+    $scope.indiceDon = 'Pro-Formas';
+    donVisivility(1);
+    $scope.obtenerDons();
+  };
+
+  $scope.registrosInsumosOrd = function(){
+    $scope.busqueda = '';
+    $scope.indiceOrd = 'Insumos';
+    ordVisivility(2);
+    $scope.obtenerInsumosOrd();
+  };
+
+  $scope.registrosInsumosDon = function(){
+    $scope.busqueda = '';
+    $scope.indiceDon = 'Insumos';
+    donVisivility(2);
+    $scope.obtenerInsumosDon();
   };
 
   $scope.detallesOrden = function(orden){
@@ -46,12 +81,13 @@ controller('entradasController',function($scope,$http,$modal){
         function(response){
           $scope.orden   = response.orden;
           $scope.insumos = response.insumos;
-          uiVisivility(3);
+          ordVisivility(3);
           $scope.busqueda = '';
+          $scope.indiceOrd = 'Orden';
       });
   }
 
-  $scope.detallesEntrada = function(index){
+  $scope.detallesEntradaOrd = function(index){
 
     var modalInstance = $modal.open({
 
@@ -63,37 +99,76 @@ controller('entradasController',function($scope,$http,$modal){
 
              id:function () {
                 return index;
+             },
+             type:function(){
+                return 'EO';
              }
+
          }
     });
   };
 
-  function uiVisivility(menu){
+  $scope.detallesEntradaDon = function(index){
+
+    var modalInstance = $modal.open({
+
+      animation: true,
+          templateUrl: '/detallesEntrada',
+          controller: 'detallesEntradaCtrl',
+          windowClass: 'large-Modal',
+          resolve: {
+
+             id:function () {
+                return index;
+             },
+             type:function(){
+                return 'ED';
+             }
+
+         }
+    });
+  };
+
+
+  function ordVisivility(menu){
     switch(menu){
       case 1:
-        $scope.proformaVisivility = true;
-        $scope.insumosVisivility = false;
-        $scope.ordenVisivility = false;
+        $scope.uiOrd.proformas = true;
+        $scope.uiOrd.insumos = false;
+        $scope.uiOrd.ordenes = false;
       break;
 
       case 2:
-        $scope.proformaVisivility = false;
-        $scope.insumosVisivility = true;
-        $scope.ordenVisivility = false;
+        $scope.uiOrd.proformas = false;
+        $scope.uiOrd.insumos = true;
+        $scope.uiOrd.ordenes = false;
       break;
 
       case 3:
-        $scope.proformaVisivility = false;
-        $scope.insumosVisivility = false;
-        $scope.ordenVisivility = true;
+        $scope.uiOrd.proformas = false;
+        $scope.uiOrd.insumos = false;
+        $scope.uiOrd.ordenes = true;
     }
   }
 
-	$scope.obtenerEntradas();
+  function donVisivility(menu){
+    switch(menu){
+      case 1:
+        $scope.uiDon.proformas = true;
+        $scope.uiDon.insumos = false;
+      break;
+
+      case 2:
+        $scope.uiDon.proformas = false;
+        $scope.uiDon.insumos = true;
+    }
+  }
+
+	$scope.obtenerOrds();
 
 });
 
-angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $modalInstance, $http, id) {
+angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $modalInstance, $http, type, id) {
 
   $scope.entrada = {};
   $scope.insumos = [];
@@ -105,7 +180,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
 
   $scope.detalles = function(){
 
-    $http.get('/getEntrada/' + id)
+    $http.get('/getEntrada/'+ type + '/' + id)
       .success(function(response){
 
         $scope.entrada = response.entrada;

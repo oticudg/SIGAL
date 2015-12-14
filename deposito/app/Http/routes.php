@@ -215,17 +215,23 @@ Route::group(['middleware' => 'auth' ], function(){
 		//Muestra el panel de entradas
 		Route::get('entradas','entradasController@index');
 
-			//Muestra la vista detallada de una entrada
+		//Muestra la vista detallada de una entrada
 		Route::get('detallesEntrada','entradasController@detalles');
 
-		//Regresa todas las entradas
-		Route::get('getEntradas','entradasController@allEntradas');
+		//Regresa todas las entradas por ordenes de compra 
+		Route::get('getEntradasOrd','entradasController@allEntradasOrd');
 
-		//Regresa todos los insumos que han entrado
-		Route::get('getInsumosEntradas','entradasController@allInsumos');
+		//Regresa todas las entradas por donaciones 
+		Route::get('getEntradasDon','entradasController@allEntradasDon');
 
-		//Regresa los todos los datos de una entrada cuyo id se pase
-		Route::get('getEntrada/{id}', 'entradasController@getEntrada');
+		//Regresa todos los insumos que han entrado por ordenes de compra
+		Route::get('getInsumosOrd','entradasController@allInsumosOrd');
+
+		//Regresa todos los insumos que han entrado por donaciones
+		Route::get('getInsumosDon','entradasController@allInsumosDon');
+
+		//Regresa todos los datos de una entrada cuyo id y tipo se pase
+		Route::get('getEntrada/{type}/{id}', 'entradasController@getEntrada');
 
 		//Regresa todas las entradas de el numero de orden que se expecifique
 		Route::get('getOrden/{number}', 'entradasController@getOrden');
@@ -235,8 +241,10 @@ Route::group(['middleware' => 'auth' ], function(){
 	Route::group(['middleware' => 'permission:entradaR'], function(){
 		//Muestra la vista de registro de entrada
 		Route::get('registrarEntrada', 'entradasController@viewRegistrar');
-		//Registra una entrada
-		Route::post('registrarEntrada' ,'entradasController@registrar');
+		//Registra una entrada por orden de compra
+		Route::post('registrarOrd' ,'entradasController@registrarOrd');
+		//Registra una entrada por donacion
+		Route::post('registrarDon' ,'entradasController@registrarDon');
 	});
 
 	//Regresa los todos los datos de una entrada cuyo codigo se especifique

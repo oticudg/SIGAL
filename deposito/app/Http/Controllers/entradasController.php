@@ -9,14 +9,16 @@ use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entrada;
+use App\Edonacione;
 use App\Insumos_entrada;
+use App\Insumos_edonacione;
 
 class entradasController extends Controller
 {   
     private $menssage = [
-        'orden.required'             =>   'Especifique un numero de orden de compra',
-        'provedor.required'           =>  'Seleccione un proveedor', 
-        'insumos.required'            =>  'No se han especificado insumos para esta entrada'
+        'orden.required'    =>   'Especifique un numero de orden de compra',
+        'provedor.required' =>  'Seleccione un proveedor', 
+        'insumos.required'  =>  'No se han especificado insumos para esta entrada'
     ];
 
     public function index(){
@@ -31,7 +33,7 @@ class entradasController extends Controller
         return view('entradas/detallesEntrada');
     }
 
-    public function allInsumos(){
+    public function allInsumosOrd(){
 
         return DB::table('insumos_entradas')
             ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
@@ -42,7 +44,18 @@ class entradasController extends Controller
             ->orderBy('insumos_entradas.id', 'desc')->get();
     }
 
-    public function allEntradas(){
+    public function allInsumosDon(){
+
+        return DB::table('insumos_edonaciones')
+            ->join('edonaciones', 'edonaciones.id', '=', 'insumos_edonaciones.donacion')
+            ->join('insumos', 'insumos.id' , '=', 'insumos_edonaciones.insumo')
+            ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                'edonaciones.codigo as donacion', 'edonaciones.id as donacionId','insumos.codigo',
+                'insumos.descripcion','insumos_edonaciones.cantidad')
+            ->orderBy('insumos_edonaciones.id', 'desc')->get();
+    }
+
+    public function allEntradasOrd(){
 
         return DB::table('entradas')
             ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
@@ -51,29 +64,74 @@ class entradasController extends Controller
              ->orderBy('entradas.id', 'desc')->get();
     }
 
-    public function getEntrada($id){
+    public function allEntradasDon(){
 
-        $entrada = Entrada::where('id',$id)->first();
+        return DB::table('edonaciones')
+            ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
+            ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                'edonaciones.codigo','provedores.nombre as provedor', 'edonaciones.id')
+             ->orderBy('edonaciones.id', 'desc')->get();
+    }
 
-        if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
-        }
-        else{
+    public function getEntrada($type, $id){
+        
+        switch ($type) {
 
-           $entrada = DB::table('entradas')->where('entradas.id',$id)
-                ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                ->join('users', 'entradas.usuario' , '=', 'users.id' )
-                ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                    DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                    'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario')
-                ->first();
+            case 'EO':
+                $entrada = Entrada::where('id',$id)->first();
 
-           $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
-                ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
-                ->get();
+                if(!$entrada){
+                    return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+                }
+                else{
 
-            return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+                   $entrada = DB::table('entradas')->where('entradas.id',$id)
+                        ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                        ->join('users', 'entradas.usuario' , '=', 'users.id' )
+                        ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                            DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
+                            'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario')
+                        ->first();
+
+                   $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
+                        ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
+                        ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
+                        ->get();
+
+                    return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+                }
+            break;
+
+            case 'ED':
+                $entrada = Edonacione::where('id',$id)->first();
+
+                if(!$entrada){
+                    return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+                }
+                else{
+
+                   $entrada = DB::table('edonaciones')->where('edonaciones.id',$id)
+                        ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
+                        ->join('users', 'edonaciones.usuario' , '=', 'users.id' )
+                        ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                            DB::raw('DATE_FORMAT(edonaciones.created_at, "%H:%i:%s") as hora'), 'edonaciones.codigo',
+                           'provedores.nombre as provedor', 'users.email as usuario')
+                        ->first();
+
+                   $insumos = DB::table('insumos_edonaciones')->where('insumos_edonaciones.donacion', $id)
+                        ->join('insumos', 'insumos_edonaciones.insumo', '=', 'insumos.id')
+                        ->select('insumos.codigo', 'insumos.descripcion', 'insumos_edonaciones.cantidad')
+                        ->get();
+
+                    return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+                }
+            break;
+
+            
+
+            default:
+                 return Response()->json(['status' => 'danger', 'menssage' => 'Tipo de entrada no valido']);
+            break; 
         }
     }
 
@@ -132,7 +190,7 @@ class entradasController extends Controller
         }
     }
 
-    public function registrar(Request $request){
+    public function registrarOrd(Request $request){
         
         $data = $request->all();
 
@@ -161,6 +219,45 @@ class entradasController extends Controller
                 
                 Insumos_entrada::create([
                     'entrada'   => $entrada,
+                    'insumo'    => $insumo['id'],
+                    'cantidad'  => $insumo['cantidad']
+                ]);
+
+                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
+            }
+
+            return Response()->json(['status' => 'success', 'menssage' => 
+                'Entrada completada satisfactoriamente', 'codigo' => $code]);
+        }
+    }
+
+    public function registrarDon(Request $request){
+        
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'provedor' =>  'required',
+            'insumos'  =>  'required|insumos'
+        ], $this->menssage);
+
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+        }
+        else{
+
+            $insumos = $data['insumos'];
+            $code =  'ED'.strtoupper( str_random(6) );
+
+            $donacion = Edonacione::create([
+                        'codigo'   => $code,
+                        'provedor' => $data['provedor'],
+                        'usuario'  => Auth::user()->id
+                      ])['id'];
+
+            foreach ($insumos as $insumo) {
+                
+                Insumos_edonacione::create([
+                    'donacion'  => $donacion,
                     'insumo'    => $insumo['id'],
                     'cantidad'  => $insumo['cantidad']
                 ]);

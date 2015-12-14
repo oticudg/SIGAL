@@ -55,7 +55,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
       'orden'  : $scope.orden,
       'provedor': $scope.provedorOrd,
-      'insumos' : empaquetaData()
+      'insumos' : empaquetaData($scope.insumosOrd)
     };
 
     if( !validaCantidad() ){
@@ -63,7 +63,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       return;
     }
 
-    $http.post('/registrarEntrada', $data)
+    $http.post('/registrarOrd', $data)
       .success( 
         function(response){
           
@@ -80,13 +80,51 @@ controller('registroEntradaController',function($scope, $http ,$modal){
                 }
             });
 
-            restablecer();
+            restablecerOrd();
             return;
           }
 
           $scope.alert = {type:response.status , msg: response.menssage};
         }
       );
+  }
+
+  $scope.registroDona = function(){
+
+    var $data = {
+      'provedor': $scope.provedorDon,
+      'insumos' : empaquetaData( $scope.insumosDon)
+    };
+
+    if( !validaCantidad() ){
+      $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
+      return;
+    }
+
+    $http.post('/registrarDon', $data)
+      .success( 
+        function(response){
+          
+          if( response.status == 'success'){
+            
+            $modal.open({
+                animation: true,
+                templateUrl: 'successRegister.html',
+                controller: 'successRegisterCtrl',
+                resolve: {
+                  response: function () {
+                    return response;
+                  }
+                }
+            });
+
+            restablecerDon();
+            return;
+          }
+
+          $scope.alert = {type:response.status , msg: response.menssage};
+        }
+    );
   }
 
   $scope.eliminarInsumo = function(index , insumos){
@@ -125,22 +163,28 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     return true;
   }
 
-  function empaquetaData(){
+  function empaquetaData(insumosDate){
 
     var index;
     var insumos = [];
 
-    for( index in $scope.insumosOrd){
-      insumos.push({'id': $scope.insumosOrd[index].id, 'cantidad':$scope.insumosOrd[index].cantidad});
+    for( index in insumosDate){
+      insumos.push({'id': insumosDate[index].id, 'cantidad':insumosDate[index].cantidad});
     }
 
     return insumos;
   }
 
-  function restablecer(){
+  function restablecerOrd(){
     $scope.insumosOrd  = [];
     $scope.orden   = '';
-    $scope.provedor = '';
+    $scope.provedorOrd = '';
+    $scope.alert = {};
+  }
+
+  function restablecerDon(){
+    $scope.insumosDon  = [];
+    $scope.provedorDon = '';
     $scope.alert = {};
   }
 

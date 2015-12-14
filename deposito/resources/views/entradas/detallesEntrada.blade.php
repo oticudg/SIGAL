@@ -3,7 +3,7 @@
 	    <h3 class="modal-title text-title-modal col-md-9">
 	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo#}</strong>
 	    </h3>
-		<h3 class="modal-title text-title-modal">
+		<h3 class="modal-title text-title-modal" ng-show="entrada.orden">
 	    	N° Orden: <strong>{#entrada.orden#}</strong>
 	    </h3>
 	</div>
