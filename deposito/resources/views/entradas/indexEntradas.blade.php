@@ -13,8 +13,8 @@
 	<br>
 	
 	<ul class="nav nav-tabs">
-		<li class="active" ng-click="registrosOrds()"><a data-toggle="tab" class="text-enlace" href="#orden">Ordenes</a></li>
-		<li ng-click="registrosDons()"><a data-toggle="tab" class="text-enlace" href="#donacion">Donaciones</a></li>
+		<li class="active" ng-click="registrosEntradas('ordenes')"><a data-toggle="tab" class="text-enlace" href="#orden">Ordenes</a></li>
+		<li ng-click="registrosEntradas('donaciones')"><a data-toggle="tab" class="text-enlace" href="#donacion">Donaciones</a></li>
 	</ul>
 	
 	{{--Panel de registros de ordenes de compra--}}
@@ -30,12 +30,12 @@
 				  		<div class="input-group-btn">
 					        <button type="button" class="btn btn-success dropdown-toggle"
 					                data-toggle="dropdown">
-					         	{#indiceOrd#} <span class="caret"></span>
+					         	{#indice#} <span class="caret"></span>
 					        </button>
 					 
 					        <ul class="dropdown-menu pull-right" role="menu">
-					          <li ng-click="registrosOrds()" ><a href="#">Pro-Formas</a></li>
-					          <li ng-click="registrosInsumosOrd()" ><a href="#">Insumos</a></li>
+					          <li ng-click="registrosEntradas('ordenes')" ><a href="#">Pro-Formas</a></li>
+					          <li ng-click="registrosInsumos('ordenes')" ><a href="#">Insumos</a></li>
 					        </ul>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 			<br>
 			
 			{{--Tabla que muestra las pre-formas de entradas por ordenes de compra--}}
-			<div ng-show="uiOrd.proformas">
+			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
 					<thead>
 						<caption>Pro-Formas por ordenes de compra</caption>
@@ -70,13 +70,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr dir-paginate="entrada in entradasOrd | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+						<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
 							<td>{#entrada.fecha#}</td>
 							<td>{#entrada.codigo#}</td>
 							<td><span ng-click="detallesOrden(entrada.orden)"
 							class="text-enlace">{#entrada.orden#}</span></td>
 							<td>{#entrada.provedor#}</td>
-							<td><button class="btn btn-warning" ng-click="detallesEntradaOrd(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id, 'orden')"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -88,7 +88,7 @@
 			</div>
 
 			{{--Tabla que muestra los insumos que han entrado por ordenes de compra--}}
-			<div ng-show="uiOrd.insumos">
+			<div ng-show="uiStatus.insumos">
 				<table class="table table-bordered table-hover">
 					<thead>
 						<caption>Insumos por ordenes de compra</caption>
@@ -101,9 +101,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr dir-paginate="insumo in insumosOrd | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosO">
+						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosO">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntradaOrd(insumo.entradaId)"
+							<td><span ng-click="detallesEntrada(insumo.entradaId,'orden')"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
@@ -118,7 +118,7 @@
 		  	</div>
 			
 			{{--Tabla que muestra todos los insumos de una orden de compra--}}
-			<div ng-show="uiOrd.ordenes">
+			<div ng-show="uiStatus.ordenes">
 				<table class="table table-bordered custon-table-bottom-off" >
 					<thead>
 						<caption>Entradas de esta orden de compra</caption>
@@ -148,7 +148,7 @@
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" 
 						pagination-id="ordenInsumos">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntradaOrd(insumo.entradaId)"
+							<td><span ng-click="detallesEntrada(insumo.entradaId, 'orden')"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
@@ -176,12 +176,12 @@
 				  		<div class="input-group-btn">
 					        <button type="button" class="btn btn-success dropdown-toggle"
 					                data-toggle="dropdown">
-					         	{#indiceDon#} <span class="caret"></span>
+					         	{#indice#} <span class="caret"></span>
 					        </button>
 					 
 					        <ul class="dropdown-menu pull-right" role="menu">
-					          <li ng-click="registrosDons()" ><a href="#">Pro-Formas</a></li>
-					          <li ng-click="registrosInsumosDon()" ><a href="#">Insumos</a></li>
+					          <li ng-click="registrosEntradas('donaciones')" ><a href="#">Pro-Formas</a></li>
+					          <li ng-click="registrosInsumos('donaciones')" ><a href="#">Insumos</a></li>
 					        </ul>
 						</div>
 					</div>
@@ -203,7 +203,7 @@
 			<br>
 			
 			{{--Tabla que muestra las pre-formas de entradas por donacion--}}
-			<div ng-show="uiDon.proformas">
+			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
 					<thead>
 						<caption>Pro-Formas por donaciones</caption>
@@ -215,11 +215,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr dir-paginate="entrada in entradasDon | filter:busqueda | itemsPerPage:cRegistro" pagination-id="donaciones">
+						<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="donaciones">
 							<td>{#entrada.fecha#}</td>
 							<td>{#entrada.codigo#}</td>
 							<td>{#entrada.provedor#}</td>
-							<td><button class="btn btn-warning" ng-click="detallesEntradaDon(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id, 'donacion')"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -231,7 +231,7 @@
 			</div>
 
 			{{--Tabla que muestra los insumos que han entrado por donaciones--}}
-			<div ng-show="uiDon.insumos">
+			<div ng-show="uiStatus.insumos">
 				<table class="table table-bordered table-hover">
 					<thead>
 						<caption>Insumos por donaciones</caption>
@@ -244,9 +244,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr dir-paginate="insumo in insumosDon | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosD">
+						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosD">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntradaDon(insumo.donacionId)"
+							<td><span ng-click="detallesEntrada(insumo.donacionId, 'donacion')"
 							class="text-enlace">{#insumo.donacion#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>

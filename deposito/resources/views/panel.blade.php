@@ -51,7 +51,7 @@
 					        @endif
 					       
 					        @if( Auth::user()->haspermission('entradas') )
-					  		 	<li><a href="/entradas"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
+					  		 	<li><a href="{{route('entrPanel')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
 					        @endif
 					       
 					        @if( Auth::user()->haspermission('salidas') )
@@ -83,7 +83,7 @@
 	                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-transfer"></span> Tranferencias <span class="caret"></span></a>
 	                  <ul class="dropdown-menu  dropdown-panel" role="menu">
 	                    @if( Auth::user()->haspermission('entradaR') )
-			       			<li><a href="/registrarEntrada"><span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada</a></li>
+			       			<li><a href="{{route('entrRegistrar')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada</a></li>
 			       		@endif
 
 			       		@if( Auth::user()->haspermission('salidaR') )

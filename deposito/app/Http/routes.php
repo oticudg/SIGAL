@@ -210,45 +210,45 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de entradas ***/
 
-	Route::group(['middleware' => 'permission:entradas'], function(){
+	Route::group(['prefix' => 'entradas', 'as' => 'entr'], 
+		function(){
 
-		//Muestra el panel de entradas
-		Route::get('entradas','entradasController@index');
+		Route::group(['middleware' => 'permission:entradas'], function(){
 
-		//Muestra la vista detallada de una entrada
-		Route::get('detallesEntrada','entradasController@detalles');
+			//Muestra el panel de entradas
+			Route::get('panel',['as' => 'Panel', 'uses' => 'entradasController@index']);
 
-		//Regresa todas las entradas por ordenes de compra 
-		Route::get('getEntradasOrd','entradasController@allEntradasOrd');
+			//Muestra la vista detallada de una entrada
+			Route::get('detalles', 'entradasController@detalles');
 
-		//Regresa todas las entradas por donaciones 
-		Route::get('getEntradasDon','entradasController@allEntradasDon');
+			//Regresa todas las entradas segun el tipo que se espesifique, si no se espesifica un
+			//tipo se regresan todas las entradas
+			Route::get('getEntradas/{type?}', 'entradasController@allEntradas');
 
-		//Regresa todos los insumos que han entrado por ordenes de compra
-		Route::get('getInsumosOrd','entradasController@allInsumosOrd');
+			//Regresa todos los insumos que han entrado segun el tipo que se espesifique, si no se espesifica 
+			//tipo se regresan todos los insumos
+			Route::get('getInsumos/{type?}', 'entradasController@allInsumos');
 
-		//Regresa todos los insumos que han entrado por donaciones
-		Route::get('getInsumosDon','entradasController@allInsumosDon');
+			//Regresa todos los datos de una entrada cuyo id y tipo se pase
+			Route::get('getEntrada/{type}/{id}', 'entradasController@getEntrada');
 
-		//Regresa todos los datos de una entrada cuyo id y tipo se pase
-		Route::get('getEntrada/{type}/{id}', 'entradasController@getEntrada');
+			//Regresa todas las entradas de el numero de orden que se expecifique
+			Route::get('getOrden/{number}', 'entradasController@getOrden');
 
-		//Regresa todas las entradas de el numero de orden que se expecifique
-		Route::get('getOrden/{number}', 'entradasController@getOrden');
+		});
 
+		Route::group(['middleware' => 'permission:entradaR'], function(){
+			//Muestra la vista de registro de entrada
+			Route::get('registrar',['as' => 'Registrar', 'uses' => 'entradasController@viewRegistrar']);
+			//Registra una entrada por orden de compra
+			Route::post('registrarOrd' ,'entradasController@registrarOrd');
+			//Registra una entrada por donacion
+			Route::post('registrarDon' ,'entradasController@registrarDon');
+		});
+
+		//Regresa los todos los datos de una entrada cuyo codigo se especifique
+		Route::get('getEntradaCodigo/{code}', 'entradasController@getEntradaCodigo');
 	});
-
-	Route::group(['middleware' => 'permission:entradaR'], function(){
-		//Muestra la vista de registro de entrada
-		Route::get('registrarEntrada', 'entradasController@viewRegistrar');
-		//Registra una entrada por orden de compra
-		Route::post('registrarOrd' ,'entradasController@registrarOrd');
-		//Registra una entrada por donacion
-		Route::post('registrarDon' ,'entradasController@registrarDon');
-	});
-
-	//Regresa los todos los datos de una entrada cuyo codigo se especifique
-	Route::get('getEntradaCodigo/{code}', 'entradasController@getEntradaCodigo');
 
 	/*** Fin de modulo de entradas ***/
 

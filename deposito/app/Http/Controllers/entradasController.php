@@ -33,51 +33,67 @@ class entradasController extends Controller
         return view('entradas/detallesEntrada');
     }
 
-    public function allInsumosOrd(){
+    public function allInsumos($type = NULL){
+        switch($type){
+            
+            case 'orden':
+                
+                return DB::table('insumos_entradas')
+                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
+                    ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
+                        'entradas.orden','entradas.id as entradaId','insumos.codigo',
+                        'insumos.descripcion','insumos_entradas.cantidad')
+                    ->orderBy('insumos_entradas.id', 'desc')->get();
+            break;
+            
+            case 'donacion':
+                return DB::table('insumos_edonaciones')
+                    ->join('edonaciones', 'edonaciones.id', '=', 'insumos_edonaciones.donacion')
+                    ->join('insumos', 'insumos.id' , '=', 'insumos_edonaciones.insumo')
+                    ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                        'edonaciones.codigo as donacion', 'edonaciones.id as donacionId','insumos.codigo',
+                        'insumos.descripcion','insumos_edonaciones.cantidad')
+                    ->orderBy('insumos_edonaciones.id', 'desc')->get();
+            break;
 
-        return DB::table('insumos_entradas')
-            ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
-            ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
-            ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
-                'entradas.orden','entradas.id as entradaId','insumos.codigo',
-                'insumos.descripcion','insumos_entradas.cantidad')
-            ->orderBy('insumos_entradas.id', 'desc')->get();
+            default:
+                echo "asdasd";
+            break;
+        }
     }
 
-    public function allInsumosDon(){
+    public function allEntradas($type = NULL){
 
-        return DB::table('insumos_edonaciones')
-            ->join('edonaciones', 'edonaciones.id', '=', 'insumos_edonaciones.donacion')
-            ->join('insumos', 'insumos.id' , '=', 'insumos_edonaciones.insumo')
-            ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
-                'edonaciones.codigo as donacion', 'edonaciones.id as donacionId','insumos.codigo',
-                'insumos.descripcion','insumos_edonaciones.cantidad')
-            ->orderBy('insumos_edonaciones.id', 'desc')->get();
-    }
+        switch ($type) {
+        
+            case 'orden':
+                return DB::table('entradas')
+                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
+                        'entradas.orden','provedores.nombre as provedor', 'entradas.id')
+                     ->orderBy('entradas.id', 'desc')->get();
+            break;
 
-    public function allEntradasOrd(){
+            case 'donacion':
+                return DB::table('edonaciones')
+                    ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
+                    ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                        'edonaciones.codigo','provedores.nombre as provedor', 'edonaciones.id')
+                     ->orderBy('edonaciones.id', 'desc')->get();
+            break;
 
-        return DB::table('entradas')
-            ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-            ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
-                'entradas.orden','provedores.nombre as provedor', 'entradas.id')
-             ->orderBy('entradas.id', 'desc')->get();
-    }
-
-    public function allEntradasDon(){
-
-        return DB::table('edonaciones')
-            ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
-            ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
-                'edonaciones.codigo','provedores.nombre as provedor', 'edonaciones.id')
-             ->orderBy('edonaciones.id', 'desc')->get();
-    }
+            default:
+                echo "asdasd";
+            break;
+        }
+    }   
 
     public function getEntrada($type, $id){
         
         switch ($type) {
 
-            case 'EO':
+            case 'orden':
                 $entrada = Entrada::where('id',$id)->first();
 
                 if(!$entrada){
@@ -102,7 +118,7 @@ class entradasController extends Controller
                 }
             break;
 
-            case 'ED':
+            case 'donacion':
                 $entrada = Edonacione::where('id',$id)->first();
 
                 if(!$entrada){
@@ -126,8 +142,6 @@ class entradasController extends Controller
                     return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
                 }
             break;
-
-            
 
             default:
                  return Response()->json(['status' => 'danger', 'menssage' => 'Tipo de entrada no valido']);
