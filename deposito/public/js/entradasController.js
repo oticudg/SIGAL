@@ -29,6 +29,11 @@ controller('entradasController',function($scope,$http,$modal){
         $http.get('/entradas/getEntradas/'+ datos)
           .success( function(response){$scope.entradas = response});
       break;
+
+      case 'devolucion':
+        $http.get('/entradas/getEntradas/'+ datos)
+          .success( function(response){$scope.entradas = response});
+      break;
     }
 
   };
@@ -43,6 +48,11 @@ controller('entradasController',function($scope,$http,$modal){
         break;
 
         case 'donacion':
+          $http.get('/entradas/getInsumos/'+ datos)
+            .success( function(response){$scope.insumos = response});
+        break;
+
+        case 'devolucion':
           $http.get('/entradas/getInsumos/'+ datos)
             .success( function(response){$scope.insumos = response});
         break;
@@ -64,6 +74,10 @@ controller('entradasController',function($scope,$http,$modal){
       case 'donaciones':
         obtenerEntradas('donacion')
       break;
+
+      case 'devoluciones':
+        obtenerEntradas('devolucion');
+      break;
     };
 
   };
@@ -81,6 +95,10 @@ controller('entradasController',function($scope,$http,$modal){
 
       case 'donaciones':
         obtenerInsumos('donacion');
+      break;
+
+      case 'devoluciones':
+        obtenerInsumos('devolucion');
       break;
     }
   };

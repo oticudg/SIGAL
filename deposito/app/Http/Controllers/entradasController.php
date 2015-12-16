@@ -59,6 +59,16 @@ class entradasController extends Controller
                     ->orderBy('insumos_edonaciones.id', 'desc')->get();
             break;
 
+            case 'devolucion':
+                return DB::table('insumos_edevoluciones')
+                    ->join('edevoluciones', 'edevoluciones.id', '=', 'insumos_edevoluciones.devolucion')
+                    ->join('insumos', 'insumos.id' , '=', 'insumos_edevoluciones.insumo')
+                    ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
+                        'edevoluciones.codigo as devolucion', 'edevoluciones.id as devolucionId','insumos.codigo',
+                        'insumos.descripcion','insumos_edevoluciones.cantidad')
+                    ->orderBy('insumos_edevoluciones.id', 'desc')->get();
+            break;
+
             default:
                 echo "asdasd";
             break;
@@ -84,6 +94,15 @@ class entradasController extends Controller
                         'edonaciones.codigo','provedores.nombre as provedor', 'edonaciones.id')
                      ->orderBy('edonaciones.id', 'desc')->get();
             break;
+
+            case 'devolucion':
+                return DB::table('edevoluciones')
+                    ->join('departamentos', 'edevoluciones.departamento', '=', 'departamentos.id')
+                    ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
+                        'edevoluciones.codigo','departamentos.nombre as provedor', 'edevoluciones.id')
+                     ->orderBy('edevoluciones.id', 'desc')->get();
+            break;
+
 
             default:
                 echo "asdasd";
@@ -139,6 +158,31 @@ class entradasController extends Controller
                    $insumos = DB::table('insumos_edonaciones')->where('insumos_edonaciones.donacion', $id)
                         ->join('insumos', 'insumos_edonaciones.insumo', '=', 'insumos.id')
                         ->select('insumos.codigo', 'insumos.descripcion', 'insumos_edonaciones.cantidad')
+                        ->get();
+
+                    return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+                }
+            break;
+
+            case 'devolucion':
+                $entrada = Edevolucione::where('id',$id)->first();
+
+                if(!$entrada){
+                    return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+                }
+                else{
+
+                   $entrada = DB::table('edevoluciones')->where('edevoluciones.id',$id)
+                        ->join('departamentos', 'edevoluciones.departamento', '=', 'departamentos.id')
+                        ->join('users', 'edevoluciones.usuario' , '=', 'users.id' )
+                        ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
+                            DB::raw('DATE_FORMAT(edevoluciones.created_at, "%H:%i:%s") as hora'), 'edevoluciones.codigo',
+                           'departamentos.nombre as provedor', 'users.email as usuario')
+                        ->first();
+
+                   $insumos = DB::table('insumos_edevoluciones')->where('insumos_edevoluciones.devolucion', $id)
+                        ->join('insumos', 'insumos_edevoluciones.insumo', '=', 'insumos.id')
+                        ->select('insumos.codigo', 'insumos.descripcion', 'insumos_edevoluciones.cantidad')
                         ->get();
 
                     return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
