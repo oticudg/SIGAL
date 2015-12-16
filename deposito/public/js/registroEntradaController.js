@@ -5,6 +5,8 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.insumoSelect = {};  
   $scope.provedores = [];
+  $scope.departamentos = [];
+  $scope.departamento;
   $scope.provedor;
   $scope.insumos = [];
   $scope.listInsumos = [];
@@ -22,6 +24,10 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
   $http.get('/getProvedores')
     .success( function(response){ $scope.provedores = response;});
+
+  $http.get('/getDepartamentos')
+    .success( function(response){ $scope.departamentos = response;});
+
 
   $scope.agregarInsumos = function(){
 
@@ -75,6 +81,17 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
         var origen = '/entradas/registrar/donacion';
       break;
+
+      case 'devolucion':
+
+        var data = {
+          'departamento': $scope.departamento,
+          'insumos' : empaquetaData($scope.insumos)
+        };
+
+        var origen = '/entradas/registrar/devolucion';
+      break;
+
     }
 
     console.log(data);
@@ -158,6 +175,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.restablecer = function(){
     $scope.insumos  = [];
     $scope.orden   = '';
+    $scope.departamento = '';
     $scope.provedor = '';
     $scope.alert = {};
   }

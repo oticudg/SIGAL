@@ -10,8 +10,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entrada;
 use App\Edonacione;
+use App\Edevolucione;
 use App\Insumos_entrada;
 use App\Insumos_edonacione;
+use App\Insumos_edevolucione;
 
 class entradasController extends Controller
 {   
@@ -276,6 +278,43 @@ class entradasController extends Controller
                             'donacion'  => $donacion,
                             'insumo'    => $insumo['id'],
                             'cantidad'  => $insumo['cantidad']
+                        ]);
+
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
+                    }
+
+                    return Response()->json(['status' => 'success', 'menssage' => 
+                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
+                }
+            break;
+
+            case 'devolucion':
+
+                $validator = Validator::make($data,[
+                    'departamento' =>  'required',
+                    'insumos'  =>  'required|insumos'
+                ], $this->menssage);
+
+                if($validator->fails()){
+                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+                }
+                else{
+
+                    $insumos = $data['insumos'];
+                    $code =  'EV'.strtoupper( str_random(6) );
+
+                    $devolucion = Edevolucione::create([
+                                'codigo'   => $code,
+                                'departamento' => $data['departamento'],
+                                'usuario'  => Auth::user()->id
+                              ])['id'];
+
+                    foreach ($insumos as $insumo) {
+                        
+                        Insumos_edevolucione::create([
+                            'devolucion'  => $devolucion,
+                            'insumo'      => $insumo['id'],
+                            'cantidad'    => $insumo['cantidad']
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
