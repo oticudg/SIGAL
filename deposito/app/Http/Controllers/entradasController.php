@@ -204,83 +204,87 @@ class entradasController extends Controller
         }
     }
 
-    public function registrarOrd(Request $request){
+    public function registrar($type, Request $request){
         
         $data = $request->all();
 
-        $validator = Validator::make($data,[
-            'orden'   =>  'required|',
-            'provedor' =>  'required|equal_provedor:orden',
-            'insumos'  =>  'required|insumos'
-        ], $this->menssage);
+        switch ($type){
 
-        if($validator->fails()){
-            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
-        }
-        else{
+            case 'orden':
 
-            $insumos = $data['insumos'];
-            $code =  'E'.strtoupper( str_random(7) );
+                $validator = Validator::make($data,[
+                    'orden'   =>  'required|',
+                    'provedor' =>  'required|equal_provedor:orden',
+                    'insumos'  =>  'required|insumos'
+                ], $this->menssage);
 
-            $entrada = Entrada::create([
-                        'codigo'   => $code,
-                        'orden'    => $data['orden'],
-                        'provedor' => $data['provedor'],
-                        'usuario'  => Auth::user()->id
-                    ])['id'];
+                if($validator->fails()){
+                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+                }
+                else{
 
-            foreach ($insumos as $insumo) {
-                
-                Insumos_entrada::create([
-                    'entrada'   => $entrada,
-                    'insumo'    => $insumo['id'],
-                    'cantidad'  => $insumo['cantidad']
-                ]);
+                    $insumos = $data['insumos'];
+                    $code =  'EO'.strtoupper( str_random(6) );
 
-                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
-            }
+                    $entrada = Entrada::create([
+                                'codigo'   => $code,
+                                'orden'    => $data['orden'],
+                                'provedor' => $data['provedor'],
+                                'usuario'  => Auth::user()->id
+                            ])['id'];
 
-            return Response()->json(['status' => 'success', 'menssage' => 
-                'Entrada completada satisfactoriamente', 'codigo' => $code]);
-        }
-    }
+                    foreach ($insumos as $insumo) {
+                        
+                        Insumos_entrada::create([
+                            'entrada'   => $entrada,
+                            'insumo'    => $insumo['id'],
+                            'cantidad'  => $insumo['cantidad']
+                        ]);
 
-    public function registrarDon(Request $request){
-        
-        $data = $request->all();
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
+                    }
 
-        $validator = Validator::make($data,[
-            'provedor' =>  'required',
-            'insumos'  =>  'required|insumos'
-        ], $this->menssage);
+                    return Response()->json(['status' => 'success', 'menssage' => 
+                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
+                }
+            break;
 
-        if($validator->fails()){
-            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
-        }
-        else{
+            case 'donacion':
 
-            $insumos = $data['insumos'];
-            $code =  'ED'.strtoupper( str_random(6) );
+                $validator = Validator::make($data,[
+                    'provedor' =>  'required',
+                    'insumos'  =>  'required|insumos'
+                ], $this->menssage);
 
-            $donacion = Edonacione::create([
-                        'codigo'   => $code,
-                        'provedor' => $data['provedor'],
-                        'usuario'  => Auth::user()->id
-                      ])['id'];
+                if($validator->fails()){
+                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+                }
+                else{
 
-            foreach ($insumos as $insumo) {
-                
-                Insumos_edonacione::create([
-                    'donacion'  => $donacion,
-                    'insumo'    => $insumo['id'],
-                    'cantidad'  => $insumo['cantidad']
-                ]);
+                    $insumos = $data['insumos'];
+                    $code =  'ED'.strtoupper( str_random(6) );
 
-                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
-            }
+                    $donacion = Edonacione::create([
+                                'codigo'   => $code,
+                                'provedor' => $data['provedor'],
+                                'usuario'  => Auth::user()->id
+                              ])['id'];
 
-            return Response()->json(['status' => 'success', 'menssage' => 
-                'Entrada completada satisfactoriamente', 'codigo' => $code]);
+                    foreach ($insumos as $insumo) {
+                        
+                        Insumos_edonacione::create([
+                            'donacion'  => $donacion,
+                            'insumo'    => $insumo['id'],
+                            'cantidad'  => $insumo['cantidad']
+                        ]);
+
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
+                    }
+
+                    return Response()->json(['status' => 'success', 'menssage' => 
+                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
+                }
+            break;
         }
     }
 }

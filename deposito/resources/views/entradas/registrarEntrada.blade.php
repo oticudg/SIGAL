@@ -20,8 +20,8 @@
 	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 	
 	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" class="text-enlace" href="#orden">Orden</a></li>
-		<li><a data-toggle="tab" class="text-enlace" href="#donacion">Donacion</a></li>
+		<li class="active" ng-click="restablecer()"><a data-toggle="tab" class="text-enlace" href="#orden">Orden</a></li>
+		<li ng-click="restablecer()"><a data-toggle="tab" class="text-enlace" href="#donacion">Donacion</a></li>
 	</ul>
 	
 	{{--Panel de registro de ordenes de compra--}}
@@ -36,7 +36,7 @@
 				</div>
 
 				<div class="form-group col-md-3 text-title-modal">
-						<select class="form-control" id="provedor" ng-model="provedorOrd">
+						<select class="form-control" id="provedor" ng-model="provedor">
 							<option value="" selected disabled>Proveedor</option>
 							<option value="{#provedore.id#}" ng-repeat="provedore in provedores">{#provedore.nombre#}</option>
 						</select>
@@ -63,7 +63,7 @@
 						    </ui-select>
 
 						<div class="input-group-btn">
-						    <button class="btn btn-success" ng-click="agregarInsumos(insumosOrd)"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
+						    <button class="btn btn-success" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
 						</div>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 
 			<br>
 			
-			<div ng-show="thereInsumos(insumosOrd)" >
+			<div ng-show="thereInsumos()" >
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -82,14 +82,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="insumo in insumosOrd">
+						<tr ng-repeat="insumo in insumos">
 							<td class="col-md-2">{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
 							<td class="col-md-2">
 								<input class="form-control text-center" type="number" ng-model="insumo.cantidad">
 							</td>
 							<td class="col-md-1">
-								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo), insumosOrd)"><span class="glyphicon glyphicon-remove"></span>
+								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 								</button>
 							</td>
 						</tr>
@@ -99,7 +99,7 @@
 				<br>
 
 				<center>
-					<button class="btn btn-success" ng-click="registroOrden()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
+					<button class="btn btn-success" ng-click="registrar('orden')"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 				</center>
 			</div>
 		</div>
@@ -111,7 +111,7 @@
 
 			<div class="row">
 				<div class="form-group col-md-3 text-title-modal">
-						<select class="form-control" id="provedor" ng-model="provedorDon">
+						<select class="form-control" id="provedor" ng-model="provedor">
 							<option value="" selected disabled>Proveedor</option>
 							<option value="{#provedore.id#}" ng-repeat="provedore in provedores">{#provedore.nombre#}</option>
 						</select>
@@ -138,7 +138,7 @@
 						    </ui-select>
 
 						<div class="input-group-btn">
-						    <button class="btn btn-success" ng-click="agregarInsumos(insumosDon)"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
+						    <button class="btn btn-success" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
 						</div>
 					</div>
 				</div>
@@ -157,14 +157,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="insumo in insumosDon">
+						<tr ng-repeat="insumo in insumos">
 							<td class="col-md-2">{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
 							<td class="col-md-2">
 								<input class="form-control text-center" type="number" ng-model="insumo.cantidad">
 							</td>
 							<td class="col-md-1">
-								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo),insumosDon)"><span class="glyphicon glyphicon-remove"></span>
+								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 								</button>
 							</td>
 						</tr>
@@ -174,7 +174,7 @@
 				<br>
 
 				<center>
-					<button class="btn btn-success" ng-click="registroDona()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
+					<button class="btn btn-success" ng-click="registrar('donacion')"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 				</center>
 			</div>
 			

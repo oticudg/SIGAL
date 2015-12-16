@@ -240,14 +240,13 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::group(['middleware' => 'permission:entradaR'], function(){
 			//Muestra la vista de registro de entrada
 			Route::get('registrar',['as' => 'Registrar', 'uses' => 'entradasController@viewRegistrar']);
-			//Registra una entrada por orden de compra
-			Route::post('registrarOrd' ,'entradasController@registrarOrd');
-			//Registra una entrada por donacion
-			Route::post('registrarDon' ,'entradasController@registrarDon');
+			
+			//Registra una entrada segun un tipo que se espesifique
+			Route::post('registrar/{type}' ,'entradasController@registrar');
 		});
 
 		//Regresa los todos los datos de una entrada cuyo codigo se especifique
-		Route::get('getEntradaCodigo/{code}', 'entradasController@getEntradaCodigo');
+		Route::get('getCodigo/{code}', 'entradasController@getEntradaCodigo');
 	});
 
 	/*** Fin de modulo de entradas ***/

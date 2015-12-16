@@ -5,14 +5,12 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.insumoSelect = {};  
   $scope.provedores = [];
-  $scope.provedorOrd;
-  $scope.provedorDon;
-  $scope.insumosOrd = [];
-  $scope.insumosDon = [];
+  $scope.provedor;
+  $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
 
-  $scope.refreshInsumos = function(insumo) {
+  $scope.refreshInsumos = function(insumo){
       var params = {insumo: insumo};
       return $http.get(
         '/getInsumosConsulta',
@@ -25,19 +23,19 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $http.get('/getProvedores')
     .success( function(response){ $scope.provedores = response;});
 
-  $scope.agregarInsumos = function( insumos ){
+  $scope.agregarInsumos = function(){
 
     if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
     }
       
-    if( insumoExist($scope.insumoSelect.selected.codigo, insumos) ){
+    if( insumoExist($scope.insumoSelect.selected.codigo, $scope.insumos) ){
       $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
       return; 
     }
 
-    insumos.push(
+    $scope.insumos.push(
       {
         'id':$scope.insumoSelect.selected.id, 
         'codigo':$scope.insumoSelect.selected.codigo, 
@@ -46,24 +44,42 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     );
     
     $scope.insumoSelect = {};
-
   }
 
-  $scope.registroOrden = function(){
+  $scope.registrar = function(datos){
 
-    var $data = {
-
-      'orden'  : $scope.orden,
-      'provedor': $scope.provedorOrd,
-      'insumos' : empaquetaData($scope.insumosOrd)
-    };
-
-    if( !validaCantidad() ){
+    if( !validaCantidad($scope.insumos) ){
       $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
       return;
     }
 
-    $http.post('/registrarOrd', $data)
+    switch(datos){
+      
+      case 'orden':
+        
+        var data = {
+          'orden'  : $scope.orden,
+          'provedor': $scope.provedor,
+          'insumos' : empaquetaData($scope.insumos)
+        };
+
+        var origen = '/entradas/registrar/orden';
+      break;
+
+      case 'donacion':
+
+        var data = {
+          'provedor': $scope.provedor,
+          'insumos' : empaquetaData($scope.insumos)
+        };
+
+        var origen = '/entradas/registrar/donacion';
+      break;
+    }
+
+    console.log(data);
+
+    $http.post(origen, data)
       .success( 
         function(response){
           
@@ -80,7 +96,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
                 }
             });
 
-            restablecerOrd();
+            $scope.restablecer();
             return;
           }
 
@@ -89,54 +105,18 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       );
   }
 
-  $scope.registroDona = function(){
 
-    var $data = {
-      'provedor': $scope.provedorDon,
-      'insumos' : empaquetaData( $scope.insumosDon)
-    };
 
-    if( !validaCantidad() ){
-      $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
-      return;
-    }
-
-    $http.post('/registrarDon', $data)
-      .success( 
-        function(response){
-          
-          if( response.status == 'success'){
-            
-            $modal.open({
-                animation: true,
-                templateUrl: 'successRegister.html',
-                controller: 'successRegisterCtrl',
-                resolve: {
-                  response: function () {
-                    return response;
-                  }
-                }
-            });
-
-            restablecerDon();
-            return;
-          }
-
-          $scope.alert = {type:response.status , msg: response.menssage};
-        }
-    );
-  }
-
-  $scope.eliminarInsumo = function(index , insumos){
-    insumos.splice(index, 1);
+  $scope.eliminarInsumo = function(index){
+    $scope.insumos.splice(index, 1);
   };
 
   $scope.closeAlert = function(){
     $scope.alert = {};
   };
 
-  $scope.thereInsumos = function( insumos ){
-    return insumos.length > 0 ? true:false;
+  $scope.thereInsumos = function(){
+    return $scope.insumos.length > 0 ? true:false;
   };
 
   function insumoExist(codigo, insumos){
@@ -151,40 +131,34 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     return false;
   };
 
-  function validaCantidad(){
+  function validaCantidad(insumos){
     var index;
 
-    for( index in $scope.insumosOrd){
-      if( !$scope.insumosOrd[index].cantidad || $scope.insumosOrd[index].cantidad  < 0 || 
-          !Number.isInteger($scope.insumosOrd[index].cantidad))
+    for( index in insumos){
+      if( !insumos[index].cantidad || insumos[index].cantidad  < 0 || 
+          !Number.isInteger($scope.insumos[index].cantidad))
         return false;
     }
 
     return true;
   }
 
-  function empaquetaData(insumosDate){
+  function empaquetaData(insumosOri){
 
     var index;
     var insumos = [];
 
-    for( index in insumosDate){
-      insumos.push({'id': insumosDate[index].id, 'cantidad':insumosDate[index].cantidad});
+    for( index in insumosOri){
+      insumos.push({'id': insumosOri[index].id, 'cantidad':insumosOri[index].cantidad});
     }
 
     return insumos;
   }
 
-  function restablecerOrd(){
-    $scope.insumosOrd  = [];
+  $scope.restablecer = function(){
+    $scope.insumos  = [];
     $scope.orden   = '';
-    $scope.provedorOrd = '';
-    $scope.alert = {};
-  }
-
-  function restablecerDon(){
-    $scope.insumosDon  = [];
-    $scope.provedorDon = '';
+    $scope.provedor = '';
     $scope.alert = {};
   }
 

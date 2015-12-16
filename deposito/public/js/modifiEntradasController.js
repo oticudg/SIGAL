@@ -85,7 +85,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
   	}
   	else{
 
-  		$http.get('/getEntradaCodigo/' + $scope.codigo)
+  		$http.get('/entradas/getCodigo/' + $scope.codigo)
   			.success(
   				function(response){
 
