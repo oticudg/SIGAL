@@ -44,7 +44,7 @@ class entradasController extends Controller
                     ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
-                        'entradas.orden','entradas.id as entradaId','insumos.codigo',
+                        'entradas.id as entradaId','insumos.codigo',
                         'insumos.descripcion','insumos_entradas.cantidad')
                     ->orderBy('insumos_entradas.id', 'desc')->get();
             break;
@@ -70,7 +70,33 @@ class entradasController extends Controller
             break;
 
             default:
-                echo "asdasd";
+
+                $donaciones = DB::table('insumos_edonaciones')
+                    ->join('edonaciones', 'edonaciones.id', '=', 'insumos_edonaciones.donacion')
+                    ->join('insumos', 'insumos.id' , '=', 'insumos_edonaciones.insumo')
+                    ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('"donacion" AS type'),
+                        'edonaciones.codigo as entrada', 'edonaciones.id as entradaId','insumos.codigo',
+                        'insumos.descripcion','insumos_edonaciones.cantidad','insumos_edonaciones.created_at');
+
+                $devoluciones = DB::table('insumos_edevoluciones')
+                    ->join('edevoluciones', 'edevoluciones.id', '=', 'insumos_edevoluciones.devolucion')
+                    ->join('insumos', 'insumos.id' , '=', 'insumos_edevoluciones.insumo')
+                    ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('"devolucion" AS type'),
+                        'edevoluciones.codigo as entrada', 'edevoluciones.id as entradaId','insumos.codigo',
+                        'insumos.descripcion','insumos_edevoluciones.cantidad', 'insumos_edevoluciones.created_at');
+                
+                return DB::table('insumos_entradas')
+                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
+                    ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('"orden" AS type'),
+                        'entradas.codigo as entrada','entradas.id as entradaId','insumos.codigo',
+                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.created_at')
+                    ->unionAll($donaciones)
+                    ->unionAll($devoluciones)
+                    ->orderBy('created_at', 'desc')->get();
             break;
         }
     }
@@ -103,9 +129,28 @@ class entradasController extends Controller
                      ->orderBy('edevoluciones.id', 'desc')->get();
             break;
 
-
             default:
-                echo "asdasd";
+
+                $donaciones = DB::table('edonaciones')
+                    ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
+                    ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('"donacion" AS type'),
+                        'edonaciones.id', 'codigo', 'provedores.nombre as provedor', 'edonaciones.created_at');
+
+                $devoluciones = DB::table('edevoluciones')
+                    ->join('departamentos', 'edevoluciones.departamento', '=', 'departamentos.id')
+                    ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('"devolucion" as type '),
+                        'edevoluciones.id', 'codigo', 'departamentos.nombre as provedor', 'edevoluciones.created_at');
+
+                return DB::table('entradas')
+                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('"orden" as type '),
+                        'entradas.id', 'codigo', 'provedores.nombre as provedor', 'entradas.created_at')
+                    ->unionAll($donaciones)
+                    ->unionAll($devoluciones)
+                    ->orderBy('created_at', 'desc')->get(); 
             break;
         }
     }   
