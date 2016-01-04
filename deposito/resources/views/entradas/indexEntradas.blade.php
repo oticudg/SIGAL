@@ -21,7 +21,7 @@
 
 	<div class="tab-content">
 		
-		{{--Panel de registros de devoluciones--}}
+		{{--Panel de registros de todos las entradas--}}
 		<div id="toda" class="tab-pane fade in active">
 			<br>
 			{{--Buscador y Seleccion de Listados de datos--}}
@@ -59,7 +59,7 @@
 			<br>
 			<br>
 			
-			{{--Tabla que muestra las pre-formas de entradas por donacion--}}
+			{{--Tabla que muestra las pre-formas de todas las entradas--}}
 			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
 					<thead>
@@ -89,7 +89,7 @@
 			  	</div>
 			</div>
 
-			{{--Tabla que muestra los insumos que han entrado por donaciones--}}
+			{{--Tabla que muestra los insumos que han entrado--}}
 			<div ng-show="uiStatus.insumos">
 				<table class="table table-bordered table-hover">
 					<thead>
@@ -348,8 +348,8 @@
 					<tbody>
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosD">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.donacionId, 'donacion')"
-							class="text-enlace">{#insumo.donacion#}</span></td>
+							<td><span ng-click="detallesEntrada(insumo.entradaId, 'donacion')"
+							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
 							<td>{#insumo.cantidad#}</td>
@@ -445,8 +445,8 @@
 					<tbody>
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosD">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.devolucionId, 'devolucion')"
-							class="text-enlace">{#insumo.devolucion#}</span></td>
+							<td><span ng-click="detallesEntrada(insumo.entradaId, 'devolucion')"
+							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
 							<td>{#insumo.cantidad#}</td>
