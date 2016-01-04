@@ -326,7 +326,8 @@ class entradasController extends Controller
                         Insumos_entrada::create([
                             'entrada'   => $entrada,
                             'insumo'    => $insumo['id'],
-                            'cantidad'  => $insumo['cantidad']
+                            'cantidad'  => $insumo['cantidad'],
+                            'type'      => 'orden'
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
@@ -352,18 +353,20 @@ class entradasController extends Controller
                     $insumos = $data['insumos'];
                     $code =  'ED'.strtoupper( str_random(6) );
 
-                    $donacion = Edonacione::create([
+                    $donacion = Entrada::create([
                                 'codigo'   => $code,
                                 'provedor' => $data['provedor'],
+                                'type'     => 'donacion',
                                 'usuario'  => Auth::user()->id
                               ])['id'];
 
                     foreach ($insumos as $insumo) {
                         
-                        Insumos_edonacione::create([
+                        Insumos_entrada::create([
                             'donacion'  => $donacion,
                             'insumo'    => $insumo['id'],
-                            'cantidad'  => $insumo['cantidad']
+                            'cantidad'  => $insumo['cantidad'],
+                            'type'      => 'donacion'
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
@@ -389,18 +392,20 @@ class entradasController extends Controller
                     $insumos = $data['insumos'];
                     $code =  'EV'.strtoupper( str_random(6) );
 
-                    $devolucion = Edevolucione::create([
+                    $devolucion = Entrada::create([
                                 'codigo'   => $code,
-                                'departamento' => $data['departamento'],
+                                'provedor' => $data['departamento'],
+                                'type'     => 'devolucion',
                                 'usuario'  => Auth::user()->id
                               ])['id'];
 
                     foreach ($insumos as $insumo) {
                         
-                        Insumos_edevolucione::create([
+                        Insumos_entrada::create([
                             'devolucion'  => $devolucion,
                             'insumo'      => $insumo['id'],
-                            'cantidad'    => $insumo['cantidad']
+                            'cantidad'    => $insumo['cantidad'],
+                            'type'        => 'devolucion'
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
