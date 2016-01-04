@@ -103,6 +103,7 @@ class entradasController extends Controller
         
             case 'orden':
                 return DB::table('entradas')
+                    ->where('type', 'orden')
                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
                         'entradas.orden','provedores.nombre as provedor', 'entradas.id')
@@ -110,43 +111,36 @@ class entradasController extends Controller
             break;
 
             case 'donacion':
-                return DB::table('edonaciones')
-                    ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
-                    ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
-                        'edonaciones.codigo','provedores.nombre as provedor', 'edonaciones.id')
-                     ->orderBy('edonaciones.id', 'desc')->get();
+                return DB::table('entradas')
+                    ->where('type', 'donacion')
+                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        'entradas.codigo','provedores.nombre as provedor', 'entradas.id')
+                     ->orderBy('entradas.id', 'desc')->get();
             break;
 
             case 'devolucion':
-                return DB::table('edevoluciones')
-                    ->join('departamentos', 'edevoluciones.departamento', '=', 'departamentos.id')
-                    ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
-                        'edevoluciones.codigo','departamentos.nombre as provedor', 'edevoluciones.id')
-                     ->orderBy('edevoluciones.id', 'desc')->get();
+                return DB::table('entradas')
+                    ->where('type', 'devolucion')
+                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        'entradas.codigo','departamentos.nombre as provedor', 'entradas.id')
+                     ->orderBy('entradas.id', 'desc')->get();
             break;
 
             default:
 
-                $donaciones = DB::table('edonaciones')
-                    ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
-                    ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
-                        DB::raw('"donacion" AS type'),
-                        'edonaciones.id', 'codigo', 'provedores.nombre as provedor', 'edonaciones.created_at');
-
-                $devoluciones = DB::table('edevoluciones')
-                    ->join('departamentos', 'edevoluciones.departamento', '=', 'departamentos.id')
-                    ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
-                        DB::raw('"devolucion" as type '),
-                        'edevoluciones.id', 'codigo', 'departamentos.nombre as provedor', 'edevoluciones.created_at');
+                $devoluciones = DB::table('entradas')
+                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'type');
 
                 return DB::table('entradas')
                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        DB::raw('"orden" as type '),
-                        'entradas.id', 'codigo', 'provedores.nombre as provedor', 'entradas.created_at')
-                    ->unionAll($donaciones)
+                        'entradas.id', 'codigo', 'provedores.nombre as provedor', 'type')
                     ->unionAll($devoluciones)
-                    ->orderBy('created_at', 'desc')->get(); 
+                    ->orderBy('id', 'desc')->get(); 
             break;
         }
     }   
