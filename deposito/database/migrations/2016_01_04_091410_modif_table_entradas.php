@@ -14,7 +14,6 @@ class ModifTableEntradas extends Migration
     {
         Schema::table('entradas', function (Blueprint $table){
             $table->string('orden')->nullable()->change();
-            $table->enum('type', ['orden', 'donacion', 'devolucion']);
         });
     }
 
@@ -27,7 +26,6 @@ class ModifTableEntradas extends Migration
     {
         Schema::table('entradas', function (Blueprint $table) {
             $table->string('orden')->change();
-            $table->dropColumn('type');
         });
     }
 }
