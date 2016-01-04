@@ -9,11 +9,7 @@ use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entrada;
-use App\Edonacione;
-use App\Edevolucione;
 use App\Insumos_entrada;
-use App\Insumos_edonacione;
-use App\Insumos_edevolucione;
 
 class entradasController extends Controller
 {   
@@ -304,7 +300,7 @@ class entradasController extends Controller
             case 'orden':
 
                 $validator = Validator::make($data,[
-                    'orden'   =>  'required|',
+                    'orden'   =>  'required',
                     'provedor' =>  'required|equal_provedor:orden',
                     'insumos'  =>  'required|insumos'
                 ], $this->menssage);
@@ -321,10 +317,11 @@ class entradasController extends Controller
                                 'codigo'   => $code,
                                 'orden'    => $data['orden'],
                                 'provedor' => $data['provedor'],
+                                'type'     => 'orden',
                                 'usuario'  => Auth::user()->id
                             ])['id'];
 
-                    foreach ($insumos as $insumo) {
+                    foreach ($insumos as $insumo){
                         
                         Insumos_entrada::create([
                             'entrada'   => $entrada,
