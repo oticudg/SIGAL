@@ -78,7 +78,7 @@
 							<td>{#entrada.codigo#}</td>
 							<td>{#entrada.type#}</td>
 							<td>{#entrada.provedor#}</td>
-							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id, entrada.type)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -105,7 +105,7 @@
 					<tbody>
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosT">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.entradaId, insumo.type)"
+							<td><span ng-click="detallesEntrada(insumo.entradaId)"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
@@ -178,7 +178,7 @@
 							<td><span ng-click="detallesOrden(entrada.orden)"
 							class="text-enlace">{#entrada.orden#}</span></td>
 							<td>{#entrada.provedor#}</td>
-							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id, 'orden')"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -205,7 +205,7 @@
 					<tbody>
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosO">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.entradaId,'orden')"
+							<td><span ng-click="detallesEntrada(insumo.entradaId)"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
@@ -250,7 +250,7 @@
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" 
 						pagination-id="ordenInsumos">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.entradaId, 'orden')"
+							<td><span ng-click="detallesEntrada(insumo.entradaId)"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
@@ -321,7 +321,7 @@
 							<td>{#entrada.fecha#}</td>
 							<td>{#entrada.codigo#}</td>
 							<td>{#entrada.provedor#}</td>
-							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id, 'donacion')"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -348,7 +348,7 @@
 					<tbody>
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosD">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.entradaId, 'donacion')"
+							<td><span ng-click="detallesEntrada(insumo.entradaId)"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
@@ -418,7 +418,7 @@
 							<td>{#entrada.fecha#}</td>
 							<td>{#entrada.codigo#}</td>
 							<td>{#entrada.provedor#}</td>
-							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id, 'devolucion')"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+							<td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -445,7 +445,7 @@
 					<tbody>
 						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumosD">
 							<td>{#insumo.fecha#}</td>
-							<td><span ng-click="detallesEntrada(insumo.entradaId, 'devolucion')"
+							<td><span ng-click="detallesEntrada(insumo.entradaId)"
 							class="text-enlace">{#insumo.entrada#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>

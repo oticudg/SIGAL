@@ -134,21 +134,16 @@ controller('entradasController',function($scope,$http,$modal){
       });
   }
 
-  $scope.detallesEntrada = function(index, type){
+  $scope.detallesEntrada = function(index){
     var modalInstance = $modal.open({
       animation: true,
           templateUrl: '/entradas/detalles',
           controller: 'detallesEntradaCtrl',
           windowClass: 'large-Modal',
           resolve: {
-
              id:function () {
                 return index;
-             },
-             type:function(){
-                return type;
              }
-
          }
     });
   };
@@ -178,7 +173,7 @@ controller('entradasController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $modalInstance, $http, type, id) {
+angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $modalInstance, $http, id) {
 
   $scope.entrada = {};
   $scope.insumos = [];
@@ -190,7 +185,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
 
   $scope.detalles = function(){
 
-    $http.get('/entradas/getEntrada/'+ type + '/' + id)
+    $http.get('/entradas/getEntrada/' + id)
       .success(function(response){
 
         $scope.entrada = response.entrada;
