@@ -144,88 +144,48 @@ class entradasController extends Controller
         }
     }   
 
-    public function getEntrada($type, $id){
+    public function getEntrada($id){
         
-        switch ($type) {
+        
+        $entrada = Entrada::where('id',$id)->first();
 
-            case 'orden':
-                $entrada = Entrada::where('id',$id)->first();
+        if(!$entrada){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+        }
+        else{
 
-                if(!$entrada){
-                    return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
-                }
-                else{
+            if($entrada['type'] == 'devolucion'){
+                
+                $entrada = DB::table('entradas')->where('entradas.id',$id)
+                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+                    ->join('users', 'entradas.usuario' , '=', 'users.id' )
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
+                        'entradas.orden', 'departamentos.nombre as provedor', 'users.email as usuario')
+                    ->first();
 
-                   $entrada = DB::table('entradas')->where('entradas.id',$id)
-                        ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                        ->join('users', 'entradas.usuario' , '=', 'users.id' )
-                        ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                            DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                            'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario')
-                        ->first();
+                $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
+                    ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
+                    ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
+                    ->get();                 
+            }
+            else{
 
-                   $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
-                        ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                        ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
-                        ->get();
+                $entrada = DB::table('entradas')->where('entradas.id',$id)
+                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                    ->join('users', 'entradas.usuario' , '=', 'users.id' )
+                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                        DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
+                        'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario')
+                    ->first();
 
-                    return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
-                }
-            break;
+                $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
+                    ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
+                    ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
+                    ->get(); 
+            }
 
-            case 'donacion':
-                $entrada = Edonacione::where('id',$id)->first();
-
-                if(!$entrada){
-                    return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
-                }
-                else{
-
-                   $entrada = DB::table('edonaciones')->where('edonaciones.id',$id)
-                        ->join('provedores', 'edonaciones.provedor', '=', 'provedores.id')
-                        ->join('users', 'edonaciones.usuario' , '=', 'users.id' )
-                        ->select(DB::raw('DATE_FORMAT(edonaciones.created_at, "%d/%m/%Y") as fecha'),
-                            DB::raw('DATE_FORMAT(edonaciones.created_at, "%H:%i:%s") as hora'), 'edonaciones.codigo',
-                           'provedores.nombre as provedor', 'users.email as usuario')
-                        ->first();
-
-                   $insumos = DB::table('insumos_edonaciones')->where('insumos_edonaciones.donacion', $id)
-                        ->join('insumos', 'insumos_edonaciones.insumo', '=', 'insumos.id')
-                        ->select('insumos.codigo', 'insumos.descripcion', 'insumos_edonaciones.cantidad')
-                        ->get();
-
-                    return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
-                }
-            break;
-
-            case 'devolucion':
-                $entrada = Edevolucione::where('id',$id)->first();
-
-                if(!$entrada){
-                    return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
-                }
-                else{
-
-                   $entrada = DB::table('edevoluciones')->where('edevoluciones.id',$id)
-                        ->join('departamentos', 'edevoluciones.departamento', '=', 'departamentos.id')
-                        ->join('users', 'edevoluciones.usuario' , '=', 'users.id' )
-                        ->select(DB::raw('DATE_FORMAT(edevoluciones.created_at, "%d/%m/%Y") as fecha'),
-                            DB::raw('DATE_FORMAT(edevoluciones.created_at, "%H:%i:%s") as hora'), 'edevoluciones.codigo',
-                           'departamentos.nombre as provedor', 'users.email as usuario')
-                        ->first();
-
-                   $insumos = DB::table('insumos_edevoluciones')->where('insumos_edevoluciones.devolucion', $id)
-                        ->join('insumos', 'insumos_edevoluciones.insumo', '=', 'insumos.id')
-                        ->select('insumos.codigo', 'insumos.descripcion', 'insumos_edevoluciones.cantidad')
-                        ->get();
-
-                    return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
-                }
-            break;
-
-            default:
-                 return Response()->json(['status' => 'danger', 'menssage' => 'Tipo de entrada no valido']);
-            break; 
+            return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
         }
     }
 

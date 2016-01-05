@@ -229,8 +229,8 @@ Route::group(['middleware' => 'auth' ], function(){
 			//tipo se regresan todos los insumos
 			Route::get('getInsumos/{type?}', 'entradasController@allInsumos');
 
-			//Regresa todos los datos de una entrada cuyo id y tipo se pase
-			Route::get('getEntrada/{type}/{id}', 'entradasController@getEntrada');
+			//Regresa todos los datos de una entrada cuyo id se pase
+			Route::get('getEntrada/{id}', 'entradasController@getEntrada');
 
 			//Regresa todas las entradas de el numero de orden que se expecifique
 			Route::get('getOrden/{number}', 'entradasController@getOrden');
