@@ -12,7 +12,7 @@
 	</h5>
 	<br>
 	@if( Auth::user()->haspermission('inventarioH') )
-		<button class="btn btn-success" ng-click="herramientas()"><span class="glyphicon glyphicon-wrench"></span> Herramientas</button>
+		<a class="btn btn-success" href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a>
 	@endif
 	<br>
 	<br>

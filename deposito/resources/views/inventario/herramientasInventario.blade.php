@@ -1,16 +1,33 @@
-<div class="modal-header">
-    <h3 class="modal-title text-title-modal"><span class="glyphicon glyphicon-wrench"></span> Herramientas</h3>
-</div>
-<div class="modal-body">
+@extends('panel')
+@section('bodytag', 'ng-controller="inventarioController"')
+@section('addscript')
+<script src="{{asset('js/herramientasInventarioController.js')}}"></script>
+@endsection
 
-	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
+@section('front-page')
 	
-	<tabset>
-    	<tab heading="Alarmas">
+	<nav class="text-muted">
+		<ul class="nav-enlaces">
+			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-th-list"></span> Inventario</a></li>
+			<li class="nav-ubication"><span class="glyphicon glyphicon-wrench"></span> Herramientas</li>
+		</ul>
+	</nav>
+
+	<br>
+	
+	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
+
+	<ul class="nav nav-tabs">
+		<li class="active" ng-click="registrosEntradas('todas')"><a data-toggle="tab" class="text-enlace" href="#alarmas">Alarmas</a></li>
+	</ul>
+	
+	<div class="tab-content">
+		{{--Panel de registros de alarmas--}}
+		<div id="toda" class="tab-pane fade in active">
 			<center>
 				<h3 class="text-success">Configuracion de alarmas</h3>
 			</center>
-			<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 			<br><br>					
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
@@ -36,40 +53,40 @@
 				</div>
 			</div>
 			<br>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Descripción</th>
-						<th class="col-md-2">Nivel Critico</th>
-						<th class="col-md-2">Nivel Bajo</th>
-						<th class="col-md-1">Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="insumo in insumos">
-						<td>{#insumo.descripcion#}</td>
-						<td class="danger">
-							<input class="form-control text-center" type="number" ng-model="insumo.min">
-						</td>
-						<td class="warning">
-							<input class="form-control text-center" type="number" ng-model="insumo.med">
-						</td>
-						<td>
-							<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<br>
-			<center>	
-				<button ng-show="existInsumos()" ng-click="guardar()" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
-    		</center>
-    	</tab>
-  	</tabset>
-	
-</div>
+			<div ng-show="existInsumos()">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-md-2">Codigo</th>
+							<th>Descripción</th>
+							<th class="col-md-2">Nivel Critico</th>
+							<th class="col-md-2">Nivel Bajo</th>
+							<th class="col-md-1">Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="insumo in insumos">
+							<td>{#insumo.codigo#}</td>
+							<td>{#insumo.descripcion#}</td>
+							<td class="danger">
+								<input class="form-control text-center" type="number" ng-model="insumo.min">
+							</td>
+							<td class="warning">
+								<input class="form-control text-center" type="number" ng-model="insumo.med">
+							</td>
+							<td>
+								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<center>	
+					<button ng-click="guardar()" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
+	    		</center>
+    		</div>
+		</div>
+	</div>
 
-<div class="modal-footer">
-    <button class="btn btn-warning" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
-</div>
+@endsection

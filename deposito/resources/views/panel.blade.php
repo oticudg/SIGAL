@@ -47,7 +47,7 @@
 					        @endif
 					       
 					        @if( Auth::user()->haspermission('inventarios') )
-					       	 	<li><a href="/inventario"><span class="glyphicon glyphicon-th-list"></span> Inventario</a></li>
+					       	 	<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-th-list"></span> Inventario</a></li>
 					        @endif
 					       
 					        @if( Auth::user()->haspermission('entradas') )

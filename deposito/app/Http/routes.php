@@ -181,30 +181,34 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de inventario ***/
 
-	Route::group(['middleware' => 'permission:inventarios'], function(){
+	Route::group(['prefix' => 'inventario', 'as' => 'inven'], 
+		function(){
 
-		//Muestra el panel de inventario
-		Route::get('inventario','inventarioController@index');
+		Route::group(['middleware' => 'permission:inventarios'], function(){
 
-		//Muestra la  vista de insumos en niveles bajos y criticos
-		Route::get('alertasInsumos',['middleware' => 'alert', 'uses' => 'inventarioController@viewInsumosAlertas']);
+			//Muestra el panel de inventario
+			Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@index']);
 
-		Route::group(['middleware' => 'permission:inventarioH'], function(){
-			//Muestra la vista de herramientas
-			Route::get('inventarioHerramientas','inventarioController@viewHerramientas');
-			//configura el valor min y med de los insumos que se especifiquen
-			Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
-			//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
-			Route::get('getInventarioConsulta', 'inventarioController@getInsumosConsulta');
+			//Muestra la  vista de insumos en niveles bajos y criticos
+			Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'Niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
+
+			Route::group(['prefix' => 'herramientas', 'as' => 'Herra', 'middleware' => 'permission:inventarioH'], function(){
+				//Muestra la vista de herramientas
+				Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@viewHerramientas']);
+				//configura el valor min y med de los insumos que se especifiquen
+				Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
+				//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
+				Route::get('getInventarioConsulta', 'inventarioController@getInsumosConsulta');
+			});
+
+			//Regresa todos las insumos en el inventario
+			Route::get('getInventario','inventarioController@allInsumos');
+
+			//Regresa todos los insumos en alerta del inventario
+			Route::get('getAlertInsumos','inventarioController@insumosAlert');	
 		});
-
-		//Regresa todos las insumos en el inventario
-		Route::get('getInventario','inventarioController@allInsumos');
-
-		//Regresa todos los insumos en alerta del inventario
-		Route::get('getAlertInsumos','inventarioController@insumosAlert');	
 	});
-	
+
 	/*** Fin de modulo de inventario ***/
 
 
@@ -216,7 +220,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::group(['middleware' => 'permission:entradas'], function(){
 
 			//Muestra el panel de entradas
-			Route::get('panel',['as' => 'Panel', 'uses' => 'entradasController@index']);
+			Route::get('/',['as' => 'Panel', 'uses' => 'entradasController@index']);
 
 			//Muestra la vista detallada de una entrada
 			Route::get('detalles', 'entradasController@detalles');
