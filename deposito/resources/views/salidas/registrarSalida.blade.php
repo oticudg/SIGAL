@@ -58,39 +58,41 @@
 	<br>
 	<br>
 
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Codigo</th>
-				<th>Descripción</th>
-				<th>Solicitado</th>
-				<th>Despachado</th>
-				<th>Eliminar</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-class="insumo.style" ng-repeat="insumo in insumos">
-				<td class="col-md-2">{#insumo.codigo#}</td>
-				<td>{#insumo.descripcion#}</td>
-				<td class="col-md-2">
-					<input class="form-control text-center" type="number" ng-model="insumo.solicitado">
-				</td>
-				<td class="col-md-2">
-					<input class="form-control text-center" type="number" ng-model="insumo.despachado">
-				</td>
-				<td class="col-md-1">
-					<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
-					</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<br>
+	<div ng-show="thereInsumos(insumosDon)">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Codigo</th>
+					<th>Descripción</th>
+					<th>Solicitado</th>
+					<th>Despachado</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-class="insumo.style" ng-repeat="insumo in insumos">
+					<td class="col-md-2">{#insumo.codigo#}</td>
+					<td>{#insumo.descripcion#}</td>
+					<td class="col-md-2">
+						<input class="form-control text-center" type="number" ng-model="insumo.solicitado">
+					</td>
+					<td class="col-md-2">
+						<input class="form-control text-center" type="number" ng-model="insumo.despachado">
+					</td>
+					<td class="col-md-1">
+						<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-	<center>
-		<button class="btn btn-success" ng-click="registroEntrada()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
-	</center>
+		<br>
+
+		<center>
+			<button class="btn btn-success" ng-click="registroEntrada()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
+		</center>
+	</div>
 	
 	<script type="text/ng-template" id="successRegister.html">
         <div class="modal-header">

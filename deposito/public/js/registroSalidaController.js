@@ -9,8 +9,10 @@ controller('registroSalidaController',function($scope,$http,$modal){
   $scope.servicio = '';
   $scope.insumos = [];
   $scope.alert = {};
-  
+  $scope.searchAjax = false;
+
   $scope.refreshInsumos = function(insumo) {
+    $scope.searchAjax = true;
     var params = {insumo: insumo};
     return $http.get(
       '/getInsumosConsulta',
@@ -24,7 +26,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
       .success( function(response){ $scope.departamentos = response;});
   
   $scope.agregarInsumos = function(){
-
+    $scope.searchAjax = false;
     if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
@@ -97,6 +99,10 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
   $scope.closeAlert = function(){
     $scope.alert = {};
+  };
+
+  $scope.thereInsumos = function(){
+    return $scope.insumos.length > 0 ? true:false;
   };
 
   function insumoExist(codigo){
