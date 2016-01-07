@@ -4,13 +4,13 @@
 angular.module('deposito').
 controller('depositosController',function($scope,$http,$modal){
 
-	$scope.departamentos = [];
+	$scope.deposito = [];
   $scope.cRegistro = '5';
 
-	$scope.obtenerDepartamentos = function(){
+	$scope.obtenerDepositos = function(){
 
-		$http.get('/getDepartamentos')
-			.success( function(response){$scope.departamentos = response});
+		$http.get('/depositos/getDepositos')
+			.success( function(response){$scope.depositos = response});
 	};
 
   $scope.registrarDepartamento = function() {
@@ -21,8 +21,8 @@ controller('depositosController',function($scope,$http,$modal){
           size:'lg',
           controller: 'registrarDepositoCtrl',
           resolve: {
-            obtenerDepartamentos: function () {
-              return $scope.obtenerDepartamentos;
+            obtenerDepositos: function () {
+              return $scope.obtenerDepositos;
             }
           }
       });
@@ -65,11 +65,11 @@ controller('depositosController',function($scope,$http,$modal){
     });
   };
   
-	$scope.obtenerDepartamentos();
+	$scope.obtenerDepositos();
 
 });
 
-angular.module('deposito').controller('registrarDepositoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos){
+angular.module('deposito').controller('registrarDepositoCtrl', function ($scope, $modalInstance, $http, obtenerDepositos){
 
   $scope.btnVisivilidad = true;
 
@@ -98,7 +98,7 @@ angular.module('deposito').controller('registrarDepositoCtrl', function ($scope,
         $scope.alerts.push( {"type":response.status , "msg":response.menssage});
      
           $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-          obtenerDepartamentos();
+          obtenerDepositos();
     });
   };
 

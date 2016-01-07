@@ -48,4 +48,7 @@ class depositosController extends Controller
         }
     }
 
+    public function allDepositos(){
+        return Deposito::orderBy('id', 'desc')->get(['id','codigo', 'nombre']);
+    }
 }

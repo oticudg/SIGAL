@@ -354,7 +354,11 @@ Route::group(['middleware' => 'auth' ], function(){
 
 		//Registra un Deposito
 		Route::post('registrarDeposito' ,'depositosController@registrar');
+	
+		//Regresa todas los depositos que existan
+		Route::get('getDepositos','depositosController@allDepositos');
 	});
+
 
 	/*** Fin de modulo de Depositos ***/
 
