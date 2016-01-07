@@ -354,9 +354,16 @@ Route::group(['middleware' => 'auth' ], function(){
 
 		//Registra un Deposito
 		Route::post('registrarDeposito' ,'depositosController@registrar');
+
+		//Muesta la vista de edicion de deposito
+		Route::get('editarDeposito', 'depositosController@viewEditar');
+		//Edita un departamento cuyo id se pase
+		Route::post('editarDeposito/{id}', 'depositosController@editarDeposito');
 	
 		//Regresa todas los depositos que existan
 		Route::get('getDepositos','depositosController@allDepositos');
+		//Obtiene un deposito por su id
+		Route::get('getDeposito/{id}', 'depositosController@getDeposito');
 	});
 
 

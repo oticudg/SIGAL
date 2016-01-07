@@ -13,7 +13,7 @@ controller('depositosController',function($scope,$http,$modal){
 			.success( function(response){$scope.depositos = response});
 	};
 
-  $scope.registrarDepartamento = function() {
+  $scope.registrarDeposito = function() {
 
       $modal.open({
         animation: true,
@@ -28,17 +28,17 @@ controller('depositosController',function($scope,$http,$modal){
       });
   }
 
-  $scope.editarDepartamento = function(index){
+  $scope.editarDeposito = function(index){
 
     $modal.open({
 
       animation: true,
-          templateUrl: '/editarDepartamento',
+          templateUrl: '/depositos/editarDeposito',
           size:'lg',
-          controller: 'editarDepartamentoCtrl',
+          controller: 'editarDepositoCtrl',
           resolve: {
-             obtenerDepartamentos: function () {
-                return $scope.obtenerDepartamentos;
+             obtenerDepositos: function () {
+                return $scope.obtenerDepositos;
              },
              id:function () {
                 return index;
@@ -104,15 +104,16 @@ angular.module('deposito').controller('registrarDepositoCtrl', function ($scope,
 
 });
 
-angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos, id) {
+angular.module('deposito').controller('editarDepositoCtrl', function ($scope, $modalInstance, $http, obtenerDepositos, id) {
 
   $scope.btnVisivilidad = true;
 
   $scope.nombre  =   "";
 
-    $http.get('/getDepartamento/' + id)
+    $http.get('/depositos/getDeposito/' + id)
         .success(function(response){
-        $scope.nombre = response.nombre;    
+        $scope.nombre = response.nombre;
+        $scope.codigo = response.codigo;    
     });
 
   $scope.modificar = function () {
@@ -138,14 +139,14 @@ angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope
   };
 
 
-  $http.post('/editarDepartamento/' + id , $data)
+  $http.post('/depositos/editarDeposito/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
       $scope.alerts.push( {"type":response.status , "msg":response.menssage});
       
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-      obtenerDepartamentos();
+      obtenerDepositos();
   });
 
  };

@@ -14,14 +14,16 @@ class depositosController extends Controller
         'nombre.unique' => 'Ya fue registrado un deposito con este nombre',
     ];
 
-    public function index()
-    {
+    public function index(){
         return view('depositos/indexDepositos');
     }
 
     public function viewRegistrar(){
-
         return view('depositos/registrarDeposito');
+    }
+
+    public function viewEditar(){
+        return view('depositos/editarDeposito');
     }
 
     public function registrar(Request $request){
@@ -29,7 +31,7 @@ class depositosController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'nombre'  =>  'required|min:3|max:30|unique:depositos',
+            'nombre'  =>  'required|min:3|max:60|unique:depositos',
         ], $this->menssage);
 
         if($validator->fails()){
@@ -45,6 +47,51 @@ class depositosController extends Controller
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Deposito registrado']);  
+        }
+    }
+
+    public function editarDeposito(Request $request,$id){
+
+        $deposito = Deposito::where('id',$id)->first();
+
+        if(!$deposito){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este deposito no existe']);            
+        }
+        else{
+            
+            $data = $request->all();
+
+            $validator = Validator::make($data,[    
+                'nombre' =>  'required|unique:depositos'
+            ], $this->menssage);
+
+            if($validator->fails()){
+
+                return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+            }
+            else{
+
+                Deposito::where('id',$id)->update([
+                    'nombre' => $data['nombre']
+                ]);
+
+                return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
+            }
+        }
+    }
+
+    public function getDeposito($id){
+
+        $deposito = Deposito::where('id',$id)->first(['id', 'codigo', 'nombre']);
+
+        if(!$deposito){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este Deposito no existe']);            
+        }
+        else{
+
+            return $deposito; 
         }
     }
 

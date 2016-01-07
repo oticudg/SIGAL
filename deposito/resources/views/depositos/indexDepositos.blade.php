@@ -15,7 +15,7 @@
 	<br>
 	
 	@if( Auth::user()->haspermission('departamentoN') )		
-		<button class="btn btn-success" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Deposito</button>
+		<button class="btn btn-success" ng-click="registrarDeposito()"><span class="glyphicon glyphicon-plus"></span> Nuevo Deposito</button>
 	@endif
 	
 	<br>
@@ -62,7 +62,7 @@
 				<td>{#deposito.codigo#}</td>
 				<td>{#deposito.nombre | capitalize#}</td>
 				@if( Auth::user()->haspermission('departamentoM') )
-					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDeposito(deposito.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
 				@if( Auth::user()->haspermission('departamentoD') )
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
