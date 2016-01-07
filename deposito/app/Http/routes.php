@@ -341,4 +341,18 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Fin de modulo de Estadisticas ***/
 
+
+	/*** Modulo de Depositos ***/
+
+	Route::group(['prefix' => 'depositos', 'as' => 'depo', 'middleware' => 'permission:estadisticas'], function(){
+		
+		//Muesta el panel de depositos 
+		Route::get('/',['as' => 'Inicio', 'uses' => 'depositosController@index']);
+		
+		//Muestra vista de registro de deposito
+		Route::get('registrarDeposito','depositosController@viewRegistrar');
+	});
+
+	/*** Fin de modulo de Depositos ***/
+
 });

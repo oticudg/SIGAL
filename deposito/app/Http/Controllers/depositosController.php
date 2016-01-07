@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class depositosController extends Controller
+{
+    public function index()
+    {
+        return view('depositos/indexDepositos');
+    }
+
+    public function viewRegistrar(){
+
+        return view('depositos/registrarDeposito');
+    }
+
+}
