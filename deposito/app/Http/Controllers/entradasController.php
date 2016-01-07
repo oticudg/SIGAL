@@ -14,7 +14,7 @@ use App\Insumos_entrada;
 class entradasController extends Controller
 {   
     private $menssage = [
-        'orden.required'    =>   'Especifique un numero de orden de compra',
+        'orden.required'    =>  'Especifique un numero de orden de compra',
         'provedor.required' =>  'Seleccione un proveedor', 
         'insumos.required'  =>  'No se han especificado insumos para esta entrada'
     ];
@@ -95,11 +95,14 @@ class entradasController extends Controller
 
     public function allEntradas($type = NULL){
 
+        $deposito = Auth::user()->deposito; 
+
         switch ($type) {
         
             case 'orden':
                 return DB::table('entradas')
                     ->where('type', 'orden')
+                    ->where('deposito', $deposito)
                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
                         'entradas.orden','provedores.nombre as provedor', 'entradas.id')
@@ -109,6 +112,7 @@ class entradasController extends Controller
             case 'donacion':
                 return DB::table('entradas')
                     ->where('type', 'donacion')
+                    ->where('deposito', $deposito)
                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.codigo','provedores.nombre as provedor', 'entradas.id')
@@ -118,6 +122,7 @@ class entradasController extends Controller
             case 'devolucion':
                 return DB::table('entradas')
                     ->where('type', 'devolucion')
+                    ->where('deposito', $deposito)
                     ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.codigo','departamentos.nombre as provedor', 'entradas.id')
@@ -128,13 +133,17 @@ class entradasController extends Controller
 
                 $devoluciones = DB::table('entradas')
                     ->where('entradas.type', 'devolucion')
+                    ->where('entradas.deposito', $deposito)
                     ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'type');
 
                 return DB::table('entradas')
-                    ->where('entradas.type', 'orden')
-                    ->orWhere('entradas.type', 'donacion')
+                    ->where(function ($query) {
+                        $query->where('entradas.type', 'orden')
+                        ->orWhere('entradas.type', 'donacion');
+                    })
+                    ->where('entradas.deposito', $deposito)
                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.id', 'codigo', 'provedores.nombre as provedor', 'type')
@@ -246,7 +255,9 @@ class entradasController extends Controller
 
     public function registrar($type, Request $request){
         
-        $data = $request->all();
+        $data     = $request->all(); 
+        $usuario  = Auth::user()->id;
+        $deposito = Auth::user()->deposito;   
 
         switch ($type){
 
@@ -271,7 +282,8 @@ class entradasController extends Controller
                                 'orden'    => $data['orden'],
                                 'provedor' => $data['provedor'],
                                 'type'     => 'orden',
-                                'usuario'  => Auth::user()->id
+                                'usuario'  => $usuario,
+                                'deposito' => $deposito
                             ])['id'];
 
                     foreach ($insumos as $insumo){
@@ -310,7 +322,8 @@ class entradasController extends Controller
                                 'codigo'   => $code,
                                 'provedor' => $data['provedor'],
                                 'type'     => 'donacion',
-                                'usuario'  => Auth::user()->id
+                                'usuario'  => $usuario,
+                                'deposito' => $deposito
                               ])['id'];
 
                     foreach ($insumos as $insumo) {
@@ -349,7 +362,8 @@ class entradasController extends Controller
                                 'codigo'   => $code,
                                 'provedor' => $data['departamento'],
                                 'type'     => 'devolucion',
-                                'usuario'  => Auth::user()->id
+                                'usuario'  => $usuario,
+                                'deposito' => $deposito
                               ])['id'];
 
                     foreach ($insumos as $insumo) {
