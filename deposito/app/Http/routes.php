@@ -364,6 +364,11 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('getDepositos','depositosController@allDepositos');
 		//Obtiene un deposito por su id
 		Route::get('getDeposito/{id}', 'depositosController@getDeposito');
+
+		//Muestra la vista de eliminacion de deposito
+		Route::get('eliminarDeposito','depositosController@viewEliminar');
+		//Elimina un deposito cuyo id se pase
+		Route::post('eliminarDeposito/{id}','depositosController@elimDeposito');
 	});
 
 

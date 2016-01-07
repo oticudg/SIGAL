@@ -47,16 +47,16 @@ controller('depositosController',function($scope,$http,$modal){
     });
   };
 
-  $scope.eliminarDepartamento = function(index){
+  $scope.eliminarDeposito = function(index){
 
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarDepartamento',
-          controller: 'eliminarDepartamentoCtrl',
+          templateUrl: '/depositos/eliminarDeposito',
+          controller: 'eliminarDepositoCtrl',
           resolve: {
-             obtenerDepartamentos: function () {
-                return $scope.obtenerDepartamentos;
+             obtenerDepositos: function () {
+                return $scope.obtenerDepositos;
              },
              id:function () {
                 return index;
@@ -150,10 +150,9 @@ angular.module('deposito').controller('editarDepositoCtrl', function ($scope, $m
   });
 
  };
- 
 });
 
-angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos,id) {
+angular.module('deposito').controller('eliminarDepositoCtrl', function ($scope, $modalInstance, $http, obtenerDepositos,id) {
 
   $scope.btnVisivilidad = true;
 
@@ -173,7 +172,7 @@ angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($sco
 
  $scope.delet = function(){
 
-  $http.post('/eliminarDepartamento/' + id)
+  $http.post('/depositos/eliminarDeposito/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -181,7 +180,7 @@ angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($sco
     
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
      
-      obtenerDepartamentos();
+      obtenerDepositos();
   });
  };
 

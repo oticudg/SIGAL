@@ -26,6 +26,10 @@ class depositosController extends Controller
         return view('depositos/editarDeposito');
     }
 
+    public function viewEliminar(){
+        return view('depositos/eliminarDeposito');
+    }
+
     public function registrar(Request $request){
 
         $data = $request->all();
@@ -80,6 +84,22 @@ class depositosController extends Controller
             }
         }
     }
+
+    public function elimDeposito(Request $request,$id){
+
+         $deposito = Deposito::where('id',$id)->first();
+
+        if(!$deposito){
+
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta deposito no exist']);            
+        }
+        else{
+            
+            Deposito::where('id',$id)->delete();
+            return Response()->json(['status' => 'success', 'menssage' => 'Deposito Eliminado']);
+        }
+    }
+
 
     public function getDeposito($id){
 
