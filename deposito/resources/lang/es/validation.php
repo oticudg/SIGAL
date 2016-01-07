@@ -125,6 +125,7 @@ return [
     "insumos_validate_s" =>  "Valores de insumo no validos",
     "insumos"            =>  "Valores de insumos no validos",
     "one_insumo_entrada" =>  "No es posible borrar el unico insumo de esta entrada",
-    "one_insumo_salida"  =>  "No es posible borrar el unico insumo de esta salida"
+    "one_insumo_salida"  =>  "No es posible borrar el unico insumo de esta salida",
+    "deposito"           =>  "Deposito no valido"
 
 ];

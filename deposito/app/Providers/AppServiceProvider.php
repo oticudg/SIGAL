@@ -7,6 +7,7 @@ use Input;
 use App\Insumo;
 use App\Entrada;
 use App\Salida;
+use App\Deposito;
 use App\Insumos_entrada;
 use App\Insumos_salida;
 use Illuminate\Support\ServiceProvider;
@@ -239,6 +240,14 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('insumo', function($attribute, $value)
         {
             if( !Insumo::where('id', $value)->first())
+                return false;
+
+            return true;
+        });
+
+        Validator::extend('deposito', function($attribute, $value)
+        {
+            if( !Deposito::where('id', $value)->first() )
                 return false;
 
             return true;
