@@ -5,11 +5,14 @@
 @endsection
 
 @section('front-page')
-	
-	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-cog"></span> Administración > 
-		<span class="glyphicon glyphicon-th-list"></span> Inventario
-	</h5>
+
+	<nav class="nav-ubication">
+		<ul class="nav-enlaces">
+			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li class="nav-active"><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
+		</ul>
+	</nav>
+
 	<br>
 	@if( Auth::user()->haspermission('inventarioH') )
 		<a class="btn btn-success" href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a>

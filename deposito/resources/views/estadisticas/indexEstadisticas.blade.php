@@ -9,10 +9,12 @@
 @endsection
 
 @section('front-page')
-	
-	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-tasks"></span> Estadísticas
-	</h5>
+
+	<nav class="nav-ubication">
+		<ul class="nav-enlaces">	
+			<li class="nav-active"><span class="glyphicon glyphicon-tasks"></span> Estadísticas</li>
+		</ul>
+	</nav>
 	<br>
 	
 	<div ng-show="formVisivility">

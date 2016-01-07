@@ -6,10 +6,12 @@
 
 @section('front-page')
 
-	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-transfer"></span> Tranferencias >
-		<span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida
-	</h5>
+	<nav class="nav-ubication">
+		<ul class="nav-enlaces">
+			<li><span class="glyphicon glyphicon-transfer"></span> Tranferencias</li>	
+			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida</li>
+		</ul>
+	</nav>
 
 	<center>
 		<h3 class="text-title-modal">Registro de Pro-Forma de Pedido</h3>

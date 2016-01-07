@@ -5,12 +5,15 @@
 @endsection
 
 @section('front-page')
-	
-	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-cog"></span> Administración > 
-		<span class="glyphicon glyphicon-th"></span> Insumos
-	</h5>
+
+	<nav class="nav-ubication">
+		<ul class="nav-enlaces">
+			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li class="nav-active"><span class="glyphicon glyphicon-th"></span> Insumos</li>
+		</ul>
+	</nav>
 	<br>
+	
 	@if( Auth::user()->haspermission('insumoN') )	
 		<button class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Insumo</button>
 	@endif

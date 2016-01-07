@@ -6,10 +6,12 @@
 
 @section('front-page')
 	
-	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-edit"></span> Modificaciones > 
-		<span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas
-	</h5>
+	<nav class="nav-ubication">
+		<ul class="nav-enlaces">
+			<li><span class="glyphicon glyphicon-edit"></span> Modificaciones</li>	
+			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</li>
+		</ul>
+	</nav>
 	<br>
 	
 	<button class="btn btn-success" ng-click="registrarModificacion()"><span class="glyphicon glyphicon-plus"></span> Nuevo Modificación</button>

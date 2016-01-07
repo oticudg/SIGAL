@@ -62,27 +62,32 @@
 	border-radius: 0px;
 }
 
-.nav-enlaces{
+
+.nav-ubication{
+  color:#777
+}
+
+.nav-ubication .nav-enlaces{
   
   list-style: none;
   padding-left:0px;
   padding-top: 1%; 
 }
 
-.nav-enlaces li{  
+.nav-ubication .nav-enlaces li{  
   display: inline-block;
 }
 
-.nav-enlaces a{
+.nav-ubication .nav-enlaces a{
   text-decoration: none;
   color: #419641;
 }
 
-.nav-enlaces li::after{
+.nav-ubication .nav-enlaces li::after{
   content:' >'
 }
 
-.nav-enlaces .nav-ubication::after{
+.nav-ubication .nav-enlaces .nav-active::after{
   content: none;
 }
 

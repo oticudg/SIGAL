@@ -6,10 +6,12 @@
 
 @section('front-page')
 	
-	<h5 class="text-muted">
-		<span class="glyphicon glyphicon-cog"></span> Administración > 
-		<span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas
-	</h5>
+	<nav class="nav-ubication">
+		<ul class="nav-enlaces">
+			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</li>
+		</ul>
+	</nav>
 	<br>
 	
 	{{--Buscador y Seleccion de Listados de datos--}}

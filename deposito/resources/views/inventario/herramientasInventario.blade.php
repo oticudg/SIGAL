@@ -6,11 +6,11 @@
 
 @section('front-page')
 	
-	<nav class="text-muted">
+	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
 			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
 			<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-th-list"></span> Inventario</a></li>
-			<li class="nav-ubication"><span class="glyphicon glyphicon-wrench"></span> Herramientas</li>
+			<li class="nav-active"><span class="glyphicon glyphicon-wrench"></span> Herramientas</li>
 		</ul>
 	</nav>
 
