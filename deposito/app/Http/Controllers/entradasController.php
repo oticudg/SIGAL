@@ -32,12 +32,16 @@ class entradasController extends Controller
     }
 
     public function allInsumos($type = NULL){
+
+        $deposito = Auth::user()->deposito;
+        
         switch($type){
             
             case 'orden':
                 
                 return DB::table('insumos_entradas')
                     ->where('insumos_entradas.type', 'orden')
+                    ->where('insumos_entradas.deposito', $deposito)
                     ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
@@ -50,6 +54,7 @@ class entradasController extends Controller
                 
                 return DB::table('insumos_entradas')
                     ->where('insumos_entradas.type', 'donacion')
+                    ->where('insumos_entradas.deposito', $deposito)
                     ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
@@ -61,6 +66,7 @@ class entradasController extends Controller
             case 'devolucion':
                 return DB::table('insumos_entradas')
                     ->where('insumos_entradas.type', 'devolucion')
+                    ->where('insumos_entradas.deposito', $deposito)
                     ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                     ->join('insumos', 'insumos.id' ,  '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
@@ -73,6 +79,7 @@ class entradasController extends Controller
 
                 $devoluciones = DB::table('insumos_entradas')
                     ->where('insumos_entradas.type', 'devolucion')
+                    ->where('insumos_entradas.deposito', $deposito)
                     ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
@@ -80,8 +87,11 @@ class entradasController extends Controller
                         'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.type');
                 
                 return DB::table('insumos_entradas')
-                    ->where('insumos_entradas.type','orden')
-                    ->orWhere('insumos_entradas.type','donacion')
+                    ->where(function ($query) {
+                        $query->where('insumos_entradas.type','orden')
+                        ->orWhere('insumos_entradas.type','donacion');
+                    })
+                    ->where('insumos_entradas.deposito', $deposito)
                     ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
@@ -292,7 +302,8 @@ class entradasController extends Controller
                             'entrada'   => $entrada,
                             'insumo'    => $insumo['id'],
                             'cantidad'  => $insumo['cantidad'],
-                            'type'      => 'orden'
+                            'type'      => 'orden',
+                            'deposito'  => $deposito
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
@@ -332,7 +343,8 @@ class entradasController extends Controller
                             'entrada'   => $donacion,
                             'insumo'    => $insumo['id'],
                             'cantidad'  => $insumo['cantidad'],
-                            'type'      => 'donacion'
+                            'type'      => 'donacion',
+                            'deposito'  => $deposito
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
@@ -372,7 +384,8 @@ class entradasController extends Controller
                             'entrada'     => $devolucion,
                             'insumo'      => $insumo['id'],
                             'cantidad'    => $insumo['cantidad'],
-                            'type'        => 'devolucion'
+                            'type'        => 'devolucion',
+                            'deposito'    => $deposito
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad']);
