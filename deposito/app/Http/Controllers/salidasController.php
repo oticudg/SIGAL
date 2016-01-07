@@ -45,7 +45,10 @@ class salidasController extends Controller
 
     public function allSalidas(){
 
+        $deposito = Auth::user()->deposito;
+
         return DB::table('salidas')
+            ->where('salidas.deposito', $deposito)
             ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
                 'departamentos.nombre as departamento', 'salidas.id')
@@ -108,6 +111,8 @@ class salidasController extends Controller
     public function registrar(Request $request){
         
         $data = $request->all();
+        $usuario  = Auth::user()->id;
+        $deposito = Auth::user()->deposito;
 
         $validator = Validator::make($data,[
             'departamento' =>  'required',
@@ -133,7 +138,8 @@ class salidasController extends Controller
                 $salida = Salida::create([
                             'codigo'       => $code,
                             'departamento' => $data['departamento'],
-                            'usuario'      => Auth::user()->id
+                            'usuario'      => $usuario,
+                            'deposito'     => $deposito
                         ])['id'];
                 
                 foreach ($insumos as $insumo) {
