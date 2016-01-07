@@ -49,6 +49,7 @@
 				<th class="col-md-3">Nombre</th>
 				<th>Usuario</th>
 				<th class="col-md-2">Cedula</th>
+				<th>Deposito</th>
 				@if( Auth::user()->haspermission('usuarioD') && Auth::user()->haspermission('usuarioM'))
 					<th class="table-edit" colspan="2">Modificaciones</th>
 				@elseif( Auth::user()->haspermission('usuarioD') || Auth::user()->haspermission('usuarioM') )
@@ -58,9 +59,11 @@
 		</thead>
 		<tbody>
 			<tr dir-paginate="usuario in usuarios | filter:busqueda | itemsPerPage:cRegistro">
-				<td>{#usuario.nombre| capitalize#}</td>
+				<td>{#usuario.nombre | capitalize#}</td>
 				<td>{#usuario.email#}</td>
 				<td>{#usuario.cedula#}</td>
+				<td>{#usuario.deposito#}</td>
+
 				@if( Auth::user()->haspermission('usuarioM') )
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif

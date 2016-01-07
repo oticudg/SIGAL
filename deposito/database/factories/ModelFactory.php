@@ -48,6 +48,10 @@ $factory->define(App\Privilegio::class, function (Faker\Generator $faker) {
         'salidas' 		 => 1,
         'salidaR' 		 => 1,
         'modificaciones' => 1,
-        'estadisticas'   => 1
+        'estadisticas'   => 1,
+        'depositos'      => 1,
+        'depositoN'      => 1,
+        'depositoM'      => 1,
+        'depositoD'      => 1,
     ];
 });

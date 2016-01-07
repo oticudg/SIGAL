@@ -47,6 +47,7 @@ class usersController extends Controller
             'apellido'       => 'required|alpha|min:2|max:20',
             'email'          => 'required|email|max:50|unique:users',
             'password'       => 'required|min:8|confirmed',
+            'deposito'       => 'required',
             'pUsuario'       => 'required',
             'pUsuarioR'      => 'required',
             'pUsuarioM'      => 'required',
@@ -98,7 +99,8 @@ class usersController extends Controller
                         'apellido' => $data['apellido'],
                         'cedula'   => $data['cedula'],
                         'email'    => $data['email'],
-                        'password' => bcrypt($data['password'])
+                        'password' => bcrypt($data['password']),
+                        'deposito' => $data['deposito']
                     ])['id'];
 
             Privilegio::create([
@@ -140,8 +142,12 @@ class usersController extends Controller
 
     public function allUsuarios(){
 
-        return User::select(DB::raw('CONCAT(nombre, " " , apellido) as nombre'), 'cedula', 
-            'email', 'id')->where('id', '!=', 1)->orderBy('id', 'desc')->get();
+        return DB::table('users')
+               ->join('depositos', 'users.deposito','=','depositos.id')
+               ->select(DB::raw('CONCAT(users.nombre, " " , users.apellido) as nombre'), 'users.cedula', 
+                'users.email', 'users.id', 'depositos.nombre as deposito')
+               ->where('users.id', '!=', 1)
+               ->orderBy('users.id', 'desc')->get();
     }
 
     public function getUsuario($id){
@@ -183,9 +189,9 @@ class usersController extends Controller
             $data = $request->all();
 
             $validator = Validator::make($data,[
-                    'nombre'   => 'required|alpha|min:3|max:15',
-                    'apellido' => 'required|alpha|min:3|max:20',
-                    'cedula'   => 'required|cedula',
+                    'nombre'         => 'required|alpha|min:3|max:15',
+                    'apellido'       => 'required|alpha|min:3|max:20',
+                    'cedula'         => 'required|cedula',
                     'password'       => 'min:8|confirmed',
                     'pUsuario'       => 'required',
                     'pUsuarioR'      => 'required',
@@ -238,6 +244,13 @@ class usersController extends Controller
                     
                     User::where('id',$id)->update([
                         'password' => bcrypt($data['password'])
+                    ]);
+                }
+
+                if( isset($data['deposito']) ){
+                    
+                    User::where('id',$id)->update([
+                        'deposito' => $data['deposito']
                     ]);
                 }
 

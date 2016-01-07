@@ -72,6 +72,11 @@ controller('usersController',function($scope,$http,$modal){
 angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $modalInstance, $http, obtenerUsuarios) {
 
   $scope.btnVisivilidad = true;
+  $scope.depositos = [];
+
+  $http.get('/depositos/getDepositos')
+      .success( function(response){$scope.depositos = response;});
+
   $scope.data = {
     'pUsuario':false,
     'pUsuarioR':false,
@@ -246,6 +251,11 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
 
   $scope.btnVisivilidad = true;
   $scope.data  = {};
+  $scope.depositos = [];
+
+  $http.get('/depositos/getDepositos')
+      .success( function(response){$scope.depositos = response;});
+
   $http.get('/getUsuario/' + id)
     .success(function(response){
 
