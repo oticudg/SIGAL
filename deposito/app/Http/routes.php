@@ -346,29 +346,38 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	Route::group(['prefix' => 'depositos', 'as' => 'depo', 'middleware' => 'permission:estadisticas'], function(){
 		
-		//Muesta el panel de depositos 
-		Route::get('/',['as' => 'Inicio', 'uses' => 'depositosController@index']);
-		
-		//Muestra vista de registro de deposito
-		Route::get('registrarDeposito','depositosController@viewRegistrar');
+		Route::group(['middleware' => 'permission:depositos'], function(){
+			
+			//Muesta el panel de depositos 
+			Route::get('/',['as' => 'Inicio', 'uses' => 'depositosController@index']);
+			
+			Route::group(['middleware' => 'permission:depositoN'], function(){
+				//Muestra vista de registro de deposito
+				Route::get('registrarDeposito','depositosController@viewRegistrar');
+				//Registra un Deposito
+				Route::post('registrarDeposito' ,'depositosController@registrar');
+			});
 
-		//Registra un Deposito
-		Route::post('registrarDeposito' ,'depositosController@registrar');
+			Route::group(['middleware' => 'permission:depositoM'], function(){
+				//Muesta la vista de edicion de deposito
+				Route::get('editarDeposito', 'depositosController@viewEditar');
+				//Edita un departamento cuyo id se pase
+				Route::post('editarDeposito/{id}', 'depositosController@editarDeposito');
+			});
 
-		//Muesta la vista de edicion de deposito
-		Route::get('editarDeposito', 'depositosController@viewEditar');
-		//Edita un departamento cuyo id se pase
-		Route::post('editarDeposito/{id}', 'depositosController@editarDeposito');
-	
+			Route::group(['middleware' => 'permission:depositoD'], function(){
+				//Muestra la vista de eliminacion de deposito
+				Route::get('eliminarDeposito','depositosController@viewEliminar');
+				//Elimina un deposito cuyo id se pase
+				Route::post('eliminarDeposito/{id}','depositosController@elimDeposito');
+			}); 
+
+			//Obtiene un deposito por su id
+			Route::get('getDeposito/{id}', 'depositosController@getDeposito');
+		});
+
 		//Regresa todas los depositos que existan
 		Route::get('getDepositos','depositosController@allDepositos');
-		//Obtiene un deposito por su id
-		Route::get('getDeposito/{id}', 'depositosController@getDeposito');
-
-		//Muestra la vista de eliminacion de deposito
-		Route::get('eliminarDeposito','depositosController@viewEliminar');
-		//Elimina un deposito cuyo id se pase
-		Route::post('eliminarDeposito/{id}','depositosController@elimDeposito');
 	});
 
 

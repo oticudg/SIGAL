@@ -72,7 +72,11 @@ class usersController extends Controller
             'pProvedor'      => 'required',
             'pProvedorR'     => 'required',
             'pProvedorM'     => 'required',
-            'pProvedorE'     => 'required'  
+            'pProvedorE'     => 'required',
+            'pDeposito'      => 'required',
+            'pDepositoR'     => 'required',
+            'pDepositoM'     => 'required',
+            'pDepositoE'     => 'required'  
         ], $this->menssage);
 
         if($validator->fails()){
@@ -84,7 +88,7 @@ class usersController extends Controller
             if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
                 && $data['pInventario'] == null && $data['pModificacion'] == null && 
                 $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null &&
-                $data['pProvedor'] == null){
+                $data['pProvedor'] == null && $data['pDeposito'] == null){
 
                 return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
             }
@@ -123,7 +127,11 @@ class usersController extends Controller
                 'entradaR'       => $data['pEntradaR'],
                 'salidas'        => $data['pSalidaV'],
                 'salidaR'        => $data['pSalidaR'],
-                'estadisticas'   => $data['pEstadistica']
+                'estadisticas'   => $data['pEstadistica'],
+                'depositos'      => $data['pDeposito'],
+                'depositoN'      => $data['pDepositoR'],
+                'depositoM'      => $data['pDepositoM'],
+                'depositoD'      => $data['pDepositoE']
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Usuario registrado']);
@@ -148,7 +156,8 @@ class usersController extends Controller
                     'insumos as pInsumo', 'insumoN as pInsumoR', 'insumoM as pInsumoM', 'insumoD as pInsumoE',
                     'inventarios as pInventario', 'inventarioH as pInventarioH', 'modificaciones as pModificacion',
                     'entradas as pEntradaV', 'entradaR as pEntradaR', 'salidas as pSalidaV', 'salidaR as pSalidaR', 'estadisticas as pEstadistica',
-                    'departamentoM as pDepartamentoM')
+                    'departamentoM as pDepartamentoM', 'depositos as pDeposito' , 'depositoN as pDepositoR',
+                    'depositoM as pDepositoM','depositoD as pDepositoE')
                   ->first();
 
         if(!$usuario){
@@ -203,7 +212,11 @@ class usersController extends Controller
                     'pProvedor'      => 'required',
                     'pProvedorR'     => 'required',
                     'pProvedorM'     => 'required',
-                    'pProvedorE'     => 'required'
+                    'pProvedorE'     => 'required',
+                    'pDeposito'      => 'required',
+                    'pDepositoR'     => 'required',
+                    'pDepositoM'     => 'required',
+                    'pDepositoE'     => 'required' 
             ], $this->menssage);
 
 
@@ -216,7 +229,7 @@ class usersController extends Controller
                 if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
                 && $data['pInventario'] == null && $data['pModificacion'] == null && 
                 $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null && 
-                    $data['pProvedor'] == null){
+                    $data['pProvedor'] == null && $data['pDeposito'] == null){
 
                     return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
                 }
@@ -260,7 +273,11 @@ class usersController extends Controller
                     'entradaR'       => $data['pEntradaR'],
                     'salidas'        => $data['pSalidaV'],
                     'salidaR'        => $data['pSalidaR'],
-                    'estadisticas'   => $data['pEstadistica']
+                    'estadisticas'   => $data['pEstadistica'],
+                    'depositos'      => $data['pDeposito'],
+                    'depositoN'      => $data['pDepositoR'],
+                    'depositoM'      => $data['pDepositoM'],
+                    'depositoD'      => $data['pDepositoE']
                 ]);
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);

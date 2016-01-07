@@ -14,7 +14,7 @@
 	</nav>
 	<br>
 	
-	@if( Auth::user()->haspermission('departamentoN') )		
+	@if( Auth::user()->haspermission('depositoN') )		
 		<button class="btn btn-success" ng-click="registrarDeposito()"><span class="glyphicon glyphicon-plus"></span> Nuevo Deposito</button>
 	@endif
 	
@@ -50,9 +50,9 @@
 			<tr>
 				<th class="col-md-2">Codigo</th>
 				<th>Nombre</th>
-				@if( Auth::user()->haspermission('departamentoD') && Auth::user()->haspermission('departamentoM'))
+				@if( Auth::user()->haspermission('depositoD') && Auth::user()->haspermission('depositoM'))
 					<th colspan="2" class="table-edit">Modificaciones</th>
-				@elseif( Auth::user()->haspermission('departamentoD') || Auth::user()->haspermission('departamentoM') )
+				@elseif( Auth::user()->haspermission('depositoD') || Auth::user()->haspermission('depositoM') )
 					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
@@ -61,10 +61,10 @@
 			<tr dir-paginate="deposito in depositos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#deposito.codigo#}</td>
 				<td>{#deposito.nombre | capitalize#}</td>
-				@if( Auth::user()->haspermission('departamentoM') )
+				@if( Auth::user()->haspermission('depositoM') )
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDeposito(deposito.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
-				@if( Auth::user()->haspermission('departamentoD') )
+				@if( Auth::user()->haspermission('depositoD') )
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDeposito(deposito.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>

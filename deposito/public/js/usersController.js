@@ -98,7 +98,11 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     'pSalida':false,
     'pSalidaR':false,
     'pSalidaV':false,
-    'pEstadistica':false
+    'pEstadistica':false,
+    'pDeposito':false,
+    'pDepositoR':false,
+    'pDepositoM':false,
+    'pDepositoE':false
   };
 
   $scope.usuarioActive = function(){
@@ -191,6 +195,20 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     }
   }
 
+  $scope.depositoActive = function(){
+    
+    if($scope.data.pDeposito == true){
+      $scope.data.pDepositoR = true;
+      $scope.data.pDepositoM = true;
+      $scope.data.pDepositoE = true;
+    }
+    else{
+      $scope.data.pDepositoR = false;
+      $scope.data.pDepositoM = false;
+      $scope.data.pDepositoE = false;
+    }
+  }
+
   $scope.registrar = function () {
   	$scope.save();
   };
@@ -259,7 +277,11 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
       usuario.pSalidaV = usuario.pSalidaV == 1 ? true : false;
       usuario.pSalida = usuario.pSalidaV || usuario.pSalidaR  ? true : false;
       usuario.pEstadistica = usuario.pEstadistica == 1 ? true : false;
-      
+      usuario.pDeposito = usuario.pDeposito == 1 ? true : false;
+      usuario.pDepositoR = usuario.pDepositoR == 1 ? true : false;
+      usuario.pDepositoM = usuario.pDepositoM == 1 ? true : false;
+      usuario.pDepositoE = usuario.pDepositoE == 1 ? true : false;
+
       $scope.data = usuario;
   });
 
@@ -350,6 +372,20 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
     else{
       $scope.data.pSalidaV = false;
       $scope.data.pSalidaR = false;
+    }
+  }
+
+  $scope.depositoActive = function(){
+    
+    if($scope.data.pDeposito == true){
+      $scope.data.pDepositoR = true;
+      $scope.data.pDepositoM = true;
+      $scope.data.pDepositoE = true;
+    }
+    else{
+      $scope.data.pDepositoR = false;
+      $scope.data.pDepositoM = false;
+      $scope.data.pDepositoE = false;
     }
   }
 

@@ -27,13 +27,19 @@
                 @if( Auth::user()->haspermission('usuarios') || Auth::user()->haspermission('departamentos') 
 				|| Auth::user()->haspermission('provedores') || Auth::user()->haspermission('insumos') ||
 				Auth::user()->haspermission('inventarios') || Auth::user()->haspermission('entradas') ||
-				Auth::user()->haspermission('salidas') || Auth::user()->haspermission('modificaciones'))
+				Auth::user()->haspermission('salidas') || Auth::user()->haspermission('modificaciones') ||
+				Auth::user()->haspermission('depositos'))
 	                <li class="dropdown droAdmin">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Administración <span class="caret"></span></a>
 		                <ul class="dropdown-menu  dropdown-panel" role="menu">
 			                @if( Auth::user()->haspermission('usuarios') )	
 		                       <li><a href="/usuarios"><span class="glyphicon glyphicon-user"></span> Usuario</a></li>
 		                    @endif
+							
+							@if( Auth::user()->haspermission('depositos') )						
+								<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Depositos</a></li></li>
+							@endif
+
 		                    @if( Auth::user()->haspermission('departamentos') )
 					   	 	   <li><a href="/departamentos"><span class="glyphicon glyphicon-briefcase"></span> Departamentos</a></li>
 				       		@endif

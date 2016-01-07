@@ -243,6 +243,34 @@
 	</div>
 
 	<br>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="col-md-5 col-md-offset-4">
+				<h4 class="text-muted">Depositos</h4>
+				<label class="checkbox-inline"><input type="checkbox" ng-click="depositoActive()" ng-model="data.pDeposito">Depositos</label>
+				<div ng-show="data.pDeposito">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pDepositoR" ng-model="data.pDepositoR">Registrar</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pDepositoM" ng-model="data.pDepositoM">Editar</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pDepositoE" ng-model="data.pDepositoE">Eliminar</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br>
 </div>
 <div class="modal-footer">
      <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> Modificar</button>
