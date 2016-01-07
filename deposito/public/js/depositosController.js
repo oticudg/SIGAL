@@ -19,7 +19,7 @@ controller('depositosController',function($scope,$http,$modal){
         animation: true,
           templateUrl: '/depositos/registrarDeposito',
           size:'lg',
-          controller: 'registrarDepartamentoCtrl',
+          controller: 'registrarDepositoCtrl',
           resolve: {
             obtenerDepartamentos: function () {
               return $scope.obtenerDepartamentos;
@@ -69,7 +69,7 @@ controller('depositosController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registrarDepartamentoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos){
+angular.module('deposito').controller('registrarDepositoCtrl', function ($scope, $modalInstance, $http, obtenerDepartamentos){
 
   $scope.btnVisivilidad = true;
 
@@ -91,7 +91,7 @@ angular.module('deposito').controller('registrarDepartamentoCtrl', function ($sc
       'nombre' : $scope.nombre,
     };
 
-    $http.post('/registrarDepartamento', $data)
+    $http.post('/depositos/registrarDeposito', $data)
       .success(function(response){
 
         $scope.alerts = [];

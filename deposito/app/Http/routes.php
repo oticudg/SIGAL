@@ -351,6 +351,9 @@ Route::group(['middleware' => 'auth' ], function(){
 		
 		//Muestra vista de registro de deposito
 		Route::get('registrarDeposito','depositosController@viewRegistrar');
+
+		//Registra un Deposito
+		Route::post('registrarDeposito' ,'depositosController@registrar');
 	});
 
 	/*** Fin de modulo de Depositos ***/
