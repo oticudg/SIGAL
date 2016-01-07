@@ -34,7 +34,10 @@ class salidasController extends Controller
 
     public function allInsumos(){
 
+        $deposito = Auth::user()->deposito;
+
         return DB::table('insumos_salidas')
+            ->where('salidas.deposito', $deposito)
             ->join('salidas', 'salidas.id', '=', 'insumos_salidas.salida')
             ->join('insumos', 'insumos.id' , '=', 'insumos_salidas.insumo')
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo as salida',
@@ -148,7 +151,8 @@ class salidasController extends Controller
                         'salida'      => $salida,
                         'insumo'      => $insumo['id'],
                         'solicitado'  => $insumo['solicitado'],
-                        'despachado'  => $insumo['despachado']
+                        'despachado'  => $insumo['despachado'],
+                        'deposito'    => $deposito
                     ]);
 
                     inventarioController::reduceInsumo($insumo['id'], $insumo['despachado']);
