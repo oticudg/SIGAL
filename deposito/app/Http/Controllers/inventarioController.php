@@ -41,6 +41,7 @@ class inventarioController extends Controller
 
     public function getInsumosConsulta(Request $request){
 
+        $deposito = Auth::user()->deposito;         
         $consulta = $request->input('insumo');
 
         if($consulta != ""){
@@ -49,6 +50,7 @@ class inventarioController extends Controller
                         ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
                         ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                             'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+                        ->where('deposito', $deposito)
                         ->where('insumos.descripcion', 'like', $consulta.'%')
                         ->orwhere('insumos.codigo', 'like', $consulta.'%')
                         ->take(20)->get();
@@ -58,7 +60,7 @@ class inventarioController extends Controller
     }
 
     public function configuraAlarmas(Request $request){
-
+        
         $data = $request->all();
 
         $validator = Validator::make($data,[
@@ -70,14 +72,16 @@ class inventarioController extends Controller
         }
         else{
 
+            $deposito = Auth::user()->deposito; 
             $insumos = $data['insumos'];
 
             foreach($insumos as $insumo) {
 
-                Inventario::where('insumo' , $insumo['id'])->update([
-                    'Cmin' => $insumo['min'],
-                    'Cmed' => $insumo['med']
-                ]);                
+                Inventario::where('insumo' , $insumo['id'])
+                            ->where('deposito', $deposito)
+                            ->update([
+                                'Cmin' => $insumo['min'],
+                                'Cmed' => $insumo['med'] ]);                
             }
 
             return Response()->json(['status' => 'success', 'menssage' => 
@@ -87,8 +91,11 @@ class inventarioController extends Controller
     }
     
     public function insumosAlert(){
-        
-        $registros = Inventario::get(['id', 'existencia', 'Cmed', 'Cmin']);
+
+        $deposito = Auth::user()->deposito;
+
+        $registros = Inventario::where('deposito', $deposito)
+                                 ->get(['id', 'existencia', 'Cmed', 'Cmin']);
         $ids = [];
 
         foreach ($registros as $registro) {

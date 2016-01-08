@@ -3,14 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Inventario extends Model
 {
     protected $fillable = ['insumo','existencia','Cmed','Cmin', 'deposito'];
 
     public static function alert(){
-
-    	$registros = Inventario::get(['id', 'existencia', 'Cmed', 'Cmin']);
+        
+        $deposito = Auth::user()->deposito;
+    	$registros = Inventario::where('deposito', $deposito)
+                                ->get(['id', 'existencia', 'Cmed', 'Cmin']);
         $cantidad = 0;
 
         foreach ($registros as $registro) {
