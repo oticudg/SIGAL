@@ -235,10 +235,14 @@ class entradasController extends Controller
 
     public function getOrden($number){
 
-        $entrada = Entrada::where('orden',$number)->first();
+        $deposito = Auth::user()->deposito;
 
-        if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Orden no existe']);   
+        $entrada = Entrada::where('orden',$number)
+                            ->where('deposito', $deposito)
+                            ->get();        
+
+        if($entrada->isEmpty()){
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta orden no existe']);   
         }
         else{
 
@@ -250,6 +254,7 @@ class entradasController extends Controller
             $entradas = Entrada::where('entradas.orden',$number)->lists('id');
             
             $insumos  = DB::table('insumos_entradas')->whereIn('entrada', $entradas)
+                        ->where('insumos_entradas.deposito', $deposito)
                         ->join('entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
                         ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
                         ->select('entradas.codigo as entrada','insumos.codigo as codigo',
