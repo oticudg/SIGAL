@@ -11,6 +11,7 @@ controller('estadisticasController',function($scope,$http){
 	$scope.alert = {}; 
 	$scope.dI = null;
 	$scope.dF = null;
+	$scope.searchAjax = false;
 
 	$http.get('/getDepartamentos')
       .success( function(response){ $scope.departamentos = response;});
@@ -31,6 +32,7 @@ controller('estadisticasController',function($scope,$http){
 
 
 	$scope.refreshInsumos = function(insumo) {
+		$scope.searchAjax = true;
     	var params = {insumo: insumo};
 	    return $http.get(
 	      '/getInsumosConsulta',
@@ -135,6 +137,8 @@ controller('estadisticasController',function($scope,$http){
 	}
 
 	$scope.consultaInsumo = function(){
+
+		$scope.searchAjax = false;
 
 		var data = {
 

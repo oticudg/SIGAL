@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Auth;
 use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -32,8 +33,10 @@ class estadisticasController extends Controller
 
         $fecha = date("Y-m");
         $datos = ['Sdata' => [], 'Ddata' => [], "title" => ''];
-        
+        $deposito = Auth::user()->deposito; 
+
         $salidas  = DB::table('salidas')->where( DB::raw('DATE_FORMAT(salidas.created_at,"%Y-%m")'), $fecha)
+                   ->where('salidas.deposito', $deposito)
                    ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
                    ->select('departamentos.nombre as name', 
                       DB::raw('count(*) as total'), 'salidas.departamento as id')
@@ -76,7 +79,7 @@ class estadisticasController extends Controller
 
     public function getInsumo(Request $request){
 
-      $data = $request->all();
+      $data = $request->all(); 
 
       $validator = Validator::make($data,[
           'insumo'   =>  'required|insumo',
@@ -89,10 +92,13 @@ class estadisticasController extends Controller
         }
       else{
 
+          $deposito = Auth::user()->deposito; 
           $insumo = Insumo::where('id', $data['insumo'])->value('descripcion');
+
           $insumos = DB::table('insumos_salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%d")'), 
                       [$data['fechaI'], $data['fechaF'] ])
                       ->where('insumos_salidas.insumo', $data['insumo'])
+                      ->where('insumos_salidas.deposito', $deposito)
                       ->join('salidas', 'insumos_salidas.salida', '=', 'salidas.id')
                       ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
                       ->select('departamentos.nombre as name', DB::raw('sum(insumos_salidas.despachado) as y'))
@@ -121,10 +127,13 @@ class estadisticasController extends Controller
         }
       else{
 
+          $deposito = Auth::user()->deposito;
           $servicio =  Departamento::where('id', $data['servicio'])->value('nombre');
+          
           $insumos = DB::table('salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%d")'), 
                       [$data['fechaI'], $data['fechaF'] ])
                       ->where('salidas.departamento', $data['servicio'])
+                      ->where('salidas.deposito', $deposito)
                       ->join('insumos_salidas', 'insumos_salidas.salida', '=', 'salidas.id')
                       ->join('insumos', 'insumos.id', '=', 'insumos_salidas.insumo')
                       ->select('insumos.descripcion as name', DB::raw('sum(insumos_salidas.despachado) as y'))
