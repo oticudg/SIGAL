@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h3 style="color:#54AF54;" class="modal-title">
-    	<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#salida.codigo#}</strong></h3>
+    	<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#salida.codigo | codeforma#}</strong></h3>
 </div>
 <div class="modal-body">
 	

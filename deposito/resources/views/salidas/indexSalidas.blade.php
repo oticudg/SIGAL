@@ -64,7 +64,7 @@
 			<tbody>
 				<tr dir-paginate="salida in salidas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
 					<td>{#salida.fecha#}</td>
-					<td>{#salida.codigo#}</td>
+					<td>{#salida.codigo | codeforma#}</td>
 					<td>{#salida.departamento#}</td>
 					<td><button class="btn btn-warning" ng-click="detallesSalida(salida.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				</tr>
@@ -95,7 +95,7 @@
 				<tr dir-paginate="insumo in salidasInsumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumos">
 					<td>{#insumo.fecha#}</td>
 					<td><span class="text-enlace" ng-click="detallesSalida(insumo.salidaId)">
-					{#insumo.salida#}</span></td>
+					{#insumo.salida | codeforma#}</span></td>
 					<td>{#insumo.codigo#}</td>
 					<td>{#insumo.descripcion#}</td>
 					<td>{#insumo.solicitado#}</td>

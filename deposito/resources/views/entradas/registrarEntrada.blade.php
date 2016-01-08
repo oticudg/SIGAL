@@ -267,7 +267,7 @@
         <div class="modal-body">
         	<center>
         		<h3>Codigo unico de la Entrada</h3>
-        		<h2><mark>{#response.codigo#}</mark></h2>
+        		<h2><mark>{#response.codigo | codeforma#}</mark></h2>
         	</center>
         </div>
         <div class="modal-footer">

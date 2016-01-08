@@ -11,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Salida;
 use App\Insumos_salida;
+use App\Deposito;
 
 class salidasController extends Controller
 {   
@@ -136,7 +137,8 @@ class salidasController extends Controller
             }
             else{
                 
-                $code = 'S'.strtoupper( str_random(7) );
+                //Codigo para la salida        
+                $code = $this->generateCode('S', $deposito); 
 
                 $salida = Salida::create([
                             'codigo'       => $code,
@@ -164,4 +166,15 @@ class salidasController extends Controller
             }
         }
     }
+
+    /*Funcion que genera codigos para las salidas,
+     *segun un prefijo y deposito que se pase
+     */  
+    private function generateCode($prefix, $deposito){
+
+        //Obtiene Codigo del deposito
+        $depCode = Deposito::where('id' , $deposito)->value('codigo');
+        
+        return strtoupper( $depCode .'-'.$prefix.str_random(7) );
+    } 
 }

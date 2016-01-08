@@ -53,6 +53,13 @@ filter('propsFilter', function() {
 
     return out;
   };
+}).
+
+filter('codeforma', function() {
+  return function(input) {
+    length = input.indexOf("-") + 1;
+    return input.substring(length);
+  };
 });
 
 angular.module('directive.loading', [])

@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entrada;
 use App\Insumos_entrada;
+use App\Deposito;
 
 class entradasController extends Controller
 {   
@@ -292,7 +293,8 @@ class entradasController extends Controller
                 else{
 
                     $insumos = $data['insumos'];
-                    $code =  'EO'.strtoupper( str_random(6) );
+                    //Codigo para la entrada
+                    $code = $this->generateCode('EO', $deposito);
 
                     $entrada = Entrada::create([
                                 'codigo'   => $code,
@@ -334,7 +336,8 @@ class entradasController extends Controller
                 else{
 
                     $insumos = $data['insumos'];
-                    $code =  'ED'.strtoupper( str_random(6) );
+                    //Codigo para la entrada
+                    $code = $this->generateCode('ED', $deposito);
 
                     $donacion = Entrada::create([
                                 'codigo'   => $code,
@@ -375,7 +378,8 @@ class entradasController extends Controller
                 else{
 
                     $insumos = $data['insumos'];
-                    $code =  'EV'.strtoupper( str_random(6) );
+                    //Codigo para la entrada
+                    $code = $this->generateCode('EV', $deposito);
 
                     $devolucion = Entrada::create([
                                 'codigo'   => $code,
@@ -404,4 +408,15 @@ class entradasController extends Controller
             break;
         }
     }
+
+    /*Funcion que genera codigos para las entradas,
+     *segun un prefijo y deposito que se pase 
+     */  
+    private function generateCode($prefix, $deposito){
+
+        //Obtiene Codigo del deposito
+        $depCode = Deposito::where('id' , $deposito)->value('codigo');
+        
+        return strtoupper( $depCode .'-'.$prefix.str_random(6) );
+    } 
 }
