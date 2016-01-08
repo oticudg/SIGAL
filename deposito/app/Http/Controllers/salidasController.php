@@ -128,7 +128,7 @@ class salidasController extends Controller
         else{
         
             $insumos = $data['insumos'];
-            $insumosInvalidos = inventarioController::validaExist($insumos);
+            $insumosInvalidos = inventarioController::validaExist($insumos, $deposito);
 
             if($insumosInvalidos){
 
@@ -155,7 +155,7 @@ class salidasController extends Controller
                         'deposito'    => $deposito
                     ]);
 
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado']);
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
     
                 }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Auth;
 use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -27,7 +28,10 @@ class inventarioController extends Controller
 
     public function allInsumos(){
 
+        $deposito = Auth::user()->deposito; 
+
         return DB::table('insumos')
+            ->where('deposito', $deposito)
             ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
             ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                 'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
@@ -103,42 +107,67 @@ class inventarioController extends Controller
 
     }
 
-    public static function almacenaInsumo($insumo, $cantidad){
+    public static function almacenaInsumo($insumo, $cantidad, $deposito){
 
-    	if( Inventario::where('insumo', $insumo)->first() ){
+    	$inventario = Inventario::where('insumo',$insumo) 
+                      ->where('deposito', $deposito)
+                      ->first();
 
-    		$existencia = Inventario::where('insumo', $insumo)->value('existencia');
+        if( $inventario ){
+
+    		$existencia = Inventario::where('insumo', $insumo)
+                                      ->where('deposito', $deposito)
+                                      ->value('existencia');
     		$existencia += $cantidad;
 
-    		Inventario::where('insumo' , $insumo)->update(['existencia' => $existencia]);
+    		Inventario::where('insumo' , $insumo)
+                        ->where('deposito', $deposito)
+                        ->update(['existencia' => $existencia]);
     	}
     	else{
 
     		Inventario::create([
-    			'insumo' => $insumo,
-    			'existencia' => $cantidad
+    			'insumo'     => $insumo,
+    			'existencia' => $cantidad,
+                'deposito'   => $deposito
     		]);
     	}
     }
 
-    public static function reduceInsumo($insumo, $cantidad){
+    public static function reduceInsumo($insumo, $cantidad, $deposito){
 
-        if( Inventario::where('insumo', $insumo)->first() ){
+        $inventario = Inventario::where('insumo', $insumo)
+                                  ->where('deposito', $deposito)
+                                  ->first();
 
-            $existencia = Inventario::where('insumo', $insumo)->value('existencia');
+        if( $inventario ){
+
+            $existencia = Inventario::where('insumo', $insumo)
+                                      ->where('deposito', $deposito)
+                                      ->value('existencia');
             $existencia -= $cantidad;
 
-            Inventario::where('insumo' , $insumo)->update(['existencia' => $existencia]);
+            Inventario::where('insumo' , $insumo)
+                        ->where('deposito', $deposito)
+                        ->update(['existencia' => $existencia]);
         }
     }
 
-    public static function validaExist($insumos){
+    public static function validaExist($insumos, $deposito){
 
         $invalidos = [];
 
-        foreach ($insumos as $insumo) {
-            if( !Inventario::where('insumo' , $insumo['id'])->first() ||
-                Inventario::where('insumo' , $insumo['id'])->value('existencia') < $insumo['despachado'])
+        foreach ($insumos as $insumo){
+
+            $inventario = Inventario::where('insumo' , $insumo['id'])
+                          ->where('deposito', $deposito)
+                          ->first();
+
+            $existencia = Inventario::where('insumo' , $insumo['id'])
+                          ->where('deposito', $deposito)
+                          ->value('existencia'); 
+
+            if( !$inventario || $existencia < $insumo['despachado'])
                 array_push($invalidos, $insumo['id']);
         }
 
