@@ -165,8 +165,10 @@ class entradasController extends Controller
 
     public function getEntrada($id){
         
-        
-        $entrada = Entrada::where('id',$id)->first();
+        $deposito = Auth::user()->deposito;
+        $entrada = Entrada::where('id',$id)
+                            ->where('deposito', $deposito)
+                            ->first();
 
         if(!$entrada){
             return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
