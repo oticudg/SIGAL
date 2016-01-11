@@ -8,7 +8,7 @@
 	
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>	
 			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</li>
 		</ul>
 	</nav>

@@ -97,17 +97,17 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     'pInventario':false,
     'pInventarioH':false,
     'pModificacion':false,
-    'pEntrada':false,
     'pEntradaR':false,
     'pEntradaV':false,
-    'pSalida':false,
     'pSalidaR':false,
     'pSalidaV':false,
     'pEstadistica':false,
     'pDeposito':false,
     'pDepositoR':false,
     'pDepositoM':false,
-    'pDepositoE':false
+    'pDepositoE':false,
+    'pTranference':false
+
   };
 
   $scope.usuarioActive = function(){
@@ -170,32 +170,24 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     
     if($scope.data.pInventario == true){
       $scope.data.pInventarioH = true;
+      $scope.data.pEntradaV = true;
+      $scope.data.pSalidaV = true;
     }
     else{
       $scope.data.pInventarioH = false;
-    }
-  }
-
-  $scope.entradaActive = function(){
-    
-    if($scope.data.pEntrada == true){
-      $scope.data.pEntradaV = true;
-      $scope.data.pEntradaR = true;
-    }
-    else{
       $scope.data.pEntradaV = false;
-      $scope.data.pEntradaR = false;
+      $scope.data.pSalidaV = false;
     }
   }
 
-  $scope.salidaActive = function(){
-    
-    if($scope.data.pSalida == true){
-      $scope.data.pSalidaV = true;
+  $scope.tranferenciaActive = function(){
+
+    if($scope.data.pTranference == true){
+      $scope.data.pEntradaR = true;
       $scope.data.pSalidaR = true;
     }
     else{
-      $scope.data.pSalidaV = false;
+      $scope.data.pEntradaR = false;
       $scope.data.pSalidaR = false;
     }
   }
@@ -282,10 +274,9 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
       usuario.pModificacion = usuario.pModificacion == 1 ? true : false;
       usuario.pEntradaR = usuario.pEntradaR == 1 ? true : false;
       usuario.pEntradaV = usuario.pEntradaV == 1 ? true : false;
-      usuario.pEntrada = usuario.pEntradaV  || usuario.pEntradaR  ? true : false;
+      usuario.pTranference = usuario.pSalidaR  || usuario.pEntradaR  ? true : false;
       usuario.pSalidaR = usuario.pSalidaR == 1 ? true : false;
       usuario.pSalidaV = usuario.pSalidaV == 1 ? true : false;
-      usuario.pSalida = usuario.pSalidaV || usuario.pSalidaR  ? true : false;
       usuario.pEstadistica = usuario.pEstadistica == 1 ? true : false;
       usuario.pDeposito = usuario.pDeposito == 1 ? true : false;
       usuario.pDepositoR = usuario.pDepositoR == 1 ? true : false;
@@ -358,6 +349,18 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
     }
     else{
       $scope.data.pInventarioH = false;
+    }
+  }
+
+  $scope.tranferenciaActive = function(){
+
+    if($scope.data.pTranference == true){
+      $scope.data.pEntradaR = true;
+      $scope.data.pSalidaR = true;
+    }
+    else{
+      $scope.data.pEntradaR = false;
+      $scope.data.pSalidaR = false;
     }
   }
 

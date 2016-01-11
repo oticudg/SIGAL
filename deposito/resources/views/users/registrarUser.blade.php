@@ -193,6 +193,16 @@
 				<div ng-show="data.pInventario">
 					<div class="row">
 						<div class="col-md-4 col-md-offset-1">
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pInventario" ng-model="data.pEntradaV">Entradas</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pInventario" ng-model="data.pSalidaV">Salidas</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
 							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pInventario" ng-model="data.pInventarioH">Herramientas</label>
 						</div>
 					</div>
@@ -214,40 +224,22 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="col-md-5 col-md-offset-4">
-				<h4 class="text-muted">Entradas</h4>
-				<label class="checkbox-inline"><input type="checkbox" ng-click="entradaActive()" ng-model="data.pEntrada">Entradas</label>
-				<div ng-show="data.pEntrada">
+				<h4 class="text-muted">Tranferencias</h4>
+				<label class="checkbox-inline"><input type="checkbox" ng-click="tranferenciaActive()" ng-model="data.pTranference">Tranferencias</label>
+				<div ng-show="data.pTranference">
 					<div class="row">
 						<div class="col-md-4 col-md-offset-1">
-							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pEntrada" ng-model="data.pEntradaR">Registrar</label>
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pTranference" ng-model="data.pEntradaR">Registrar Entrada</label>
 						</div>
 					</div>
+
 					<div class="row">
 						<div class="col-md-4 col-md-offset-1">
-							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pEntrada" ng-model="data.pEntradaV">Auditar</label>
+							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pTranference" ng-model="data.pSalidaR">Registrar Salida</label>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		<div class="col-md-4">
-			<div class="col-md-5 col-md-offset-4">
-				<h4 class="text-muted">Salidas</h4>
-				<label class="checkbox-inline"><input type="checkbox" ng-click="salidaActive()" ng-model="data.pSalida">Salidas</label>
-				<div ng-show="data.pSalida">
-					<div class="row">
-						<div class="col-md-4 col-md-offset-1">
-							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pSalida" ng-model="data.pSalidaR">Registrar</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4 col-md-offset-1">
-							<label class="checkbox-inline"><input type="checkbox" ng-checked="data.pSalida" ng-model="data.pSalidaV">Auditar</label>
-						</div>
-					</div>
-				</div>
-			</div>	
 		</div>
 
 		<div class="col-md-4">
@@ -256,11 +248,7 @@
 				<label class="checkbox-inline"><input type="checkbox" ng-checked="todo" ng-model="data.pEstadistica">Estadisticas</label>
 			</div>
 		</div>
-	</div>
 
-	<br>
-
-	<div class="row">
 		<div class="col-md-4">
 			<div class="col-md-5 col-md-offset-4">
 				<h4 class="text-muted">Depositos</h4>

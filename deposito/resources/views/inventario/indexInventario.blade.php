@@ -8,15 +8,11 @@
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
-			<li class="nav-active"><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
+			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>	
+			<li class="nav-active"><span class="glyphicon glyphicon-equalizer"></span> Existencia</a></li>
 		</ul>
 	</nav>
 
-	<br>
-	@if( Auth::user()->haspermission('inventarioH') )
-		<a class="btn btn-success" href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a>
-	@endif
 	<br>
 	<br>
 	<br>

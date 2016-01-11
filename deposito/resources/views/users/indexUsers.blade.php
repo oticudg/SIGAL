@@ -46,10 +46,10 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th class="col-md-3">Nombre</th>
+				<th class="col-md-2">Nombre</th>
 				<th>Usuario</th>
 				<th class="col-md-2">Cedula</th>
-				<th>Deposito</th>
+				<th class="col-md-2">Deposito</th>
 				@if( Auth::user()->haspermission('usuarioD') && Auth::user()->haspermission('usuarioM'))
 					<th class="table-edit" colspan="2">Modificaciones</th>
 				@elseif( Auth::user()->haspermission('usuarioD') || Auth::user()->haspermission('usuarioM') )
@@ -62,7 +62,7 @@
 				<td>{#usuario.nombre | capitalize#}</td>
 				<td>{#usuario.email#}</td>
 				<td>{#usuario.cedula#}</td>
-				<td>{#usuario.deposito#}</td>
+				<td>{#usuario.deposito | capitalize#}</td>
 
 				@if( Auth::user()->haspermission('usuarioM') )
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>

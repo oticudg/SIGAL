@@ -43,8 +43,8 @@ class usersController extends Controller
 
         $validator = Validator::make($data,[
             'cedula'         => 'required|cedula',
-            'nombre'         => 'required|alpha|min:2|max:15',
-            'apellido'       => 'required|alpha|min:2|max:20',
+            'nombre'         => 'required|alpha|min:3|max:15',
+            'apellido'       => 'required|alpha|min:3|max:20',
             'email'          => 'required|email|max:50|unique:users',
             'password'       => 'required|min:8|confirmed',
             'deposito'       => 'required|deposito',
@@ -63,10 +63,8 @@ class usersController extends Controller
             'pInventario'    => 'required',
             'pInventarioH'   => 'required',
             'pModificacion'  => 'required',
-            'pEntrada'       => 'required',
             'pEntradaV'      => 'required',
             'pEntradaR'      => 'required',
-            'pSalida'        => 'required',
             'pSalidaV'       => 'required',
             'pSalidaR'       => 'required',
             'pEstadistica'   => 'required',
@@ -77,7 +75,8 @@ class usersController extends Controller
             'pDeposito'      => 'required',
             'pDepositoR'     => 'required',
             'pDepositoM'     => 'required',
-            'pDepositoE'     => 'required'  
+            'pDepositoE'     => 'required',
+            'pTranference'   => 'required'  
         ], $this->menssage);
 
         if($validator->fails()){
@@ -88,7 +87,7 @@ class usersController extends Controller
 
             if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
                 && $data['pInventario'] == null && $data['pModificacion'] == null && 
-                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null &&
+                $data['pTranference'] == null && $data['pEstadistica'] == null &&
                 $data['pProvedor'] == null && $data['pDeposito'] == null){
 
                 return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
@@ -147,6 +146,7 @@ class usersController extends Controller
                ->select(DB::raw('CONCAT(users.nombre, " " , users.apellido) as nombre'), 'users.cedula', 
                 'users.email', 'users.id', 'depositos.nombre as deposito')
                ->where('users.id', '!=', 1)
+               ->where('users.deleted_at', '=', NULL)
                ->orderBy('users.id', 'desc')->get();
     }
 
@@ -209,10 +209,8 @@ class usersController extends Controller
                     'pInventario'    => 'required',
                     'pInventarioH'   => 'required',
                     'pModificacion'  => 'required',
-                    'pEntrada'       => 'required',
                     'pEntradaV'      => 'required',
                     'pEntradaR'      => 'required',
-                    'pSalida'        => 'required',
                     'pSalidaV'       => 'required',
                     'pSalidaR'       => 'required',
                     'pEstadistica'   => 'required',
@@ -223,7 +221,8 @@ class usersController extends Controller
                     'pDeposito'      => 'required',
                     'pDepositoR'     => 'required',
                     'pDepositoM'     => 'required',
-                    'pDepositoE'     => 'required' 
+                    'pDepositoE'     => 'required',
+                    'pTranference'   => 'required'  
             ], $this->menssage);
 
 
@@ -234,8 +233,8 @@ class usersController extends Controller
             else{
                 
                 if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
-                && $data['pInventario'] == null && $data['pModificacion'] == null && 
-                $data['pEntrada'] == null && $data['pSalida'] == null && $data['pEstadistica'] == null && 
+                	&& $data['pInventario'] == null && $data['pModificacion'] == null && 
+                	$data['pTranference'] == null && $data['pEstadistica'] == null && 
                     $data['pProvedor'] == null && $data['pDeposito'] == null){
 
                     return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);

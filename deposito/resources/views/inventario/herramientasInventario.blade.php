@@ -7,9 +7,8 @@
 @section('front-page')
 	
 	<nav class="nav-ubication">
-		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
-			<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-th-list"></span> Inventario</a></li>
+		<ul class="nav-enlaces">	
+			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-wrench"></span> Herramientas</li>
 		</ul>
 	</nav>

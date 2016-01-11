@@ -25,11 +25,9 @@
                 </li>
 
                 @if( Auth::user()->haspermission('usuarios') || Auth::user()->haspermission('departamentos') 
-				|| Auth::user()->haspermission('provedores') || Auth::user()->haspermission('insumos') ||
-				Auth::user()->haspermission('inventarios') || Auth::user()->haspermission('entradas') ||
-				Auth::user()->haspermission('salidas') || Auth::user()->haspermission('modificaciones') ||
-				Auth::user()->haspermission('depositos'))
-	                <li class="dropdown droAdmin">
+				|| Auth::user()->haspermission('provedores') || Auth::user()->haspermission('insumos') 
+			    || Auth::user()->haspermission('depositos'))
+	                <li class="dropdown droAdmin admi">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Administración <span class="caret"></span></a>
 		                <ul class="dropdown-menu  dropdown-panel" role="menu">
 			                @if( Auth::user()->haspermission('usuarios') )	
@@ -51,24 +49,33 @@
 					        @if( Auth::user()->haspermission('insumos') )
 					       	 	<li><a href="/insumos"><span class="glyphicon glyphicon-th"></span> Insumos</a></li>
 					        @endif
-					       
-					        @if( Auth::user()->haspermission('inventarios') )
-					       	 	<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-th-list"></span> Inventario</a></li>
-					        @endif
-					       
-					        @if( Auth::user()->haspermission('entradas') )
+		                </ul>
+                	</li>
+	            @endif
+
+	            @if( Auth::user()->haspermission('inventarios') )
+					<li class="dropdown dropInv inve">
+		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th-list"></span> Inventario <span class="caret"></span></a>
+		                <ul class="dropdown-menu  dropdown-panel" role="menu">
+			            	<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-equalizer"></span> Existencia</a></li>
+
+			            	@if( Auth::user()->haspermission('entradas') )
 					  		 	<li><a href="{{route('entrPanel')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
 					        @endif
 					       
 					        @if( Auth::user()->haspermission('salidas') )
 					       	 	<li><a href="/salidas"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
 					        @endif
+			            	
+			            	@if( Auth::user()->haspermission('inventarioH') )
+			            		<li><a href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a></li>
+		                	@endif
 		                </ul>
                 	</li>
-	            @endif
+				@endif
 
 	            @if( Auth::user()->haspermission('modificaciones') )
-					<li class="dropdown dropMod">
+					<li class="dropdown dropMod mod">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon glyphicon-edit"></span> Modificaciones <span class="caret"></span></a>
 		                <ul class="dropdown-menu  dropdown-panel" role="menu">
 			             	<li><a href="{{route('modifiEntrada')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
@@ -78,14 +85,14 @@
 				@endif
 				
 				@if( Auth::user()->haspermission('estadisticas') )
-					<li>
+					<li class="esta">
                     	<a href="/estadisticas"><span class="glyphicon glyphicon-tasks"></span> Estadisticas</a>
                 	</li>					
 				@endif
 				
 				@if( Auth::user()->haspermission('entradaR') || Auth::user()->haspermission('salidaR') )
 
-					<li class="dropdown dropTrn">
+					<li class="dropdown dropTrn trn">
 	                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-transfer"></span> Tranferencias <span class="caret"></span></a>
 	                  <ul class="dropdown-menu  dropdown-panel" role="menu">
 	                    @if( Auth::user()->haspermission('entradaR') )
