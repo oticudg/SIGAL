@@ -19,11 +19,13 @@
 
 	<ul class="nav nav-tabs">
 		<li class="active" ng-click="registrosEntradas('todas')"><a data-toggle="tab" class="text-enlace" href="#alarmas">Alarmas</a></li>
+
+		<li><a data-toggle="tab" class="text-enlace" href="#carga">Cargas de inventario</a></li>
 	</ul>
 	
 	<div class="tab-content">
 		{{--Panel de registros de alarmas--}}
-		<div id="toda" class="tab-pane fade in active">
+		<div id="alarmas" class="tab-pane fade in active">
 			<center>
 				<h3 class="text-success">Configuracion de alarmas</h3>
 			</center>
@@ -85,6 +87,11 @@
 					<button ng-click="guardar()" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
 	    		</center>
     		</div>
+		</div>
+
+		{{--Panel de registros de inventario--}}
+		<div id="carga" class="tab-pane fade">
+
 		</div>
 	</div>
 
