@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('deposito').
-controller('inventarioController',function($scope,$http){
+controller('alertController',function($scope,$http){
  
   $scope.insumoSelect = {};  
   $scope.listInsumos = [];
@@ -135,4 +135,142 @@ controller('inventarioController',function($scope,$http){
 	  	}
   	);
   }
+})
+
+.controller('cargaInvController',function($scope,$http){
+
+  $scope.insumoSelect = {};  
+  $scope.departamentos = [];
+  $scope.departamento;
+  $scope.insumos = [];
+  $scope.listInsumos = [];
+  $scope.alert = {
+      type:"warning", 
+      msg:'Precaucion! la carga de inventario eliminara todos los insumos cargados previamente.'
+  };
+
+  $scope.refreshInsumos = function(insumo){
+      
+      var params = {insumo: insumo};
+      return $http.get(
+        '/getInsumosConsulta',
+        {params: params}
+      ).then(function(response){
+        $scope.listInsumos =  response.data
+      });
+  };
+
+  $scope.agregarInsumos = function(){
+
+    if(!$scope.insumoSelect.selected){
+      $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
+      return;
+    }
+      
+    if( insumoExist($scope.insumoSelect.selected.codigo, $scope.insumos) ){
+      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
+      return; 
+    }
+
+    $scope.insumos.push(
+      {
+        'id':$scope.insumoSelect.selected.id, 
+        'codigo':$scope.insumoSelect.selected.codigo, 
+        'descripcion':$scope.insumoSelect.selected.descripcion
+      }
+    );
+    
+    $scope.insumoSelect = {};
+  }
+
+  $scope.closeAlert = function(){
+    $scope.alert = {};
+  };
+
+  $scope.thereInsumos = function(){
+    return $scope.insumos.length > 0 ? true:false;
+  };
+
+  $scope.eliminarInsumo = function(index){
+    $scope.insumos.splice(index, 1);
+  };
+
+  function insumoExist(codigo, insumos){
+
+    var index;
+
+    for(index in insumos){
+      if(insumos[index].codigo  == codigo)
+        return true;
+    }
+
+    return false;
+  };
+
+  function empaquetaData(insumosOri){
+
+    var index;
+    var insumos = [];
+
+    for( index in insumosOri){
+      insumos.push({'id': insumosOri[index].id, 'cantidad':insumosOri[index].cantidad});
+    }
+
+    return insumos;
+  }
+
+  function validaCantidad(insumos){
+    var index;
+
+    for( index in insumos){
+      if( !insumos[index].cantidad || insumos[index].cantidad  < 0 || 
+          !Number.isInteger($scope.insumos[index].cantidad))
+        return false;
+    }
+
+    return true;
+  }
+
+  $scope.restablecer = function(){
+    $scope.insumos  = [];
+    $scope.alert = {};
+  }
+
+  $scope.registrar = function(datos){
+
+    if( !validaCantidad($scope.insumos) ){
+      $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
+      return;
+    }
+        
+    var data = {
+      'insumos' : empaquetaData($scope.insumos)
+    };
+
+    $http.post('', data)
+      .success( 
+        function(response){
+          
+          if( response.status == 'success'){
+            
+            $modal.open({
+                animation: true,
+                templateUrl: 'successRegister.html',
+                controller: 'successRegisterCtrl',
+                resolve: {
+                  response: function () {
+                    return response;
+                  }
+                }
+            });
+
+            $scope.restablecer();
+            return;
+          }
+
+          $scope.alert = {type:response.status , msg: response.menssage};
+        }
+      );
+  }
+
 });
