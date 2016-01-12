@@ -6,11 +6,9 @@ controller('inventarioController',function($scope,$http){
   $scope.insumoSelect = {};  
   $scope.listInsumos = [];
   $scope.insumos = [];
-  $scope.searchAjax = false;
 
   $scope.refreshInsumos = function(insumo){
-    
-    $scope.searchAjax = true;
+
     var params = {insumo: insumo};
     return $http.get(
       '/inventario/herramientas/getInventarioConsulta',
@@ -22,7 +20,6 @@ controller('inventarioController',function($scope,$http){
 
   $scope.agregarInsumos = function(){
 
-    $scope.searchAjax = false;
     if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;

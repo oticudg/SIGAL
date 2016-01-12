@@ -11,10 +11,9 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
-  $scope.searchAjax = false;
 
   $scope.refreshInsumos = function(insumo){
-      $scope.searchAjax = true;
+      
       var params = {insumo: insumo};
       return $http.get(
         '/getInsumosConsulta',
@@ -33,7 +32,6 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.agregarInsumos = function(){
 
-    $scope.searchAjax = false;
     if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;

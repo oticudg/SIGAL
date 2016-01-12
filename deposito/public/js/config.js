@@ -6,8 +6,7 @@ var deposito = angular.module('deposito',
 	[	'ui.bootstrap',
 		'angularUtils.directives.dirPagination',
 		'ngSanitize', 
-		'ui.select',
-    'directive.loading'
+		'ui.select'
 	]
 );
 
@@ -62,34 +61,9 @@ filter('codeforma', function() {
   };
 });
 
-angular.module('directive.loading', [])
-
-    .directive('loading',   ['$http' ,function ($http)
-    {
-      return {
-          restrict: 'A',
-          link: function (scope, elm, attrs)
-          {
-              scope.isLoading = function () {
-                
-                if(scope.searchAjax == true)
-                  return false;          
-                else
-                  return $http.pendingRequests.length > 0;
-
-              };
-
-              scope.$watch(scope.isLoading, function (v)
-              {
-                  if(v){
-                      elm.show();
-                  }else{
-                      elm.hide();
-                  }
-              });
-          }
-      };
-}]);
+$(window).load(function() {
+  $("#loader").fadeOut("fast"); 
+});
 
 $(document).ready(function () {
 var trigger = $('.hamburger'),
