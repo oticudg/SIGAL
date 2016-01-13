@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Insumos_entrada extends Model
 {	
-	protected $fillable = ['entrada','insumo', 'cantidad', 'type', 'deposito'];
+	protected $fillable = ['entrada','insumo', 'cantidad', 'type', 'deposito', 'lote', 'fechaV'];
     protected $hidden   = ['created_at' , 'updated_at'];
 }

@@ -291,7 +291,7 @@ class entradasController extends Controller
                     return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
                 }
                 else{
-
+                    
                     $insumos = $data['insumos'];
                     //Codigo para la entrada
                     $code = $this->generateCode('EO', $deposito);
@@ -304,22 +304,27 @@ class entradasController extends Controller
                                 'usuario'  => $usuario,
                                 'deposito' => $deposito
                             ])['id'];
-
+                    
                     foreach ($insumos as $insumo){
+
+                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
+                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
                         
                         Insumos_entrada::create([
                             'entrada'   => $entrada,
                             'insumo'    => $insumo['id'],
                             'cantidad'  => $insumo['cantidad'],
                             'type'      => 'orden',
+                            'lote'      => $lote,
+                            'fechaV'    => $fecha,
                             'deposito'  => $deposito
                         ]);
 
                         inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
                     }
-
+                    
                     return Response()->json(['status' => 'success', 'menssage' => 
-                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
+                        'Entrada completada satisfactoriamente', 'codigo' => $code]); 
                 }
             break;
 
@@ -348,12 +353,17 @@ class entradasController extends Controller
                               ])['id'];
 
                     foreach ($insumos as $insumo) {
-                        
+
+                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
+                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+
                         Insumos_entrada::create([
                             'entrada'   => $donacion,
                             'insumo'    => $insumo['id'],
                             'cantidad'  => $insumo['cantidad'],
                             'type'      => 'donacion',
+                            'lote'      => $lote,
+                            'fechaV'    => $fecha,
                             'deposito'  => $deposito
                         ]);
 
@@ -369,7 +379,7 @@ class entradasController extends Controller
 
                 $validator = Validator::make($data,[
                     'departamento' =>  'required',
-                    'insumos'  =>  'required|insumos'
+                    'insumos'      =>  'required|insumos'
                 ], $this->menssage);
 
                 if($validator->fails()){
@@ -391,11 +401,16 @@ class entradasController extends Controller
 
                     foreach ($insumos as $insumo) {
                         
+                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
+                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+
                         Insumos_entrada::create([
                             'entrada'     => $devolucion,
                             'insumo'      => $insumo['id'],
                             'cantidad'    => $insumo['cantidad'],
                             'type'        => 'devolucion',
+                            'lote'        => $lote,
+                            'fechaV'      => $fecha,
                             'deposito'    => $deposito
                         ]);
 

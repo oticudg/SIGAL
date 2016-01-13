@@ -174,10 +174,32 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     var insumos = [];
 
     for( index in insumosOri){
-      insumos.push({'id': insumosOri[index].id, 'cantidad':insumosOri[index].cantidad});
+      insumos.push({
+        'id': insumosOri[index].id, 
+        'cantidad':insumosOri[index].cantidad,
+        'fecha': dataForamat(insumosOri[index].fecha),
+        'lote':insumosOri[index].lote
+      });
     }
 
     return insumos;
+  }
+
+  function dataForamat(data){
+
+    if(data != null){
+
+      var month = data.getMonth() + 1;
+      var day = data.getDate();
+
+      if( day < 10 )
+        day = "0"+day;
+
+      if(month < 10)
+        month = "0"+month;
+
+      return data.getFullYear() + '-' + month + '-' + day;
+    }
   }
 
   $scope.restablecer = function(){
