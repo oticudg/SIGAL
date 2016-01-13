@@ -56,8 +56,10 @@ filter('propsFilter', function() {
 
 filter('codeforma', function() {
   return function(input) {
-    length = input.indexOf("-") + 1;
-    return input.substring(length);
+    if(input){
+      length = input.indexOf("-") + 1;
+      return input.substring(length);
+    }
   };
 });
 

@@ -137,7 +137,7 @@ controller('alertController',function($scope,$http){
   }
 })
 
-.controller('cargaInvController',function($scope,$http){
+.controller('cargaInvController',function($scope,$http, $modal){
 
   $scope.insumoSelect = {};  
   $scope.departamentos = [];
@@ -247,7 +247,7 @@ controller('alertController',function($scope,$http){
       'insumos' : empaquetaData($scope.insumos)
     };
 
-    $http.post('', data)
+    $http.post('/inventario/herramientas/cargaInventario', data)
       .success( 
         function(response){
           
@@ -272,5 +272,60 @@ controller('alertController',function($scope,$http){
         }
       );
   }
+
+})
+
+.controller('listCargasController',function($scope,$http, $modal){
+  
+  $scope.entradas = [];
+  $scope.cRegistro = '5';
+
+  $http.get('/inventario/herramientas/getInventarioCargas')
+          .success( function(response){$scope.entradas = response});
+
+  $scope.detallesCarga = function(index){
+    var modalInstance = $modal.open({
+      animation: true,
+          templateUrl: '/inventario/herramientas/detallesCarga',
+          controller: 'detallesCargaCtrl',
+          windowClass: 'large-Modal',
+          resolve: {
+             id:function () {
+                return index;
+             }
+         }
+    });
+  };
+
+});
+
+angular.module('deposito').controller('detallesCargaCtrl', function ($scope, $modalInstance, $http, id) {
+
+  $scope.entrada = {};
+  $scope.insumos = [];
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  
+  };
+
+  $http.get('/inventario/herramientas/getInventarioCarga/' + id)
+    .success(function(response){
+
+      $scope.entrada = response.entrada;
+      $scope.insumos = response.insumos;
+
+  });
+
+});
+
+
+angular.module('deposito').controller('successRegisterCtrl', function ($scope, $modalInstance, response) {
+
+  $scope.response = response;
+
+  $scope.ok = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
 });

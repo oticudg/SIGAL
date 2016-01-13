@@ -1,5 +1,4 @@
 @extends('panel')
-{{--@section('bodytag', 'ng-controller="inventarioController"')--}}
 @section('addscript')
 <script src="{{asset('js/herramientasInventarioController.js')}}"></script>
 @endsection
@@ -91,10 +90,15 @@
 		{{--Panel de registros de inventario--}}
 		<div id="carga" class="tab-pane fade" ng-controller="cargaInvController">
 			<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
+			
+			<br>
+			<a href="{{route('invenHerraInventarioCargas')}}" class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-circle-arrow-down"></span> Listado de cargas</a>
+
 			<center>
 				<h3 class="text-success">Cargar de inventario</h3>
 			</center>
 			<br><br>
+
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<div class="input-group">
@@ -154,5 +158,23 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/ng-template" id="successRegister.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-title-modal">{#response.menssage#}</h3>
+        </div>
+        <div class="modal-body">
+        	<center>
+        		<h3>Codigo unico de la carga de inventario</h3>
+        		<h2><mark>{#response.codigo | codeforma#}</mark></h2>
+        	</center>
+        </div>
+        <div class="modal-footer">
+        	<center>
+            	<button class="btn btn-success" type="button" ng-click="ok()"><span class="glyphicon glyphicon-ok-sign">
+            	</span> OK</button>
+           	</center>
+        </div>
+    </script>
 
 @endsection

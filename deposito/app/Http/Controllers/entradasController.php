@@ -163,7 +163,7 @@ class entradasController extends Controller
             break;
         }
     }   
-
+    
     public function getEntrada($id){
         
         $deposito = Auth::user()->deposito;
