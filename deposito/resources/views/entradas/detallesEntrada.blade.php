@@ -34,6 +34,8 @@
 			<tr>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
+				<th class="col-md-1">Lote</th>
+				<th class="col-md-1">fecha Vto</th>
 				<th class="col-md-2">Cantidad</th>
 			</tr>
 		</thead>
@@ -41,6 +43,8 @@
 			<tr dir-paginate="insumo in insumos | itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
+				<td>{#insumo.lote#}</td>
+				<td>{#insumo.fecha#}</td>
 				<td>{#insumo.cantidad#}</td>
 			</tr>
 		</tbody>

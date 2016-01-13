@@ -98,9 +98,11 @@
 						<caption>Insumos que han entrado</caption>
 						<tr>
 							<th class="col-md-1">Fecha</th>
-							<th class="col-md-2">Pro-Forma de Entrada</th>
+							<th class="col-md-1">Pro-Forma de Entrada</th>
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-1">fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -111,6 +113,8 @@
 							class="text-enlace">{#insumo.entrada | codeforma#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
+							<td>{#insumo.lote#}</td>
+							<td>{#insumo.fechaV#}</td>
 							<td>{#insumo.cantidad#}</td>
 						</tr>
 					</tbody>
@@ -198,9 +202,11 @@
 						<caption>Insumos por ordenes de compra</caption>
 						<tr>
 							<th class="col-md-1">Fecha</th>
-							<th class="col-md-2">Pro-Forma de Entrada</th>
+							<th class="col-md-1">Pro-Forma de Entrada</th>
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-1">fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -211,6 +217,8 @@
 							class="text-enlace">{#insumo.entrada | codeforma#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
+							<td>{#insumo.lote#}</td>
+							<td>{#insumo.fechaV#}</td>
 							<td>{#insumo.cantidad#}</td>
 						</tr>
 					</tbody>
@@ -341,9 +349,11 @@
 						<caption>Insumos por donaciones</caption>
 						<tr>
 							<th class="col-md-1">Fecha</th>
-							<th class="col-md-2">Pro-Forma de Entrada</th>
+							<th class="col-md-1">Pro-Forma de Entrada</th>
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-1">fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -354,6 +364,8 @@
 							class="text-enlace">{#insumo.entrada | codeforma#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
+							<td>{#insumo.lote#}</td>
+							<td>{#insumo.fechaV#}</td>
 							<td>{#insumo.cantidad#}</td>
 						</tr>
 					</tbody>
@@ -438,9 +450,11 @@
 						<caption>Insumos por devoluciones</caption>
 						<tr>
 							<th class="col-md-1">Fecha</th>
-							<th class="col-md-2">Pro-Forma de Entrada</th>
+							<th class="col-md-1">Pro-Forma de Entrada</th>
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-1">fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -451,6 +465,8 @@
 							class="text-enlace">{#insumo.entrada | codeforma#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
+							<td>{#insumo.lote#}</td>
+							<td>{#insumo.fechaV#}</td>
 							<td>{#insumo.cantidad#}</td>
 						</tr>
 					</tbody>
