@@ -12,6 +12,12 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.listInsumos = [];
   $scope.alert = {};
 
+  $scope.openI = function($event, dI) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.insumos[dI].dI = true;
+  };
+
   $scope.refreshInsumos = function(insumo){
       
       var params = {insumo: insumo};
@@ -46,7 +52,8 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       {
         'id':$scope.insumoSelect.selected.id, 
         'codigo':$scope.insumoSelect.selected.codigo, 
-        'descripcion':$scope.insumoSelect.selected.descripcion
+        'descripcion':$scope.insumoSelect.selected.descripcion,
+        'dI':null
       }
     );
     

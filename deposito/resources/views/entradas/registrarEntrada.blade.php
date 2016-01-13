@@ -81,6 +81,8 @@
 							<th>Codigo</th>
 							<th>Descripción</th>
 							<th>Cantidad</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-2">Fecha de vencimiento</th>
 							<th>Eliminar</th>
 						</tr>
 					</thead>
@@ -90,6 +92,17 @@
 							<td>{#insumo.descripcion#}</td>
 							<td class="col-md-2">
 								<input class="form-control text-center" type="number" ng-model="insumo.cantidad">
+							</td>
+							<td>
+								<input class="form-control text-center" type="text" ng-model="insumo.lote">
+							</td>
+							<td>
+								<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="insumo.fecha" is-open="insumo.dI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openI($event, insumos.indexOf(insumo))"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
 							</td>
 							<td class="col-md-1">
 								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
@@ -156,6 +169,8 @@
 							<th>Codigo</th>
 							<th>Descripción</th>
 							<th>Cantidad</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-2">Fecha de vencimiento</th>
 							<th>Eliminar</th>
 						</tr>
 					</thead>
@@ -165,6 +180,17 @@
 							<td>{#insumo.descripcion#}</td>
 							<td class="col-md-2">
 								<input class="form-control text-center" type="number" ng-model="insumo.cantidad">
+							</td>
+							<td>
+								<input class="form-control text-center" type="text" ng-model="insumo.lote">
+							</td>
+							<td>
+								<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="insumo.fecha" is-open="insumo.dI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openI($event, insumos.indexOf(insumo))"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
 							</td>
 							<td class="col-md-1">
 								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
@@ -232,6 +258,8 @@
 							<th>Codigo</th>
 							<th>Descripción</th>
 							<th>Cantidad</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-2">Fecha de vencimiento</th>
 							<th>Eliminar</th>
 						</tr>
 					</thead>
@@ -241,6 +269,17 @@
 							<td>{#insumo.descripcion#}</td>
 							<td class="col-md-2">
 								<input class="form-control text-center" type="number" ng-model="insumo.cantidad">
+							</td>
+							<td>
+								<input class="form-control text-center" type="text" ng-model="insumo.lote">
+							</td>
+							<td>
+								<p class="input-group">
+					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="insumo.fecha" is-open="insumo.dI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-success text-white" ng-click="openI($event, insumos.indexOf(insumo))"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+				        		</p>
 							</td>
 							<td class="col-md-1">
 								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
