@@ -12,7 +12,7 @@
 </head>
 <body @yield('bodytag')>
 
-	<div id="bar-menu">
+	<div id="bar-menu" ng-controller="menuController">
 		<nav class="navbar navbar-inverse custon-bar navbar-fixed-top">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
@@ -32,7 +32,10 @@
 						<a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
 							<span class="glyphicon glyphicon-user"></span> {{ ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}} <span class="caret"></span>
 						</a>
-				        <ul class="dropdown-menu" role="menu">
+				  	    <ul class="dropdown-menu" role="menu">
+				        	@if( Auth::user()->haspermission('depositos'))
+				        		<li ng-click="deposito()"><a href="#">Deposito</a></li>
+				        	@endif
 				        	<li><a href="/auth/logout">Salir</a></li>
 				        </ul>
 					</li>

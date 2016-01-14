@@ -97,6 +97,15 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('getUsuario/{id}', 'usersController@getUsuario');
 	});
 	
+	Route::group(['middleware' => 'permission:depositos'], function(){
+		//Regresa la vista de cambio de deposito
+		Route::get('cambiarDeposito','usersController@viewDeposito');
+		//Regresa deposito del usuario logueado
+		Route::get('getDeposito','usersController@getDeposito');
+		//Edita el deposito del usuario cuyo ide se pase
+		Route::post('editarDeposito','usersController@editDeposito');
+	});
+
 	/*** fin de modulo usuario ***/
 
 

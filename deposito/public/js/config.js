@@ -87,7 +87,65 @@ angular.module('directive.loading', [])
             }
         };
 
-    }]);
+}]);
+
+deposito.controller('menuController', function($scope, $http, $modal){
+  
+  $scope.deposito = function(){
+    $modal.open({
+        animation: true,
+          templateUrl: '/cambiarDeposito',
+          controller: 'cambiaDepositoController',
+          resolve: {
+             obtenerUsuarios: function () {
+                return $scope.obtenerUsuarios;
+             }
+          }
+    });
+  }
+
+});
+
+deposito.controller('cambiaDepositoController', function($scope, $http, $modalInstance){
+
+  $scope.deposito;
+  $scope.depositos = [];
+  $scope.alert = {};
+
+  $http.get('/getDeposito')
+      .success( function(response){$scope.deposito = response;});
+
+  $http.get('/depositos/getDepositos')
+      .success( function(response){$scope.depositos = response;});
+
+  $scope.modificar = function () {
+    $scope.save();
+  };
+
+  $scope.save = function(){
+
+    var data = {
+      'deposito':$scope.depositoM
+    };
+
+    $http.post('/editarDeposito', data)
+      .success(function(response){
+        if(response.status == 'success')
+          $modalInstance.dismiss('cancel');
+                
+        $scope.alert = {type:response.status , msg: response.menssage};
+    });
+  };
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.closeAlert = function(){
+    $scope.alert = {};
+  };
+
+});
 
 $(document).ready(function () {
 var trigger = $('.hamburger'),

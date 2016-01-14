@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Auth;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Privilegio;
+use App\Deposito;
 
 class usersController extends Controller
 {
@@ -16,7 +18,8 @@ class usersController extends Controller
     private $menssage = [
         'password.required'  => 'El campo contraseña es obligatorio',
         'password.min'       => 'La contraseña debe contener al menos 8 caracteres',
-        'password.confirmed' => 'La contraseña no coincide'
+        'password.confirmed' => 'La contraseña no coincide',
+        'deposito.required'  => 'Seleccione un deposito'
     ];
 
     public function index()
@@ -35,6 +38,11 @@ class usersController extends Controller
 
     public function viewEliminar(){
         return view('users/eliminarUser');
+    }
+
+    public function viewDeposito(){
+
+        return view('users/cambiarDeposito');
     }
 
     public function registrar(Request $request){   
@@ -313,5 +321,34 @@ class usersController extends Controller
             
         }
     }
+
+    public function getDeposito(){
+
+        $deposito = Auth::user()->deposito; 
+
+        return Deposito::where('id', $deposito)->value('nombre');
+    }
     
+    public function editDeposito(Request $request){
+
+        $data = $request->all();
+        $id   = Auth::user()->id;
+
+
+        $validator = Validator::make($data,[
+                    'deposito' => 'required',  
+        ], $this->menssage);
+        
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+        }
+        else{
+
+            User::where('id', $id)->update([
+                'deposito' => $data['deposito']
+            ]);
+
+            return Response()->json(['status' => 'success']);
+        }
+    }
 }
