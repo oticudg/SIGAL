@@ -270,7 +270,8 @@ class entradasController extends Controller
                         ->select('entradas.codigo as entrada','insumos.codigo as codigo',
                             DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                             'entradas.id as entradaId','insumos.descripcion as descripcion',
-                            'insumos_entradas.cantidad as cantidad')
+                            'insumos_entradas.cantidad as cantidad', 'insumos_entradas.lote',
+                            'insumos_entradas.fechaV')
                         ->orderBy('insumos_entradas.id', 'desc')->get();
 
             return Response()->json(['status' => 'success', 'orden' => $orden, 'insumos' => $insumos]);

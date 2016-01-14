@@ -35,7 +35,7 @@
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
 				<th class="col-md-1">Lote</th>
-				<th class="col-md-1">fecha Vto</th>
+				<th class="col-md-1">Fecha Vto</th>
 				<th class="col-md-2">Cantidad</th>
 			</tr>
 		</thead>

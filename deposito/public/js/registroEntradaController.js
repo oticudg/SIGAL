@@ -11,7 +11,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
-
+    
   $scope.openI = function($event, dI) {
       $event.preventDefault();
       $event.stopPropagation();
@@ -67,6 +67,8 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       return;
     }
 
+    carga();
+
     switch(datos){
       
       case 'orden':
@@ -99,10 +101,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
         var origen = '/entradas/registrar/devolucion';
       break;
-
     }
-
-    console.log(data);
 
     $http.post(origen, data)
       .success( 
@@ -128,7 +127,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
           $scope.alert = {type:response.status , msg: response.menssage};
         }
       );
-  }
+  }   
 
 
 

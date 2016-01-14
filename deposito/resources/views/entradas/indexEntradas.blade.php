@@ -102,7 +102,7 @@
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
 							<th class="col-md-1">Lote</th>
-							<th class="col-md-1">fecha Vto</th>
+							<th class="col-md-1">Fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -206,7 +206,7 @@
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
 							<th class="col-md-1">Lote</th>
-							<th class="col-md-1">fecha Vto</th>
+							<th class="col-md-1">Fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -250,9 +250,11 @@
 					<thead>
 						<tr>
 							<th class="col-md-1">Fecha</th>
-							<th class="col-md-2">N° Proforma-Entrada</th>
+							<th class="col-md-1">N° Proforma-Entrada</th>
 							<th class="col-md-2">Codigo Insumo</th>
 							<th class="col-md-6">Descripción</th>
+							<th class="col-md-1">Lote</th>
+							<th class="col-md-1">Fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -264,6 +266,8 @@
 							class="text-enlace">{#insumo.entrada | codeforma#}</span></td>
 							<td>{#insumo.codigo#}</td>
 							<td>{#insumo.descripcion#}</td>
+							<td>{#insumo.lote#}</td>
+							<td>{#insumo.fechaV#}</td>
 							<td>{#insumo.cantidad#}</td>
 						</tr>
 					</tbody>
@@ -353,7 +357,7 @@
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
 							<th class="col-md-1">Lote</th>
-							<th class="col-md-1">fecha Vto</th>
+							<th class="col-md-1">Fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
@@ -454,7 +458,7 @@
 							<th class="col-md-2">Codigo de Insumo</th>
 							<th class="col-md-6">Descripción</th>
 							<th class="col-md-1">Lote</th>
-							<th class="col-md-1">fecha Vto</th>
+							<th class="col-md-1">Fecha Vto</th>
 							<th class="col-md-1">Cantidad</th>
 						</tr>
 					</thead>
