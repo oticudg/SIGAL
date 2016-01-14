@@ -16,7 +16,7 @@
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                       Memu
+                       Menú
                     </a>
                 </li>
                 
