@@ -14,6 +14,7 @@ use App\Insumo;
 use App\Entrada;
 use App\Insumos_entrada;
 use App\Deposito;
+use App\Inventario_operacione;
 
 class inventarioController extends Controller
 {	
@@ -326,5 +327,18 @@ class inventarioController extends Controller
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
         
         return strtoupper( $depCode .'-'.$prefix.str_random(6) );
+    }
+
+    /*Funcion que registra las operaciones en el inventario
+     *
+     */  
+    private function historyOperation($insumo, $type, $referencia, $existencia){
+
+        Inventario_operacione::create([
+            'insumo'     => $insumo,
+            'type'       => $type,
+            'referencia' => $referencia,
+            'existencia' => $existencia
+        ]);
     }
 }
