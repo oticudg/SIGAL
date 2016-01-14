@@ -130,8 +130,11 @@ deposito.controller('cambiaDepositoController', function($scope, $http, $modalIn
 
     $http.post('/editarDeposito', data)
       .success(function(response){
-        if(response.status == 'success')
+        if(response.status == 'success'){
           $modalInstance.dismiss('cancel');
+          location.reload();
+          return;
+        }
                 
         $scope.alert = {type:response.status , msg: response.menssage};
     });
