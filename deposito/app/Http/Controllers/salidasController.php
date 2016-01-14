@@ -157,7 +157,8 @@ class salidasController extends Controller
                         'deposito'    => $deposito
                     ]);
 
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito, 'salida', 
+                        $salida);
     
                 }
 

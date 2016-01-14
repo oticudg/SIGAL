@@ -13,7 +13,6 @@ use App\Inventario;
 use App\Insumo;
 use App\Entrada;
 use App\Insumos_entrada;
-use App\Deposito;
 use App\Inventario_operacione;
 
 class inventarioController extends Controller
@@ -218,7 +217,7 @@ class inventarioController extends Controller
         }
     }
 
-    public static function almacenaInsumo($insumo, $cantidad, $deposito){
+    public static function almacenaInsumo($insumo, $cantidad, $deposito, $type, $referencia){
 
     	$inventario = Inventario::where('insumo',$insumo) 
                       ->where('deposito', $deposito)
@@ -229,6 +228,14 @@ class inventarioController extends Controller
     		$existencia = Inventario::where('insumo', $insumo)
                                       ->where('deposito', $deposito)
                                       ->value('existencia');
+
+            Inventario_operacione::create([
+                    'insumo'     => $insumo,
+                    'type'       => $type,
+                    'referencia' => $referencia,
+                    'existencia' => $existencia
+            ]);
+                
     		$existencia += $cantidad;
 
     		Inventario::where('insumo' , $insumo)
@@ -245,7 +252,7 @@ class inventarioController extends Controller
     	}
     }
 
-    public static function reduceInsumo($insumo, $cantidad, $deposito){
+    public static function reduceInsumo($insumo, $cantidad, $deposito, $type, $referencia){
 
         $inventario = Inventario::where('insumo', $insumo)
                                   ->where('deposito', $deposito)
@@ -256,6 +263,14 @@ class inventarioController extends Controller
             $existencia = Inventario::where('insumo', $insumo)
                                       ->where('deposito', $deposito)
                                       ->value('existencia');
+
+            Inventario_operacione::create([
+                    'insumo'     => $insumo,
+                    'type'       => $type,
+                    'referencia' => $referencia,
+                    'existencia' => $existencia
+            ]);
+                
             $existencia -= $cantidad;
 
             Inventario::where('insumo' , $insumo)
@@ -329,16 +344,4 @@ class inventarioController extends Controller
         return strtoupper( $depCode .'-'.$prefix.str_random(6) );
     }
 
-    /*Funcion que registra las operaciones en el inventario
-     *
-     */  
-    private function historyOperation($insumo, $type, $referencia, $existencia){
-
-        Inventario_operacione::create([
-            'insumo'     => $insumo,
-            'type'       => $type,
-            'referencia' => $referencia,
-            'existencia' => $existencia
-        ]);
-    }
 }

@@ -328,7 +328,8 @@ class entradasController extends Controller
                             'deposito'  => $deposito
                         ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 
+                            'entrada', $entrada);
                     }
                     
                     return Response()->json(['status' => 'success', 'menssage' => 
@@ -375,7 +376,8 @@ class entradasController extends Controller
                             'deposito'  => $deposito
                         ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 
+                            'entrada', $donacion);
                     }
 
                     return Response()->json(['status' => 'success', 'menssage' => 
@@ -422,7 +424,8 @@ class entradasController extends Controller
                             'deposito'    => $deposito
                         ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 
+                            'entrada', $devolucion);
                     }
 
                     return Response()->json(['status' => 'success', 'menssage' => 
