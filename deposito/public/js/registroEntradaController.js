@@ -67,8 +67,6 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       return;
     }
 
-    carga();
-
     switch(datos){
       
       case 'orden':
