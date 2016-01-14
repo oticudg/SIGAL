@@ -14,6 +14,7 @@ use App\Insumo;
 use App\Entrada;
 use App\Insumos_entrada;
 use App\Inventario_operacione;
+use App\Deposito;
 
 class inventarioController extends Controller
 {	
@@ -167,7 +168,7 @@ class inventarioController extends Controller
                     'deposito'  => $deposito
                 ]);
 
-                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
+                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 'carga-inventario', $entrada);
             }
 
             return Response()->json(['status' => 'success', 'menssage' => 
