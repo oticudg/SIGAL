@@ -1,7 +1,7 @@
 <div class="modal-header">
     <div class="row">
 	    <h3 class="modal-title text-title-modal col-md-9">
-	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Salida: <strong>{#modificacion.codigo#}</strong>
+	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Salida: <strong>{#modificacion.codigo | codeforma#}</strong>
 	    </h3>
 	</div>
 </div>

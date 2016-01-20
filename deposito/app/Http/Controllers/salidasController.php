@@ -88,20 +88,24 @@ class salidasController extends Controller
 
     public function getSalidaCodigo($code){
 
-        $salida = Salida::where('codigo',$code)->first();
+        $deposito = Auth::user()->deposito;
+        $depositoCode = Deposito::where('id', $deposito)->value('codigo');
+        $realCode = $depositoCode.'-'.$code;
+
+        $salida = Salida::where('codigo',$realCode)->first();
 
         if(!$salida){
             return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);            
         }
         else{
 
-           $salida = DB::table('salidas')->where('salidas.codigo',$code)
+           $salida = DB::table('salidas')->where('salidas.codigo',$realCode)
                 ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
                 ->select('salidas.codigo','salidas.id', 
                     'departamentos.nombre as departamento')
                 ->first();
 
-           $insumos = DB::table('salidas')->where('salidas.codigo', $code)
+           $insumos = DB::table('salidas')->where('salidas.codigo', $realCode)
                 ->join('insumos_salidas', 'salidas.id', '=', 'insumos_salidas.salida')
                 ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
                 ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.despachado', 

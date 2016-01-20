@@ -60,7 +60,10 @@ class modificacionesController extends Controller
 
     public function allSalidas(){
 
+        $deposito = Auth::user()->deposito;
+
         return DB::table('salidas_modificadas')
+                ->where('salidas_modificadas.deposito', $deposito)
                 ->join('salidas', 'salidas_modificadas.salida', '=', 'salidas.id')
                 ->select(DB::raw('DATE_FORMAT(salidas_modificadas.created_at, "%d/%m/%Y") as fecha'),
                     'salidas.codigo as codigo', 'salidas_modificadas.id as id')
@@ -180,6 +183,7 @@ class modificacionesController extends Controller
     public function registrarEntrada(Request $request){
 
         $data = $request->all();
+        $deposito = Auth::user()->deposito;
 
         $validator = Validator::make($data,[
             'entrada'  => 'required',
@@ -208,7 +212,7 @@ class modificacionesController extends Controller
                 }
             }
             
-            if( empty( $orden ) && empty( $insumos ) ){
+            if( empty( $orden ) && empty( $insumos ) && $originalE['type'] == 'orden'){
                 return Response()->json(['status' => 'danger', 'menssage' => 'No se han hecho modificaciones']);       
             }  
             else if( ($insumosInvalidos = inventarioController::validaModifiEntrada($insumos)) != [] ){
@@ -252,13 +256,13 @@ class modificacionesController extends Controller
             foreach ($insumos as $insumo){           
 
                 if( $insumo['modificarC'] == 0){
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['originalC']);
-                    Insumos_entrada::where('entrada',$originalE->id)->
-                        where('insumo', $insumo['id'])->delete();
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['originalC'],$deposito, 'modiEntrada', $entrada);
+                    Insumos_entrada::where('entrada',$originalE->id)
+                                    ->where('insumo', $insumo['id'])->delete();
                 }
                 else{
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['originalC']);
-                    inventarioController::almacenaInsumo($insumo['id'], $insumo['modificarC']);
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['originalC'], $deposito, 'modiEntrada', $entrada);
+                    inventarioController::almacenaInsumo($insumo['id'], $insumo['modificarC'], $deposito, 'modiEntrada', $entrada);
                     Insumos_entrada::where('entrada',$originalE->id)->
                         where('insumo', $insumo['id'])->update([
                             'cantidad' => $insumo['modificarC']
@@ -280,6 +284,7 @@ class modificacionesController extends Controller
     public function registrarSalida(Request $request){
 
         $data = $request->all();
+        $deposito = Auth::user()->deposito;
 
         $validator = Validator::make($data,[
             'salida'        => 'required',
@@ -317,10 +322,11 @@ class modificacionesController extends Controller
             }
 
             $salida = Salidas_modificada::create([
-                        'salida'       => $originalS->id,
+                        'salida'        => $originalS->id,
                         'Odepartamento' => $originalS->departamento,
                         'Mdepartamento' => $departamento,
-                        'usuario'       => Auth::user()->id    
+                        'usuario'       => Auth::user()->id,
+                        'deposito'      => $deposito   
                     ])['id'];
 
             if( $departamento != NULL ){
@@ -333,14 +339,14 @@ class modificacionesController extends Controller
             foreach ($insumos as $insumo){           
 
                 if( $insumo['modificarD'] == 0){
-                    inventarioController::almacenaInsumo($insumo['id'], $insumo['originalD']);
+                    inventarioController::almacenaInsumo($insumo['id'], $insumo['originalD'], $deposito, 'modiSalida', $salida);
                     Insumos_salida::where('salida',$originalS->id)->
                         where('insumo', $insumo['id'])->delete();
                 }
                 else{
                     
-                    inventarioController::almacenaInsumo($insumo['id'], $insumo['originalD']);
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['modificarD']);
+                    inventarioController::almacenaInsumo($insumo['id'], $insumo['originalD'],$deposito, 'modiSalida', $salida);
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['modificarD'], $deposito, 'modiSalida', $salida);
                     
                     $solicitado = $insumo['modificarS'] == NULL ? $insumo['originalS'] : $insumo['modificarS'];   
 
@@ -357,7 +363,8 @@ class modificacionesController extends Controller
                     'Odespachado' => $insumo['originalD'],
                     'Mdespachado' => $insumo['modificarD'],
                     'Osolicitado' => $insumo['originalS'],
-                    'Msolicitado' => $insumo['modificarS']
+                    'Msolicitado' => $insumo['modificarS'],
+                    'deposito'    => $deposito
                 ]);
             }
             

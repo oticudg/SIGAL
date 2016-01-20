@@ -22,35 +22,75 @@
 	</div>
 	
 	<div ng-show="status">
-	
-		<table class="table table-bordered custon-table-bottom-off">
-			<thead>
-				<th class="col-md-2">N° de Orden</th>
-				<th>Proveedor</th>
-			</thead>
-			<tbody>
-				<td>{#entrada.orden#}</td>
-				<td>{#entrada.provedor#}</td>
-			</tbody>
-		</table>
+		
+		<div ng-show="entrada.type == 'orden'">
+			<table class="table table-bordered custon-table-bottom-off">
+				<thead>
+					<th class="col-md-2">N° de Orden</th>
+					<th>Proveedor</th>
+				</thead>
+				<tbody>
+					<td>{#entrada.orden#}</td>
+					<td>{#entrada.provedor#}</td>
+				</tbody>
+			</table>
+		</div>
 
-		<table class="table table-bordered custon-table-bottom-off custon-table-top-off">
-			<thead>
-				<th class="col-md-2">Modificar Orden</th>
-				<th><span ng-show="orden">Modificar Proveedor</span></th>
-			</thead>
-			<tbody>
-				<td class="warning">
-					<input class="form-control text-center" type="text" 
-					placeholder="N° de orden" ng-model="orden"></td>
-				<td ng-show="orden" class="warning">
-					<select class="form-control" ng-model="provedor">
-						<option value=" " selected >Proveedor</option>
-						<option value="{#provedor.id#}" ng-repeat="provedor in provedores">{#provedor.nombre#}</option>
-					</select>
-				</td>
-			</tbody>
-		</table>
+		<div ng-show="entrada.type == 'donacion' ">
+			<table class="table table-bordered custon-table-bottom-off">
+				<thead>
+					<th class="col-md-6">Proveedor</th>
+					<th class="col-md-6">Modificar provedor</th>
+				</thead>
+				<tbody>
+					<td>{#entrada.provedor#}</td>
+					<td>
+						<select class="form-control" ng-model="provedor">
+							<option value=" " selected >Proveedor</option>
+							<option value="{#provedor.id#}" ng-repeat="provedor in provedores">{#provedor.nombre#}</option>
+						</select>
+					</td>
+				</tbody>
+			</table>
+		</div>
+
+		<div ng-show="entrada.type == 'devolucion' ">
+			<table class="table table-bordered custon-table-bottom-off">
+				<thead>
+					<th class="col-md-6">Servicio</th>
+					<th class="col-md-6">Modificar servicio</th>
+				</thead>
+				<tbody>
+					<td>{#entrada.servicio#}</td>
+					<td>
+						<select class="form-control" ng-model="provedor">
+							<option value=" " selected >Proveedor</option>
+							<option value="{#provedor.id#}" ng-repeat="provedor in provedores">{#provedor.nombre#}</option>
+						</select>
+					</td>
+				</tbody>
+			</table>
+		</div>
+		
+		<div ng-show="entrada.type == 'orden'">
+			<table class="table table-bordered custon-table-bottom-off custon-table-top-off">
+				<thead>
+					<th class="col-md-2">Modificar Orden</th>
+					<th><span ng-show="orden">Modificar Proveedor</span></th>
+				</thead>
+				<tbody>
+					<td class="warning">
+						<input class="form-control text-center" type="text" 
+						placeholder="N° de orden" ng-model="orden"></td>
+					<td ng-show="orden" class="warning">
+						<select class="form-control" ng-model="provedor">
+							<option value=" " selected >Proveedor</option>
+							<option value="{#provedor.id#}" ng-repeat="provedor in provedores">{#provedor.nombre#}</option>
+						</select>
+					</td>
+				</tbody>
+			</table>
+		</div>
 		
 		<table class="table table-striped custon-table-top-off">
 			<thead>

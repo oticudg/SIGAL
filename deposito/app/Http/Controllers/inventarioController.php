@@ -303,11 +303,14 @@ class inventarioController extends Controller
 
     public static function validaModifiEntrada($insumos){
 
+        $deposito = Auth::user()->deposito;
         $invalidos = [];
 
         foreach ($insumos as $insumo){            
             
-            $existencia = Inventario::where('insumo' , $insumo['id'])->value('existencia');
+            $existencia = Inventario::where('insumo' , $insumo['id'])
+                                    ->where('deposito', $deposito)
+                                    ->value('existencia');
                 
             if( ($existencia - $insumo['originalC'] + $insumo['modificarC'] ) < 0 )
                 array_push($invalidos, $insumo['index']);
@@ -319,11 +322,14 @@ class inventarioController extends Controller
 
     public static function validaModifiSalida($insumos){
 
+        $deposito = Auth::user()->deposito;
         $invalidos = [];
 
         foreach ($insumos as $insumo){            
             
-            $existencia = Inventario::where('insumo' , $insumo['id'])->value('existencia');
+            $existencia = Inventario::where('insumo' , $insumo['id'])
+                                    ->where('deposito', $deposito)
+                                    ->value('existencia');
                 
             if( ($existencia + $insumo['originalD'] - $insumo['modificarD']) < 0 )
                 array_push($invalidos, $insumo['index']);

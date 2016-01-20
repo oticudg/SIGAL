@@ -220,20 +220,36 @@ class entradasController extends Controller
 
     public function getEntradaCodigo($code){
 
-        $entrada = Entrada::where('codigo',$code)->first();
+        $deposito = Auth::user()->deposito;
+        $depositoCode = Deposito::where('id', $deposito)->value('codigo');
+        $realCode = $depositoCode.'-'.$code;
+
+
+        $entrada = Entrada::where('codigo',$realCode)->first();
 
         if(!$entrada){
             return Response()->json(['status' => 'danger', 'menssage' => 'Esta entrada no existe']);            
         }
         else{
 
-           $entrada = DB::table('entradas')->where('entradas.codigo',$code)
-                ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                ->select('entradas.codigo','entradas.orden','entradas.id', 
-                    'provedores.nombre as provedor')
-                ->first();
+            if( $entrada['type'] == 'devolucion'){
 
-           $insumos = DB::table('entradas')->where('entradas.codigo', $code)
+               $entrada = DB::table('entradas')->where('entradas.codigo',$realCode)
+                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+                    ->select('entradas.codigo','entradas.orden','entradas.id', 
+                        'departamentos.nombre as servicio', 'entradas.type')
+                    ->first();
+            }
+            else{
+                
+                $entrada = DB::table('entradas')->where('entradas.codigo',$realCode)
+                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+                    ->select('entradas.codigo','entradas.orden','entradas.id', 
+                        'provedores.nombre as provedor', 'entradas.type')
+                    ->first();
+            }
+
+           $insumos = DB::table('entradas')->where('entradas.codigo', $realCode)
                 ->join('insumos_entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
                 ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
                 ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad', 'insumos_entradas.id as id')
