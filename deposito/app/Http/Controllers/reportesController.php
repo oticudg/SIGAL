@@ -20,7 +20,7 @@ class reportesController extends Controller
                             ->where('type', 'cinventario')
                             ->first();
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta carga de inventario no existe']);            
+            abort('404');            
         }
         else{
 
