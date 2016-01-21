@@ -1,8 +1,13 @@
 <div class="modal-header">
     <div class="row">
-	    <h3 class="modal-title text-title-modal col-md-9">
+	    <h3 class="modal-title text-title-modal col-md-11">
 	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Carga de inventario: <strong>{#entrada.codigo | codeforma#}</strong>
 	    </h3>
+	    
+	    <a class="btn btn-warning" href="/reportes/inventarioCarga/{#entrada.id#}" target="_blank">
+	    	<span class="glyphicon glyphicon glyphicon-print"></span>
+		</a>
+
 	</div>
 </div>
 <div class="modal-body">

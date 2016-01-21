@@ -363,7 +363,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de Depositos ***/
 
-	Route::group(['prefix' => 'depositos', 'as' => 'depo', 'middleware' => 'permission:estadisticas'], function(){
+	Route::group(['prefix' => 'depositos', 'as' => 'depo'], function(){
 		
 		Route::group(['middleware' => 'permission:depositos'], function(){
 			
@@ -399,7 +399,16 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('getDepositos','depositosController@allDepositos');
 	});
 
-
+	
 	/*** Fin de modulo de Depositos ***/
+
+
+	/*** Modulo de Reportes ***/
+
+	Route::group(['prefix' => 'reportes', 'as' => 'repor'], function(){
+		Route::get('inventarioCarga/{id}', ['as' => 'CargaInv', 'uses' => 'reportesController@cargaInventario']);
+	});
+
+	/*** Fin de modulo de Reportes ***/
 
 });
