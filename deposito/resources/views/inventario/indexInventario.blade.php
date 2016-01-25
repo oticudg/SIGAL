@@ -15,6 +15,26 @@
 
 	<br>
 	<br>
+
+	<div class="row">
+		<div class="col-md-2" ng-hide="status">
+			<div class="input-group-btn">
+				<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+				<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
+				
+				<ul class="dropdown-menu" role="menu">
+		          	<li><a href="{{route('reporInv')}}" target="_blank">Total</a></li>
+		        	<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="col-md-4" ng-show="status">
+			<button ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
+			<button ng-click="closeSelect()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+		</div>
+	</div>
+	
 	<br>
 
 	<div class="row">
@@ -43,13 +63,21 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
+				<th ng-show="status"class="col-md-1">
+					<label class="checkbox-inline">
+					<input type="checkbox" ng-checked="all" ng-model="all" ng-click="select()">
+					Todos</label>
+				</th>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
 				<th class="col-md-2">Existencia en Unidades</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-class="calculaEstatus(insumo.min, insumo.med, insumo.existencia)" dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
+			<tr ng-click="selectInsumo(insumos.indexOf(insumo))" ng-class="insumo.color" dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
+				<td ng-show="status">
+					<input type="checkbox" ng-checked="insumo.select">
+				</td>
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>

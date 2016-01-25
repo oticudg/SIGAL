@@ -5,20 +5,102 @@ controller('inventarioController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
 	$scope.cRegistro = '5';
+	$scope.status = false; 
+	$scope.all = false;
 
 	$scope.obtenerInsumos = function(){
 
 		$http.get('/inventario/getInventario')
-			.success( function(response){$scope.insumos = response});
+			.success( function(response){
+				$scope.insumos = response;
+				$scope.calculaEstatus($scope.insumos);
+			});
 	};
 
-	$scope.calculaEstatus = function( min , med , exit){
+	$scope.calculaEstatus = function(insumos){
 
-		if( exit <=  min)
-			return "danger";
+		for( var insumo in insumos){
 
-		if(exit <= med)
-			return "warning";
+			if( insumos[insumo].existencia <= insumos[insumo].min){
+				insumos[insumo].color = "danger";
+				console.log(insumos[insumo]);
+			}
+			else if(insumos[insumo].existencia <= insumos[insumo].med){
+				insumos[insumo].color = "warning";
+			}
+			else{
+				insumos[insumo].color = "";
+			}	
+		}
+	}
+	
+	$scope.parcialInventario = function(){
+		$scope.status = true;
+	}
+
+	$scope.closeSelect = function(){
+		$scope.status = false;
+		$scope.unselectInsumos();
+		$scope.calculaEstatus($scope.insumos);
+		$scope.all = false;
+	}
+
+	$scope.unselectInsumos = function(){
+		for( var insumo in $scope.insumos){
+			$scope.insumos[insumo].select = false;
+			$scope.insumos[insumo].color  = ""; 
+		}
+	}
+
+	$scope.select = function(){
+
+		if($scope.all){
+			$scope.selectAll();
+		}
+		else{
+			$scope.unselectInsumos();
+		}
+	}
+
+
+	$scope.selectAll = function(){
+		for( var insumo in $scope.insumos){
+			$scope.insumos[insumo].color = "success";
+			$scope.insumos[insumo].select = true;
+		}	
+	}
+
+	$scope.selectInsumo = function(index){
+
+		if($scope.status == false)
+			return;
+
+		if($scope.insumos[index].select){
+
+			$scope.insumos[index].color = "";
+			$scope.insumos[index].select = false;
+		}
+		else{
+			$scope.insumos[index].color = "success";
+			$scope.insumos[index].select = true;
+		}
+	};
+
+	$scope.gerenarParcial = function(){
+		console.log(empaquetaData($scope.insumos));
+	}
+
+	function empaquetaData(insumos){
+
+		var insumosSelect = [];
+
+		for( var insumo in insumos){
+
+			if( insumos[insumo].select )
+				insumosSelect.push(insumos[insumo].id);
+		}
+
+		return insumosSelect;
 	}
 
 	$scope.obtenerInsumos();

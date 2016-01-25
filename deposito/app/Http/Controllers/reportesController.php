@@ -9,6 +9,7 @@ use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entrada;
+use App\Deposito;
 
 class reportesController extends Controller
 {   
@@ -43,4 +44,60 @@ class reportesController extends Controller
             return $pdf->stream('Carga inventario');
         }
     }
+
+    public function allInventario(){
+        
+        $deposito   = Auth::user()->deposito;
+        $usuario    = Auth::user()->email;
+        $depositoN  = Deposito::where('id', $deposito)->value('nombre');
+        $fecha      = date("Y-m-d");
+        $hora       = date("H:i:s");
+
+
+        $insumos = DB::table('insumos')
+            ->where('deposito', $deposito)
+            ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
+            ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
+                'inventarios.existencia')
+            ->orderBy('inventarios.id', 'desc')
+            ->get();
+
+        $view =  \View::make('reportes.pdfs.allInventario', 
+                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora'))->render();
+
+        $pdf  =  \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('Inventario total');    
+    }
+
+    public function getInventario(Request $request){
+        
+
+        $insumos    = $request->all('insumos');
+        $deposito   = Auth::user()->deposito;
+        $usuario    = Auth::user()->email;
+        $depositoN  = Deposito::where('id', $deposito)->value('nombre');
+        $fecha      = date("Y-m-d");
+        $hora       = date("H:i:s");
+
+
+        $insumos = DB::table('inventarios')
+            ->where('deposito', $deposito)
+            ->whereIn('inventarios.id', [230,196])
+            ->join('insumos', 'insumos.id', '=', 'inventarios.insumo')
+            ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
+                'inventarios.existencia')
+            ->orderBy('inventarios.id', 'desc')
+            ->get();
+
+        return $insumos;
+
+        $view =  \View::make('reportes.pdfs.allInventario', 
+                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora'))->render();
+
+        $pdf  =  \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('Inventario total');    
+    }
+
 }
