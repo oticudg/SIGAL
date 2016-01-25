@@ -51,7 +51,10 @@ class modificacionesController extends Controller
 
     public function allEntradas(){
 
+        $deposito = Auth::user()->deposito;
+
         return DB::table('entradas_modificadas')
+                ->where('entradas_modificadas.deposito', $deposito)
                 ->join('entradas', 'entradas_modificadas.entrada', '=', 'entradas.id')
                 ->select(DB::raw('DATE_FORMAT(entradas_modificadas.created_at, "%d/%m/%Y") as fecha'),
                     'entradas.codigo as codigo', 'entradas_modificadas.id as id')
@@ -242,7 +245,8 @@ class modificacionesController extends Controller
                         'Mprovedor' => $provedor,
                         'Oorden'    => $originalE->orden,
                         'Morden'    => $orden,
-                        'usuario'   => Auth::user()->id    
+                        'usuario'   => Auth::user()->id,
+                        'deposito'  => $deposito    
                     ])['id'];
 
             $provedor = $provedor == NULL ? $originalE->provedor : $provedor;
@@ -273,7 +277,8 @@ class modificacionesController extends Controller
                     'entrada'   => $entrada,
                     'insumo'    => $insumo['id'],
                     'Ocantidad' => $insumo['originalC'],
-                    'Mcantidad' => $insumo['modificarC']
+                    'Mcantidad' => $insumo['modificarC'],
+                    'deposito'  => $deposito
                 ]);
             }
             

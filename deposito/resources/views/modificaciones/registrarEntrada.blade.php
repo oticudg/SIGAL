@@ -1,7 +1,7 @@
 <div class="modal-header">
 	<h3 ng-hide="status" class="modal-title text-title-modal"><span class="glyphicon glyphicon-plus"></span> Nueva Modificación</h3>
     <h3 ng-show="status" class="modal-title text-title-modal">
-    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo#}</strong>
+    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo | codeforma#}</strong>
     </h3>
 </div>
 <div class="modal-body">
