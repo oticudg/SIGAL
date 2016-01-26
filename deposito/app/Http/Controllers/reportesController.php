@@ -72,27 +72,24 @@ class reportesController extends Controller
 
     public function getInventario(Request $request){
         
-
-        $insumos    = $request->all('insumos');
+        $data       = $request->all();
         $deposito   = Auth::user()->deposito;
         $usuario    = Auth::user()->email;
         $depositoN  = Deposito::where('id', $deposito)->value('nombre');
         $fecha      = date("Y-m-d");
         $hora       = date("H:i:s");
 
-
         $insumos = DB::table('inventarios')
             ->where('deposito', $deposito)
-            ->whereIn('inventarios.id', [230,196])
+            ->whereIn('inventarios.insumo', $data['insumos'])
             ->join('insumos', 'insumos.id', '=', 'inventarios.insumo')
             ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                 'inventarios.existencia')
             ->orderBy('inventarios.id', 'desc')
             ->get();
 
-        return $insumos;
 
-        $view =  \View::make('reportes.pdfs.allInventario', 
+        $view =  \View::make('reportes.pdfs.parcialInventario', 
                      compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora'))->render();
 
         $pdf  =  \App::make('dompdf.wrapper');

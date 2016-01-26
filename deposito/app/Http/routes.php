@@ -408,7 +408,7 @@ Route::group(['middleware' => 'auth' ], function(){
 	Route::group(['prefix' => 'reportes', 'as' => 'repor'], function(){
 		Route::get('inventarioCarga/{id}', ['as' => 'CargaInv', 'uses' => 'reportesController@cargaInventario']);
 		Route::get('inventario',    ['as' => 'Inv', 'uses' => 'reportesController@allInventario']);
-		Route::get('getInventario', ['as' => 'InvPar', 'uses' => 'reportesController@getInventario']);
+		Route::post('getInventario', ['as' => 'InvPar', 'uses' => 'reportesController@getInventario']);
 	});
 
 	/*** Fin de modulo de Reportes ***/

@@ -23,7 +23,6 @@ controller('inventarioController',function($scope,$http,$modal){
 
 			if( insumos[insumo].existencia <= insumos[insumo].min){
 				insumos[insumo].color = "danger";
-				console.log(insumos[insumo]);
 			}
 			else if(insumos[insumo].existencia <= insumos[insumo].med){
 				insumos[insumo].color = "warning";
@@ -62,7 +61,6 @@ controller('inventarioController',function($scope,$http,$modal){
 		}
 	}
 
-
 	$scope.selectAll = function(){
 		for( var insumo in $scope.insumos){
 			$scope.insumos[insumo].color = "success";
@@ -87,7 +85,31 @@ controller('inventarioController',function($scope,$http,$modal){
 	};
 
 	$scope.gerenarParcial = function(){
-		console.log(empaquetaData($scope.insumos));
+		
+		var data = {
+			'insumos':empaquetaData($scope.insumos)
+		};
+
+		if($scope.thereIsSelect()){
+
+			$http.post('/reportes/getInventario',data, {responseType:'arraybuffer'})
+	  			.success(function (response) {
+
+	       			var file = new Blob([response], {type: 'application/pdf'});
+	       			var fileURL = URL.createObjectURL(file);
+	       			window.open(fileURL);
+			});
+  		}
+	}
+
+	$scope.thereIsSelect = function(){
+
+		for( var insumo in $scope.insumos){
+			if($scope.insumos[insumo].select)
+				return true;
+		}
+
+		return false;
 	}
 
 	function empaquetaData(insumos){

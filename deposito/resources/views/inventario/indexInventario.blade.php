@@ -15,8 +15,7 @@
 
 	<br>
 	<br>
-	
-	@if(false)
+
 	<div class="row">
 		<div class="col-md-2" ng-hide="status">
 			<div class="input-group-btn">
@@ -31,11 +30,11 @@
 		</div>
 
 		<div class="col-md-4" ng-show="status">
-			<button ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
+			<button ng-class="thereIsSelect() ? 'active':'disabled'" ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
 			<button ng-click="closeSelect()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
 		</div>
 	</div>
-	@endif
+	
 	<br>
 
 	<div class="row">

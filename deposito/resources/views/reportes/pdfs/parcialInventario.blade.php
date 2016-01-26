@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Inventario Total</title>
+	<title>Inventario Parcial</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 </head>
 <body>
 	
 	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
 
-	<h1 class="title">Inventario Total</h1>	
+	<h1 class="title">Inventario Parcial</h1>	
 
 	<table class="custon-table-bottom-off">
 		<thead>
