@@ -17,6 +17,6 @@
 	</div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> Modificar</button>
+    <button class="btn btn-success" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> Cambiar</button>
     <button class="btn btn-warning" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
 </div>

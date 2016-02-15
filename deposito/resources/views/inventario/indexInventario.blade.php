@@ -23,8 +23,8 @@
 				<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
 				
 				<ul class="dropdown-menu" role="menu">
+					<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
 		          	<li><a href="{{route('reporInv')}}" target="_blank">Total</a></li>
-		        	<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
 				</ul>
 			</div>
 		</div>
