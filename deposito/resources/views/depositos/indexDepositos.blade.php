@@ -9,13 +9,13 @@
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
 			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
-			<li class="nav-active"><span class="glyphicon glyphicon-inbox"></span> Depositos</li>
+			<li class="nav-active"><span class="glyphicon glyphicon-inbox"></span> Almacenes</li>
 		</ul>
 	</nav>
 	<br>
 	
 	@if( Auth::user()->haspermission('depositoN') )		
-		<button class="btn btn-success" ng-click="registrarDeposito()"><span class="glyphicon glyphicon-plus"></span> Nuevo Deposito</button>
+		<button class="btn btn-success" ng-click="registrarDeposito()"><span class="glyphicon glyphicon-plus"></span> Nuevo Almacén</button>
 	@endif
 	
 	<br>

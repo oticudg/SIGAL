@@ -11,7 +11,7 @@ use App\Deposito;
 class depositosController extends Controller
 {   
     private $menssage = [
-        'nombre.unique' => 'Ya fue registrado un deposito con este nombre',
+        'nombre.unique' => 'Ya fue registrado un Almacén con este nombre',
     ];
 
     public function index(){
@@ -50,7 +50,7 @@ class depositosController extends Controller
                 'codigo' => $code  
             ]);
 
-            return Response()->json(['status' => 'success', 'menssage' => 'Deposito registrado']);  
+            return Response()->json(['status' => 'success', 'menssage' => 'Almacén registrado']);  
         }
     }
 
@@ -60,7 +60,7 @@ class depositosController extends Controller
 
         if(!$deposito){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este deposito no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este Almacén no existe']);            
         }
         else{
             
@@ -91,12 +91,12 @@ class depositosController extends Controller
 
         if(!$deposito){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta deposito no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta almacén no exist']);            
         }
         else{
             
             Deposito::where('id',$id)->delete();
-            return Response()->json(['status' => 'success', 'menssage' => 'Deposito Eliminado']);
+            return Response()->json(['status' => 'success', 'menssage' => 'Almacén Eliminado']);
         }
     }
 
@@ -107,7 +107,7 @@ class depositosController extends Controller
 
         if(!$deposito){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este Deposito no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este Almacén no existe']);            
         }
         else{
 

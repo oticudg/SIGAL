@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title text-title-modal"><span class="glyphicon glyphicon-plus"></span> Nuevo Deposito</h3>
+    <h3 class="modal-title text-title-modal"><span class="glyphicon glyphicon-plus"></span> Nuevo Almacén</h3>
 </div>
 <div class="modal-body">
 

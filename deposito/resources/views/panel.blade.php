@@ -35,7 +35,7 @@
 		                    @endif
 							
 							@if( Auth::user()->haspermission('depositos') )						
-								<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Depositos</a></li></li>
+								<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Almacenes</a></li></li>
 							@endif
 
 		                    @if( Auth::user()->haspermission('departamentos') )
