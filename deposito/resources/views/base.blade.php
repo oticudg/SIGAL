@@ -23,7 +23,7 @@
 			      <ul class="nav navbar-nav navbar-right">
 			      	@if( Auth::user()->haspermission('inventarioH') && ( $var = App\Inventario::alert() ) > 0 )
 				      	<li>
-							<a href="{{route('invenNiveles')}}">
+							<a href="{{route('invenHerraNiveles')}}">
 							  <span class="glyphicon glyphicon-bell"></span> <span class="badge">{{$var}}</span>
 							</a>
 						</li>
