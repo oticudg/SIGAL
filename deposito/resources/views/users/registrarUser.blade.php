@@ -71,9 +71,9 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="rdepo">Deposito</label>
+					<label class="text-muted" for="rdepo">Almacén</label>
 					<select class="form-control" id="rdepo" ng-model="data.deposito">
-						<option value="" selected disabled>Deposito</option>
+						<option value="" selected disabled>Almacén</option>
 						<option value="{#deposito.id#}" ng-repeat="deposito in depositos">{#deposito.nombre#}</option>
 					</select>
 				</div>
@@ -251,8 +251,8 @@
 
 		<div class="col-md-4">
 			<div class="col-md-5 col-md-offset-4">
-				<h4 class="text-muted">Depositos</h4>
-				<label class="checkbox-inline"><input type="checkbox" ng-click="depositoActive()" ng-model="data.pDeposito">Depositos</label>
+				<h4 class="text-muted">Almacenes</h4>
+				<label class="checkbox-inline"><input type="checkbox" ng-click="depositoActive()" ng-model="data.pDeposito">Almacenes</label>
 				<div ng-show="data.pDeposito">
 					<div class="row">
 						<div class="col-md-4 col-md-offset-1">

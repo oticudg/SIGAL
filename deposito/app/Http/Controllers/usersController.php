@@ -19,7 +19,7 @@ class usersController extends Controller
         'password.required'  => 'El campo contraseña es obligatorio',
         'password.min'       => 'La contraseña debe contener al menos 8 caracteres',
         'password.confirmed' => 'La contraseña no coincide',
-        'deposito.required'  => 'Seleccione un deposito'
+        'deposito.required'  => 'Seleccione un Almacén'
     ];
 
     public function index()

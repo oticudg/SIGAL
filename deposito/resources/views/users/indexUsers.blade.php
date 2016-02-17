@@ -49,7 +49,7 @@
 				<th class="col-md-2">Nombre</th>
 				<th>Usuario</th>
 				<th class="col-md-2">Cedula</th>
-				<th class="col-md-2">Deposito</th>
+				<th class="col-md-2">Almacén</th>
 				@if( Auth::user()->haspermission('usuarioD') && Auth::user()->haspermission('usuarioM'))
 					<th class="table-edit" colspan="2">Modificaciones</th>
 				@elseif( Auth::user()->haspermission('usuarioD') || Auth::user()->haspermission('usuarioM') )
