@@ -199,7 +199,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@index']);
 
 			//Muestra la  vista de insumos en niveles bajos y criticos
-			Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'Niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
+			Route::get('alertasInsumos',['middleware' => 'permission:inventarioH,alert', 'as' => 'Niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
 
 			Route::group(['prefix' => 'herramientas', 'as' => 'Herra', 'middleware' => 'permission:inventarioH'], function(){
 				//Muestra la vista de herramientas
