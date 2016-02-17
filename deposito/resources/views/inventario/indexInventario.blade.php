@@ -15,27 +15,29 @@
 
 	<br>
 	<br>
+	
+	@if(Auth::user()->haspermission('inventarioH'))
+		<div class="row">
+			<div class="col-md-2" ng-hide="status">
+				<div class="input-group-btn">
+					<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+					<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
+					
+					<ul class="dropdown-menu" role="menu">
+						<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
+			          	<li><a href="{{route('reporInv')}}" target="_blank">Total</a></li>
+					</ul>
+				</div>
+			</div>
 
-	<div class="row">
-		<div class="col-md-2" ng-hide="status">
-			<div class="input-group-btn">
-				<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-				<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
-				
-				<ul class="dropdown-menu" role="menu">
-					<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
-		          	<li><a href="{{route('reporInv')}}" target="_blank">Total</a></li>
-				</ul>
+			<div class="col-md-4" ng-show="status">
+				<button ng-class="thereIsSelect() ? 'active':'disabled'" ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
+				<button ng-click="closeSelect()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
 			</div>
 		</div>
-
-		<div class="col-md-4" ng-show="status">
-			<button ng-class="thereIsSelect() ? 'active':'disabled'" ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
-			<button ng-click="closeSelect()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-		</div>
-	</div>
-	
-	<br>
+		
+		<br>
+	@endif
 
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">

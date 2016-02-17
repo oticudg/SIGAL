@@ -405,7 +405,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de Reportes ***/
 
-	Route::group(['prefix' => 'reportes', 'as' => 'repor'], function(){
+	Route::group(['prefix' => 'reportes', 'middleware' => 'permission:inventarioH', 'as' => 'repor'], function(){
 		Route::get('inventarioCarga/{id}', ['as' => 'CargaInv', 'uses' => 'reportesController@cargaInventario']);
 		Route::get('inventario',    ['as' => 'Inv', 'uses' => 'reportesController@allInventario']);
 		Route::post('getInventario', ['as' => 'InvPar', 'uses' => 'reportesController@getInventario']);
