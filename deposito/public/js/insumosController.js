@@ -120,8 +120,8 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
     $http.get('/getInsumo/' + id)
         .success(function(response){
 
-        $scope.codigo             =   response.codigo;    
-        $scope.descripcion        =   response.descripcion;
+        $scope.codigo       =   response.codigo;    
+        $scope.descripcion  =   response.descripcion;
     });
 
   $scope.modificar = function () {
@@ -143,6 +143,7 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
  $scope.save = function(){
 
   var $data = {
+    'codigo': $scope.codigo,
     'descripcion': $scope.descripcion
   };
 
