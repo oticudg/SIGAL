@@ -251,7 +251,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /*** Fin input style  ***/
 
-/*** Loader screen ***/
+/*** Loader screen for AJAX query ***/
 .div_loader{
   position: fixed;
   top: 0;
@@ -264,6 +264,20 @@ input[type=number]::-webkit-outer-spin-button {
   opacity: 0.8;
   padding: 15%;
   text-align: center;
+}
+
+/*** Loader screen for resource loader ***/
+.div_loader_resouerce{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  background-color: black;
+  color:white;
+  padding: 15%;
+  text-align: center; 
 }
 
 .img_loader img{

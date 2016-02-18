@@ -1,7 +1,7 @@
 @extends('base')
 @section('conten')
 
-	<div data-loading class="div_loader">
+	<div id='loader' class="div_loader_resouerce">
 		<div id="img_loader" class="img_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
