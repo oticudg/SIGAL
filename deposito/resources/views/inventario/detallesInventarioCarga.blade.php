@@ -4,6 +4,8 @@
 	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Carga de inventario: <strong>{#entrada.codigo | codeforma#}</strong>
 	    </h3>
 	    
+	    <button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+
 	    <a class="btn btn-warning" href="/reportes/inventarioCarga/{#entrada.id#}" target="_blank">
 	    	<span class="glyphicon glyphicon glyphicon-print"></span>
 		</a>
@@ -38,7 +40,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in insumos | itemsPerPage:5">
+			<tr ng-show="visibility">
+				<td>
+					<input type="text" class="form-control" placeholder="Codigo" ng-model="search.codigo">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.descripcion">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">
+				</td>
+			</tr>
+			<tr dir-paginate="insumo in insumos |filter:search:strict|itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.cantidad#}</td>

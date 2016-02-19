@@ -325,18 +325,22 @@ angular.module('deposito').controller('detallesCargaCtrl', function ($scope, $mo
 
   $scope.entrada = {};
   $scope.insumos = [];
+  $scope.visibility = false;
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
   
   };
 
+  $scope.chvisibility = function(){
+    $scope.visibility =  !$scope.visibility ? true:false;
+  }
+
   $http.get('/inventario/herramientas/getInventarioCarga/' + id)
     .success(function(response){
 
       $scope.entrada = response.entrada;
       $scope.insumos = response.insumos;
-
   });
 
 });
