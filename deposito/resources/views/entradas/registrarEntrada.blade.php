@@ -5,6 +5,12 @@
 @endsection
 
 @section('front-page')
+	<div ng-show="loader" class="div_loader">
+		<div id="img_loader" class="img_loader">
+			<img src="{{asset('imagen/loader.gif')}}" alt="">
+			<p> Cargando ...</p>
+		</div>
+	</div>
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
@@ -314,6 +320,26 @@
         	<center>
             	<button class="btn btn-success" type="button" ng-click="ok()"><span class="glyphicon glyphicon-ok-sign">
             	</span> OK</button>
+           	</center>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="confirmeRegister.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-title-modal">
+            	<span class="glyphicon glyphicon-circle-arrow-down"></span> Registrar entrada
+            </h3>
+        </div>
+        <div class="modal-body">
+        	<center>
+        		<h3 class="text-title-modal">Confirme el regitro para esta entrada</h3>
+        	</center>
+        </div>
+        <div class="modal-footer">
+        	<center>
+            	<button class="btn btn-success" ng-click="cofirme()"><span class="glyphicon glyphicon-ok-sign">
+            	</span> Si</button>
+            	<button class="btn btn-warning" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> No</button>
            	</center>
         </div>
     </script>

@@ -67,67 +67,87 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       return;
     }
 
-    switch(datos){
-      
-      case 'orden':
-        
-        var data = {
-          'orden'  : $scope.orden,
-          'provedor': $scope.provedor,
-          'insumos' : empaquetaData($scope.insumos)
-        };
+    $scope.modalInstance = $modal.open({
+      animation: true,
+      templateUrl: 'confirmeRegister.html',
+      'scope':$scope          
+    });
 
-        var origen = '/entradas/registrar/orden';
-      break;
 
-      case 'donacion':
+    $scope.cancel = function () {
+      $scope.modalInstance.dismiss('cancel');
+    };
 
-        var data = {
-          'provedor': $scope.provedor,
-          'insumos' : empaquetaData($scope.insumos)
-        };
-
-        var origen = '/entradas/registrar/donacion';
-      break;
-
-      case 'devolucion':
-
-        var data = {
-          'departamento': $scope.departamento,
-          'insumos' : empaquetaData($scope.insumos)
-        };
-
-        var origen = '/entradas/registrar/devolucion';
-      break;
+    $scope.cofirme = function(){
+        save(datos);
+        $scope.modalInstance.dismiss('cancel');
+        $scope.loader = true;
     }
+  }
 
-    $http.post(origen, data)
-      .success( 
-        function(response){
+  var save = function(datos){
+
+      switch(datos){
+        
+        case 'orden':
           
-          if( response.status == 'success'){
+          var data = {
+            'orden'  : $scope.orden,
+            'provedor': $scope.provedor,
+            'insumos' : empaquetaData($scope.insumos)
+          };
+
+          var origen = '/entradas/registrar/orden';
+        break;
+
+        case 'donacion':
+
+          var data = {
+            'provedor': $scope.provedor,
+            'insumos' : empaquetaData($scope.insumos)
+          };
+
+          var origen = '/entradas/registrar/donacion';
+        break;
+
+        case 'devolucion':
+
+          var data = {
+            'departamento': $scope.departamento,
+            'insumos' : empaquetaData($scope.insumos)
+          };
+
+          var origen = '/entradas/registrar/devolucion';
+        break;
+      }
+
+      $http.post(origen, data)
+        .success( 
+          function(response){
             
-            $modal.open({
-                animation: true,
-                templateUrl: 'successRegister.html',
-                controller: 'successRegisterCtrl',
-                resolve: {
-                  response: function () {
-                    return response;
+            $scope.loader = false;
+
+            if( response.status == 'success'){
+              
+              $modal.open({
+                  animation: true,
+                  templateUrl: 'successRegister.html',
+                  controller: 'successRegisterCtrl',
+                  resolve: {
+                    response: function () {
+                      return response;
+                    }
                   }
-                }
-            });
+              });
 
-            $scope.restablecer();
-            return;
+              $scope.restablecer();
+              return;
+            }
+
+            $scope.alert = {type:response.status , msg: response.menssage};
           }
-
-          $scope.alert = {type:response.status , msg: response.menssage};
-        }
-      );
+        );
   }   
-
-
 
   $scope.eliminarInsumo = function(index){
     $scope.insumos.splice(index, 1);
