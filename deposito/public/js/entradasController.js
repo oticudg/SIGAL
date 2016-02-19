@@ -177,11 +177,16 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
 
   $scope.entrada = {};
   $scope.insumos = [];
+  $scope.visibility = false;
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
   
   };
+
+  $scope.chvisibility = function(){
+    $scope.visibility =  !$scope.visibility ? true:false;
+  }
 
   $scope.detalles = function(){
 

@@ -1,11 +1,27 @@
 <div class="modal-header">
     <div class="row">
-	    <h3 class="modal-title text-title-modal col-md-9">
-	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo | codeforma#}</strong>
-	    </h3>
-		<h3 class="modal-title text-title-modal" ng-show="entrada.orden">
-	    	N° Orden: <strong>{#entrada.orden#}</strong>
-	    </h3>
+    	<div class="col-md-6 bg-damger">
+		    <h3 class="modal-title text-title-modal">
+		    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo | codeforma#}</strong>
+		    </h3>
+		</div>
+	    <div class="col-md-4">
+	    	<div class="row">
+		    	<div class="col-md-offset-2 col-md-11">
+					<h3 class="modal-title text-title-modal" ng-show="entrada.orden">
+				    	N° Orden: <strong>{#entrada.orden#}</strong>
+				    </h3>
+			    </div>
+			</div>
+		</div>
+
+		<div class="col-md-2">
+			<div class="row">
+				<div class="col-md-offset-8 col-md-2">
+			    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+			    </div>
+		    </div>
+		</div>
 	</div>
 </div>
 <div class="modal-body">
@@ -40,7 +56,24 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in insumos | itemsPerPage:5">
+			<tr ng-show="visibility">
+				<td>
+					<input type="text" class="form-control" placeholder="Codigo" ng-model="search.codigo">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.descripcion">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Lote" ng-model="search.lote">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Fecha" ng-model="search.fecha">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">
+				</td>
+			</tr>
+			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.lote#}</td>
