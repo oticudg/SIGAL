@@ -333,6 +333,7 @@ angular.module('deposito').controller('detallesCargaCtrl', function ($scope, $mo
   };
 
   $scope.chvisibility = function(){
+    $scope.search = {};
     $scope.visibility =  !$scope.visibility ? true:false;
   }
 

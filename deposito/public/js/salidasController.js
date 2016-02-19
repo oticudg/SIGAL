@@ -68,6 +68,7 @@ angular.module('deposito').controller('detallesSalidaCtrl', function ($scope, $m
   };
 
   $scope.chvisibility = function(){
+    $scope.search = {};
     $scope.visibility =  !$scope.visibility ? true:false;
   }
 

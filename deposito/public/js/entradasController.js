@@ -185,6 +185,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
   };
 
   $scope.chvisibility = function(){
+    $scope.search = {};
     $scope.visibility =  !$scope.visibility ? true:false;
   }
 
