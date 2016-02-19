@@ -1,6 +1,17 @@
 <div class="modal-header">
-    <h3 style="color:#54AF54;" class="modal-title">
-    	<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#salida.codigo | codeforma#}</strong></h3>
+	<div class="row">
+		<div class="col-md-10">
+	    	<h3 style="color:#54AF54;" class="modal-title">
+	    		<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#salida.codigo | codeforma#}</strong>
+	    	</h3>
+	    </div>
+
+	    <div class="col-md-2">
+	    	<div class="col-md-offset-8 col-md-2">
+	    		<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+	    	</div>
+	    </div>
+	</div>
 </div>
 <div class="modal-body">
 	
@@ -33,7 +44,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="insumo in insumos | itemsPerPage:5">
+			<tr ng-show="visibility">
+				<td>
+					<input type="text" class="form-control" placeholder="Codigo" ng-model="search.codigo">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.descripcion">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="S" ng-model="search.solicitado">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="D" ng-model="search.despachado">
+				</td>
+			</tr>
+			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.solicitado#}</td>

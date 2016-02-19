@@ -1,6 +1,6 @@
 <div class="modal-header">
     <div class="row">
-    	<div class="col-md-6 bg-damger">
+    	<div class="col-md-6">
 		    <h3 class="modal-title text-title-modal">
 		    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo | codeforma#}</strong>
 		    </h3>
