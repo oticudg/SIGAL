@@ -47,22 +47,44 @@ controller('registroSalidaController',function($scope,$http,$modal){
     $scope.insumoSelect = {};
   }
 
-  $scope.registroEntrada = function(){
-
-    var $data = {
-      'departamento': $scope.servicio,
-      'insumos'     : empaquetaData()
-    };
+  $scope.registrar = function(){
 
     if( !validaCantidad() ){
       $scope.alert = {type:"danger" , msg:"Especifique valores validos para cada insumo"};
       return;
     }
 
+     $scope.modalInstance = $modal.open({
+      animation: true,
+      templateUrl: 'confirmeRegister.html',
+      'scope':$scope          
+    });
+
+
+    $scope.cancel = function () {
+      $scope.modalInstance.dismiss('cancel');
+    };
+
+    $scope.cofirme = function(){
+        save();
+        $scope.modalInstance.dismiss('cancel');
+        $scope.loader = true;
+    }
+  }
+
+  var save = function($data){
+
+    var $data = {
+      'departamento': $scope.servicio,
+      'insumos'     : empaquetaData()
+    };
+
     $http.post('/registrarSalida', $data)
       .success( 
         function(response){
-  
+          
+          $scope.loader = false;
+
           if(response.status == 'unexist'){
 
             marcaInsumos(response.data);
