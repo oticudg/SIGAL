@@ -236,13 +236,33 @@ controller('alertController',function($scope,$http){
     $scope.alert = {};
   }
 
-  $scope.registrar = function(datos){
+  $scope.registrar = function(){
 
     if( !validaCantidad($scope.insumos) ){
       $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
       return;
     }
-        
+
+    $scope.modalInstance = $modal.open({
+      animation: true,
+      templateUrl: 'confirmeRegister.html',
+      'scope':$scope          
+    });
+
+
+    $scope.cancel = function () {
+      $scope.modalInstance.dismiss('cancel');
+    };
+
+    $scope.cofirme = function(){
+        save();
+        $scope.modalInstance.dismiss('cancel');
+        $scope.loader = true;
+    }
+  }
+
+  var save = function(){
+
     var data = {
       'insumos' : empaquetaData($scope.insumos)
     };
@@ -250,6 +270,8 @@ controller('alertController',function($scope,$http){
     $http.post('/inventario/herramientas/cargaInventario', data)
       .success( 
         function(response){
+
+          $scope.loader = false;
           
           if( response.status == 'success'){
             
