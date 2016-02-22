@@ -30,7 +30,7 @@ controller('alertController',function($scope,$http){
       return; 
     }
 
-    $scope.insumos.push(
+    $scope.insumos.unshift(
       {
         'id':$scope.insumoSelect.selected.id, 
         'codigo':$scope.insumoSelect.selected.codigo,
@@ -172,7 +172,7 @@ controller('alertController',function($scope,$http){
       return; 
     }
 
-    $scope.insumos.push(
+    $scope.insumos.unshift(
       {
         'id':$scope.insumoSelect.selected.id, 
         'codigo':$scope.insumoSelect.selected.codigo, 
