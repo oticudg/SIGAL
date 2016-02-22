@@ -11,15 +11,17 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Privilegio;
 use App\Deposito;
+use Hash;
 
 class usersController extends Controller
 {
 
     private $menssage = [
-        'password.required'  => 'El campo contraseña es obligatorio',
-        'password.min'       => 'La contraseña debe contener al menos 8 caracteres',
-        'password.confirmed' => 'La contraseña no coincide',
-        'deposito.required'  => 'Seleccione un Almacén'
+        'password.required'     => 'El campo contraseña es obligatorio',
+        'passwordOri.required'  => 'El campo contraseña actual es obligatorio',
+        'password.min'          => 'La contraseña debe contener al menos 8 caracteres',
+        'password.confirmed'    => 'La contraseña no coincide',
+        'deposito.required'     => 'Seleccione un Almacén'
     ];
 
     public function index()
@@ -41,8 +43,11 @@ class usersController extends Controller
     }
 
     public function viewDeposito(){
-
         return view('users/cambiarDeposito');
+    }
+
+    public function viewPassword(){
+        return view('users/cambiarPassword');
     }
 
     public function registrar(Request $request){   
@@ -346,6 +351,55 @@ class usersController extends Controller
 
             User::where('id', $id)->update([
                 'deposito' => $data['deposito']
+            ]);
+
+            return Response()->json(['status' => 'success']);
+        }
+    }
+
+    public function editPassword(Request $request){
+
+        $data = $request->all();
+        $id   = Auth::user()->id;
+
+        $menssage = [
+            'password.required'     => 'Indique nueva contraseña',
+            'passwordOri.required'  => 'Indique contraseña actual',
+            'password.min'          => 'La contraseña debe contener al menos 8 caracteres',
+            'password.confirmed'    => 'La confirmacion de la nueva contraseña no coincide'
+        ];
+
+        $validator = Validator::make($data,[
+            'passwordOri'   => 'required',
+            'password'      => 'required|min:8|confirmed'  
+        ], $menssage);
+        
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+        }
+        else{
+
+            //Obtiene la contraseña actual que utiliza el usuario
+            $oriPassword = User::where('id', $id)->value('password');
+
+            /**
+             *Si la contraseña actual no coincide, regresa un mensaje de error
+             */
+            if( !Hash::check($data['passwordOri'], $oriPassword) ){
+                return Response()->json(['status' => 'danger', 'menssage' => 
+                    'La contraseña actual no coincide']);
+            }
+
+            /**
+             *Si la contraseña actual es la misma a midificar regresa un mensaje de error
+             */ 
+            if( Hash::check($data['password'], $oriPassword) ){
+                return Response()->json(['status' => 'danger', 'menssage' => 
+                    'La contraseña a modificar no puede ser la actual.']); 
+            }
+
+            User::where('id', $id)->update([
+                'password' => bcrypt($data['password'])
             ]);
 
             return Response()->json(['status' => 'success']);

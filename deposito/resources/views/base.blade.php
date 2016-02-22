@@ -34,8 +34,10 @@
 						</a>
 				  	    <ul class="dropdown-menu" role="menu">
 				        	@if( Auth::user()->haspermission('depositos'))
-				        		<li ng-click="deposito()"><a href="#"><span class="glyphicon glyphicon-inbox"></span> Almacén</a></li>
+				        		<li ng-click="deposito()"><a href="#"><span class="glyphicon glyphicon-inbox"></span> Cambiar almacén</a></li>
+				        		<li class="divider"></li>
 				        	@endif
+				        	<li ng-click="password()"><a href="#"><span class="glyphicon glyphicon-lock"></span> Cambiar contraseña</a></li>
 				        	<li class="divider"></li>
 				        	<li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
 				        </ul>

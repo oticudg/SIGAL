@@ -103,6 +103,14 @@ deposito.controller('menuController', function($scope, $http, $modal){
           }
     });
   }
+  
+  $scope.password = function(){
+    $modal.open({
+        animation: true,
+          templateUrl: '/cambiarPassword',
+          controller: 'cambiaPasswordController'
+    });
+  }
 
 });
 
@@ -149,6 +157,39 @@ deposito.controller('cambiaDepositoController', function($scope, $http, $modalIn
   };
 
 });
+
+deposito.controller('cambiaPasswordController', function($scope, $http, $modalInstance){
+
+  $scope.alert = {};
+  $scope.data = {};
+
+  $scope.modificar = function () {
+    $scope.save();
+  };
+
+  $scope.save = function(){
+
+    $http.post('/cambiarPassword', $scope.data)
+      .success(function(response){
+        if(response.status == 'success'){
+          $modalInstance.dismiss('cancel');
+          return;
+        }
+                
+        $scope.alert = {type:response.status , msg: response.menssage};
+    });
+  };
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.closeAlert = function(){
+    $scope.alert = {};
+  };
+
+});
+
 
 $(document).ready(function () {
 var trigger = $('.hamburger'),

@@ -102,9 +102,15 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('cambiarDeposito','usersController@viewDeposito');
 		//Regresa deposito del usuario logueado
 		Route::get('getDeposito','usersController@getDeposito');
-		//Edita el deposito del usuario cuyo ide se pase
+		//Edita el deposito del usuario logueado
 		Route::post('editarDeposito','usersController@editDeposito');
 	});
+
+
+	//Regresa la vista de cambio de contraseña
+	Route::get('cambiarPassword', 'usersController@viewPassword');
+	//Modifica el password del usuario logueado
+	Route::post('cambiarPassword', 'usersController@editPassword');
 
 	/*** fin de modulo usuario ***/
 
@@ -414,3 +420,4 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Fin de modulo de Reportes ***/
 
 });
+
