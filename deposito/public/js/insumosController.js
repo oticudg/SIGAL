@@ -101,8 +101,9 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
 
     		$scope.alerts = [];
     		$scope.alerts.push( {"type":response.status , "msg":response.menssage});
-     
-          $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+        $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+
+        if($response.status == "success")
           obtenerInsumos();
    	});
 
@@ -155,7 +156,9 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
       $scope.alerts.push( {"type":response.status , "msg":response.menssage});
       
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-      obtenerInsumos();
+      
+      if($response.status == "success")
+        obtenerInsumos();
   });
 
  };
@@ -189,8 +192,9 @@ angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $m
       $scope.alerts.push( {"type":response.status , "msg":response.menssage});
     
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-     
-      obtenerInsumos();
+      
+      if(response.status == "success")
+        obtenerInsumos();
   });
  };
 
