@@ -36,7 +36,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
       return; 
     }
     
-    $scope.insumos.push(
+    $scope.insumos.unshift(
       {
         'id':$scope.insumoSelect.selected.id, 
         'codigo':$scope.insumoSelect.selected.codigo, 
