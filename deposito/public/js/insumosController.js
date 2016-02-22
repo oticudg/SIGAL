@@ -103,7 +103,7 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
     		$scope.alerts.push( {"type":response.status , "msg":response.menssage});
         $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
 
-        if($response.status == "success")
+        if(response.status == "success")
           obtenerInsumos();
    	});
 
@@ -157,7 +157,7 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
       
       $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
       
-      if($response.status == "success")
+      if(response.status == "success")
         obtenerInsumos();
   });
 
