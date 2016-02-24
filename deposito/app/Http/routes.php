@@ -217,7 +217,7 @@ Route::group(['middleware' => 'auth' ], function(){
 				//configura el valor min y med de los insumos que se especifiquen
 				Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
 				//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
-				Route::get('getInventarioConsulta', 'inventarioController@getInsumosConsulta');
+				Route::get('getInventarioAlert', 'inventarioController@getInsumosAlert');
 				//Regresa una lista de los inventarios cargados
 				Route::get('getInventarioCargas', 'inventarioController@allInventarioCargas');
 				//Regresa todos los datos de un entrade de carga de inventario cuyo id se pase

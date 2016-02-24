@@ -11,7 +11,7 @@ controller('alertController',function($scope,$http){
 
     var params = {insumo: insumo};
     return $http.get(
-      '/inventario/herramientas/getInventarioConsulta',
+      '/inventario/herramientas/getInventarioAlert',
       {params: params}
     ).then(function(response){
       $scope.listInsumos =  response.data

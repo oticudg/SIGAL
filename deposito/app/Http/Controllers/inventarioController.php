@@ -55,7 +55,7 @@ class inventarioController extends Controller
             ->get();
     }
 
-    public function getInsumosConsulta(Request $request){
+    public function getInsumosAlert(Request $request){
 
         $deposito = Auth::user()->deposito;         
         $consulta = $request->input('insumo');
