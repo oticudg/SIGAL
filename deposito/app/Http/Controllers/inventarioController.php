@@ -67,9 +67,10 @@ class inventarioController extends Controller
                         ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                             'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
                         ->where('deposito', $deposito)
-                        ->where('insumos.descripcion', 'like', $consulta.'%')
-                        ->orwhere('insumos.codigo', 'like', $consulta.'%')
-                        ->take(20)->get();
+                        ->where(function($query) use ($consulta){
+                            $query->where('descripcion', 'like', '%'.$consulta.'%')
+                                  ->orwhere('codigo', 'like', '%'.$consulta.'%');
+                        })->orderBy('inventarios.id', 'desc')->take(50)->get();
         }
 
         return "[]"; 
