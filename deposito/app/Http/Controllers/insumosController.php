@@ -87,7 +87,7 @@ class insumosController extends Controller
                 $query->where('descripcion', 'like', '%'.$consulta.'%')
                       ->orwhere('codigo', 'like', '%'.$consulta.'%');
 
-            })->take(30)->get();
+            })->orderBy('id', 'desc')->take(50)->get();
         }
 
         return "[]"; 
