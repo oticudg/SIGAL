@@ -75,6 +75,26 @@ class inventarioController extends Controller
         return "[]"; 
     }
 
+    public function getInsumosInventario(Request $request){
+
+        $deposito = Auth::user()->deposito;         
+        $consulta = $request->input('insumo');
+
+        if($consulta != ""){
+
+            return DB::table('insumos')
+                        ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
+                        ->select('insumos.id','insumos.codigo','insumos.descripcion')
+                        ->where('inventarios.deposito', $deposito)
+                        ->where(function($query) use ($consulta){
+                            $query->where('descripcion', 'like', '%'.$consulta.'%')
+                                  ->orwhere('codigo', 'like', '%'.$consulta.'%');
+                        })->orderBy('inventarios.id', 'desc')->take(50)->get();
+        }
+
+        return "[]"; 
+    }
+
     public function configuraAlarmas(Request $request){
         
         $data = $request->all();

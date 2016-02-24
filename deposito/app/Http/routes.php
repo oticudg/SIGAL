@@ -232,6 +232,13 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Regresa todos los insumos en alerta del inventario
 			Route::get('getAlertInsumos','inventarioController@insumosAlert');	
 		});
+
+		/**
+		 *Regresa una lista de insumos que existen en el inventario que 
+		 *coincidan con la descripcion o codigo que se pase
+		 */
+		Route::get('getInsumosInventario', 'inventarioController@getInsumosInventario');
+
 	});
 
 	/*** Fin de modulo de inventario ***/
@@ -420,4 +427,3 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Fin de modulo de Reportes ***/
 
 });
-

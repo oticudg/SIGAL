@@ -14,7 +14,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
     
     var params = {insumo: insumo};
     return $http.get(
-      '/getInsumosConsulta',
+      'inventario/getInsumosInventario',
       {params: params}
     ).then(function(response){
       $scope.listInsumos =  response.data
