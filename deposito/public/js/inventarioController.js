@@ -62,10 +62,26 @@ controller('inventarioController',function($scope,$http,$modal){
 	}
 
 	$scope.selectAll = function(){
-		for( var insumo in $scope.insumos){
-			$scope.insumos[insumo].color = "success";
-			$scope.insumos[insumo].select = true;
-		}	
+
+		if(!$scope.busqueda){
+			for( var insumo in $scope.insumos){
+				$scope.insumos[insumo].color = "success";
+				$scope.insumos[insumo].select = true;
+			}
+		}
+		else{
+			for( var insumo in $scope.insumos){
+
+				var descripcion = $scope.insumos[insumo].descripcion.toLowerCase();
+				var busqueda = $scope.busqueda.toLowerCase();
+
+				if( descripcion.indexOf(busqueda) == -1 )
+					continue;
+
+				$scope.insumos[insumo].color = "success";
+				$scope.insumos[insumo].select = true;
+			}
+		}
 	}
 
 	$scope.selectInsumo = function(index){
@@ -129,3 +145,4 @@ controller('inventarioController',function($scope,$http,$modal){
 
 });
 
+console.log("hola mundo");
