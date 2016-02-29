@@ -18,7 +18,7 @@ controller('modifiEntradasController',function($scope,$http,$modal){
      		animation: true,
       		templateUrl: '/modificaciones/registrarEntrada',
       		windowClass: 'large-Modal',
-      		controller: 'registraModificacionCtrl',
+      		controller: 'registraModificacionEntradaCtrl',
       		resolve: {
        			 obtenerEntradas: function () {
           			return $scope.obtenerEntradas;
@@ -33,7 +33,7 @@ controller('modifiEntradasController',function($scope,$http,$modal){
 
 	      animation: true,
 	          templateUrl: '/modificaciones/detallesEntrada',
-	          controller: 'detallesModificacionCtrl',
+	          controller: 'detallesModificacionEntradaCtrl',
 	          windowClass: 'large-Modal',
 	          resolve: {
 
@@ -48,7 +48,7 @@ controller('modifiEntradasController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registraModificacionCtrl', 
+angular.module('deposito').controller('registraModificacionEntradaCtrl', 
 	function ($scope, $modalInstance, $http, obtenerEntradas){
 
   $scope.btnVisivilidad = true;
@@ -176,7 +176,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
 });
 
-angular.module('deposito').controller('detallesModificacionCtrl', function ($scope, $modalInstance, $http, id) {
+angular.module('deposito').controller('detallesModificacionEntradaCtrl', function ($scope, $modalInstance, $http, id) {
 
   $scope.entrada = {};
   $scope.insumos = [];

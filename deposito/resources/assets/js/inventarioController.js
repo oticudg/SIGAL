@@ -144,5 +144,3 @@ controller('inventarioController',function($scope,$http,$modal){
 	$scope.obtenerInsumos();
 
 });
-
-console.log("hola mundo");

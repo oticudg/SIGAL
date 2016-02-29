@@ -1,16 +1,23 @@
-var elixir = require('laravel-elixir');
+var gulp = require('gulp')
+  concat = require('gulp-concat')
+  uglify = require('gulp-uglify')
+  uglifycss = require('gulp-uglifycss');
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
+gulp.task('js', function(){
+	gulp.src('resources/assets/js/*.js')
+	.pipe(concat('deposito.js'))
+	.pipe(uglify({mangle: false}))
+	.pipe(gulp.dest('public/js'));
+})
 
-elixir(function(mix) {
-    mix.sass('app.scss');
-});
+gulp.task('css', function(){	
+	gulp.src('resources/assets/css/global.css')
+	.pipe(uglifycss({
+      "maxLineLen": 80,
+      "uglyComments": true
+    }))
+    .pipe(gulp.dest('public/css/'));
+})
+
+
+

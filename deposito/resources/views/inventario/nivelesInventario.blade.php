@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="insumosAlertController"')
-@section('addscript')
-<script src="{{asset('js/insumosAlertController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<nav class="nav-ubication">

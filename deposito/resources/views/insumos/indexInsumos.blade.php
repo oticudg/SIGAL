@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="insumosController"')
-@section('addscript')
-<script src="{{asset('js/insumosController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<div data-loading class="div_loader">

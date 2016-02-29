@@ -52,7 +52,7 @@
 	<div>
 		@yield('conten')
 	</div>
-	
+
 	<script src="{{asset('js/vendor/jquery-2.1.4.min.js')}}"></script>
 	<script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>
 	<script src="{{asset('js/vendor/angular.min.js')}}"></script>
@@ -60,7 +60,8 @@
 	<script src="{{asset('js/vendor/dirPagination.js')}}"></script>
 	<script src="{{asset('js/vendor/angular-sanitize.min.js')}}"></script>
 	<script src="{{asset('js/vendor/select.min.js')}}"></script>
-	<script src="{{asset('js/config.js')}}" type="text/javascript"></script>
+	<script src="{{asset('js/deposito.js')}}"></script>
+	
 	@yield('addscript')
 
 </body>

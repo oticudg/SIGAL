@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="modifiSalidasController"')
-@section('addscript')
-<script src="{{asset('js/modifiSalidasController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<div data-loading class="div_loader">

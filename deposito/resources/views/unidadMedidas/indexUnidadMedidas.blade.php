@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="unidadMedidasController"')
-@section('addscript')
-<script src="{{asset('js/unidadMedidasController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<h5 class="text-muted">

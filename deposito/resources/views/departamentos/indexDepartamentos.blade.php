@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="departamentosController"')
-@section('addscript')
-<script src="{{asset('js/departamentosController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<div data-loading class="div_loader">

@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="registroSalidaController"')
-@section('addscript')
-<script src="{{asset('js/registroSalidaController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<div ng-show="loader" class="div_loader">

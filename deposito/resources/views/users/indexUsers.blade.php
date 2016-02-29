@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="usersController"')
-@section('addscript')
-<script src="{{asset('js/usersController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<div id='loader' data-loading class="div_loader">

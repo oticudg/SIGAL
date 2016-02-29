@@ -1,9 +1,5 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="presentacionesController"')
-@section('addscript')
-<script src="{{asset('js/presentacionesController.js')}}"></script>
-@endsection
-
 @section('front-page')
 
 	<h5 class="text-muted">

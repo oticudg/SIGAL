@@ -1,8 +1,4 @@
 @extends('panel')
-@section('addscript')
-<script src="{{asset('js/herramientasInventarioController.js')}}"></script>
-@endsection
-
 @section('front-page')
 	
 	<nav class="nav-ubication">

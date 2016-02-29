@@ -18,7 +18,7 @@ controller('modifiSalidasController',function($scope,$http,$modal){
      		animation: true,
       		templateUrl: '/modificaciones/registrarSalida',
       		windowClass: 'large-Modal',
-      		controller: 'registraModificacionCtrl',
+      		controller: 'registraModificacionSalidaCtrl',
       		resolve: {
        			 obtenerSalidas: function () {
           			return $scope.obtenerSalidas;
@@ -33,7 +33,7 @@ controller('modifiSalidasController',function($scope,$http,$modal){
 
 	      animation: true,
 	          templateUrl: '/modificaciones/detallesSalida',
-	          controller: 'detallesModificacionCtrl',
+	          controller: 'detallesModificacionSalidaCtrl',
 	          windowClass: 'large-Modal',
 	          resolve: {
 
@@ -48,7 +48,7 @@ controller('modifiSalidasController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registraModificacionCtrl', 
+angular.module('deposito').controller('registraModificacionSalidaCtrl', 
 	function ($scope, $modalInstance, $http, obtenerSalidas){
 
   $scope.btnVisivilidad = true;
@@ -179,7 +179,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
 });
 
-angular.module('deposito').controller('detallesModificacionCtrl', function ($scope, $modalInstance, $http, id) {
+angular.module('deposito').controller('detallesModificacionSalidaCtrl', function ($scope, $modalInstance, $http, id) {
 
   $scope.salida = {};
   $scope.insumos = [];
