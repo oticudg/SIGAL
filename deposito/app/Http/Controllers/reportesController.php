@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Entrada;
 use App\Deposito;
 
+
 class reportesController extends Controller
 {   
     public function cargaInventario($id){
@@ -45,17 +46,26 @@ class reportesController extends Controller
         }
     }
 
-    public function allInventario(){
+    public function allInventario(Request $request){
         
+        $data = $request->only(['filter']);
         $deposito   = Auth::user()->deposito;
         $usuario    = Auth::user()->email;
         $depositoN  = Deposito::where('id', $deposito)->value('nombre');
         $fecha      = date("Y-m-d");
-        $hora       = date("H:i:s");
+        $hora       = date("H:i:s");        
 
+        /**
+          *Si se ha pasado el parametro filter
+          *el reporte contendra solo los 
+          *insumos con cantidades mayores que 0 de lo contrario
+          *se mostraran todos los registros.
+          */
+        $filter = isset($data['filter'])? 0:-1; 
 
         $insumos = DB::table('insumos')
             ->where('deposito', $deposito)
+            ->where('inventarios.existencia','>', $filter)
             ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
             ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
                 'inventarios.existencia')
