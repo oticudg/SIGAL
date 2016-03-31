@@ -1,8 +1,8 @@
 @extends('panel')
 @section('front-page')
-	
+
 	<nav class="nav-ubication">
-		<ul class="nav-enlaces">	
+		<ul class="nav-enlaces">
 			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-wrench"></span> Herramientas</li>
 		</ul>
@@ -15,7 +15,7 @@
 
 		<li><a data-toggle="tab" class="text-enlace" href="#carga">Cargas de inventario</a></li>
 	</ul>
-	
+
 	<div class="tab-content">
 		{{--Panel de registros de alarmas--}}
 		<div id="alarmas" class="tab-pane fade in active" ng-controller="alertController">
@@ -23,7 +23,7 @@
 			<center>
 				<h3 class="text-success">Configuracion de alarmas</h3>
 			</center>
-			<br><br>					
+			<br><br>
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<div class="input-group">
@@ -77,7 +77,7 @@
 					</tbody>
 				</table>
 				<br>
-				<center>	
+				<center>
 					<button ng-click="guardar()" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
 	    		</center>
     		</div>
@@ -85,7 +85,7 @@
 
 		{{--Panel de registros de inventario--}}
 		<div id="carga" class="tab-pane fade" ng-controller="cargaInvController">
-			
+
 			<div ng-show="loader" class="div_loader">
 				<div id="img_loader" class="img_loader">
 					<img src="{{asset('imagen/loader.gif')}}" alt="">
@@ -94,7 +94,7 @@
 			</div>
 
 			<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
-			
+
 			<br>
 			<a href="{{route('invenHerraInventarioCargas')}}" class="btn btn-success" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-circle-arrow-down"></span> Listado de cargas</a>
 
@@ -128,7 +128,7 @@
 			</div>
 
 			<br>
-			
+
 			<div ng-show="thereInsumos()" >
 				<table class="table table-striped">
 					<thead>

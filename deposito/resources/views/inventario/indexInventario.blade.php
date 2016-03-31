@@ -1,31 +1,31 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="inventarioController"')
 @section('front-page')
-	
+
 	<div data-loading class="div_loader">
 		<div id="img_loader" class="img_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
 		</div>
 	</div>
-	
+
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>	
+			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-equalizer"></span> Existencia</a></li>
 		</ul>
 	</nav>
 
 	<br>
 	<br>
-	
+
 	@if(Auth::user()->haspermission('inventarioH'))
 		<div class="row">
 			<div class="col-md-2" ng-hide="status">
 				<div class="input-group-btn">
 					<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
 					<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
-					
+
 					<ul class="dropdown-menu" role="menu">
 						<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
 						<li><a href="{{route('reporInv')}}?filter" target="_blank">Total Existente</a></li>
@@ -39,7 +39,7 @@
 				<button ng-click="closeSelect()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
 			</div>
 		</div>
-		
+
 		<br>
 	@endif
 
@@ -51,14 +51,14 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="row">
 		<div class="col-md-1">
     		<label for="cantidad">Registros</label>
 			<select id="cantidad" class="form-control" ng-model="cRegistro">
 				<option value="5">5</option>
 				<option value="10">10</option>
-				<option value="20">20</option>	
+				<option value="20">20</option>
 			</select>
 		</div>
 	</div>
@@ -76,7 +76,9 @@
 				</th>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
-				<th class="col-md-2">Existencia en Unidades</th>
+				<th class="col-md-1">Existencia en Unidades</th>
+				<th class="col-md-1">Entradas</th>
+				<th class="col-md-1">Salidas</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -87,6 +89,8 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>
+				<td>{#insumo.total_entradas#}</td>
+				<td>{#insumo.total_salidas#}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -98,4 +102,3 @@
     </div>
 
 @endsection
-

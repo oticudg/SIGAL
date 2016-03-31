@@ -62,6 +62,7 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
+            'unix_socket' => '/opt/lampp/var/mysql/mysql.sock',
         ],
 
         'pgsql' => [

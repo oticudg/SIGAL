@@ -44,14 +44,14 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Edita un provedor cuyo id se pase
 			Route::post('editProvedor/{id}', 'provedoresController@editProvedor');
 		});
-		
+
 		Route::group(['middleware' => 'permission:provedoreD'], function(){
 			//Muestra la vista de eliminacion de provedores
 			Route::get('elimProvedor','provedoresController@viewEliminar');
 			//Elimina un provedor cuyo id se pase
 			Route::post('elimProvedor/{id}','provedoresController@elimProvedor');
 		});
-		
+
 		//Obtiene un provedor por su id
 		Route::get('getProvedor/{id}', 'provedoresController@getProvedor');
 
@@ -62,12 +62,12 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** fin de modulo provedores ***/
 
-	
+
 	/*** Modulo de usuarios ***/
 
 	Route::group(['middleware' => 'permission:usuarios'], function(){
 
-		//Muestra el panel de usuarios 
+		//Muestra el panel de usuarios
 		Route::get('usuarios' , 'usersController@index');
 
 		Route::group(['middleware' => 'permission:usuarioN'], function(){
@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		//Obtiene un usuario por su id
 		Route::get('getUsuario/{id}', 'usersController@getUsuario');
 	});
-	
+
 	Route::group(['middleware' => 'permission:depositos'], function(){
 		//Regresa la vista de cambio de deposito
 		Route::get('cambiarDeposito','usersController@viewDeposito');
@@ -119,7 +119,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	Route::group(['middleware' => 'permission:departamentos'], function(){
 
-		//Muestra el panel de departamentos 
+		//Muestra el panel de departamentos
 		Route::get('departamentos','departamentosController@index');
 
 		Route::group(['middleware' => 'permission:departamentoN'], function(){
@@ -144,8 +144,8 @@ Route::group(['middleware' => 'auth' ], function(){
 		});
 
 		//Obtiene un departamento por su id
-		Route::get('getDepartamento/{id}', 'departamentosController@getDepartamento');	
-		
+		Route::get('getDepartamento/{id}', 'departamentosController@getDepartamento');
+
 	});
 
 	//Regresa todas los departamentos que existan
@@ -158,7 +158,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	Route::group(['middleware' => 'permission:insumos'], function(){
 
-		//Muestra el panel de insumos 
+		//Muestra el panel de insumos
 		Route::get('insumos','insumosController@index');
 
 		Route::group(['middleware' => 'permission:insumoN'], function(){
@@ -168,13 +168,13 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::post('registrarInsumo' ,'insumosController@registrar');
 		});
 
-		Route::group(['middleware' => 'permission:insumoM'], function(){	
+		Route::group(['middleware' => 'permission:insumoM'], function(){
 			//Muesta la vista de edicion de insumo
 			Route::get('editarInsumo', 'insumosController@viewEditar');
 			//Edita un insumo cuyo id se pase
 			Route::post('editarInsumo/{id}', 'insumosController@editInsumo');
 		});
-		
+
 		Route::group(['middleware' => 'permission:insumoD'], function(){
 			//Muestra la vista de eliminacion de insumo
 			Route::get('eliminarInsumo','insumosController@viewEliminar');
@@ -185,7 +185,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		//Regresa todas los insumos que existan
 		Route::get('getInsumos','insumosController@allInsumos');
 		//Obtiene un insumo por su id
-		Route::get('getInsumo/{id}', 'insumosController@getInsumo');	
+		Route::get('getInsumo/{id}', 'insumosController@getInsumo');
 	});
 
 	//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
@@ -196,7 +196,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de inventario ***/
 
-	Route::group(['prefix' => 'inventario', 'as' => 'inven'], 
+	Route::group(['prefix' => 'inventario', 'as' => 'inven'],
 		function(){
 
 		Route::group(['middleware' => 'permission:inventarios'], function(){
@@ -205,7 +205,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@index']);
 
 			Route::group(['prefix' => 'herramientas', 'as' => 'Herra', 'middleware' => 'permission:inventarioH'], function(){
-				
+
 				//Muestra la  vista de insumos en niveles bajos y criticos
 				Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'Niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
 				//Muestra la vista de herramientas
@@ -230,11 +230,11 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::get('getInventario','inventarioController@allInsumos');
 
 			//Regresa todos los insumos en alerta del inventario
-			Route::get('getAlertInsumos','inventarioController@insumosAlert');	
+			Route::get('getAlertInsumos','inventarioController@insumosAlert');
 		});
 
 		/**
-		 *Regresa una lista de insumos que existen en el inventario que 
+		 *Regresa una lista de insumos que existen en el inventario que
 		 *coincidan con la descripcion o codigo que se pase
 		 */
 		Route::get('getInsumosInventario', 'inventarioController@getInsumosInventario');
@@ -246,7 +246,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de entradas ***/
 
-	Route::group(['prefix' => 'entradas', 'as' => 'entr'], 
+	Route::group(['prefix' => 'entradas', 'as' => 'entr'],
 		function(){
 
 		Route::group(['middleware' => 'permission:entradas'], function(){
@@ -261,7 +261,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			//tipo se regresan todas las entradas
 			Route::get('getEntradas/{type?}', 'entradasController@allEntradas');
 
-			//Regresa todos los insumos que han entrado segun el tipo que se espesifique, si no se espesifica 
+			//Regresa todos los insumos que han entrado segun el tipo que se espesifique, si no se espesifica
 			//tipo se regresan todos los insumos
 			Route::get('getInsumos/{type?}', 'entradasController@allInsumos');
 
@@ -276,7 +276,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::group(['middleware' => 'permission:entradaR'], function(){
 			//Muestra la vista de registro de entrada
 			Route::get('registrar',['as' => 'Registrar', 'uses' => 'entradasController@viewRegistrar']);
-			
+
 			//Registra una entrada segun un tipo que se espesifique
 			Route::post('registrar/{type}' ,'entradasController@registrar');
 		});
@@ -318,9 +318,9 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de Modificaciones ***/
 
-	Route::group(['prefix' => 'modificaciones', 'as' => 'modifi', 'middleware' => 'permission:modificaciones'], 
+	Route::group(['prefix' => 'modificaciones', 'as' => 'modifi', 'middleware' => 'permission:modificaciones'],
 		function(){
-		
+
 		/** Modificaciones entradas **/
 
 			//Muestra el panel de modificacione de entradas
@@ -337,7 +337,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::get('getEntradas/{id}',['as' => 'GetEntra', 'uses' => 'modificacionesController@getEntrada']);
 
 		/** Modificaciones salidas **/
-			
+
 			//Muestra el panel de modificacione de salidas
 			Route::get('salidas',['as' => 'Salida', 'uses' => 'modificacionesController@indexSalidas']);
 			//Muestra la vista detallada de una salida modificada
@@ -354,11 +354,11 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Fin de modulo de modificaciones ***/
 
-	
+
 	/*** Modulo de Estadisticas ***/
 
 	Route::group(['middleware' => 'permission:estadisticas'], function(){
-		//Muesta el panel de estadisticas 
+		//Muesta el panel de estadisticas
 		Route::get('estadisticas', 'estadisticasController@index');
 
 		//Regresa las salidas de todo los servicios del mes actual
@@ -377,12 +377,12 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Modulo de Depositos ***/
 
 	Route::group(['prefix' => 'depositos', 'as' => 'depo'], function(){
-		
+
 		Route::group(['middleware' => 'permission:depositos'], function(){
-			
-			//Muesta el panel de depositos 
+
+			//Muesta el panel de depositos
 			Route::get('/',['as' => 'Inicio', 'uses' => 'depositosController@index']);
-			
+
 			Route::group(['middleware' => 'permission:depositoN'], function(){
 				//Muestra vista de registro de deposito
 				Route::get('registrarDeposito','depositosController@viewRegistrar');
@@ -402,7 +402,7 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::get('eliminarDeposito','depositosController@viewEliminar');
 				//Elimina un deposito cuyo id se pase
 				Route::post('eliminarDeposito/{id}','depositosController@elimDeposito');
-			}); 
+			});
 
 			//Obtiene un deposito por su id
 			Route::get('getDeposito/{id}', 'depositosController@getDeposito');
@@ -412,7 +412,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('getDepositos','depositosController@allDepositos');
 	});
 
-	
+
 	/*** Fin de modulo de Depositos ***/
 
 

@@ -9,7 +9,7 @@ use Auth;
 use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Inventario; 
+use App\Inventario;
 use App\Insumo;
 use App\Entrada;
 use App\Insumos_entrada;
@@ -17,7 +17,7 @@ use App\Inventario_operacione;
 use App\Deposito;
 
 class inventarioController extends Controller
-{	
+{
     private $menssage = [
        'insumos.required'  =>  'No se han especificado insumos para esta entrada'
     ];
@@ -44,20 +44,37 @@ class inventarioController extends Controller
 
     public function allInsumos(){
 
-        $deposito = Auth::user()->deposito; 
+        $deposito = Auth::user()->deposito;
 
-        return DB::table('insumos')
-            ->where('deposito', $deposito)
-            ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
-            ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
-                'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+        return Inventario::select(
+            "inventarios.insumo as id",
+            "insumos.codigo",
+            "insumos.descripcion",
+            "inventarios.existencia",
+            "inventarios.Cmin as min",
+            "inventarios.Cmed as med",
+            "total_entradas",
+            DB::raw('IFNULL(total_salidas, 0) as total_salidas')
+          )->where('inventarios.deposito', $deposito)
+           ->join('insumos', 'insumos.id', '=', 'inventarios.insumo')
+           ->leftjoin( DB::raw("(select sum(entradas.cantidad) total_entradas, entradas.insumo
+                  from insumos_entradas as entradas
+                  where entradas.deposito = ".$deposito."
+                  group by entradas.insumo
+                ) entradas
+            "), 'inventarios.insumo', '=', 'entradas.insumo')
+            ->leftjoin( DB::raw("(select sum(salidas.despachado) total_salidas, salidas.insumo
+                   from insumos_salidas as salidas
+                   where salidas.deposito = ".$deposito."
+                   group by salidas.insumo
+                 ) salidas
+             "), 'inventarios.insumo', '=', 'salidas.insumo')
             ->orderBy('inventarios.id', 'desc')
             ->get();
     }
-
     public function getInsumosAlert(Request $request){
 
-        $deposito = Auth::user()->deposito;         
+        $deposito = Auth::user()->deposito;
         $consulta = $request->input('insumo');
 
         if($consulta != ""){
@@ -73,12 +90,12 @@ class inventarioController extends Controller
                         })->orderBy('inventarios.id', 'desc')->take(50)->get();
         }
 
-        return "[]"; 
+        return "[]";
     }
 
     public function getInsumosInventario(Request $request){
 
-        $deposito = Auth::user()->deposito;         
+        $deposito = Auth::user()->deposito;
         $consulta = $request->input('insumo');
 
         if($consulta != ""){
@@ -93,11 +110,11 @@ class inventarioController extends Controller
                         })->orderBy('inventarios.id', 'desc')->take(50)->get();
         }
 
-        return "[]"; 
+        return "[]";
     }
 
     public function configuraAlarmas(Request $request){
-        
+
         $data = $request->all();
 
         $validator = Validator::make($data,[
@@ -109,7 +126,7 @@ class inventarioController extends Controller
         }
         else{
 
-            $deposito = Auth::user()->deposito; 
+            $deposito = Auth::user()->deposito;
             $insumos = $data['insumos'];
 
             foreach($insumos as $insumo) {
@@ -118,15 +135,15 @@ class inventarioController extends Controller
                             ->where('deposito', $deposito)
                             ->update([
                                 'Cmin' => $insumo['min'],
-                                'Cmed' => $insumo['med'] ]);                
+                                'Cmed' => $insumo['med'] ]);
             }
 
-            return Response()->json(['status' => 'success', 'menssage' => 
+            return Response()->json(['status' => 'success', 'menssage' =>
                 'Alarmas configuradas exitosamente']);
         }
 
     }
-    
+
     public function insumosAlert(){
 
         $deposito = Auth::user()->deposito;
@@ -147,25 +164,25 @@ class inventarioController extends Controller
                     'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
                    ->get();
 
-        return $insumos;        
+        return $insumos;
 
     }
 
     public function carga(Request $request){
 
-        $data     = $request->all(); 
+        $data     = $request->all();
         $usuario  = Auth::user()->id;
-        $deposito = Auth::user()->deposito;   
+        $deposito = Auth::user()->deposito;
 
         $validator = Validator::make($data,[
             'insumos'  =>  'required|insumos'
         ], $this->menssage);
 
         if($validator->fails()){
-            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
-            
+
             $insumos = $data['insumos'];
             //Codigo para la entrada
             $code = $this->generateCode('CI', $deposito);
@@ -180,7 +197,7 @@ class inventarioController extends Controller
                     ])['id'];
 
             foreach ($insumos as $insumo){
-                
+
                 Insumos_entrada::create([
                     'entrada'   => $entrada,
                     'insumo'    => $insumo['id'],
@@ -192,16 +209,16 @@ class inventarioController extends Controller
                 inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 'carga-inventario', $entrada);
             }
 
-            return Response()->json(['status' => 'success', 'menssage' => 
+            return Response()->json(['status' => 'success', 'menssage' =>
             'Inventario cargado satisfactoriamente', 'codigo' => $code]);
-            
+
         }
     }
 
     public function allInventarioCargas(){
 
-        $deposito = Auth::user()->deposito;  
-        
+        $deposito = Auth::user()->deposito;
+
         return DB::table('entradas')
                     ->where('type', 'cinventario')
                     ->where('deposito', $deposito)
@@ -212,14 +229,14 @@ class inventarioController extends Controller
 
     public function getCarga($id){
 
-        $deposito = Auth::user()->deposito;  
-        
+        $deposito = Auth::user()->deposito;
+
         $entrada = Entrada::where('id',$id)
                             ->where('deposito', $deposito)
                             ->where('type', 'cinventario')
                             ->first();
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta carga de inventario no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta carga de inventario no existe']);
         }
         else{
 
@@ -233,7 +250,7 @@ class inventarioController extends Controller
             $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
                 ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
                 ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
-                ->get(); 
+                ->get();
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
         }
@@ -241,7 +258,7 @@ class inventarioController extends Controller
 
     public static function almacenaInsumo($insumo, $cantidad, $deposito, $type, $referencia){
 
-    	$inventario = Inventario::where('insumo',$insumo) 
+    	$inventario = Inventario::where('insumo',$insumo)
                       ->where('deposito', $deposito)
                       ->first();
 
@@ -257,7 +274,7 @@ class inventarioController extends Controller
                     'referencia' => $referencia,
                     'existencia' => $existencia
             ]);
-                
+
     		$existencia += $cantidad;
 
     		Inventario::where('insumo' , $insumo)
@@ -292,7 +309,7 @@ class inventarioController extends Controller
                     'referencia' => $referencia,
                     'existencia' => $existencia
             ]);
-                
+
             $existencia -= $cantidad;
 
             Inventario::where('insumo' , $insumo)
@@ -313,7 +330,7 @@ class inventarioController extends Controller
 
             $existencia = Inventario::where('insumo' , $insumo['id'])
                           ->where('deposito', $deposito)
-                          ->value('existencia'); 
+                          ->value('existencia');
 
             if( !$inventario || $existencia < $insumo['despachado'])
                 array_push($invalidos, $insumo['id']);
@@ -327,15 +344,15 @@ class inventarioController extends Controller
         $deposito = Auth::user()->deposito;
         $invalidos = [];
 
-        foreach ($insumos as $insumo){            
-            
+        foreach ($insumos as $insumo){
+
             $existencia = Inventario::where('insumo' , $insumo['id'])
                                     ->where('deposito', $deposito)
                                     ->value('existencia');
-                
+
             if( ($existencia - $insumo['originalC'] + $insumo['modificarC'] ) < 0 )
                 array_push($invalidos, $insumo['index']);
-            
+
         }
 
         return $invalidos;
@@ -346,29 +363,29 @@ class inventarioController extends Controller
         $deposito = Auth::user()->deposito;
         $invalidos = [];
 
-        foreach ($insumos as $insumo){            
-            
+        foreach ($insumos as $insumo){
+
             $existencia = Inventario::where('insumo' , $insumo['id'])
                                     ->where('deposito', $deposito)
                                     ->value('existencia');
-                
+
             if( ($existencia + $insumo['originalD'] - $insumo['modificarD']) < 0 )
                 array_push($invalidos, $insumo['index']);
-            
+
         }
 
         return $invalidos;
     }
 
     /*Funcion que genera codigos para las carga de
-     * inventario segun un deposito que se pase y un 
+     * inventario segun un deposito que se pase y un
      * prefijo
-     */  
+     */
     private function generateCode($prefix,$deposito){
 
         //Obtiene Codigo del deposito
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
-        
+
         return strtoupper( $depCode .'-'.$prefix.str_random(6) );
     }
 
