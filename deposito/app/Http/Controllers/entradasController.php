@@ -13,10 +13,10 @@ use App\Insumos_entrada;
 use App\Deposito;
 
 class entradasController extends Controller
-{   
+{
     private $menssage = [
         'orden.required'    =>  'Especifique un numero de orden de compra',
-        'provedor.required' =>  'Seleccione un proveedor', 
+        'provedor.required' =>  'Seleccione un proveedor',
         'insumos.required'  =>  'No se han especificado insumos para esta entrada'
     ];
 
@@ -24,7 +24,7 @@ class entradasController extends Controller
         return view('entradas/indexEntradas');
     }
 
-    public function viewRegistrar(){  
+    public function viewRegistrar(){
         return view('entradas/registrarEntrada');
     }
 
@@ -35,11 +35,11 @@ class entradasController extends Controller
     public function allInsumos($type = NULL){
 
         $deposito = Auth::user()->deposito;
-        
+
         switch($type){
-            
+
             case 'orden':
-                
+
                 return DB::table('insumos_entradas')
                     ->where('insumos_entradas.type', 'orden')
                     ->where('insumos_entradas.deposito', $deposito)
@@ -47,13 +47,13 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
                         'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote', 
+                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote',
                         'insumos_entradas.fechaV')
                     ->orderBy('insumos_entradas.id', 'desc')->get();
             break;
-            
+
             case 'donacion':
-                
+
                 return DB::table('insumos_entradas')
                     ->where('insumos_entradas.type', 'donacion')
                     ->where('insumos_entradas.deposito', $deposito)
@@ -61,7 +61,7 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
                         'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote', 
+                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote',
                         'insumos_entradas.fechaV')
                     ->orderBy('insumos_entradas.id', 'desc')->get();
             break;
@@ -74,7 +74,7 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos.id' ,  '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.codigo as entrada', 'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.lote', 
+                        'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.lote',
                         'insumos_entradas.fechaV')
                     ->orderBy('insumos_entradas.id', 'desc')->get();
             break;
@@ -88,9 +88,9 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.codigo as entrada', 'insumos_entradas.id', 'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.type', 'insumos_entradas.lote', 
+                        'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.type', 'insumos_entradas.lote',
                         'insumos_entradas.fechaV');
-                
+
                 return DB::table('insumos_entradas')
                     ->where(function ($query) {
                         $query->where('insumos_entradas.type','orden')
@@ -101,7 +101,7 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.codigo as entrada', 'insumos_entradas.id', 'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.type', 'insumos_entradas.lote', 
+                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.type', 'insumos_entradas.lote',
                         'insumos_entradas.fechaV')
                     ->unionAll($devoluciones)
                     ->orderBy('id', 'desc')->get();
@@ -111,10 +111,10 @@ class entradasController extends Controller
 
     public function allEntradas($type = NULL){
 
-        $deposito = Auth::user()->deposito; 
+        $deposito = Auth::user()->deposito;
 
         switch ($type) {
-        
+
             case 'orden':
                 return DB::table('entradas')
                     ->where('type', 'orden')
@@ -164,25 +164,25 @@ class entradasController extends Controller
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         'entradas.id', 'codigo', 'provedores.nombre as provedor', 'type')
                     ->unionAll($devoluciones)
-                    ->orderBy('id', 'desc')->get(); 
+                    ->orderBy('id', 'desc')->get();
             break;
         }
-    }   
-    
+    }
+
     public function getEntrada($id){
-        
+
         $deposito = Auth::user()->deposito;
         $entrada = Entrada::where('id',$id)
                             ->where('deposito', $deposito)
                             ->first();
 
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);
         }
         else{
 
             if($entrada['type'] == 'devolucion'){
-                
+
                 $entrada = DB::table('entradas')->where('entradas.id',$id)
                     ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
                     ->join('users', 'entradas.usuario' , '=', 'users.id' )
@@ -195,7 +195,7 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
                     ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad', 'insumos_entradas.lote',
                             'insumos_entradas.fechaV as fecha')
-                    ->get();                 
+                    ->get();
             }
             else{
 
@@ -211,7 +211,7 @@ class entradasController extends Controller
                     ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
                     ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad','insumos_entradas.lote',
                             'insumos_entradas.fechaV as fecha')
-                    ->get(); 
+                    ->get();
             }
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
@@ -228,7 +228,7 @@ class entradasController extends Controller
         $entrada = Entrada::where('codigo',$realCode)->first();
 
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta entrada no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta entrada no existe']);
         }
         else{
 
@@ -236,15 +236,15 @@ class entradasController extends Controller
 
                $entrada = DB::table('entradas')->where('entradas.codigo',$realCode)
                     ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-                    ->select('entradas.codigo','entradas.orden','entradas.id', 
+                    ->select('entradas.codigo','entradas.orden','entradas.id',
                         'departamentos.nombre as servicio', 'entradas.type')
                     ->first();
             }
             else{
-                
+
                 $entrada = DB::table('entradas')->where('entradas.codigo',$realCode)
                     ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                    ->select('entradas.codigo','entradas.orden','entradas.id', 
+                    ->select('entradas.codigo','entradas.orden','entradas.id',
                         'provedores.nombre as provedor', 'entradas.type')
                     ->first();
             }
@@ -265,20 +265,20 @@ class entradasController extends Controller
 
         $entrada = Entrada::where('orden',$number)
                             ->where('deposito', $deposito)
-                            ->get();        
+                            ->get();
 
         if($entrada->isEmpty()){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta orden no existe']);   
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta orden no existe']);
         }
         else{
 
             $orden = DB::table('entradas')->where('entradas.orden', $number)
                      ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
                      ->select('entradas.orden as numero', 'provedores.nombre as provedor')
-                     ->first();  
+                     ->first();
 
             $entradas = Entrada::where('entradas.orden',$number)->lists('id');
-            
+
             $insumos  = DB::table('insumos_entradas')->whereIn('entrada', $entradas)
                         ->where('insumos_entradas.deposito', $deposito)
                         ->join('entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
@@ -291,15 +291,132 @@ class entradasController extends Controller
                         ->orderBy('insumos_entradas.id', 'desc')->get();
 
             return Response()->json(['status' => 'success', 'orden' => $orden, 'insumos' => $insumos]);
-            
+
         }
     }
 
+    public function search(Request $request){
+
+       $deposito = 3;
+
+       $query = DB::table('entradas')->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+          'entradas.id', 'codigo', 'provedores.nombre as provedor', 'entradas.type')
+          ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+          ->where('entradas.deposito', $deposito);
+
+        //Filtro para buscar entradas por el tipo de orden o donacion
+        if($request->type === 'orden' || $request->type === 'donacion'){
+          $query->where('entradas.type', $request->type);
+        }
+
+        //Filtro para buscar entradas por el tipo devolucion
+        if($request->type === 'devolucion'){
+          $query = DB::table('entradas')
+              ->where('entradas.type', 'devolucion')
+              ->where('entradas.deposito',$deposito)
+              ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+              ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                  'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'entradas.type');
+        }
+
+        //Filtro que devuelve todas las entradas
+        if($request->type === 'all'){
+
+          $devoluciones = DB::table('entradas')
+              ->where('entradas.type', 'devolucion')
+              ->where('entradas.deposito',$deposito)
+              ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+              ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                  'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'entradas.type');
+
+            //Filtro para buscar entradas segun un insumo
+            if($request->insumo){
+              $devoluciones->join('insumos_entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
+              ->where('insumos_entradas.insumo', $request->insumo);
+
+              //Filtro para buscar entradas segun rangos de cantidad del insumo
+              if($request->amountrange){
+                  $devoluciones->whereBetween('insumos_entradas.cantidad',
+                  [$request->cantidadI,$request->cantidadF]);
+              }
+            }
+
+            //Filtro para buscar entradas por rangos de fecha
+            if($request->dateranger){
+              $devoluciones->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%Y-%m-%d")'),
+                [$request->fechaI,$request->fechaF]);
+            }
+
+            //Filtro para buscar entradas segun un usuario
+            if($request->user){
+              $devoluciones->where('usuario',$request->user);
+            }
+
+            //Filtro para buscar entradas por rangos de horas
+            if($request->hourrange){
+              $devoluciones->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
+                [$request->horaI,$request->horaF]);
+            }
+
+            $query->where(function ($query) {
+                $query->where('entradas.type', 'orden')
+                ->orWhere('entradas.type', 'donacion');
+            });
+
+            $query->unionAll($devoluciones);
+        }
+
+        //Filtro para buscar entradas por rangos de fecha
+        if($request->dateranger){
+          $query->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%Y-%m-%d")'),
+            [$request->fechaI,$request->fechaF]);
+        }
+
+        //Filtro para buscar entradas segun un proveedor
+        if($request->depart){
+          $query->where('entradas.provedor',$request->depart);
+        }
+
+        //Filtro para buscar entradas segun un insumo
+        if($request->insumo){
+            $query->join('insumos_entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
+            ->where('insumos_entradas.insumo', $request->insumo);
+
+            //Filtro para buscar entradas segun rangos de cantidad del insumo
+            if($request->amountrange){
+                $query->whereBetween('insumos_entradas.cantidad',
+                [$request->cantidadI,$request->cantidadF]);
+            }
+        }
+
+        //Filtro para buscar entradas segun un usuario
+        if($request->user){
+          $query->where('usuario',$request->user);
+        }
+
+        //Filtro para buscar entradas por rangos de horas
+        if($request->hourrange){
+          $query->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
+            [$request->horaI,$request->horaF]);
+        }
+
+        //Filtro para ordenar los resultados de forma decendente o acendentes
+        if($request->orden){
+          $query->orderBy('id',$request->orden);
+        }
+        else{
+          $query->orderBy('id','decs');
+        }
+
+        //Regresa los resultados.
+        return $query->get();
+    }
+
     public function registrar($type, Request $request){
-        
-        $data     = $request->all(); 
+
+        $data     = $request->all();
         $usuario  = Auth::user()->id;
-        $deposito = Auth::user()->deposito;   
+        $deposito = Auth::user()->deposito;
 
         switch ($type){
 
@@ -312,10 +429,10 @@ class entradasController extends Controller
                 ], $this->menssage);
 
                 if($validator->fails()){
-                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
                 }
                 else{
-                    
+
                     $insumos = $data['insumos'];
                     //Codigo para la entrada
                     $code = $this->generateCode('EO', $deposito);
@@ -328,12 +445,12 @@ class entradasController extends Controller
                                 'usuario'  => $usuario,
                                 'deposito' => $deposito
                             ])['id'];
-                    
+
                     foreach ($insumos as $insumo){
 
                         $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
                         $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
-                        
+
                         Insumos_entrada::create([
                             'entrada'   => $entrada,
                             'insumo'    => $insumo['id'],
@@ -344,12 +461,12 @@ class entradasController extends Controller
                             'deposito'  => $deposito
                         ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
                             'entrada', $entrada);
                     }
-                    
-                    return Response()->json(['status' => 'success', 'menssage' => 
-                        'Entrada completada satisfactoriamente', 'codigo' => $code]); 
+
+                    return Response()->json(['status' => 'success', 'menssage' =>
+                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
                 }
             break;
 
@@ -361,7 +478,7 @@ class entradasController extends Controller
                 ], $this->menssage);
 
                 if($validator->fails()){
-                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
                 }
                 else{
 
@@ -392,11 +509,11 @@ class entradasController extends Controller
                             'deposito'  => $deposito
                         ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
                             'entrada', $donacion);
                     }
 
-                    return Response()->json(['status' => 'success', 'menssage' => 
+                    return Response()->json(['status' => 'success', 'menssage' =>
                         'Entrada completada satisfactoriamente', 'codigo' => $code]);
                 }
             break;
@@ -409,7 +526,7 @@ class entradasController extends Controller
                 ], $this->menssage);
 
                 if($validator->fails()){
-                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
                 }
                 else{
 
@@ -426,7 +543,7 @@ class entradasController extends Controller
                               ])['id'];
 
                     foreach ($insumos as $insumo) {
-                        
+
                         $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
                         $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
 
@@ -440,11 +557,11 @@ class entradasController extends Controller
                             'deposito'    => $deposito
                         ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 
+                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
                             'entrada', $devolucion);
                     }
 
-                    return Response()->json(['status' => 'success', 'menssage' => 
+                    return Response()->json(['status' => 'success', 'menssage' =>
                         'Entrada completada satisfactoriamente', 'codigo' => $code]);
                 }
             break;
@@ -452,13 +569,13 @@ class entradasController extends Controller
     }
 
     /*Funcion que genera codigos para las entradas,
-     *segun un prefijo y deposito que se pase 
-     */  
+     *segun un prefijo y deposito que se pase
+     */
     private function generateCode($prefix, $deposito){
 
         //Obtiene Codigo del deposito
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
-        
+
         return strtoupper( $depCode .'-'.$prefix.str_random(6) );
-    } 
+    }
 }

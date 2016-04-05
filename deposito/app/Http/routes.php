@@ -427,3 +427,5 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Fin de modulo de Reportes ***/
 
 });
+
+Route::get('entradas/search', 'entradasController@search');
