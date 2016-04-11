@@ -26,7 +26,7 @@ class usersController extends Controller
 
     public function index()
     {
-        return view('users/indexUsers');    
+        return view('users/indexUsers');
     }
 
     public function viewRegistrar(){
@@ -50,7 +50,7 @@ class usersController extends Controller
         return view('users/cambiarPassword');
     }
 
-    public function registrar(Request $request){   
+    public function registrar(Request $request){
 
         $data = $request->all();
 
@@ -89,7 +89,7 @@ class usersController extends Controller
             'pDepositoR'     => 'required',
             'pDepositoM'     => 'required',
             'pDepositoE'     => 'required',
-            'pTranference'   => 'required'  
+            'pTranference'   => 'required'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -99,13 +99,13 @@ class usersController extends Controller
         else{
 
             if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
-                && $data['pInventario'] == null && $data['pModificacion'] == null && 
+                && $data['pInventario'] == null && $data['pModificacion'] == null &&
                 $data['pTranference'] == null && $data['pEstadistica'] == null &&
                 $data['pProvedor'] == null && $data['pDeposito'] == null){
 
                 return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
             }
-            
+
             $usuario = User::create([
                         'nombre'   => $data['nombre'],
                         'apellido' => $data['apellido'],
@@ -156,7 +156,7 @@ class usersController extends Controller
 
         return DB::table('users')
                ->join('depositos', 'users.deposito','=','depositos.id')
-               ->select(DB::raw('CONCAT(users.nombre, " " , users.apellido) as nombre'), 'users.cedula', 
+               ->select(DB::raw('CONCAT(users.nombre, " " , users.apellido) as nombre'), 'users.cedula',
                 'users.email', 'users.id', 'depositos.nombre as deposito')
                ->where('users.id', '!=', 1)
                ->where('users.deleted_at', '=', NULL)
@@ -181,12 +181,18 @@ class usersController extends Controller
 
         if(!$usuario){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);
         }
         else{
 
-            return ['usuario' => $usuario]; 
+            return ['usuario' => $usuario];
         }
+    }
+
+    public function getUsuariosDeposito(){
+        $deposito = Auth::user()->deposito;
+
+        return User::where('deposito', $deposito)->get(['id', 'nombre', 'apellido']);
     }
 
     public function editUsuario(Request $request,$id){
@@ -195,10 +201,10 @@ class usersController extends Controller
 
         if(!$usuario || $usuario['id'] == 1){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);
         }
         else{
-            
+
             $data = $request->all();
 
             $validator = Validator::make($data,[
@@ -235,7 +241,7 @@ class usersController extends Controller
                     'pDepositoR'     => 'required',
                     'pDepositoM'     => 'required',
                     'pDepositoE'     => 'required',
-                    'pTranference'   => 'required'  
+                    'pTranference'   => 'required'
             ], $this->menssage);
 
 
@@ -244,24 +250,24 @@ class usersController extends Controller
                 return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
             }
             else{
-                
+
                 if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
-                	&& $data['pInventario'] == null && $data['pModificacion'] == null && 
-                	$data['pTranference'] == null && $data['pEstadistica'] == null && 
+                	&& $data['pInventario'] == null && $data['pModificacion'] == null &&
+                	$data['pTranference'] == null && $data['pEstadistica'] == null &&
                     $data['pProvedor'] == null && $data['pDeposito'] == null){
 
                     return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
                 }
 
                 if( isset($data['password']) ){
-                    
+
                     User::where('id',$id)->update([
                         'password' => bcrypt($data['password'])
                     ]);
                 }
 
                 if( isset($data['deposito']) ){
-                    
+
                     User::where('id',$id)->update([
                         'deposito' => $data['deposito']
                     ]);
@@ -317,23 +323,23 @@ class usersController extends Controller
 
         if(!$usuario || $usuario['id'] == 1){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este usuario no exist']);
         }
         else{
-            
+
             User::where('id',$id)->delete();
             return Response()->json(['status' => 'success', 'menssage' => 'Usuario Eliminado']);
-            
+
         }
     }
 
     public function getDeposito(){
 
-        $deposito = Auth::user()->deposito; 
+        $deposito = Auth::user()->deposito;
 
         return Deposito::where('id', $deposito)->value('nombre');
     }
-    
+
     public function editDeposito(Request $request){
 
         $data = $request->all();
@@ -341,9 +347,9 @@ class usersController extends Controller
 
 
         $validator = Validator::make($data,[
-                    'deposito' => 'required',  
+                    'deposito' => 'required',
         ], $this->menssage);
-        
+
         if($validator->fails()){
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
@@ -371,9 +377,9 @@ class usersController extends Controller
 
         $validator = Validator::make($data,[
             'passwordOri'   => 'required',
-            'password'      => 'required|min:8|confirmed'  
+            'password'      => 'required|min:8|confirmed'
         ], $menssage);
-        
+
         if($validator->fails()){
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
@@ -386,16 +392,16 @@ class usersController extends Controller
              *Si la contraseña actual no coincide, regresa un mensaje de error
              */
             if( !Hash::check($data['passwordOri'], $oriPassword) ){
-                return Response()->json(['status' => 'danger', 'menssage' => 
+                return Response()->json(['status' => 'danger', 'menssage' =>
                     'La contraseña actual no coincide']);
             }
 
             /**
              *Si la contraseña actual es la misma a midificar regresa un mensaje de error
-             */ 
+             */
             if( Hash::check($data['password'], $oriPassword) ){
-                return Response()->json(['status' => 'danger', 'menssage' => 
-                    'La contraseña a modificar no puede ser la actual.']); 
+                return Response()->json(['status' => 'danger', 'menssage' =>
+                    'La contraseña a modificar no puede ser la actual.']);
             }
 
             User::where('id', $id)->update([
