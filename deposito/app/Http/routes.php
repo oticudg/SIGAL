@@ -112,6 +112,9 @@ Route::group(['middleware' => 'auth' ], function(){
 	//Modifica el password del usuario logueado
 	Route::post('cambiarPassword', 'usersController@editPassword');
 
+	//Regresa todos los usuarios del deposito del usuario logueado
+	Route::get('getUsuariosDeposito', 'usersController@getUsuariosDeposito');
+
 	/*** fin de modulo usuario ***/
 
 
@@ -257,6 +260,9 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Muestra la vista detallada de una entrada
 			Route::get('detalles', 'entradasController@detalles');
 
+			//Muestra la vista del buscador de entradas
+			Route::get('search', 'entradasController@viewSearch');
+
 			//Regresa todas las entradas segun el tipo que se espesifique, si no se espesifica un
 			//tipo se regresan todas las entradas
 			Route::get('getEntradas/{type?}', 'entradasController@allEntradas');
@@ -271,6 +277,8 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Regresa todas las entradas de el numero de orden que se expecifique
 			Route::get('getOrden/{number}', 'entradasController@getOrden');
 
+			//Regresa todas las entradas que coincidan con los filtros que se apliquen
+			Route::get('getSearch', 'entradasController@search');
 		});
 
 		Route::group(['middleware' => 'permission:entradaR'], function(){
@@ -427,5 +435,3 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Fin de modulo de Reportes ***/
 
 });
-
-Route::get('entradas/search', 'entradasController@search');

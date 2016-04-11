@@ -16,10 +16,10 @@ controller('entradasController',function($scope,$http,$modal){
     'ordenes'   : false
   };
 
-	var obtenerEntradas = function(datos){
+	var obtenerEntradas = function(datos, query){
 
     switch(datos){
-  		
+
       case 'orden':
         $http.get('/entradas/getEntradas/'+ datos)
     			.success( function(response){$scope.entradas = response});
@@ -39,12 +39,17 @@ controller('entradasController',function($scope,$http,$modal){
         $http.get('/entradas/getEntradas')
           .success( function(response){$scope.entradas = response});
       break;
+
+      case 'search':
+        $http.get('/entradas/getSearch', query)
+          .success( function(response){$scope.entradas = response});
+      break;
     }
 
   };
 
   var obtenerInsumos = function(datos){
-      
+
       switch(datos){
 
         case 'orden':
@@ -70,7 +75,7 @@ controller('entradasController',function($scope,$http,$modal){
   };
 
   $scope.registrosEntradas = function(datos){
-    
+
     $scope.busqueda = '';
     $scope.indice = 'Pro-Formas';
     visivility(1);
@@ -100,7 +105,7 @@ controller('entradasController',function($scope,$http,$modal){
     $scope.busqueda = '';
     $scope.indice = 'Insumos';
     visivility(2);
-    
+
     switch(datos){
 
       case 'ordenes':
@@ -124,7 +129,7 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.detallesOrden = function(orden){
 
     $http.get('/entradas/getOrden/'+ orden)
-      .success( 
+      .success(
         function(response){
           $scope.orden   = response.orden;
           $scope.insumos = response.insumos;
@@ -147,6 +152,22 @@ controller('entradasController',function($scope,$http,$modal){
          }
     });
   };
+
+	$scope.search = function(){
+		visivility(1);
+
+		var modalInstance = $modal.open({
+			animation: true,
+					templateUrl: '/entradas/search',
+					controller: 'serarchEntradaCtrl',
+					size: 'lg',
+					resolve: {
+						 obtenerEntradas:function (){
+								return obtenerEntradas;
+						 }
+					}
+		});
+	};
 
   function visivility(menu){
     switch(menu){
@@ -181,7 +202,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
-  
+
   };
 
   $scope.chvisibility = function(){
@@ -201,5 +222,118 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
   };
 
   $scope.detalles(id);
+
+});
+
+angular.module('deposito').controller('serarchEntradaCtrl', function ($scope, $modalInstance, $http, obtenerEntradas){
+
+	$scope.data = {};
+	$scope.data.type  = "all";
+	$scope.data.orden = "desc";
+  $scope.insumoSelect = {};
+
+	$http.get('getUsuariosDeposito')
+		.success(function(response){$scope.usuarios = response});
+
+	$scope.buscar = function(){
+		$scope.data.insumo = $scope.insumoSelect.hasOwnProperty('selected') ? $scope.insumoSelect.selected.id : null;
+
+		if( $scope.amountp && $scope.data.cantidadI && $scope.data.cantidadF){
+				$scope.data.amountrange = true;
+		}
+
+		if($scope.fechaI && $scope.fechaF){
+				$scope.data.fechaI = dataForamat($scope.fechaI);
+				$scope.data.fechaF = dataForamat($scope.fechaF);
+				$scope.data.dateranger = true;
+		}
+
+		if($scope.timep){
+			$scope.data.hourrange = true;
+			$scope.data.horaI = timeFormat($scope.timeI);
+			$scope.data.horaF = timeFormat($scope.timeF);
+		}
+
+		var config = {
+			params:$scope.data
+		};
+
+		obtenerEntradas('search',config);
+		$modalInstance.dismiss('cancel');
+	}
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+	$scope.refreshInsumos = function(insumo) {
+		$scope.searchAjax = true;
+			var params = {insumo: insumo};
+			return $http.get(
+				'/getInsumosConsulta',
+				{params: params}
+			).then(function(response){
+				$scope.listInsumos =  response.data
+			});
+		};
+
+		$scope.openI = function($event) {
+				$event.preventDefault();
+				$event.stopPropagation();
+
+				$scope.openedI = true;
+			};
+
+		$scope.openF = function($event) {
+			$event.preventDefault();
+			$event.stopPropagation();
+
+			$scope.openedF = true;
+		};
+
+		function dataForamat(data){
+
+			if(data != null){
+
+				var month = data.getMonth() + 1;
+				var day = data.getDate();
+
+				if( day < 10 )
+					day = "0"+day;
+
+				if(month < 10)
+					month = "0"+month;
+
+				return data.getFullYear() + '-' + month + '-' + day;
+			}
+		}
+
+		function timeFormat(time){
+
+			var hour = time.getHours();
+			var minute = time.getMinutes();
+
+			if( hour < 10 )
+				hour = "0" + hour;
+
+			if(minute < 10)
+			 	minute = "0" + minute;
+
+			return  hour + '-' + minute;
+		}
+
+		$scope.hourR = function(){
+			$scope.timep = true;
+			$scope.timeI = new Date();
+			$scope.timeF = new Date();
+		}
+
+		$scope.amountR = function(){
+				$scope.amountp = true;
+		}
+
+		$scope.dateR = function(){
+				$scope.datep = true;
+		}
 
 });

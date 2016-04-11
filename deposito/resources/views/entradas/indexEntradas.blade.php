@@ -1,22 +1,22 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="entradasController"')
 @section('front-page')
-	
+	{{--
 	<div data-loading class="div_loader">
 		<div id="img_loader" class="img_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
 		</div>
-	</div>
+	</div>--}}
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>	
+			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</li>
 		</ul>
 	</nav>
 	<br>
-	
+
 	<ul class="nav nav-tabs">
 		<li class="active" ng-click="registrosEntradas('todas')"><a data-toggle="tab" class="text-enlace" href="#toda">Todas</a></li>
 		<li ng-click="registrosEntradas('ordenes')"><a data-toggle="tab" class="text-enlace" href="#orden">Ordenes</a></li>
@@ -25,7 +25,7 @@
 	</ul>
 
 	<div class="tab-content">
-		
+
 		{{--Panel de registros de todos las entradas--}}
 		<div id="toda" class="tab-pane fade in active">
 			<br>
@@ -33,14 +33,14 @@
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<div class="input-group">
-				  		<span class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
+				  		<span ng-click="search()" class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
 				  		<input type="text" class="form-control" ng-model="busqueda">
 				  		<div class="input-group-btn">
 					        <button type="button" class="btn btn-success dropdown-toggle"
 					                data-toggle="dropdown">
 					         	{#indice#} <span class="caret"></span>
 					        </button>
-					 
+
 					        <ul class="dropdown-menu pull-right" role="menu">
 					          <li ng-click="registrosEntradas('todas')" ><a href="#">Pro-Formas</a></li>
 					          <li ng-click="registrosInsumos('todos')" ><a href="#">Insumos</a></li>
@@ -49,21 +49,21 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-1">
 		    		<label for="cantidad">Registros</label>
 					<select id="cantidad" class="form-control" ng-model="cRegistro">
 						<option value="5">5</option>
 						<option value="10">10</option>
-						<option value="20">20</option>	
+						<option value="20">20</option>
 					</select>
 				</div>
 			</div>
 
 			<br>
 			<br>
-			
+
 			{{--Tabla que muestra las pre-formas de todas las entradas--}}
 			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
@@ -88,7 +88,7 @@
 					</tbody>
 				</table>
 
-				{{--Paginacion de la tabla de Pro-Formas--}}	
+				{{--Paginacion de la tabla de Pro-Formas--}}
 			    <div class="text-center">
 			 	 <dir-pagination-controls boundary-links="true" pagination-id="todos" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 			  	</div>
@@ -128,10 +128,10 @@
 			    </div>
 		  	</div>
 		</div>
-		
+
 		{{--Panel de registros de ordenes de compra--}}
 		<div id="orden" class="tab-pane fade">
-			<br>	
+			<br>
 			{{--Buscador y Seleccion de Listados de datos--}}
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
@@ -143,7 +143,7 @@
 					                data-toggle="dropdown">
 					         	{#indice#} <span class="caret"></span>
 					        </button>
-					 
+
 					        <ul class="dropdown-menu pull-right" role="menu">
 					          <li ng-click="registrosEntradas('ordenes')" ><a href="#">Pro-Formas</a></li>
 					          <li ng-click="registrosInsumos('ordenes')" ><a href="#">Insumos</a></li>
@@ -152,21 +152,21 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-1">
 		    		<label for="cantidad">Registros</label>
 					<select id="cantidad" class="form-control" ng-model="cRegistro">
 						<option value="5">5</option>
 						<option value="10">10</option>
-						<option value="20">20</option>	
+						<option value="20">20</option>
 					</select>
 				</div>
 			</div>
 
 			<br>
 			<br>
-			
+
 			{{--Tabla que muestra las pre-formas de entradas por ordenes de compra--}}
 			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
@@ -192,7 +192,7 @@
 					</tbody>
 				</table>
 
-				{{--Paginacion de la tabla de Pro-Formas--}}	
+				{{--Paginacion de la tabla de Pro-Formas--}}
 			    <div class="text-center">
 			 	 <dir-pagination-controls boundary-links="true" pagination-id="proformas" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 			  	</div>
@@ -231,7 +231,7 @@
 			     	 <dir-pagination-controls boundary-links="true" pagination-id="insumosO" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 			    </div>
 		  	</div>
-			
+
 			{{--Tabla que muestra todos los insumos de una orden de compra--}}
 			<div ng-show="uiStatus.ordenes">
 				<table class="table table-bordered custon-table-bottom-off" >
@@ -247,8 +247,8 @@
 							<td>{#orden.numero#}</td>
 							<td>{#orden.provedor#}</td>
 						</tr>
-					</tbody>	
-				</table>		
+					</tbody>
+				</table>
 				<table class="table table-bordered table-striped custon-table-top-off">
 					<thead>
 						<tr>
@@ -262,7 +262,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" 
+						<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro"
 						pagination-id="ordenInsumos">
 							<td>{#insumo.fecha#}</td>
 							<td><span ng-click="detallesEntrada(insumo.entradaId)"
@@ -297,7 +297,7 @@
 					                data-toggle="dropdown">
 					         	{#indice#} <span class="caret"></span>
 					        </button>
-					 
+
 					        <ul class="dropdown-menu pull-right" role="menu">
 					          <li ng-click="registrosEntradas('donaciones')" ><a href="#">Pro-Formas</a></li>
 					          <li ng-click="registrosInsumos('donaciones')" ><a href="#">Insumos</a></li>
@@ -306,21 +306,21 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-1">
 		    		<label for="cantidad">Registros</label>
 					<select id="cantidad" class="form-control" ng-model="cRegistro">
 						<option value="5">5</option>
 						<option value="10">10</option>
-						<option value="20">20</option>	
+						<option value="20">20</option>
 					</select>
 				</div>
 			</div>
 
 			<br>
 			<br>
-			
+
 			{{--Tabla que muestra las pre-formas de entradas por donacion--}}
 			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
@@ -343,7 +343,7 @@
 					</tbody>
 				</table>
 
-				{{--Paginacion de la tabla de Pro-Formas--}}	
+				{{--Paginacion de la tabla de Pro-Formas--}}
 			    <div class="text-center">
 			 	 <dir-pagination-controls boundary-links="true" pagination-id="donaciones" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 			  	</div>
@@ -398,7 +398,7 @@
 					                data-toggle="dropdown">
 					         	{#indice#} <span class="caret"></span>
 					        </button>
-					 
+
 					        <ul class="dropdown-menu pull-right" role="menu">
 					          <li ng-click="registrosEntradas('devoluciones')" ><a href="#">Pro-Formas</a></li>
 					          <li ng-click="registrosInsumos('devoluciones')" ><a href="#">Insumos</a></li>
@@ -407,21 +407,21 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-1">
 		    		<label for="cantidad">Registros</label>
 					<select id="cantidad" class="form-control" ng-model="cRegistro">
 						<option value="5">5</option>
 						<option value="10">10</option>
-						<option value="20">20</option>	
+						<option value="20">20</option>
 					</select>
 				</div>
 			</div>
 
 			<br>
 			<br>
-			
+
 			{{--Tabla que muestra las pre-formas de entradas por devoluciones--}}
 			<div ng-show="uiStatus.proformas">
 				<table class="table table-bordered table-hover">
@@ -444,7 +444,7 @@
 					</tbody>
 				</table>
 
-				{{--Paginacion de la tabla de Pro-Formas--}}	
+				{{--Paginacion de la tabla de Pro-Formas--}}
 			    <div class="text-center">
 			 	 <dir-pagination-controls boundary-links="true" pagination-id="donaciones" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 			  	</div>

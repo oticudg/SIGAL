@@ -32,6 +32,11 @@ class entradasController extends Controller
         return view('entradas/detallesEntrada');
     }
 
+    public function viewSearch(){
+        return view('entradas/searchEntradas');
+    }
+
+
     public function allInsumos($type = NULL){
 
         $deposito = Auth::user()->deposito;
@@ -297,32 +302,32 @@ class entradasController extends Controller
 
     public function search(Request $request){
 
-       $deposito = 3;
+        $deposito = Auth::user()->deposito;
 
-       $query = DB::table('entradas')->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-          'entradas.id', 'codigo', 'provedores.nombre as provedor', 'entradas.type')
-          ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-          ->where('entradas.deposito', $deposito);
+        if( $request->type === 'devolucion' ){
+          $query = DB::table('entradas')
+             ->where('entradas.type', 'devolucion')
+             ->where('entradas.deposito',$deposito)
+             ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
+             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+                 'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'entradas.type');
+        }
+        else{
+         $query = DB::table('entradas')->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+            'entradas.id', 'codigo', 'provedores.nombre as provedor', 'entradas.type')
+            ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
+            ->where('entradas.deposito', $deposito);
+        }
 
         //Filtro para buscar entradas por el tipo de orden o donacion
         if($request->type === 'orden' || $request->type === 'donacion'){
           $query->where('entradas.type', $request->type);
         }
 
-        //Filtro para buscar entradas por el tipo devolucion
-        if($request->type === 'devolucion'){
-          $query = DB::table('entradas')
-              ->where('entradas.type', 'devolucion')
-              ->where('entradas.deposito',$deposito)
-              ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-              ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                  'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'entradas.type');
-        }
-
         //Filtro que devuelve todas las entradas
         if($request->type === 'all'){
 
-          $devoluciones = DB::table('entradas')
+           $devoluciones = DB::table('entradas')
               ->where('entradas.type', 'devolucion')
               ->where('entradas.deposito',$deposito)
               ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
@@ -361,7 +366,7 @@ class entradasController extends Controller
             $query->where(function ($query) {
                 $query->where('entradas.type', 'orden')
                 ->orWhere('entradas.type', 'donacion');
-            });
+             });
 
             $query->unionAll($devoluciones);
         }
@@ -379,14 +384,14 @@ class entradasController extends Controller
 
         //Filtro para buscar entradas segun un insumo
         if($request->insumo){
-            $query->join('insumos_entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
+          $query->join('insumos_entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
             ->where('insumos_entradas.insumo', $request->insumo);
 
             //Filtro para buscar entradas segun rangos de cantidad del insumo
-            if($request->amountrange){
-                $query->whereBetween('insumos_entradas.cantidad',
-                [$request->cantidadI,$request->cantidadF]);
-            }
+           if($request->amountrange){
+             $query->whereBetween('insumos_entradas.cantidad',
+              [$request->cantidadI,$request->cantidadF]);
+           }
         }
 
         //Filtro para buscar entradas segun un usuario

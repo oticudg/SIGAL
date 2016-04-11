@@ -10,7 +10,7 @@ gulp.task('js', function(){
 	.pipe(gulp.dest('public/js'));
 })
 
-gulp.task('css', function(){	
+gulp.task('css', function(){
 	gulp.src('resources/assets/css/global.css')
 	.pipe(uglifycss({
       "maxLineLen": 80,
@@ -19,5 +19,6 @@ gulp.task('css', function(){
     .pipe(gulp.dest('public/css/'));
 })
 
-
-
+gulp.task('default', function(){
+  gulp.watch('resources/assets/js/*.js', ['js']);
+});
