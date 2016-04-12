@@ -78,6 +78,7 @@ controller('entradasController',function($scope,$http,$modal){
 
     $scope.busqueda = '';
     $scope.indice = 'Pro-Formas';
+		$scope.entradas = [];
     visivility(1);
 
     switch(datos){
@@ -104,6 +105,7 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.registrosInsumos = function(datos){
     $scope.busqueda = '';
     $scope.indice = 'Insumos';
+		$scope.insumos = [];
     visivility(2);
 
     switch(datos){

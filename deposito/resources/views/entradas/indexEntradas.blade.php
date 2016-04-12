@@ -1,13 +1,13 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="entradasController"')
 @section('front-page')
-	{{--
-	<div data-loading class="div_loader">
-		<div id="img_loader" class="img_loader">
+
+	<div data-loading class="simgle_loader">
+		<div id="img_loader" class="img_single_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
 		</div>
-	</div>--}}
+	</div>
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
