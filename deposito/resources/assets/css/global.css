@@ -16,18 +16,18 @@
 }
 
 .modal-body-custon{
-  
+
   max-height: 450px;
   overflow-y: auto;
 }
 
 /* Paginacion */
-.pagination li a{	
+.pagination li a{
 	color:#53AC53;
 }
 
-.pagination li a:hover{	
-	color:#419641; 
+.pagination li a:hover{
+	color:#419641;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -74,13 +74,13 @@
 }
 
 .nav-ubication .nav-enlaces{
-  
+
   list-style: none;
   padding-left:0px;
-  padding-top: 1%; 
+  padding-top: 1%;
 }
 
-.nav-ubication .nav-enlaces li{  
+.nav-ubication .nav-enlaces li{
   display: inline-block;
 }
 
@@ -131,13 +131,13 @@
 
 /*** Tablas personalizadas ***/
 .custon-table-bottom-off{
-	
-	margin-bottom: 0px; 
+
+	margin-bottom: 0px;
 }
 
 .custon-table-top-off{
-	
-	margin-top: 0px; 
+
+	margin-top: 0px;
 }
 
 /*** Fin de tablas personalizadas ***/
@@ -145,7 +145,7 @@
 /*** Modal form ***/
 
 .form-description{
-	width:570px; 
+	width:570px;
 	max-width:570px;
 }
 
@@ -154,7 +154,7 @@
 /*** Mensage de bienvenida al sistema ***/
 
 #bienvenida{
-	
+
 	text-align: center;
 }
 
@@ -164,20 +164,20 @@
 /*** Contenido de la pagina de bienvenida ***/
 
 #contenido{
-	
+
 	margin-top: 2%;
 	padding: 10px;
 	text-align: center;
 }
 
 .custon-imagen{
-	
+
 	width: 800px;
 
 }
 
 #contenedor-imagen{
-	
+
 	padding: 10px;
 	padding-top: 40px;
 }
@@ -188,20 +188,20 @@
 /*** Fromulario de inicio de sesion ***/
 
 #login{
-	
-	margin-top:10%; 
+
+	margin-top:10%;
 	background-color: white;
 	color: #419641;
 	padding:0px;
-	padding-bottom:5%; 
+	padding-bottom:5%;
 	box-shadow: 4px 4px 6px dimgrey;
 	border-radius: 15px 15px;
 	border: 1px solid #419641;
 }
 
-/* Titulo de formulario */ 
+/* Titulo de formulario */
 #formTitle{
-	
+
 	padding-top: 5%;
 	padding-bottom: 8%;
 	text-align: center;
@@ -215,7 +215,7 @@
 /*** Contenido de las paginas  ***/
 
 /* Tabla de visualizacion */
-.table th{	
+.table th{
 	background-color: #419641;
 	color: white;
 	text-align: center;
@@ -232,9 +232,9 @@
 
 .img-lg{
 
-	width:300px; 
+	width:300px;
 	height:300px;
-} 
+}
 
 .separ{
 	border-left:1px solid #ccc;
@@ -249,10 +249,10 @@
 
 /*** input style  ***/
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /*** Fin input style  ***/
@@ -272,6 +272,24 @@ input[type=number]::-webkit-outer-spin-button {
   text-align: center;
 }
 
+.simgle_loader{
+  position: fixed;
+  width: 100px;
+  height: 0px;
+  left: 85%;
+  top:10%;
+  z-index: 1000;
+  color:#419641;
+  opacity: 0.8;
+  padding: 0px;
+  text-align: center;
+}
+
+.img_single_loader img{
+  width: 30px;
+  height: 30px;
+}
+
 /*** Loader screen for resource loader ***/
 .div_loader_resouerce{
   position: fixed;
@@ -283,7 +301,7 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: black;
   color:white;
   padding: 15%;
-  text-align: center; 
+  text-align: center;
 }
 
 .img_loader img{
@@ -291,7 +309,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 50px;
 }
 
-/*** Fin de  Loader screen ***/  
+/*** Fin de  Loader screen ***/
 
 body {
     position: relative;
@@ -299,8 +317,8 @@ body {
 }
 body,
 html { height: 100%;}
-.nav .open > a, 
-.nav .open > a:hover, 
+.nav .open > a,
+.nav .open > a:hover,
 .nav .open > a:focus {background-color: transparent;}
 
 /*-------------------------------*/
@@ -371,7 +389,7 @@ html { height: 100%;}
 }
 
 .sidebar-nav li {
-    position: relative; 
+    position: relative;
     line-height: 20px;
     display: inline-block;
     width: 100%;
@@ -394,22 +412,22 @@ html { height: 100%;}
 }
 
 .sidebar-nav li:nth-child(2):before {
-    background-color:  #006666;   
+    background-color:  #006666;
 }
 .sidebar-nav li.admi:before{
-    background-color: #314190;   
+    background-color: #314190;
 }
 .sidebar-nav li.inve:before{
-    background-color: #800000;   
+    background-color: #800000;
 }
 .sidebar-nav li.mod:before {
-    background-color: #EFA63F;   
+    background-color: #EFA63F;
 }
 .sidebar-nav li.esta:before {
-    background-color: #279636;   
+    background-color: #279636;
 }
 .sidebar-nav li.trn:before {
-    background-color: #2d2366;   
+    background-color: #2d2366;
 }
 
 .sidebar-nav > .droAdmin li:before{
@@ -422,11 +440,11 @@ html { height: 100%;}
 }
 .sidebar-nav > .dropMod li:before {
     color: #fff;
-    background-color:#EFA63F; 
+    background-color:#EFA63F;
 }
 .sidebar-nav > .dropTrn li:before {
     color: #fff;
-    background-color:#2d2366; 
+    background-color:#2d2366;
 }
 
 .sidebar-nav li:hover:before,
@@ -443,7 +461,7 @@ html { height: 100%;}
     display: block;
     color: #ddd;
     text-decoration: none;
-    padding: 10px 15px 10px 30px;    
+    padding: 10px 15px 10px 30px;
 }
 
 .sidebar-nav li a:hover,
@@ -492,7 +510,7 @@ html { height: 100%;}
 
 .hamburger {
   position: fixed;
-  top: 8%;  
+  top: 8%;
   z-index: 999;
   display: block;
   width: 32px;
@@ -541,8 +559,8 @@ html { height: 100%;}
 .hamburger.is-closed .hamb-bottom {
   background-color: #1a1a1a;
 }
-.hamburger.is-closed .hamb-top { 
-  top: 5px; 
+.hamburger.is-closed .hamb-top {
+  top: 5px;
   -webkit-transition: all .35s ease-in-out;
 }
 .hamburger.is-closed .hamb-middle {
@@ -550,7 +568,7 @@ html { height: 100%;}
   margin-top: -2px;
 }
 .hamburger.is-closed .hamb-bottom {
-  bottom: 5px;  
+  bottom: 5px;
   -webkit-transition: all .35s ease-in-out;
 }
 
@@ -570,9 +588,9 @@ html { height: 100%;}
 .hamburger.is-open .hamb-top,
 .hamburger.is-open .hamb-bottom {
   top: 50%;
-  margin-top: -2px;  
+  margin-top: -2px;
 }
-.hamburger.is-open .hamb-top { 
+.hamburger.is-open .hamb-top {
   -webkit-transform: rotate(45deg);
   -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
 }
