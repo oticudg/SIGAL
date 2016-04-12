@@ -21,4 +21,5 @@ gulp.task('css', function(){
 
 gulp.task('default', function(){
   gulp.watch('resources/assets/js/*.js', ['js']);
+  gulp.watch('resources/assets/css/*.css', ['css']);
 });
