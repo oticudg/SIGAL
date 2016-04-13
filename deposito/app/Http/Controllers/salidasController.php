@@ -14,9 +14,9 @@ use App\Insumos_salida;
 use App\Deposito;
 
 class salidasController extends Controller
-{   
+{
     private $menssage = [
-        'departamento.required'   =>  'Seleccione un Servicio', 
+        'departamento.required'   =>  'Seleccione un Servicio',
         'insumos.required'        =>  'No se han especificado insumos para esta salida',
         'insumos.insumos_salida'  =>  'Valores de insumos no validos',
     ];
@@ -42,7 +42,7 @@ class salidasController extends Controller
             ->join('salidas', 'salidas.id', '=', 'insumos_salidas.salida')
             ->join('insumos', 'insumos.id' , '=', 'insumos_salidas.insumo')
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo as salida',
-                'insumos.codigo','salidas.id as salidaId','insumos.descripcion','insumos_salidas.solicitado', 
+                'insumos.codigo','salidas.id as salidaId','insumos.descripcion','insumos_salidas.solicitado',
                 'insumos_salidas.despachado')
             ->orderBy('insumos_salidas.id', 'desc')->get();
     }
@@ -64,7 +64,7 @@ class salidasController extends Controller
         $salida = Salida::where('id',$id)->first();
 
         if(!$salida){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);
         }
         else{
 
@@ -73,7 +73,7 @@ class salidasController extends Controller
                 ->join('users', 'salidas.usuario' , '=', 'users.id' )
                 ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
                     DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora'), 'salidas.codigo',
-                    'departamentos.nombre as departamento', 'users.email as usuario')
+                    'departamentos.nombre as departamento', 'users.email as usuario', 'salidas.id')
                 ->first();
 
            $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
@@ -95,20 +95,20 @@ class salidasController extends Controller
         $salida = Salida::where('codigo',$realCode)->first();
 
         if(!$salida){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);
         }
         else{
 
            $salida = DB::table('salidas')->where('salidas.codigo',$realCode)
                 ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
-                ->select('salidas.codigo','salidas.id', 
+                ->select('salidas.codigo','salidas.id',
                     'departamentos.nombre as departamento')
                 ->first();
 
            $insumos = DB::table('salidas')->where('salidas.codigo', $realCode)
                 ->join('insumos_salidas', 'salidas.id', '=', 'insumos_salidas.salida')
                 ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.despachado', 
+                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.despachado',
                     'insumos_salidas.solicitado','insumos_salidas.id as id')
                 ->get();
 
@@ -117,7 +117,7 @@ class salidasController extends Controller
     }
 
     public function registrar(Request $request){
-        
+
         $data = $request->all();
         $usuario  = Auth::user()->id;
         $deposito = Auth::user()->deposito;
@@ -128,10 +128,10 @@ class salidasController extends Controller
         ], $this->menssage);
 
         if($validator->fails()){
-            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);   
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
-        
+
             $insumos = $data['insumos'];
             $insumosInvalidos = inventarioController::validaExist($insumos, $deposito);
 
@@ -140,9 +140,9 @@ class salidasController extends Controller
                 return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
             }
             else{
-                
-                //Codigo para la salida        
-                $code = $this->generateCode('S', $deposito); 
+
+                //Codigo para la salida
+                $code = $this->generateCode('S', $deposito);
 
                 $salida = Salida::create([
                             'codigo'       => $code,
@@ -150,7 +150,7 @@ class salidasController extends Controller
                             'usuario'      => $usuario,
                             'deposito'     => $deposito
                         ])['id'];
-                
+
                 foreach ($insumos as $insumo) {
 
                     Insumos_salida::create([
@@ -161,12 +161,12 @@ class salidasController extends Controller
                         'deposito'    => $deposito
                     ]);
 
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito, 'salida', 
+                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito, 'salida',
                         $salida);
-    
+
                 }
 
-                return Response()->json(['status' => 'success', 'menssage' => 
+                return Response()->json(['status' => 'success', 'menssage' =>
                     'Salida completada satisfactoriamente', 'codigo' => $code]);
             }
         }
@@ -174,12 +174,12 @@ class salidasController extends Controller
 
     /*Funcion que genera codigos para las salidas,
      *segun un prefijo y deposito que se pase
-     */  
+     */
     private function generateCode($prefix, $deposito){
 
         //Obtiene Codigo del deposito
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
-        
+
         return strtoupper( $depCode .'-'.$prefix.str_random(7) );
-    } 
+    }
 }
