@@ -8,9 +8,11 @@
 
 	    <div style="text-align:right" class="col-md-2">
 	    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
-				<a class="btn btn-warning" href="/reportes/salida/{#salida.id#}" target="_blank">
-          <span class="glyphicon glyphicon glyphicon-print"></span>
-        </a>
+				@if(Auth::user()->haspermission('inventarioH'))
+					<a class="btn btn-warning" href="/reportes/salida/{#salida.id#}" target="_blank">
+		        <span class="glyphicon glyphicon glyphicon-print"></span>
+		      </a>
+				@endif
 	    </div>
 	</div>
 </div>
