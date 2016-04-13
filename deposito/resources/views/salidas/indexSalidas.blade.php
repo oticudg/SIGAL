@@ -1,9 +1,9 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="salidasController"')
 @section('front-page')
-	
-	<div data-loading class="div_loader">
-		<div id="img_loader" class="img_loader">
+
+	<div data-loading class="simgle_loader">
+		<div id="img_loader" class="img_single_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
 		</div>
@@ -11,12 +11,12 @@
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>	
+			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</li>
 		</ul>
 	</nav>
 	<br>
-	
+
 	{{--Buscador y Seleccion de Listados de datos--}}
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
@@ -28,7 +28,7 @@
 			                data-toggle="dropdown">
 			         	{#indice#} <span class="caret"></span>
 			        </button>
-			 
+
 			        <ul class="dropdown-menu pull-right" role="menu">
 			          <li ng-click="registrosProformas()" ><a href="#">Pro-Formas</a></li>
 			          <li ng-click="registrosInsumos()" ><a href="#">Insumos</a></li>
@@ -37,21 +37,21 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="row">
 		<div class="col-md-1">
     		<label for="cantidad">Registros</label>
 			<select id="cantidad" class="form-control" ng-model="cRegistro">
 				<option value="5">5</option>
 				<option value="10">10</option>
-				<option value="20">20</option>	
+				<option value="20">20</option>
 			</select>
 		</div>
 	</div>
 
 	<br>
 	<br>
-	
+
 	{{--Tabla que muestra las pre-formas de salidas--}}
 	<div ng-show="status">
 		<table class="table table-bordered table-hover">
@@ -74,7 +74,7 @@
 			</tbody>
 		</table>
 
-		{{--Paginacion de la tabla de Pro-Formas--}}	
+		{{--Paginacion de la tabla de Pro-Formas--}}
 	    <div class="text-center">
 	 	 <dir-pagination-controls boundary-links="true" pagination-id="proformas" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 	  	</div>

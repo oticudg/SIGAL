@@ -24,6 +24,7 @@ controller('salidasController',function($scope,$http,$modal){
   $scope.registrosProformas = function(){
     $scope.busqueda = '';
     $scope.indice = 'Pro-Formas';
+		$scope.salidasInsumos = [];
     $scope.status = true;
     $scope.obtenerSalidas();
   };
@@ -31,7 +32,8 @@ controller('salidasController',function($scope,$http,$modal){
   $scope.registrosInsumos = function(){
     $scope.busqueda = '';
     $scope.indice = 'Insumos';
-    $scope.status = false;
+		$scope.insumos = [];
+		$scope.status = false;
     $scope.obtenerSalidasInsumos();
   };
 
@@ -64,7 +66,7 @@ angular.module('deposito').controller('detallesSalidaCtrl', function ($scope, $m
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
-  
+
   };
 
   $scope.chvisibility = function(){
