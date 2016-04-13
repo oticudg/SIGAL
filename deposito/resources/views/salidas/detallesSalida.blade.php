@@ -6,15 +6,16 @@
 	    	</h3>
 	    </div>
 
-	    <div class="col-md-2">
-	    	<div class="col-md-offset-8 col-md-2">
-	    		<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
-	    	</div>
+	    <div style="text-align:right" class="col-md-2">
+	    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+				<a class="btn btn-warning" href="/reportes/salida/{#salida.id#}" target="_blank">
+          <span class="glyphicon glyphicon glyphicon-print"></span>
+        </a>
 	    </div>
 	</div>
 </div>
 <div class="modal-body">
-	
+
 	<table class="table table-bordered custon-table-bottom-off" >
 		<thead>
 			<tr>
@@ -31,7 +32,7 @@
 				<td>{#salida.departamento#}</td>
 				<td>{#salida.usuario#}</td>
 			</tr>
-		</tbody>	
+		</tbody>
 	</table>
 
 	<table class="table table-striped custon-table-top-off">
@@ -67,7 +68,7 @@
 		</tbody>
 	</table>
 
-	{{--Paginacion de la tabla de insumos--}}	
+	{{--Paginacion de la tabla de insumos--}}
     <div class="text-center">
  	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
   	</div>

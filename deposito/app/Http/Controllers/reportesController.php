@@ -9,6 +9,7 @@ use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entrada;
+use App\Salida;
 use App\Deposito;
 
 
@@ -155,7 +156,37 @@ class reportesController extends Controller
       $view =  \View::make('reportes.pdfs.entrada', compact('entrada' , 'insumos'))->render();
       $pdf  =  \App::make('dompdf.wrapper');
       $pdf->loadHTML($view);
-      return $pdf->stream('Carga inventario');
+      return $pdf->stream('Pro-Forma de entrada');
+
+    }
+
+    public function getSalida($id){
+
+      $deposito = Auth::user()->deposito;
+      $salida   = Salida::where('id',$id)
+                          ->where('deposito', $deposito)
+                          ->firstOrFail();
+
+      $salida = DB::table('salidas')->where('salidas.id',$id)
+           ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
+           ->join('depositos', 'depositos.id', '=', 'salidas.deposito')
+           ->join('users', 'salidas.usuario' , '=', 'users.id' )
+           ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
+               DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora'), 'salidas.codigo',
+               'departamentos.nombre as departamento', 'users.email as usuario', 'salidas.id',
+               'depositos.nombre as deposito')
+           ->first();
+
+      $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
+           ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
+           ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.solicitado',
+             'insumos_salidas.despachado')
+           ->get();
+
+      $view =  \View::make('reportes.pdfs.salida', compact('salida' , 'insumos'))->render();
+      $pdf  =  \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view);
+      return $pdf->stream('Pro-Forma de pedido');
 
     }
 
