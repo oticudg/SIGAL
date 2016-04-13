@@ -193,7 +193,7 @@ class entradasController extends Controller
                     ->join('users', 'entradas.usuario' , '=', 'users.id' )
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                        'entradas.orden', 'departamentos.nombre as provedor', 'users.email as usuario')
+                        'entradas.orden', 'departamentos.nombre as provedor', 'users.email as usuario', 'entradas.id')
                     ->first();
 
                 $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
@@ -209,7 +209,7 @@ class entradasController extends Controller
                     ->join('users', 'entradas.usuario' , '=', 'users.id' )
                     ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
                         DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                        'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario')
+                        'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario','entradas.id')
                     ->first();
 
                 $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
