@@ -4,28 +4,22 @@
 		    <h3 class="modal-title text-title-modal">
 		    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#entrada.codigo | codeforma#}</strong>
 		    </h3>
-		</div>
+		  </div>
 	    <div class="col-md-4">
-	    	<div class="row">
-		    	<div class="col-md-offset-2 col-md-11">
-					<h3 class="modal-title text-title-modal" ng-show="entrada.orden">
+					  <h3 class="modal-title text-title-modal" ng-show="entrada.orden">
 				    	N° Orden: <strong>{#entrada.orden#}</strong>
 				    </h3>
-			    </div>
-			</div>
-		</div>
-
-		<div class="col-md-2">
-			<div class="row">
-				<div class="col-md-offset-8 col-md-2">
-			    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
-			    </div>
-		    </div>
-		</div>
-	</div>
+		  </div>
+      <div style="text-align:right" class="col-md-2">
+        <button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+        <a class="btn btn-warning" href="/reportes/entrada/{#entrada.id#}" target="_blank">
+          <span class="glyphicon glyphicon glyphicon-print"></span>
+        </a>
+      </div>
+		 </div>
 </div>
 <div class="modal-body">
-	
+
 	<table class="table table-bordered custon-table-bottom-off" >
 		<thead>
 			<tr>
@@ -42,9 +36,9 @@
 				<td>{#entrada.provedor#}</td>
 				<td>{#entrada.usuario#}</td>
 			</tr>
-		</tbody>	
+		</tbody>
 	</table>
-		
+
 	<table class="table table-striped custon-table-top-off">
 		<thead>
 			<tr>
@@ -82,8 +76,8 @@
 			</tr>
 		</tbody>
 	</table>
-		
-	{{--Paginacion de la tabla de insumos--}}	
+
+	{{--Paginacion de la tabla de insumos--}}
     <div class="text-center">
  	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
   	</div>

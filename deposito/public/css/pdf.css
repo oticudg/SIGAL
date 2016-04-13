@@ -25,27 +25,35 @@ table .decp{
 	text-align: left;
 }
 
-table th{	
+table th{
 	background-color: #419641;
 	color: white;
 	text-align: center;
 }
 
 .custon-table-bottom-off{
-	
-	margin-bottom: 0px; 
+	margin-bottom: -10px;
 }
 
 .custon-table-top-off{
-	
-	margin-top: 0px; 
+
+	margin-top: 0px;
 }
 
 table tr:nth-child(odd){
 	background-color: #f2f2f2
 }
 
+.table-side td:nth-child(odd){
+	background-color: #419641;
+	color: white;
+}
+
+.table-side td{
+	text-align: left;
+}
+
 .cintillo{
-	height:42; 
+	height:42;
 	width:100%;
 }
