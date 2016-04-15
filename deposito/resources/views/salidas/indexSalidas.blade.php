@@ -21,7 +21,7 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">
-		  		<span class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
+		  		<span ng-click="search()" class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
 		  		<input type="text" class="form-control" ng-model="busqueda">
 		  		<div class="input-group-btn">
 			        <button type="button" class="btn btn-success dropdown-toggle"

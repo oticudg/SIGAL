@@ -299,16 +299,21 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Modulo de salidas ***/
 
 	Route::group(['middleware' => 'permission:salidas'], function(){
+
 		//Muestra el panel de salidas
 		Route::get('salidas','salidasController@index');
 		//Muestra la vista detallada de una salida
 		Route::get('detallesSalida','salidasController@detalles');
+		//Muestra la vista del buscador de salidas
+		Route::get('search', 'salidasController@viewSearch');
 		//Regresa todos los insumos que han salido
 		Route::get('getInsumosSalidas','salidasController@allInsumos');
 		//Regresa todas las salidas
 		Route::get('getSalidas','salidasController@allSalidas');
 		//Regresa los todos los datos de una salida cuyo id se pase
 		Route::get('getSalida/{id}', 'salidasController@getSalida');
+		//Regresa todas las salidas que coincidan con los filtros que se apliquen
+		Route::get('getSearch','salidasController@search');
 	});
 
 	Route::group(['middleware' => 'permission:salidaR'], function(){
