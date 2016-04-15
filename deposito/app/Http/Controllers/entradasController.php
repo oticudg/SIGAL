@@ -378,8 +378,8 @@ class entradasController extends Controller
         }
 
         //Filtro para buscar entradas segun un proveedor
-        if($request->depart){
-          $query->where('entradas.provedor',$request->depart);
+        if($request->prove){
+          $query->where('entradas.provedor',$request->prove);
         }
 
         //Filtro para buscar entradas segun un insumo
