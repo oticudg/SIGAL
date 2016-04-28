@@ -234,6 +234,9 @@ Route::group(['middleware' => 'auth' ], function(){
 
 			//Regresa todos los insumos en alerta del inventario
 			Route::get('getAlertInsumos','inventarioController@insumosAlert');
+
+			//Regresa el kardek de un insumo cuyo id y rango de fecha de pase
+			Route::post('kardek', 'inventarioController@kardek');
 		});
 
 		/**

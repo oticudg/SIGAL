@@ -13,6 +13,7 @@ use App\Inventario;
 use App\Insumo;
 use App\Entrada;
 use App\Insumos_entrada;
+use App\Insumos_salida;
 use App\Inventario_operacione;
 use App\Deposito;
 
@@ -254,6 +255,166 @@ class inventarioController extends Controller
 
             return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
         }
+    }
+
+    public function kardek(Request $request){
+
+      $data = $request->all();
+
+      $validator = Validator::make($data,[
+          'insumo'  => 'required|insumo',
+          'dateI'   => 'date',
+          'dateF'   => 'date'
+      ], $this->menssage);
+
+      if($validator->fails()){
+        return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+      }
+
+      //Fecha inicial del año en curso
+      $iniY  = date("Y-01-01");
+      //Fecha final del año en curso
+      $finY  = date("Y-12-31");
+      //Fecha inicial a consultar
+      $dateI = !empty($data['dateI']) ? $data['dateI']:$iniY;
+      //Fecha final a consultar
+      $dateF = !empty($data['dateF']) ? $data['dateF']:$finY;
+      //Insumo para el que se realizara el kardek
+      $insumo = $data['insumo'];
+      //Obtiene el deposito del usuario que realiza la consulta.
+      $deposito = Auth::user()->deposito;
+
+      //Obtiene todas las entradas que han entrado por devolucion.
+      $devoluciones =  DB::table('insumos_entradas')->where('insumo', $insumo)
+                  ->where('insumos_entradas.deposito', $deposito)
+                  ->where('insumos_entradas.type', 'devolucion')
+                  ->join('entradas', 'insumos_entradas.entrada' , '=', 'entradas.id')
+                  ->join('departamentos', 'entradas.provedor' , '=', 'departamentos.id')
+                  ->whereBetween(DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%Y-%m-%d")'), [$dateI, $dateF])
+                  ->select('cantidad as movido', 'entrada as referencia', 'insumos_entradas.created_at as fulldate',
+                  DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("entrada") as type'),
+                  'departamentos.nombre as pod');
+
+      //Obtiene todas las entradas que han entrado por todos los conceptos excluye devolucion.
+      $entradas   =  DB::table('insumos_entradas')->where('insumo', $insumo)
+                  ->where('insumos_entradas.deposito', $deposito)
+                  ->where('insumos_entradas.type', '!=', 'devolucion')
+                  ->join('entradas', 'insumos_entradas.entrada' , '=', 'entradas.id')
+                  ->leftjoin('provedores', 'entradas.provedor' , '=', 'provedores.id')
+                  ->whereBetween(DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%Y-%m-%d")'), [$dateI, $dateF])
+                  ->select('cantidad as movido', 'entrada as referencia', 'insumos_entradas.created_at as fulldate',
+                  DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("entrada") as type'),
+                  'provedores.nombre as pod');
+
+      //Obtiene todas las salidas y une los resultados con las entradas y las devoluciones.
+      $movimientos = DB::table('insumos_salidas')->where('insumo',$insumo)
+                     ->where('insumos_salidas.deposito', $deposito)
+                     ->join('salidas', 'insumos_salidas.salida' , '=', 'salidas.id')
+                     ->join('departamentos', 'salidas.departamento' , '=', 'departamentos.id')
+                     ->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%Y-%m-%d")'),[$dateI, $dateF])
+                     ->select('despachado as movido', 'salida as referencia', 'insumos_salidas.created_at as fulldate',
+                     DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("salida") as type'),
+                     'departamentos.nombre as pod')
+                     ->unionAll($entradas)
+                     ->unionAll($devoluciones)
+                     ->orderBy('fulldate','desc')
+                     ->get();
+
+      /**
+       *Si ha hay movimientos del insumo consultado
+       *se calcula la existencia en la que se encontraba
+       *despues de cada movimiento.
+       */
+      if(!empty($movimientos)){
+
+        //Año inicial del rango de fecha a consultar
+        $init_year_search = date('Y-01-01 00:00:00',strtotime($dateI));
+
+        //Obtiene la fecha de la ultima carga de inventario realizada en el primer año del rango de fecha a consultar
+        $last_cinve = DB::table('insumos_entradas')->where('insumo', $insumo)
+                      ->where('deposito', $deposito)
+                      ->where('type','cinventario')
+                      ->whereBetween('created_at', [$init_year_search, $movimientos[0]->fulldate])
+                      ->orderBy('id', 'desc')
+                      ->value('created_at');
+
+        //Reversa el orden de los movimentos encontrados.
+        $movimientosR = array_reverse($movimientos);
+
+        /**
+         *Si se ha encontrado una carga de inventario en el primer año del rango de fecha a consultar,
+         *construye consulta que obtienen todas las entradas y salidas desde la fecha de dicha carga de
+         *inventario hasta la fecha del primer movimiento encontrado, de lo contrario construye consulta
+         *que obtiene todas las entradas y salidas desde el primer año del rango de fecha a consultar
+         *hasta la fecha del primer movimiento encontrado.
+         */
+        if(!empty($last_cinve) ){
+
+          $queryE = Insumos_entrada::where('insumo', $insumo)
+                 ->where('deposito', $deposito)
+                 ->whereBetween('created_at',[$last_cinve, $movimientosR[0]->fulldate]);
+
+          $queryS = Insumos_salida::where('insumo', $insumo)
+                 ->where('deposito', $deposito)
+                 ->whereBetween('created_at',[$last_cinve, $movimientosR[0]->fulldate]);
+        }
+        else{
+
+          $queryE = Insumos_entrada::where('insumo', $insumo)
+                 ->where('deposito', $deposito)
+                 ->whereBetween('created_at',[$init_year_search, $movimientosR[0]->fulldate]);
+
+          $queryS = Insumos_salida::where('insumo', $insumo)
+                 ->where('deposito', $deposito)
+                 ->whereBetween('created_at',[$init_year_search, $movimientosR[0]->fulldate]);
+        }
+
+        /**
+         *Excluye el primer movimento encontrado en el rango de fecha a consultar
+         *sea salida o entrada.
+         */
+        if($movimientosR[0]->type == "entrada")
+          $queryE->where('entrada','!=',$movimientosR[0]->referencia);
+        else
+          $queryS->where('salida','!=',$movimientosR[0]->referencia);
+
+        /**
+         *Realiza la consulta que Obtiene la cantidad de salidas y entradas
+         *de los movimientos de la consultas que se almacenan en $queryE, $queryS.
+         */
+        $entradaM = $queryE->sum('cantidad');
+        $salidaM  = $queryS->sum('despachado');
+
+        //Calcula la existencia inicial del insumo antes de los movimientos consultados.
+        $existencia = $entradaM - $salidaM;
+
+        //Calcula y asigna la existencia del insumo despues de cada movimento
+        foreach($movimientosR as $movimiento){
+
+          /**
+           *Si el movimento es una carga de inventario la existencia se establece
+           *como la cantidad dal movimiento.
+           */
+          if($movimiento->pod == null){
+            $existencia = $movimiento->movido;
+            $movimiento->existencia = $existencia;
+            $movimiento->pod = "CARGA DE INVENTARIO";
+          }
+          else{
+
+            if($movimiento->type == 'entrada')
+              $existencia += $movimiento->movido;
+            else
+              $existencia -= $movimiento->movido;
+
+            $movimiento->existencia = $existencia;
+          }
+        }
+
+        //Regresa todos los movimientos.
+        return Response()->json(['status' => 'success', 'kardek' => $movimientos]);
+     }
+
     }
 
     public static function almacenaInsumo($insumo, $cantidad, $deposito, $type, $referencia){
