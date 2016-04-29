@@ -429,8 +429,10 @@ class inventarioController extends Controller
           }
         }
 
-        //Regresa todos los movimientos.
-        return Response()->json(['status' => 'success', 'kardek' => $movimientos]);
+        //Obtiene la informacion del insumo
+        $insumoData = Insumo::where('id', $insumo)->first(['codigo', 'descripcion']);
+
+        return Response()->json(['status' => 'success', 'kardek' => $movimientos, 'insumo' => $insumoData]);
      }
 
     }
