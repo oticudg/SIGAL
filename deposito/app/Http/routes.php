@@ -207,6 +207,10 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Muestra el panel de inventario
 			Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@index']);
 
+			//Muestra la vista de kardek
+			Route::get('kardek',['as' => 'kardek', 'uses' => 'inventarioController@viewKardek']);
+
+
 			Route::group(['prefix' => 'herramientas', 'as' => 'Herra', 'middleware' => 'permission:inventarioH'], function(){
 
 				//Muestra la  vista de insumos en niveles bajos y criticos

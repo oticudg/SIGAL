@@ -43,6 +43,24 @@ class inventarioController extends Controller
         return view('inventario/detallesInventarioCarga');
     }
 
+
+    public function viewKardek(Request $request){
+
+      $data = $request->all();
+
+      $validator = Validator::make($data,[
+          'insumo'  => 'required|insumo',
+          'dateI'   => 'date',
+          'dateF'   => 'date'
+      ], $this->menssage);
+
+      if($validator->fails()){
+        abort('404');
+      }
+
+      return view('inventario/kardek', ['insumo' => $data['insumo']]);
+    }
+
     public function allInsumos(){
 
         $deposito = Auth::user()->deposito;
