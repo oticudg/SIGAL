@@ -44,7 +44,7 @@ class inventarioController extends Controller
     }
 
 
-    public function viewKardek(Request $request){
+    public function viewKardex(Request $request){
 
       $data = $request->all();
 
@@ -58,7 +58,13 @@ class inventarioController extends Controller
         abort('404');
       }
 
-      return view('inventario/kardek', ['insumo' => $data['insumo']]);
+      $dateI = isset($data['dateI']) ? $data['dateI']:null;
+      $dateF = isset($data['dateF']) ? $data['dateF']:null;
+
+
+      return view('inventario/kardex',
+        ['insumo' => $data['insumo'], 'dateI' => $dateI,
+        'dateF' => $dateF]);
     }
 
     public function allInsumos(){
@@ -275,7 +281,7 @@ class inventarioController extends Controller
         }
     }
 
-    public function kardek(Request $request){
+    public function kardex(Request $request){
 
       $data = $request->all();
 
@@ -297,7 +303,7 @@ class inventarioController extends Controller
       $dateI = !empty($data['dateI']) ? $data['dateI']:$iniY;
       //Fecha final a consultar
       $dateF = !empty($data['dateF']) ? $data['dateF']:$finY;
-      //Insumo para el que se realizara el kardek
+      //Insumo para el que se realizara el kardex
       $insumo = $data['insumo'];
       //Obtiene el deposito del usuario que realiza la consulta.
       $deposito = Auth::user()->deposito;
@@ -434,7 +440,7 @@ class inventarioController extends Controller
      //Obtiene la informacion del insumo
      $insumoData = Insumo::where('id', $insumo)->first(['codigo', 'descripcion']);
 
-     return Response()->json(['status' => 'success', 'kardek' => $movimientos, 'insumo' => $insumoData]);
+     return Response()->json(['status' => 'success', 'kardex' => $movimientos, 'insumo' => $insumoData]);
 
     }
 
