@@ -20,6 +20,11 @@ controller('kardekController',function($scope,$http,$modal){
 			});
 	};
 
+	$scope.filterPanel = function(){
+		$scope.barSearch = $scope.barSearch ? false:true;
+		$scope.search ={};
+	}
+
 	$scope.detallesNota = function(type,index,inv){
 
 		if(type == "entrada"){

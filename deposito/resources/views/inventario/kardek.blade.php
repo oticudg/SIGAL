@@ -51,7 +51,7 @@
         <span class="glyphicon glyphicon-search"></span></button>
 
       <ul class="dropdown-menu pull-right" role="menu">
-        <li ng-click="registrosEntradas('todas')" ><a href="#">Filtros</a></li>
+        <li ng-click="filterPanel()" ><a href="#">Filtros</a></li>
         <li ng-click="registrosInsumos('todos')" ><a href="#">Busqueda avanzada</a></li>
       </ul>
 
@@ -82,11 +82,6 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th ng-show="status"class="col-md-1">
-					<label class="checkbox-inline">
-					<input type="checkbox" ng-checked="all" ng-model="all" ng-click="select()">
-					Todos</label>
-				</th>
 				<th class="col-md-1">Fecha</th>
 				<th>Procedencia o Destino</th>
         <th class="col-md-1">Tipo</th>
@@ -96,10 +91,25 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="movimiento in movimientos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="movimientos">
-				<td ng-show="status">
-					<input type="checkbox" ng-checked="movimiento.select">
+      <tr ng-show="barSearch">
+				<td>
+					<input type="text" class="form-control" placeholder="Fecha" ng-model="search.fecha">
 				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Procedencia o Destino" ng-model="search.pod">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Tipo" ng-model="search.type">
+				</td>
+        <td>
+					<input type="text" class="form-control" placeholder="Movim" ng-model="search.movido">
+				</td>
+        <td>
+					<input type="text" class="form-control" placeholder="Exist" ng-model="search.existencia">
+				</td>
+        <td></td>
+			</tr>
+			<tr dir-paginate="movimiento in movimientos | filter:search | itemsPerPage:cRegistro" pagination-id="movimientos">
 				<td>{#movimiento.fecha#}</td>
 				<td>{#movimiento.pod | uppercase #}</td>
         <td>{#movimiento.type | uppercase #}</td>
