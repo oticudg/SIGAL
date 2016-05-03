@@ -14,7 +14,7 @@ controller('kardexController',function($scope,$http,$modal){
 			'dateF':insumoKardex.dateF
     }
 
-		$http.post('/inventario/kardex',data)
+		$http.post('/inventario/kardex/getKardex',data)
 			.success( function(response){
 				$scope.movimientos = response.kardex;
 				$scope.insumo = response.insumo;

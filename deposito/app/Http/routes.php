@@ -207,9 +207,12 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Muestra el panel de inventario
 			Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@index']);
 
-			//Muestra la vista de kardek
-			Route::get('kardex',['as' => 'kardex', 'uses' => 'inventarioController@viewKardex']);
-
+			Route::group(['prefix' => 'kardex', 'as' => 'kardex'], function(){
+				//Muestra la vista de kardek
+				Route::get('/',['as' => 'index', 'uses' => 'inventarioController@viewKardex']);
+				//Regresa el kardek de un insumo cuyo id y rango de fecha de pase
+				Route::post('getKardex', 'inventarioController@kardex');
+			});
 
 			Route::group(['prefix' => 'herramientas', 'as' => 'Herra', 'middleware' => 'permission:inventarioH'], function(){
 
@@ -239,8 +242,6 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Regresa todos los insumos en alerta del inventario
 			Route::get('getAlertInsumos','inventarioController@insumosAlert');
 
-			//Regresa el kardek de un insumo cuyo id y rango de fecha de pase
-			Route::post('kardex', 'inventarioController@kardex');
 		});
 
 		/**
