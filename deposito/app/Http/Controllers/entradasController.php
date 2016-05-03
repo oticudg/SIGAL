@@ -219,7 +219,7 @@ class entradasController extends Controller
                     ->get();
             }
 
-            return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+            return Response()->json(['status' => 'success', 'nota' => $entrada , 'insumos' => $insumos]);
         }
     }
 

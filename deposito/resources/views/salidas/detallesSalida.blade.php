@@ -2,14 +2,14 @@
 	<div class="row">
 		<div class="col-md-10">
 	    	<h3 style="color:#54AF54;" class="modal-title">
-	    		<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#salida.codigo | codeforma#}</strong>
+	    		<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#nota.codigo | codeforma#}</strong>
 	    	</h3>
 	    </div>
 
 	    <div style="text-align:right" class="col-md-2">
 	    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
 				@if(Auth::user()->haspermission('inventarioH'))
-					<a class="btn btn-warning" href="/reportes/salida/{#salida.id#}" target="_blank">
+					<a class="btn btn-warning" href="/reportes/salida/{#nota.id#}" target="_blank">
 		        <span class="glyphicon glyphicon glyphicon-print"></span>
 		      </a>
 				@endif
@@ -29,10 +29,10 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>{#salida.fecha#}</td>
-				<td>{#salida.hora#}</td>
-				<td>{#salida.departamento#}</td>
-				<td>{#salida.usuario#}</td>
+				<td>{#nota.fecha#}</td>
+				<td>{#nota.hora#}</td>
+				<td>{#nota.departamento#}</td>
+				<td>{#nota.usuario#}</td>
 			</tr>
 		</tbody>
 	</table>

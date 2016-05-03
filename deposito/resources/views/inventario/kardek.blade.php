@@ -8,12 +8,12 @@
 
 @section('front-page')
 
-	<div data-loading class="div_loader">
-		<div id="img_loader" class="img_loader">
-			<img src="{{asset('imagen/loader.gif')}}" alt="">
-			<p> Cargando ...</p>
-		</div>
-	</div>
+  <div data-loading class="simgle_loader">
+    <div id="img_loader" class="img_single_loader">
+      <img src="{{asset('imagen/loader.gif')}}" alt="">
+      <p> Cargando ...</p>
+    </div>
+  </div>
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
@@ -25,7 +25,7 @@
 
 	<br>
 	<br>
-
+{{--
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">
@@ -33,21 +33,51 @@
 		  		<input type="text" class="form-control" ng-model="busqueda">
 			</div>
 		</div>
-	</div>
+	</div>--}}
+
 
 	<div class="row">
 		<div class="col-md-1">
-    		<label for="cantidad">Registros</label>
+    	<label for="cantidad">Registros</label>
 			<select id="cantidad" class="form-control" ng-model="cRegistro">
 				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="20">20</option>
 			</select>
 		</div>
+
+    <div class="col-md-offset-9 col-md-2" style="padding-top:2%; text-align:right;">
+      <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+        <span class="glyphicon glyphicon-search"></span></button>
+
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li ng-click="registrosEntradas('todas')" ><a href="#">Filtros</a></li>
+        <li ng-click="registrosInsumos('todos')" ><a href="#">Busqueda avanzada</a></li>
+      </ul>
+
+      <a class="btn btn-warning" href="#" target="_blank">
+        <span class="glyphicon glyphicon glyphicon-print"></span>
+      </a>
+    </div>
 	</div>
 
 	<br>
 	<br>
+
+  <table class="table table-bordered custon-table-bottom-off">
+    <thead>
+      <tr>
+        <th class="col-md-2">Codigo</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{#insumo.codigo | uppercase #}</td>
+         <td>{#insumo.descripcion | uppercase #}</td>
+      </tr>
+    </tbody>
+  </table>
 
 	<table class="table table-bordered table-hover">
 		<thead>
@@ -62,25 +92,27 @@
         <th class="col-md-1">Tipo</th>
 				<th class="col-md-1">Movim</th>
 				<th class="col-md-1">Exist</th>
+        <th class="col-md-1">Nota</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="movimento in movimentos | filter:busqueda | itemsPerPage:cRegistro">
+			<tr dir-paginate="movimiento in movimientos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="movimientos">
 				<td ng-show="status">
-					<input type="checkbox" ng-checked="movimento.select">
+					<input type="checkbox" ng-checked="movimiento.select">
 				</td>
-				<td>{#movimento.fecha#}</td>
-				<td>{#movimento.pod | uppercase #}</td>
-        <td>{#movimento.type | uppercase #}</td>
-        <td>{#movimento.movido#}</td>
-				<td>{#movimento.existencia#}</td>
+				<td>{#movimiento.fecha#}</td>
+				<td>{#movimiento.pod | uppercase #}</td>
+        <td>{#movimiento.type | uppercase #}</td>
+        <td>{#movimiento.movido#}</td>
+				<td>{#movimiento.existencia#}</td>
+        <td><button class="btn btn-warning btn-sm" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
 			</tr>
 		</tbody>
 	</table>
 
 	<div>
       <div class="text-center">
-     	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+     	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}" pagination-id="movimientos"></dir-pagination-controls>
       </div>
   </div>
 

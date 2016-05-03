@@ -49,7 +49,7 @@ class inventarioController extends Controller
       $data = $request->all();
 
       $validator = Validator::make($data,[
-          'insumo'  => 'required|insumo',
+          'insumo'  => 'required|integer|insumo',
           'dateI'   => 'date',
           'dateF'   => 'date'
       ], $this->menssage);
@@ -271,7 +271,7 @@ class inventarioController extends Controller
                 ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
                 ->get();
 
-            return Response()->json(['status' => 'success', 'entrada' => $entrada , 'insumos' => $insumos]);
+            return Response()->json(['status' => 'success', 'nota' => $entrada , 'insumos' => $insumos]);
         }
     }
 
@@ -417,6 +417,7 @@ class inventarioController extends Controller
             $existencia = $movimiento->movido;
             $movimiento->existencia = $existencia;
             $movimiento->pod = "CARGA DE INVENTARIO";
+            $movimiento->i = true;
           }
           else{
 
@@ -428,12 +429,12 @@ class inventarioController extends Controller
             $movimiento->existencia = $existencia;
           }
         }
-
-        //Obtiene la informacion del insumo
-        $insumoData = Insumo::where('id', $insumo)->first(['codigo', 'descripcion']);
-
-        return Response()->json(['status' => 'success', 'kardek' => $movimientos, 'insumo' => $insumoData]);
      }
+
+     //Obtiene la informacion del insumo
+     $insumoData = Insumo::where('id', $insumo)->first(['codigo', 'descripcion']);
+
+     return Response()->json(['status' => 'success', 'kardek' => $movimientos, 'insumo' => $insumoData]);
 
     }
 

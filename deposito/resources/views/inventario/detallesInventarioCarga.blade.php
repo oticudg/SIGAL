@@ -1,19 +1,19 @@
 <div class="modal-header">
     <div class="row">
 	    <h3 class="modal-title text-title-modal col-md-11">
-	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Carga de inventario: <strong>{#entrada.codigo | codeforma#}</strong>
+	    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Carga de inventario: <strong>{#nota.codigo | codeforma#}</strong>
 	    </h3>
-	    
+
 	    <button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
 
-	    <a class="btn btn-warning" href="/reportes/inventarioCarga/{#entrada.id#}" target="_blank">
+	    <a class="btn btn-warning" href="/reportes/inventarioCarga/{#nota.id#}" target="_blank">
 	    	<span class="glyphicon glyphicon glyphicon-print"></span>
 		</a>
 
 	</div>
 </div>
 <div class="modal-body">
-	
+
 	<table class="table table-bordered custon-table-bottom-off" >
 		<thead>
 			<tr>
@@ -24,13 +24,13 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>{#entrada.fecha#}</td>
-				<td>{#entrada.hora#}</td>
-				<td>{#entrada.usuario#}</td>
+				<td>{#nota.fecha#}</td>
+				<td>{#nota.hora#}</td>
+				<td>{#nota.usuario#}</td>
 			</tr>
-		</tbody>	
+		</tbody>
 	</table>
-	
+
 	<table class="table table-striped custon-table-top-off">
 		<thead>
 			<tr>
@@ -58,8 +58,8 @@
 			</tr>
 		</tbody>
 	</table>
-		
-	{{--Paginacion de la tabla de insumos--}}	
+
+	{{--Paginacion de la tabla de insumos--}}
     <div class="text-center">
  	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
   	</div>

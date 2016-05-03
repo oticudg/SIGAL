@@ -86,7 +86,7 @@ class salidasController extends Controller
                 	'insumos_salidas.despachado')
                 ->get();
 
-            return Response()->json(['status' => 'success', 'salida' => $salida , 'insumos' => $insumos]);
+            return Response()->json(['status' => 'success', 'nota' => $salida , 'insumos' => $insumos]);
         }
     }
 
@@ -121,7 +121,7 @@ class salidasController extends Controller
     }
 
     public function search(Request $request){
-      
+
       $deposito = Auth::user()->deposito;
 
       $query = DB::table('salidas')
