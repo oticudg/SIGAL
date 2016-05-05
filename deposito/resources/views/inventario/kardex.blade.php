@@ -78,8 +78,8 @@
     </thead>
     <tbody>
       <tr>
-        <td>{#insumo.codigo | uppercase #}</td>
-         <td>{#insumo.descripcion | uppercase #}</td>
+        <td>{{strtoupper($insumoData['codigo'])}}</td>
+         <td>{{strtoupper($insumoData['descripcion'])}}</td>
       </tr>
     </tbody>
   </table>

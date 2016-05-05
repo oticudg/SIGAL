@@ -5,7 +5,6 @@ controller('kardexController',function($scope,$http,$modal){
 
 	$scope.movimientos = [];
 	$scope.cRegistro = '5';
-  $scope.insumo;
 
 	$scope.obtenerKardex = function(){
     var data = {
@@ -17,7 +16,6 @@ controller('kardexController',function($scope,$http,$modal){
 		$http.post('/inventario/kardex/getKardex',data)
 			.success( function(response){
 				$scope.movimientos = response.kardex;
-				$scope.insumo = response.insumo;
 			});
 	};
 
