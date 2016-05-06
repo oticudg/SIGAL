@@ -308,7 +308,7 @@ class inventarioController extends Controller
       //Insumo para el que se realizara el kardex
       $insumo = $data['insumo'];
       //Obtiene el deposito del usuario que realiza la consulta.
-      $deposito = Auth::user()->deposito;
+      $deposito = 3;//Auth::user()->deposito;
 
       //Obtiene todas las entradas que han entrado por devolucion.
       $devoluciones =  DB::table('insumos_entradas')->where('insumo', $insumo)
@@ -341,14 +341,19 @@ class inventarioController extends Controller
                      ->select('despachado as movido', 'salida as referencia', 'insumos_salidas.created_at as fulldate',
                      DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("salida") as type'),
                      'departamentos.nombre as pod');
+          /*
+         //Une y realiza las consultas de todos los registros.
+         $movimientos = $salidas->unionAll($entradas)
+                        ->unionAll($devoluciones)
+                        ->orderBy('fulldate','desc')
+                        ->get();
+                        */
 
-       //Une y realiza las consultas de todos los registros.
-       $movimientos = $salidas->unionAll($entradas)
-                      ->unionAll($devoluciones)
-                      ->orderBy('fulldate','desc')
-                      ->get();
+      //Aplica filtros a las consultas de movimientos. 
+      $query = $this->filterKardex($salidas, $entradas, $devoluciones, $data);
 
-
+      $movimientos = $query->orderBy('fulldate','desc')
+                     ->get();
 
       /**
        *Si ha hay movimientos del insumo consultado
@@ -551,4 +556,89 @@ class inventarioController extends Controller
         return strtoupper( $depCode .'-'.$prefix.str_random(6) );
     }
 
+    private function filterKardex($salidas, $entradas, $devoluciones,$filters){
+
+        //Filtro para filtrar movimientos por usuario
+        if(!empty($filters['user'])){
+          $salidas->where('salidas.usuario', $filters['user']);
+          $entradas->where('entradas.usuario', $filters['user']);
+          $devoluciones->where('entradas.usuario', $filters['user']);
+        }
+
+        //Filtro para filtrar movimientos por rango de fecha
+        if(!empty($filters['hourrange']) && !empty($filters['horaI']) && !empty($filters['horaF']) ){
+
+          $salidas->whereBetween(DB::raw('DATE_FORMAT(salidas.created_at, "%H-%i")'),
+            [$filters['horaI'],$filters['horaF']]);
+
+          $entradas->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
+            [$filters['horaI'],$filters['horaF']]);
+
+          $devoluciones->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
+            [$filters['horaI'],$filters['horaF']]);
+        }
+
+        //Filtro para filtrar movimientos por rango de cantidad movido
+        if(!empty($filters['amountrange']) && !empty($filters['cantidadI']) && !empty($filters['cantidadF']) ){
+
+          $salidas->whereBetween('insumos_salidas.despachado',
+            [$filters['cantidadI'],$filters['cantidadF']]);
+
+          $entradas->whereBetween('insumos_entradas.cantidad',
+            [$filters['cantidadI'],$filters['cantidadF']]);
+
+          $devoluciones->whereBetween('insumos_entradas.cantidad',
+            [$filters['cantidadI'],$filters['cantidadF']]);
+        }
+
+        //Filtro para filtrar movimientos por entrada o salidas
+        if(!empty($filters['type'])){
+
+          if(empty($filters['comcp']) && $filters['type'] == 'entrada'){
+            $query = $entradas
+                     ->unionAll($devoluciones);
+          }
+          //SubFiltro para filtrar movimientos de entrada segun tipos de entrada
+          else if(!empty($filters['comcp']) && $filters['type'] == 'entrada'){
+
+            switch ($filters['comcp']){
+              case 'orden':
+                $query = $entradas
+                         ->where('entradas.type', 'orden');
+                break;
+
+              case 'donacion':
+                 $query = $entradas
+                          ->where('entradas.type', 'donacion');
+                break;
+
+              case 'devolucion':
+                $query = $devoluciones;
+                break;
+            }
+
+             //SubFiltro para filtrar movimientos de entrada segun un proveedor
+             if(!empty($filters['provedor'])){
+               $query->where('entradas.provedor', $filters['provedor']);
+             }
+          }
+          else{
+            $query = $salidas;
+
+            //SubFiltro para filtrar movimientos de salida segun un proveedor
+            if(!empty($filters['provedor'])){
+              $query->where('salidas.departamento', $filters['provedor']);
+            }
+          }
+
+        }
+
+        if(isset($query)){
+          return $query;
+        }
+        else{
+          return $salidas->unionAll($entradas)
+                         ->unionAll($devoluciones);
+        }
+    }
 }
