@@ -4,7 +4,8 @@ angular.module('deposito').
 controller('kardexController',function($scope,$http,$modal){
 
 	$scope.movimientos = [];
-	$scope.cRegistro = '5';
+	$scope.cRegistro   = '5';
+	$scope.insumoInfo  = insumoKardex;
 
 	var obtenerKardex = function(filter){
 
@@ -21,6 +22,12 @@ controller('kardexController',function($scope,$http,$modal){
 				'dateF':insumoKardex.dateF
 		  }
 	  }
+
+		$scope.insumoInfo = {
+			'insumo':filter.insumo,
+			'dateI' :filter.dateI,
+			'dateF' :filter.dateF
+		};
 
 		$http.post('/inventario/kardex/getKardex',filter)
 			.success( function(response){

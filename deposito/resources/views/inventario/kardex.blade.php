@@ -63,7 +63,7 @@
       <button type="button" class="btn btn-success" ng-click="update()">
         <span class="glyphicon glyphicon-repeat"></span></button>
 
-      <a class="btn btn-warning" href="#" target="_blank">
+      <a class="btn btn-warning" href="/reportes/kardex?insumo={#insumoInfo.insumo#}&dateI={#insumoInfo.dateI#}&dateF={#insumoInfo.dateF#}" target="_blank">
         <span class="glyphicon glyphicon glyphicon-print"></span>
       </a>
     </div>
@@ -93,8 +93,8 @@
 				<th class="col-md-1">Fecha</th>
 				<th>Procedencia o Destino</th>
         <th class="col-md-1">Tipo</th>
-				<th class="col-md-1">Movim</th>
-				<th class="col-md-1">Exist</th>
+				<th class="col-md-1">Mov.</th>
+				<th class="col-md-1">Exist.</th>
         <th class="col-md-1">Nota</th>
 			</tr>
 		</thead>
