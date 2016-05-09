@@ -42,6 +42,10 @@ class inventarioController extends Controller
     public function viewDetallesCarga(){
         return view('inventario/detallesInventarioCarga');
     }
+    
+    public function searchKardex(){
+      return view('inventario/searchKardex');
+    }
 
 
     public function viewKardex(Request $request){
@@ -308,7 +312,7 @@ class inventarioController extends Controller
       //Insumo para el que se realizara el kardex
       $insumo = $data['insumo'];
       //Obtiene el deposito del usuario que realiza la consulta.
-      $deposito = 3;//Auth::user()->deposito;
+      $deposito = Auth::user()->deposito;
 
       //Obtiene todas las entradas que han entrado por devolucion.
       $devoluciones =  DB::table('insumos_entradas')->where('insumo', $insumo)
@@ -349,7 +353,7 @@ class inventarioController extends Controller
                         ->get();
                         */
 
-      //Aplica filtros a las consultas de movimientos. 
+      //Aplica filtros a las consultas de movimientos.
       $query = $this->filterKardex($salidas, $entradas, $devoluciones, $data);
 
       $movimientos = $query->orderBy('fulldate','desc')

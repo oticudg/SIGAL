@@ -210,6 +210,8 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::group(['prefix' => 'kardex', 'as' => 'kardex'], function(){
 				//Muestra la vista de kardek
 				Route::get('/',['as' => 'index', 'uses' => 'inventarioController@viewKardex']);
+				//Muestra la vista de avanzada de busqueda
+				Route::get('search',['as' => 'search', 'uses' => 'inventarioController@searchKardex']);
 				//Regresa el kardek de un insumo cuyo id y rango de fecha de pase
 				Route::post('getKardex', 'inventarioController@kardex');
 			});

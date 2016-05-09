@@ -57,8 +57,11 @@
 
       <ul class="dropdown-menu pull-right" role="menu">
         <li ng-click="filterPanel()" ><a href="#">Filtros</a></li>
-        <li ng-click="registrosInsumos('todos')" ><a href="#">Busqueda avanzada</a></li>
+        <li ng-click="search()" ><a href="#">Busqueda avanzada</a></li>
       </ul>
+
+      <button type="button" class="btn btn-success" ng-click="update()">
+        <span class="glyphicon glyphicon-repeat"></span></button>
 
       <a class="btn btn-warning" href="#" target="_blank">
         <span class="glyphicon glyphicon glyphicon-print"></span>
@@ -84,7 +87,7 @@
     </tbody>
   </table>
 
-	<table class="table table-bordered table-hover">
+	<table class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr>
 				<th class="col-md-1">Fecha</th>
@@ -98,23 +101,23 @@
 		<tbody>
       <tr ng-show="barSearch">
 				<td>
-					<input type="text" class="form-control" placeholder="Fecha" ng-model="search.fecha">
+					<input type="text" class="form-control" placeholder="Fecha" ng-model="filtro.fecha">
 				</td>
 				<td>
-					<input type="text" class="form-control" placeholder="Procedencia o Destino" ng-model="search.pod">
+					<input type="text" class="form-control" placeholder="Procedencia o Destino" ng-model="filtro.pod">
 				</td>
 				<td>
-					<input type="text" class="form-control" placeholder="Tipo" ng-model="search.type">
+					<input type="text" class="form-control" placeholder="Tipo" ng-model="filtro.type">
 				</td>
         <td>
-					<input type="text" class="form-control" placeholder="Movim" ng-model="search.movido">
+					<input type="text" class="form-control" placeholder="Movim" ng-model="filtro.movido">
 				</td>
         <td>
-					<input type="text" class="form-control" placeholder="Exist" ng-model="search.existencia">
+					<input type="text" class="form-control" placeholder="Exist" ng-model="filtro.existencia">
 				</td>
         <td></td>
 			</tr>
-			<tr dir-paginate="movimiento in movimientos | filter:search | itemsPerPage:cRegistro" pagination-id="movimientos">
+			<tr dir-paginate="movimiento in movimientos | filter:filtro | itemsPerPage:cRegistro" pagination-id="movimientos">
 				<td>{#movimiento.fecha#}</td>
 				<td>{#movimiento.pod | uppercase #}</td>
         <td>{#movimiento.type | uppercase #}</td>
