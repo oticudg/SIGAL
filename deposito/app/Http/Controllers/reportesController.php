@@ -11,7 +11,10 @@ use App\Http\Controllers\Controller;
 use App\Entrada;
 use App\Salida;
 use App\Deposito;
-
+use Validator;
+use App\Insumos_entrada;
+use App\Insumos_salida;
+use App\Insumo;
 
 class reportesController extends Controller
 {
@@ -190,4 +193,137 @@ class reportesController extends Controller
 
     }
 
+    public function getKardex(Request $request){
+
+      $data = $request->all();
+
+      $validator = Validator::make($data,[
+          'insumo'  => 'required|insumo',
+          'dateI'   => 'date',
+          'dateF'   => 'date'
+      ]);
+
+      if($validator->fails()){
+        abort("404");
+      }
+
+      $deposito = Auth::user()->deposito;
+      $insumo   = $data['insumo'];
+      $dateI    = $data['dateI'];
+      $dateF    = $data['dateF'];
+
+      //Obtiene todas las entradas que han entrado por devolucion.
+      $devoluciones =  DB::table('insumos_entradas')->where('insumo', $insumo)
+                  ->where('insumos_entradas.deposito', $deposito)
+                  ->where('insumos_entradas.type', 'devolucion')
+                  ->join('entradas', 'insumos_entradas.entrada' , '=', 'entradas.id')
+                  ->join('departamentos', 'entradas.provedor' , '=', 'departamentos.id')
+                  ->whereBetween(DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%Y-%m-%d")'), [$dateI, $dateF])
+                  ->select('cantidad as movido', 'insumos_entradas.created_at as fulldate',
+                  DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("entrada") as type'),
+                  'departamentos.nombre as pod');
+
+      //Obtiene todas las entradas que han entrado por todos los conceptos excluye devolucion.
+      $entradas   =  DB::table('insumos_entradas')->where('insumo', $insumo)
+                  ->where('insumos_entradas.deposito', $deposito)
+                  ->where('insumos_entradas.type', '!=', 'devolucion')
+                  ->join('entradas', 'insumos_entradas.entrada' , '=', 'entradas.id')
+                  ->leftjoin('provedores', 'entradas.provedor' , '=', 'provedores.id')
+                  ->whereBetween(DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%Y-%m-%d")'), [$dateI, $dateF])
+                  ->select('cantidad as movido', 'insumos_entradas.created_at as fulldate',
+                  DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("entrada") as type'),
+                  'provedores.nombre as pod');
+
+      //Obtiene todas las salidas.
+      $salidas   = DB::table('insumos_salidas')->where('insumo',$insumo)
+                     ->where('insumos_salidas.deposito', $deposito)
+                     ->join('salidas', 'insumos_salidas.salida' , '=', 'salidas.id')
+                     ->join('departamentos', 'salidas.departamento' , '=', 'departamentos.id')
+                     ->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%Y-%m-%d")'),[$dateI, $dateF])
+                     ->select('despachado as movido', 'insumos_salidas.created_at as fulldate',
+                     DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%d/%m/%Y") as fecha'), DB::raw('("salida") as type'),
+                     'departamentos.nombre as pod');
+
+       //Une y realiza las consultas de todos los registros.
+       $movimientos =  $salidas->unionAll($entradas)
+                       ->unionAll($devoluciones)
+                       ->orderBy('fulldate','asc')
+                       ->get();
+
+        /**
+         *Si ha hay movimientos del insumo consultado
+         *se calcula la existencia en la que se encontraba
+         *despues de cada movimiento.
+         */
+        if(!empty($movimientos)){
+
+          //Año inicial del rango de fecha a consultar
+          $init_year_search = date('Y-01-01 00:00:00',strtotime($dateI));
+
+          foreach ($movimientos as $movimiento){
+            //Obtiene la fecha de la ultima carga de inventario realizada en el primer año del rango de fecha a consultar
+            $last_cinve = DB::table('insumos_entradas')->where('insumo', $insumo)
+                          ->where('deposito', $deposito)
+                          ->where('type','cinventario')
+                          ->whereBetween('created_at', [$init_year_search, $movimiento->fulldate])
+                          ->orderBy('id', 'desc')
+                          ->value('created_at');
+            /**
+             *Si se ha encontrado una carga de inventario en el primer año del rango de fecha a consultar,
+             *construye consulta que obtienen todas las entradas y salidas desde la fecha de dicha carga de
+             *inventario hasta la fecha del primer movimiento encontrado, de lo contrario construye consulta
+             *que obtiene todas las entradas y salidas desde el primer año del rango de fecha a consultar
+             *hasta la fecha del primer movimiento encontrado.
+             */
+            if(!empty($last_cinve) ){
+
+              $queryE = Insumos_entrada::where('insumo', $insumo)
+                     ->where('deposito', $deposito)
+                     ->whereBetween('created_at',[$last_cinve, $movimiento->fulldate]);
+
+              $queryS = Insumos_salida::where('insumo', $insumo)
+                     ->where('deposito', $deposito)
+                     ->whereBetween('created_at',[$last_cinve, $movimiento->fulldate]);
+            }
+            else{
+
+              $queryE = Insumos_entrada::where('insumo', $insumo)
+                     ->where('deposito', $deposito)
+                     ->whereBetween('created_at',[$init_year_search, $movimiento->fulldate]);
+
+              $queryS = Insumos_salida::where('insumo', $insumo)
+                     ->where('deposito', $deposito)
+                     ->whereBetween('created_at',[$init_year_search, $movimiento->fulldate]);
+            }
+
+            /**
+             *Realiza la consulta que Obtiene la cantidad de salidas y entradas
+             *de los movimientos de la consultas que se almacenan en $queryE, $queryS.
+             */
+            $entradaM = $queryE->sum('cantidad');
+            $salidaM  = $queryS->sum('despachado');
+
+            //Calcula la existencia inicial del insumo antes de los movimientos consultados.
+            $existencia = $entradaM - $salidaM;
+            $movimiento->existencia = $existencia;
+
+            if($movimiento->pod == null){
+              $movimiento->pod = "CARGA DE INVENTARIO";
+            }
+         }
+       }
+
+       //Obtiene la informacion del insumo
+       $insumoData = Insumo::where('id', $data['insumo'])->first(['codigo', 'descripcion']);
+       //Obtiene nombre del deposito
+       $deposito   =  Deposito::where('id', $deposito)->value('nombre');
+       //Obtiene usuario
+       $usuario    = Auth::user()->email;
+
+       $view =  \View::make('reportes.pdfs.kardex',
+       compact('insumoData' , 'deposito', 'usuario', 'movimientos', 'dateI', 'dateF'))->render();
+       $pdf  =  \App::make('dompdf.wrapper');
+       $pdf->loadHTML($view);
+       return $pdf->stream('Kardex');
+    }
 }
