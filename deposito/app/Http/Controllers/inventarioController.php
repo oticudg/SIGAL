@@ -42,7 +42,7 @@ class inventarioController extends Controller
     public function viewDetallesCarga(){
         return view('inventario/detallesInventarioCarga');
     }
-    
+
     public function searchKardex(){
       return view('inventario/searchKardex');
     }
@@ -73,35 +73,83 @@ class inventarioController extends Controller
         'dateF' => $dateF, 'insumoData' => $insumoData]);
     }
 
-    public function allInsumos(){
+    public function allInsumos(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'date'   => 'date',
+        ]);
+
+        if($validator->fails()){
+          abort('404');
+        }
 
         $deposito = Auth::user()->deposito;
+        $date     = $request->input('date');
 
-        return Inventario::select(
-            "inventarios.insumo as id",
-            "insumos.codigo",
-            "insumos.descripcion",
-            "inventarios.existencia",
-            "inventarios.Cmin as min",
-            "inventarios.Cmed as med",
-            "total_entradas",
-            DB::raw('IFNULL(total_salidas, 0) as total_salidas')
-          )->where('inventarios.deposito', $deposito)
-           ->join('insumos', 'insumos.id', '=', 'inventarios.insumo')
-           ->leftjoin( DB::raw("(select sum(entradas.cantidad) total_entradas, entradas.insumo
-                  from insumos_entradas as entradas
-                  where entradas.deposito = ".$deposito."
-                  group by entradas.insumo
-                ) entradas
-            "), 'inventarios.insumo', '=', 'entradas.insumo')
-            ->leftjoin( DB::raw("(select sum(salidas.despachado) total_salidas, salidas.insumo
-                   from insumos_salidas as salidas
-                   where salidas.deposito = ".$deposito."
-                   group by salidas.insumo
-                 ) salidas
-             "), 'inventarios.insumo', '=', 'salidas.insumo')
-            ->orderBy('inventarios.id', 'desc')
-            ->get();
+        //Si no se pasa una fecha se toma la fecha del mes actual
+        if(empty($date))
+          $date = date('Y-m-31');
+
+        //Año inicial del rango de fecha a consultar
+        $init_year_search = date('Y-01-01',strtotime($date));
+
+        //Obtien la ultima carga de inventario
+        $last_cinve = DB::table('entradas')
+                      ->where('deposito', $deposito)
+                      ->where('type','cinventario')
+                      ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                      ,[$init_year_search, $date])
+                      ->orderBy('id', 'desc')
+                      ->value(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
+
+        /**
+          *Obtiene los ids de todos los insumos que han entrada en el inventario
+          *desde el año inicial de la fecha a consultar, hasta la fecha a consultar.
+          */
+        $insumoIds = Insumos_entrada::distinct('insumo')
+               ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+               ,[$last_cinve, $date])->where('deposito', $deposito)
+               ->lists('insumo');
+
+        //Obtiene los datos de los insumos cuyos ids se han encontrado.
+        $insumos = DB::table('insumos')
+                       ->leftjoin('inventarios', function($join) use ($deposito){
+                         $join->on('insumos.id','=','inventarios.insumo')
+                         ->where('inventarios.deposito','=',$deposito);
+                       })
+                       ->whereIn('insumos.id', $insumoIds)
+                       ->select('insumos.id as id','insumos.codigo','insumos.descripcion',
+                          DB::raw('IFNULL(inventarios.cmin, 0) as min'),
+                          DB::raw('IFNULL(inventarios.cmed, 0) as med'))
+                       ->get();
+
+        //Calcula la existencia de cada insumo que se ha encontrado.
+        foreach($insumos as $insumo){
+
+          //Obtiene la suma de todas las entradas del insumo que se consulta.
+          $entradas = Insumos_entrada::where('insumo', $insumo->id)
+                 ->where('deposito', $deposito)
+                 ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'),
+                 [$last_cinve, $date])
+                 ->sum('cantidad');
+
+          //Obtine la suma de todas las salidas del insumo que se consulta.
+          $salidas = Insumos_salida::where('insumo', $insumo->id)
+                     ->where('deposito', $deposito)
+                     ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                     ,[$last_cinve, $date])
+                     ->sum('despachado');
+
+          //Calcula la existencia
+          $insumo->existencia = $entradas - $salidas;
+
+        }
+
+        return Response()->json([
+          'dateI'   => $last_cinve,
+          'dateF'   => $date,
+          'insumos' => array_reverse($insumos)
+        ]);
     }
     public function getInsumosAlert(Request $request){
 
