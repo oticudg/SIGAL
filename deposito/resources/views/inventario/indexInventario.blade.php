@@ -76,9 +76,8 @@
 				</th>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
-				<th class="col-md-1">Existencia en Unidades</th>
-				<th class="col-md-1">Entradas</th>
-				<th class="col-md-1">Salidas</th>
+				<th class="col-md-1">Exist.</th>
+				<th class="col-md-1">Kardex</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -89,8 +88,9 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>
-				<td>{#insumo.total_entradas#}</td>
-				<td>{#insumo.total_salidas#}</td>
+				<td><a class="btn btn-warning btn-sm" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}">
+					<span class="glyphicon glyphicon-eye-open"></span></a>
+				</td>
 			</tr>
 		</tbody>
 	</table>

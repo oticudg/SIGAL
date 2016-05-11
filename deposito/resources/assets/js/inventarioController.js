@@ -5,14 +5,16 @@ controller('inventarioController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
 	$scope.cRegistro = '5';
-	$scope.status = false; 
+	$scope.status = false;
 	$scope.all = false;
 
 	$scope.obtenerInsumos = function(){
 
 		$http.get('/inventario/getInventario')
 			.success( function(response){
-				$scope.insumos = response;
+				$scope.insumos = response.insumos;
+				$scope.dateI   = response.dateI;
+				$scope.dateF   = response.dateF;
 				$scope.calculaEstatus($scope.insumos);
 			});
 	};
@@ -29,10 +31,10 @@ controller('inventarioController',function($scope,$http,$modal){
 			}
 			else{
 				insumos[insumo].color = "";
-			}	
+			}
 		}
 	}
-	
+
 	$scope.parcialInventario = function(){
 		$scope.status = true;
 	}
@@ -47,7 +49,7 @@ controller('inventarioController',function($scope,$http,$modal){
 	$scope.unselectInsumos = function(){
 		for( var insumo in $scope.insumos){
 			$scope.insumos[insumo].select = false;
-			$scope.insumos[insumo].color  = ""; 
+			$scope.insumos[insumo].color  = "";
 		}
 	}
 
@@ -101,7 +103,7 @@ controller('inventarioController',function($scope,$http,$modal){
 	};
 
 	$scope.gerenarParcial = function(){
-		
+
 		var data = {
 			'insumos':empaquetaData($scope.insumos)
 		};
