@@ -161,6 +161,10 @@ controller('inventarioController',function($scope,$http,$modal){
 		return insumosSelect;
 	}
 
+	$scope.current = function(){
+		obtenerInsumos();
+	}
+
 	obtenerInsumos();
 
 });
