@@ -8,9 +8,9 @@ controller('inventarioController',function($scope,$http,$modal){
 	$scope.status = false;
 	$scope.all = false;
 
-	$scope.obtenerInsumos = function(){
+	var obtenerInsumos = function(data){
 
-		$http.get('/inventario/getInventario')
+		$http.get('/inventario/getInventario', data)
 			.success( function(response){
 				$scope.insumos = response.insumos;
 				$scope.dateI   = response.dateI;
@@ -130,6 +130,24 @@ controller('inventarioController',function($scope,$http,$modal){
 		return false;
 	}
 
+	$scope.search = function(){
+		$scope.busqueda = {};
+		$scope.barSearch = $scope.barSearch ? false:true;
+	}
+
+	$scope.dateSelect = function(){
+		$scope.modalInstance = $modal.open({
+			animation: true,
+			templateUrl: 'date.html',
+			controller:'dateCtrl',
+			resolve: {
+				 obtenerInsumos:function() {
+						return obtenerInsumos;
+				 }
+		 }
+		});
+	}
+
 	function empaquetaData(insumos){
 
 		var insumosSelect = [];
@@ -143,6 +161,46 @@ controller('inventarioController',function($scope,$http,$modal){
 		return insumosSelect;
 	}
 
-	$scope.obtenerInsumos();
+	obtenerInsumos();
 
+});
+
+angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstance, obtenerInsumos) {
+
+	$scope.openI = function($event) {
+			$event.preventDefault();
+			$event.stopPropagation();
+			$scope.openedI = true;
+	};
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+	$scope.buscar = function(){
+		var data ={
+			params:{
+				date:dateForamat($scope.fecha)
+			}
+		}
+		obtenerInsumos(data);
+		$modalInstance.dismiss('cancel');
+	}
+
+	function dateForamat(data){
+
+		if(data != null){
+
+			var month = data.getMonth() + 1;
+			var day = data.getDate();
+
+			if( day < 10 )
+				day = "0"+day;
+
+			if(month < 10)
+				month = "0"+month;
+
+			return data.getFullYear() + '-' + month + '-' + day;
+		}
+	}
 });

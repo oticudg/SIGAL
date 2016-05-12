@@ -41,16 +41,9 @@
 		</div>
 
 		<br>
-	@endif
+		<br>
 
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="input-group">
-		  		<span class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
-		  		<input type="text" class="form-control" ng-model="busqueda">
-			</div>
-		</div>
-	</div>
+	@endif
 
 	<div class="row">
 		<div class="col-md-1">
@@ -61,6 +54,27 @@
 				<option value="20">20</option>
 			</select>
 		</div>
+
+		<div class="col-md-offset-3 col-md-4" style="padding-top:2%; text-align:center;">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td class="bg-success text-success">Fecha</td>
+						<td>{#dateF#}</td>
+						<td class="bg-success text-success">Cantidad de Insumos</td>
+						<td>{#insumos.length#}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-md-offset-2 col-md-2" style="padding-top:2%; text-align:right;">
+      <button class="btn btn-success" ng-click="search()">
+        <span class="glyphicon glyphicon-search"></span></button>
+
+      <button type="button" class="btn btn-success" ng-click="dateSelect()">
+        <span class="glyphicon glyphicon-calendar"></span></button>
+    </div>
 	</div>
 
 	<br>
@@ -81,6 +95,19 @@
 			</tr>
 		</thead>
 		<tbody>
+			<tr ng-show="barSearch">
+				<td ng-show="status"></td>
+				<td>
+					<input type="text" class="form-control" placeholder="Codigo" ng-model="busqueda.codigo">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Descripción" ng-model="busqueda.descripcion">
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="Exist." ng-model="busqueda.existencia">
+				</td>
+        <td></td>
+			</tr>
 			<tr ng-click="selectInsumo(insumos.indexOf(insumo))" ng-class="insumo.color" dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro">
 				<td ng-show="status">
 					<input type="checkbox" ng-checked="insumo.select">
@@ -101,4 +128,29 @@
       </div>
     </div>
 
+		<script type="text/ng-template" id="date.html">
+				<div class="modal-header">
+						<h3 class="modal-title text-title-modal">
+							<span class="glyphicon glyphicon-calendar"></span> Situar inventario
+						</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-offset-2 col-md-8">
+							<p class="input-group">
+								<input type="text" id="fechaI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="fecha" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+										</span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<center>
+						<button class="btn btn-success" ng-click="buscar()"><span class="glyphicon glyphicon glyphicon-search"></span> Buscar</button>
+						<button class="btn btn-warning" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
+					</center>
+				</div>
+		</script>
 @endsection
