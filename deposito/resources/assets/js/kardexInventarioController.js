@@ -13,7 +13,6 @@ controller('kardexController',function($scope,$http,$modal){
 			filter.insumo = insumoKardex.id;
 			filter.dateI  = filter.dateI ? filter.dateI : insumoKardex.dateI;
 			filter.dateF  = filter.dateF ? filter.dateF : insumoKardex.dateF;
-			console.log(filter);
 		}
 		else{
 			var filter = {

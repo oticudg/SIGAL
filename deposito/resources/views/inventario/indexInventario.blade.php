@@ -56,12 +56,12 @@
 		</div>
 
 		<div class="col-md-offset-3 col-md-4" style="padding-top:2%; text-align:center;">
-			<table class="table">
+			<table class="table table-striped">
 				<tbody>
 					<tr>
 						<td class="bg-success text-success">Fecha</td>
 						<td>{#dateF#}</td>
-						<td class="bg-success text-success">Cantidad de Insumos</td>
+						<td class="bg-success text-success">Insumos</td>
 						<td>{#insumos.length#}</td>
 					</tr>
 				</tbody>
@@ -117,7 +117,7 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>
-				<td><a class="btn btn-warning btn-sm" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}">
+				<td><a class="btn btn-warning btn-sm" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
 					<span class="glyphicon glyphicon-eye-open"></span></a>
 				</td>
 			</tr>

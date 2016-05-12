@@ -30,16 +30,6 @@
 
 	<br>
 	<br>
-{{--
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="input-group">
-		  		<span class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
-		  		<input type="text" class="form-control" ng-model="busqueda">
-			</div>
-		</div>
-	</div>--}}
-
 
 	<div class="row">
 		<div class="col-md-1">
@@ -51,7 +41,22 @@
 			</select>
 		</div>
 
-    <div class="col-md-offset-9 col-md-2" style="padding-top:2%; text-align:right;">
+    <div class="col-md-offset-2 col-md-6" style="padding-top:2%; text-align:center;">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td class="bg-success text-success">Desde</td>
+            <td>{#insumoInfo.dateI#}</td>
+            <td class="bg-success text-success">Hasta</td>
+            <td>{#insumoInfo.dateF#}</td>
+            <td class="bg-success text-success">Movimientos</td>
+            <td>{#movimientos.length#}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-offset-1 col-md-2" style="padding-top:2%; text-align:right;">
       <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
         <span class="glyphicon glyphicon-search"></span></button>
 
