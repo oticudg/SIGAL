@@ -9,8 +9,7 @@ controller('inventarioController',function($scope,$http,$modal){
 	$scope.all = false;
 
 	var obtenerInsumos = function(data){
-
-		$http.get('/inventario/getInventario', data)
+		$http.post('/inventario/getInventario', data)
 			.success( function(response){
 				$scope.insumos = response.insumos;
 				$scope.dateI   = response.dateI;
@@ -165,6 +164,15 @@ controller('inventarioController',function($scope,$http,$modal){
 		obtenerInsumos();
 	}
 
+	$scope.move = function(){
+		var data = {
+			date:$scope.dateF,
+			move:true
+		}
+
+		obtenerInsumos(data);
+	}
+
 	obtenerInsumos();
 
 });
@@ -183,10 +191,9 @@ angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstan
 
 	$scope.buscar = function(){
 		var data ={
-			params:{
-				date:dateForamat($scope.fecha)
-			}
+			date:dateForamat($scope.fecha)
 		}
+
 		obtenerInsumos(data);
 		$modalInstance.dismiss('cancel');
 	}

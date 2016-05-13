@@ -72,10 +72,11 @@
       <button class="btn btn-success" ng-click="search()">
         <span class="glyphicon glyphicon-search"></span></button>
 
-			<button type="button" class="btn btn-success" ng-click="current()"><span class="glyphicon glyphicon-certificate"></span></button>
-
 			<button type="button" class="btn btn-success" ng-click="dateSelect()">
         <span class="glyphicon glyphicon-calendar"></span></button>
+
+			<button type="button" class="btn btn-success" ng-click="move()"><span class="glyphicon glyphicon-transfer"></span></button>
+			<button type="button" class="btn btn-success" ng-click="current()"><span class="glyphicon glyphicon-screenshot"></span></button>
     </div>
 	</div>
 
