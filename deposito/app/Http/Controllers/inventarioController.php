@@ -75,7 +75,9 @@ class inventarioController extends Controller
 
     public function allInsumos(Request $request){
 
-        $validator = Validator::make($request->all(),[
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
             'date'   => 'date',
         ]);
 
@@ -88,7 +90,7 @@ class inventarioController extends Controller
 
         //Si no se pasa una fecha se toma la fecha del mes actual
         if(empty($date))
-          $date = date('Y-m-31');
+          $date = date('Y-m-d');
 
         //Año inicial del rango de fecha a consultar
         $init_year_search = date('Y-01-01',strtotime($date));
@@ -103,13 +105,24 @@ class inventarioController extends Controller
                       ->value(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
 
         /**
+          *Si se ha pasado el parametro move, se obtienen solo los  ids de
+          *insumos que han tenido movimientos en la fecha pasado.
+          */
+        if(isset($data['move'])){
+          $insumoIds = $this->insumosMove($date, $deposito);
+        }
+        /**
           *Obtiene los ids de todos los insumos que han entrada en el inventario
           *desde el año inicial de la fecha a consultar, hasta la fecha a consultar.
           */
-        $insumoIds = Insumos_entrada::distinct('insumo')
-               ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
-               ,[$last_cinve, $date])->where('deposito', $deposito)
-               ->lists('insumo');
+        else{
+
+          $insumoIds = Insumos_entrada::distinct('insumo')
+                 ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                 ,[$last_cinve, $date])->where('deposito', $deposito)
+                 ->lists('insumo');
+        }
+
 
         //Obtiene los datos de los insumos cuyos ids se han encontrado.
         $insumos = DB::table('insumos')
@@ -693,4 +706,23 @@ class inventarioController extends Controller
                          ->unionAll($devoluciones);
         }
     }
+
+    private function insumosMove($date, $deposito){
+
+      $entradas = Insumos_entrada::distinct('insumo')
+             ->where(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+             ,$date)->where('deposito', $deposito)
+             ->select('insumo');
+
+      $salidas = Insumos_salida::distinct('insumo')
+              ->where(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+              ,$date)->where('deposito', $deposito)
+              ->select('insumo');
+
+      $movimientos = $entradas->union($salidas);
+
+      return $movimientos->lists('insumo');
+
+    }
+
 }
