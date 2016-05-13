@@ -239,7 +239,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			});
 
 			//Regresa todos las insumos en el inventario
-			Route::get('getInventario','inventarioController@allInsumos');
+			Route::post('getInventario','inventarioController@allInsumos');
 
 			//Regresa todos los insumos en alerta del inventario
 			Route::get('getAlertInsumos','inventarioController@insumosAlert');
