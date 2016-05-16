@@ -102,7 +102,7 @@ angular.module('deposito').controller('detallesSalidaCtrl', function ($scope, $m
     $http.get('/getSalida/' + id)
       .success(function(response){
 
-        $scope.salida = response.salida;
+        $scope.nota = response.nota;
         $scope.insumos = response.insumos;
 
     });

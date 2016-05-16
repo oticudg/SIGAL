@@ -217,7 +217,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
     $http.get('/entradas/getEntrada/' + id)
       .success(function(response){
 
-        $scope.entrada = response.entrada;
+        $scope.nota = response.nota;
         $scope.insumos = response.insumos;
 
     });
