@@ -78,11 +78,11 @@ class inventarioController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'date'   => 'date',
+            'date'   => 'date|date_limit_current',
         ]);
 
         if($validator->fails()){
-          abort('404');
+          return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
 
         $deposito = Auth::user()->deposito;
@@ -159,6 +159,7 @@ class inventarioController extends Controller
         }
 
         return Response()->json([
+          'status'  => "success",
           'dateI'   => $last_cinve,
           'dateF'   => $date,
           'insumos' => array_reverse($insumos)

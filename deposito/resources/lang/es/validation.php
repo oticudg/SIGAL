@@ -115,7 +115,7 @@ return [
     */
     "alpha_spaces"       =>  ":attribute solo puede contener letras y espacios.",
     "cedula"             =>  "El formato de cedula es invalido",
-    "rif"                =>  "El formato de rif es invalido",   
+    "rif"                =>  "El formato de rif es invalido",
     "equal_provedor"     =>  "El provedor de esta orden de compra no coincide",
     "diff_orden"         =>  "Especifique un numero de orden diferente para realizar la modificacion",
     "diff_provedor"      =>  "Especifique un proveedor diferente para realizar la modificacion",
@@ -126,6 +126,7 @@ return [
     "insumos"            =>  "Valores de insumos no validos",
     "one_insumo_entrada" =>  "No es posible borrar el unico insumo de esta entrada",
     "one_insumo_salida"  =>  "No es posible borrar el unico insumo de esta salida",
-    "deposito"           =>  "Deposito no valido"
+    "deposito"           =>  "Deposito no valido",
+    "date_limit_current" =>  "No es posible consultar una fecha superior a la actual"
 
 ];

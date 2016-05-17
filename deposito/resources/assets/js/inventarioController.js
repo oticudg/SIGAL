@@ -179,6 +179,8 @@ controller('inventarioController',function($scope,$http,$modal){
 
 angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstance, obtenerInsumos) {
 
+	$scope.alert = {};
+
 	$scope.openI = function($event) {
 			$event.preventDefault();
 			$event.stopPropagation();
@@ -194,16 +196,24 @@ angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstan
 			date:dateForamat($scope.fecha)
 		}
 
-		obtenerInsumos(data);
-		$modalInstance.dismiss('cancel');
+		if(!$scope.fecha){
+			$scope.alert = {type:'danger', msg:'Seleccione fecha a consultar'};
+		}
+		else if(!rangeDate($scope.fecha)){
+			$scope.alert = {type:'danger', msg:'No es posible consultar una fecha superior a la actual'};
+		}
+		else{
+			obtenerInsumos(data);
+			$modalInstance.dismiss('cancel');
+		}
 	}
 
-	function dateForamat(data){
+	function dateForamat(date){
 
-		if(data != null){
+		if(date != null){
 
-			var month = data.getMonth() + 1;
-			var day = data.getDate();
+			var month = date.getMonth() + 1;
+			var day = date.getDate();
 
 			if( day < 10 )
 				day = "0"+day;
@@ -211,7 +221,16 @@ angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstan
 			if(month < 10)
 				month = "0"+month;
 
-			return data.getFullYear() + '-' + month + '-' + day;
+			return date.getFullYear() + '-' + month + '-' + day;
 		}
 	}
+
+	function rangeDate(date){
+		return date.getTime() < (new Date()).getTime();
+	}
+
+	$scope.closeAlert = function(){
+		$scope.alert = {};
+	};
+
 });

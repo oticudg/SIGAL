@@ -143,6 +143,9 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
+						<div class="col-md-12">
+						<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
+						</div>
 						<div class="col-md-offset-2 col-md-8">
 							<p class="input-group">
 								<input type="text" id="fechaI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="fecha" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
