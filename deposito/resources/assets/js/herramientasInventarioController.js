@@ -2,8 +2,8 @@
 
 angular.module('deposito').
 controller('alertController',function($scope,$http){
- 
-  $scope.insumoSelect = {};  
+
+  $scope.insumoSelect = {};
   $scope.listInsumos = [];
   $scope.insumos = [];
 
@@ -24,15 +24,15 @@ controller('alertController',function($scope,$http){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
     }
-    
+
     if( insumoExist($scope.insumoSelect.selected.codigo) ){
       $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado"};
-      return; 
+      return;
     }
 
     $scope.insumos.unshift(
       {
-        'id':$scope.insumoSelect.selected.id, 
+        'id':$scope.insumoSelect.selected.id,
         'codigo':$scope.insumoSelect.selected.codigo,
     	  'descripcion':$scope.insumoSelect.selected.descripcion,
         'min':$scope.insumoSelect.selected.min,
@@ -77,11 +77,11 @@ controller('alertController',function($scope,$http){
 
     for( index in $scope.insumos){
 
-      if( !$scope.insumos[index].min || $scope.insumos[index].min <= 0 || 
+      if( !$scope.insumos[index].min || $scope.insumos[index].min <= 0 ||
           !Number.isInteger($scope.insumos[index].min))
         return false;
 
-      if( !$scope.insumos[index].med || $scope.insumos[index].med <= 0 || 
+      if( !$scope.insumos[index].med || $scope.insumos[index].med <= 0 ||
           !Number.isInteger($scope.insumos[index].med))
         return false;
 
@@ -125,7 +125,7 @@ controller('alertController',function($scope,$http){
   	 .success(
   	 	function(response){
 
-			$scope.alert = {type:response.status , msg:response.menssage};  	 	
+			$scope.alert = {type:response.status , msg:response.menssage};
 
 	  	 	if( response.status == 'success'){
 
@@ -139,18 +139,18 @@ controller('alertController',function($scope,$http){
 
 .controller('cargaInvController',function($scope,$http, $modal){
 
-  $scope.insumoSelect = {};  
+  $scope.insumoSelect = {};
   $scope.departamentos = [];
   $scope.departamento;
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {
-      type:"warning", 
+      type:"warning",
       msg:'Precaucion! la carga de inventario eliminara todos los insumos cargados previamente.'
   };
 
   $scope.refreshInsumos = function(insumo){
-      
+
       var params = {insumo: insumo};
       return $http.get(
         '/getInsumosConsulta',
@@ -166,20 +166,20 @@ controller('alertController',function($scope,$http){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
     }
-      
+
     if( insumoExist($scope.insumoSelect.selected.codigo, $scope.insumos) ){
       $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
-      return; 
+      return;
     }
 
     $scope.insumos.unshift(
       {
-        'id':$scope.insumoSelect.selected.id, 
-        'codigo':$scope.insumoSelect.selected.codigo, 
+        'id':$scope.insumoSelect.selected.id,
+        'codigo':$scope.insumoSelect.selected.codigo,
         'descripcion':$scope.insumoSelect.selected.descripcion
       }
     );
-    
+
     $scope.insumoSelect = {};
   }
 
@@ -223,7 +223,7 @@ controller('alertController',function($scope,$http){
     var index;
 
     for( index in insumos){
-      if( !insumos[index].cantidad || insumos[index].cantidad  < 0 || 
+      if( !insumos[index].cantidad || insumos[index].cantidad  < 0 ||
           !Number.isInteger($scope.insumos[index].cantidad))
         return false;
     }
@@ -246,7 +246,7 @@ controller('alertController',function($scope,$http){
     $scope.modalInstance = $modal.open({
       animation: true,
       templateUrl: 'confirmeRegister.html',
-      'scope':$scope          
+      'scope':$scope
     });
 
 
@@ -268,13 +268,13 @@ controller('alertController',function($scope,$http){
     };
 
     $http.post('/inventario/herramientas/cargaInventario', data)
-      .success( 
+      .success(
         function(response){
 
           $scope.loader = false;
-          
+
           if( response.status == 'success'){
-            
+
             $modal.open({
                 animation: true,
                 templateUrl: 'successRegister.html',
@@ -298,7 +298,7 @@ controller('alertController',function($scope,$http){
 })
 
 .controller('listCargasController',function($scope,$http, $modal){
-  
+
   $scope.entradas = [];
   $scope.cRegistro = '5';
 
@@ -329,7 +329,7 @@ angular.module('deposito').controller('detallesCargaCtrl', function ($scope, $mo
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
-  
+
   };
 
   $scope.chvisibility = function(){
@@ -340,7 +340,7 @@ angular.module('deposito').controller('detallesCargaCtrl', function ($scope, $mo
   $http.get('/inventario/herramientas/getInventarioCarga/' + id)
     .success(function(response){
 
-      $scope.entrada = response.entrada;
+      $scope.nota = response.nota;
       $scope.insumos = response.insumos;
   });
 

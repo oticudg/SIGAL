@@ -94,7 +94,9 @@
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
 				<th class="col-md-1">Exist.</th>
-				<th class="col-md-1">Kardex</th>
+				@if(Auth::user()->haspermission('entradas') && Auth::user()->haspermission('salidas'))
+					<th class="col-md-1">Kardex</th>
+				@endif
 			</tr>
 		</thead>
 		<tbody>
@@ -118,9 +120,11 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>
-				<td><a class="btn btn-warning btn-sm" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
-					<span class="glyphicon glyphicon-eye-open"></span></a>
-				</td>
+				@if(Auth::user()->haspermission('entradas') && Auth::user()->haspermission('salidas'))
+					<td><a class="btn btn-warning btn-sm" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
+						<span class="glyphicon glyphicon-eye-open"></span></a>
+					</td>
+				@endif
 			</tr>
 		</tbody>
 	</table>

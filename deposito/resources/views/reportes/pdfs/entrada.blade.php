@@ -34,7 +34,7 @@
 			<tr>
 					<td>ORDEN</td>
 					<td>{{$entrada->orden or 'N/A'}}</td>
-					<td>Hora</td>
+					<td>HORA</td>
 					<td>{{$entrada->hora}}</td>
 			</tr>
 		</tbody>
