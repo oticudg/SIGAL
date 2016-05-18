@@ -59,6 +59,7 @@ class reportesController extends Controller
         $fecha      = date("Y-m-d");
         $hora       = date("H:i:s");
         $date       = isset($data['date']) ? $data['date']:'';
+        $title      = "INVENTARIO TOTAL";
 
         $validator = Validator::make($data,[
             'date'   => 'date|date_limit_current',
@@ -107,7 +108,7 @@ class reportesController extends Controller
                        ->get();
 
         //Calcula la existencia de cada insumo que se ha encontrado.
-        foreach($insumos as $insumo){
+        foreach($insumos as $key => $insumo){
 
           //Obtiene la suma de todas las entradas del insumo que se consulta.
           $entradas = Insumos_entrada::where('insumo', $insumo->id)
@@ -124,12 +125,33 @@ class reportesController extends Controller
                      ->sum('despachado');
 
           //Calcula la existencia
-          $insumo->existencia = $entradas - $salidas;
+          $existencia = $entradas - $salidas;
+          //Asigna existencia
+          $insumo->existencia = $existencia;
 
         }
 
+        //Filtro para filtrar registor en base a la existencia.
+        if(isset($data['filter'])){
+          if($data['filter'] == 'true'){
+            foreach ($insumos as $key => $insumo){
+              if($insumo->existencia == 0)
+                unset($insumos[$key]);
+            }
+
+            $title = "INVENTARIO SIN FALLAS";
+          }
+          else if($data['filter'] == 'false'){
+            foreach ($insumos as $key => $insumo){
+              if($insumo->existencia > 0)
+                unset($insumos[$key]);
+            }
+          }
+        }
+
         $view =  \View::make('reportes.pdfs.allInventario',
-                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora', 'date'))->render();
+                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora',
+                     'date', 'title'))->render();
 
         $pdf  =  \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);

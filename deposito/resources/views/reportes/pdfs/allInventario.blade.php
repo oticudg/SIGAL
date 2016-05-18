@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Inventario Total</title>
+	<title>Inventario total</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 </head>
 <body>
 
 	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
 
-	<h1 class="title" style="color:gray">Inventario Total</h1>
+	<h2 class="title" style="color:gray">{{$title}}</h2>
 
 	<table class="custon-table-bottom-off table-side">
 		<tbody>
@@ -22,7 +22,7 @@
 				<td>{{strtoupper($depositoN)}}</td>
 			</tr>
 			<tr>
-				<td>FECHA DE GENERACIÓN</td>
+				<td>FECHA DE IMPRESIÓN</td>
 				<td>{{$fecha}}</td>
 				<td>HORA</td>
 				<td>{{$hora}}</td>

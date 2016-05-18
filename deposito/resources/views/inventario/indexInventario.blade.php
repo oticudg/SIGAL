@@ -27,9 +27,9 @@
 					<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
 
 					<ul class="dropdown-menu" role="menu">
-						<li ng-click="parcialInventario()"><a href="#">Parcial</a></li>
-						<li><a href="{{route('reporInv')}}?filter" target="_blank">Total Existente</a></li>
-			          	<li><a href="{{route('reporInv')}}?date={#dateF#}" target="_blank">Inventario total</a></li>
+						<li ng-click="parcialInventario()"><a href="#">Inventario parcial</a></li>
+						<li><a href="{{route('reporInv')}}?date={#dateF#}&filter=true" target="_blank">Inventario sin fallas</a></li>
+			          	<li><a href="{{route('reporInv')}}?date={#dateF#}" target="_blank">Inventario con fallas</a></li>
 					</ul>
 				</div>
 			</div>
