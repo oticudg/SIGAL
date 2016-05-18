@@ -6,36 +6,39 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 </head>
 <body>
-	
+
 	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
 
-	<h1 class="title">Inventario Total</h1>	
+	<h1 class="title" style="color:gray">Inventario Total</h1>
 
-	<table class="custon-table-bottom-off">
-		<thead>
-			<tr>
-				<th>Fecha de Reporte</th>
-				<th>Hora</th>
-				<th>Usuario</th>
-				<th>Depósito</th>
-			</tr>
-		</thead>
+	<table class="custon-table-bottom-off table-side">
 		<tbody>
 			<tr>
+				<td class="green-td" width="100">FECHA DEL INVENTARIO</td>
+				<td>{{$date}}</td>
+				<td>INSUMOS</td>
+				<td>{{count($insumos)}}</td>
+				<td>DEPÓSITO</td>
+				<td>{{strtoupper($depositoN)}}</td>
+			</tr>
+			<tr>
+				<td>FECHA DE GENERACIÓN</td>
 				<td>{{$fecha}}</td>
+				<td>HORA</td>
 				<td>{{$hora}}</td>
-				<td>{{$usuario}}</td>
-				<td>{{$depositoN}}</td>
+				<td>USUARIO</td>
+				<td>{{ strtoupper($usuario) }}</td>
 			</tr>
 		</tbody>
 	</table>
-	
+
+	<br>
 	<table class="custon-table-top-off">
 		<thead>
 			<tr>
-				<th>Código</th>
-				<th>Descripción</th>
-				<th>Existencía</th>
+				<th>CÓDIGO</th>
+				<th>DESCRIPCIÓN</th>
+				<th>EXISTENCIA</th>
 			</tr>
 		</thead>
 		<tbody>
