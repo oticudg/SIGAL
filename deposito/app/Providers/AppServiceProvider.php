@@ -260,6 +260,19 @@ class AppServiceProvider extends ServiceProvider
 
             return true;
         });
+
+        Validator::extend('insumos_ids_array', function($attribute, $value)
+        {
+            if(!is_array($value))
+                return false;
+
+            foreach ($value as $v) {
+              if(!insumos_salida::where('id',$v)->first())
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /**

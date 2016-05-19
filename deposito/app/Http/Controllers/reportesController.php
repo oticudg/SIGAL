@@ -169,7 +169,7 @@ class reportesController extends Controller
 
         $validator = Validator::make($data,[
             'date'    => 'required|date|date_limit_current',
-            'insumos' => 'required'
+            'insumos' => 'required|insumos_ids_array'
         ]);
 
         if($validator->fails()){
