@@ -9,7 +9,7 @@
 
 	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
 
-  <h2 class="title" style="color:gray">Pro-Forma de pedido</h2>
+  <h2 class="title" style="color:gray">PRO-FORMA DE PEDIDO</h2>
 
   <table class="custon-table-bottom-off table-side">
 		<tbody>
@@ -22,12 +22,12 @@
 			<tr>
           <td>FECHA DE REGISTRO</td>
           <td>{{$salida->fecha}}</td>
-					<td>HORA</td>
-					<td>{{$salida->hora}}</td>
+					<td>SERVICIO</td>
+					<td>{{ strtoupper($salida->departamento) }}</td>
 			</tr>
 			<tr>
-				<td>SERVICIO</td>
-				<td>{{ strtoupper($salida->departamento) }}</td>
+				<td>HORA</td>
+				<td>{{$salida->hora}}</td>
 				<td>USUARIO</td>
 				<td>{{ strtoupper($salida->usuario) }}</td>
 			</tr>

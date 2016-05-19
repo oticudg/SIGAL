@@ -6,13 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 </head>
 <body>
-	
+
 	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
 
-	<h1 class="title">Inventario Inicial</h1>
-
-	<h2 class="codigo">Código: {{ substr($carga->codigo,11)}}</h2>	
-
+	<h2 class="title" style="color:gray">INVENTARIO INICIAL</h2>
+{{--
 	<table class="custon-table-bottom-off">
 		<thead>
 			<tr>
@@ -31,13 +29,34 @@
 			</tr>
 		</tbody>
 	</table>
-	
+--}}
+	<table class="custon-table-bottom-off table-side">
+		<tbody>
+			<tr>
+				<td class="green-td" width="100">FECHA DEL REGISTRO</td>
+				<td>{{$carga->fecha}}</td>
+				<td>CÓDIGO</td>
+				<td>{{substr($carga->codigo,11)}}</td>
+				<td>DEPÓSITO</td>
+				<td>{{strtoupper($carga->deposito)}}</td>
+			</tr>
+			<tr>
+				<td>HORA</td>
+				<td>{{$carga->hora}}</td>
+				<td>INSUMOS</td>
+				<td>{{count($insumos)}}</td>
+				<td>USUARIO</td>
+				<td>{{ strtoupper($carga->usuario) }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
 	<table class="custon-table-top-off">
 		<thead>
 			<tr>
-				<th>Código</th>
-				<th>Descripción</th>
-				<th>Cantidad</th>
+				<th>CÓDIGO</th>
+				<th>DESCRIPCIÓN</th>
+				<th>CANTIDAD</th>
 			</tr>
 		</thead>
 		<tbody>

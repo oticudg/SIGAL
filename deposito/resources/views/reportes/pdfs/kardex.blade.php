@@ -9,7 +9,7 @@
 
 	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
 
-  <h2 class="title" style="color:gray">Kardex</h2>
+  <h2 class="title" style="color:gray">KARDEX</h2>
 
   <table class="custon-table-bottom-off table-side">
 		<tbody>

@@ -29,7 +29,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li ng-click="parcialInventario()"><a href="#">Inventario parcial</a></li>
 						<li><a href="{{route('reporInv')}}?date={#dateF#}&filter=true" target="_blank">Inventario sin fallas</a></li>
-			          	<li><a href="{{route('reporInv')}}?date={#dateF#}" target="_blank">Inventario con fallas</a></li>
+			          	<li><a href="{{route('reporInv')}}?date={#dateF#}" target="_blank">Inventario total</a></li>
 					</ul>
 				</div>
 			</div>
