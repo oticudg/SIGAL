@@ -56,22 +56,28 @@ class reportesController extends Controller
         $deposito   = Auth::user()->deposito;
         $usuario    = Auth::user()->email;
         $depositoN  = Deposito::where('id', $deposito)->value('nombre');
-        $fecha      = date("Y-m-d");
+        $fecha      = date("d/m/Y");
         $hora       = date("H:i:s");
-        $date       = isset($data['date']) ? $data['date']:'';
         $title      = "INVENTARIO TOTAL";
 
         $validator = Validator::make($data,[
-            'date'   => 'date|date_limit_current',
+            'date'   => 'date_format:d/m/Y|date_limit_current',
         ]);
 
         if($validator->fails()){
           abort('404');
         }
 
+        //Si se pasa una fecha se transforma al formato a utilizar.
+        if(isset($data['date']) && !empty($data['date'])){
+          $dateConvert = str_replace('/', '-', $data['date']);
+          $date = Date('Y-m-d', strtotime($dateConvert));
+        }
         //Si no se pasa una fecha se toma la fecha del mes actual
-        if(empty($date))
+        else{
           $date = date('Y-m-d');
+        }
+
 
         //Año inicial del rango de fecha a consultar
         $init_year_search = date('Y-01-01',strtotime($date));
@@ -150,8 +156,9 @@ class reportesController extends Controller
         }
 
         $view =  \View::make('reportes.pdfs.allInventario',
-                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora',
-                     'date', 'title'))->render();
+                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora','title'),
+                     ['date' => $data['date']]
+                     )->render();
 
         $pdf  =  \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
@@ -164,11 +171,11 @@ class reportesController extends Controller
         $deposito   = Auth::user()->deposito;
         $usuario    = Auth::user()->email;
         $depositoN  = Deposito::where('id', $deposito)->value('nombre');
-        $fecha      = date("Y-m-d");
+        $fecha      = date("d/m/Y");
         $hora       = date("H:i:s");
 
         $validator = Validator::make($data,[
-            'date'    => 'required|date|date_limit_current',
+            'date'    => 'required|date_format:d/m/Y|date_limit_current',
             'insumos' => 'required|insumos_ids_array'
         ]);
 
@@ -176,7 +183,10 @@ class reportesController extends Controller
           abort('404');
         }
 
-        $date = $data['date'];
+        //Transforma al fecha al formato a utilizar.
+        $dateConvert = str_replace('/', '-', $data['date']);
+        $date = Date('Y-m-d', strtotime($dateConvert));
+
 
         //Año inicial del rango de fecha a consultar
         $init_year_search = date('Y-01-01',strtotime($date));
@@ -228,8 +238,9 @@ class reportesController extends Controller
         }
 
         $view =  \View::make('reportes.pdfs.parcialInventario',
-                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora',
-                     'date'))->render();
+                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora'),
+                     ['date' => $data['date']]
+                     )->render();
 
         $pdf  =  \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
@@ -324,8 +335,8 @@ class reportesController extends Controller
 
       $validator = Validator::make($data,[
           'insumo'  => 'required|insumo',
-          'dateI'   => 'date',
-          'dateF'   => 'date'
+          'dateI'   => 'required|date_format:d/m/Y',
+          'dateF'   => 'required|date_format:d/m/Y'
       ]);
 
       if($validator->fails()){
@@ -334,8 +345,14 @@ class reportesController extends Controller
 
       $deposito = Auth::user()->deposito;
       $insumo   = $data['insumo'];
-      $dateI    = $data['dateI'];
-      $dateF    = $data['dateF'];
+
+      //Fecha inicial a consultar
+      $dateConvert = str_replace('/', '-', $data['dateI']);
+      $dateI = Date("Y-m-d", strtotime($dateConvert));
+
+      //Fecha final a consultar
+      $dateConvert = str_replace('/', '-', $data['dateF']);
+      $dateF = Date("Y-m-d", strtotime($dateConvert));
 
       //Obtiene todas las entradas que han entrado por devolucion.
       $devoluciones =  DB::table('insumos_entradas')->where('insumo', $insumo)
@@ -446,7 +463,10 @@ class reportesController extends Controller
        $usuario    = Auth::user()->email;
 
        $view =  \View::make('reportes.pdfs.kardex',
-       compact('insumoData' , 'deposito', 'usuario', 'movimientos', 'dateI', 'dateF'))->render();
+        compact('insumoData' , 'deposito', 'usuario', 'movimientos'),
+        ['dateI' => $data['dateI'],'dateF' => $data['dateF']]
+       )->render();
+
        $pdf  =  \App::make('dompdf.wrapper');
        $pdf->loadHTML($view);
        return $pdf->stream('Kardex');

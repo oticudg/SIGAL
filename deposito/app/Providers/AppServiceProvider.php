@@ -255,6 +255,8 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('date_limit_current', function($attribute, $value)
         {
+            $value = str_replace('/','-',$value);
+            
             if(strtotime($value) > strtotime(date("Y-m-d")) )
                 return false;
 

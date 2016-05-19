@@ -216,13 +216,10 @@ angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstan
 			var month = date.getMonth() + 1;
 			var day = date.getDate();
 
-			if( day < 10 )
-				day = "0"+day;
-
 			if(month < 10)
 				month = "0"+month;
 
-			return date.getFullYear() + '-' + month + '-' + day;
+			return day + '/' + month + '/' + date.getFullYear();
 		}
 	}
 

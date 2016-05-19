@@ -54,8 +54,8 @@ class inventarioController extends Controller
 
       $validator = Validator::make($data,[
           'insumo'  => 'required|integer|insumo',
-          'dateI'   => 'date',
-          'dateF'   => 'date'
+          'dateI'   => 'date_format:d/m/Y',
+          'dateF'   => 'date_format:d/m/Y'
       ], $this->menssage);
 
       if($validator->fails()){
@@ -76,21 +76,25 @@ class inventarioController extends Controller
     public function allInsumos(Request $request){
 
         $data = $request->all();
+        $deposito = Auth::user()->deposito;
 
         $validator = Validator::make($data,[
-            'date'   => 'date|date_limit_current',
+            'date'   => 'date_format:d/m/Y|date_limit_current',
         ]);
 
         if($validator->fails()){
           return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
 
-        $deposito = Auth::user()->deposito;
-        $date     = $request->input('date');
-
+        //Si se pasa una fecha se transforma al formato a utilizar.
+        if(isset($data['date']) && !empty($data['date'])){
+          $dateConvert = str_replace('/', '-', $data['date']);
+          $date = Date('Y-m-d', strtotime($dateConvert));
+        }
         //Si no se pasa una fecha se toma la fecha del mes actual
-        if(empty($date))
+        else{
           $date = date('Y-m-d');
+        }
 
         //Año inicial del rango de fecha a consultar
         $init_year_search = date('Y-01-01',strtotime($date));
@@ -103,7 +107,6 @@ class inventarioController extends Controller
                       ,[$init_year_search, $date])
                       ->orderBy('id', 'desc')
                       ->value(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
-
         /**
           *Si se ha pasado el parametro move, se obtienen solo los  ids de
           *insumos que han tenido movimientos en la fecha pasado.
@@ -160,8 +163,8 @@ class inventarioController extends Controller
 
         return Response()->json([
           'status'  => "success",
-          'dateI'   => $last_cinve,
-          'dateF'   => $date,
+          'dateI'   => Date('d/m/Y',strtotime($last_cinve)),
+          'dateF'   => Date('d/m/Y',strtotime($date)),
           'insumos' => array_reverse($insumos)
         ]);
     }
@@ -355,26 +358,39 @@ class inventarioController extends Controller
 
       $validator = Validator::make($data,[
           'insumo'  => 'required|insumo',
-          'dateI'   => 'date',
-          'dateF'   => 'date'
+          'dateI'   => 'date_format:d/m/Y',
+          'dateF'   => 'date_format:d/m/Y'
       ], $this->menssage);
 
       if($validator->fails()){
         return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
       }
 
-      //Fecha inicial del año en curso
-      $iniY  = date("Y-01-01");
-      //Fecha final del año en curso
-      $finY  = date("Y-12-31");
-      //Fecha inicial a consultar
-      $dateI = !empty($data['dateI']) ? $data['dateI']:$iniY;
-      //Fecha final a consultar
-      $dateF = !empty($data['dateF']) ? $data['dateF']:$finY;
       //Insumo para el que se realizara el kardex
       $insumo = $data['insumo'];
       //Obtiene el deposito del usuario que realiza la consulta.
       $deposito = Auth::user()->deposito;
+
+
+      //Fecha inicial a consultar
+      if(isset($data['dateI']) && !empty($data['dateI'])){
+        $dateConvert = str_replace('/', '-', $data['dateI']);
+        $dateI = Date("Y-m-d", strtotime($dateConvert));
+      }
+      else{
+        //Fecha inicial del año en curso
+        $dateI = date("Y-01-01");
+      }
+
+      //Fecha final a consultar
+      if(isset($data['dateF']) && !empty($data['dateF'])){
+        $dateConvert = str_replace('/', '-', $data['dateF']);
+        $dateF = Date("Y-m-d", strtotime($dateConvert));
+      }
+      else{
+        //Fecha final del año en curso
+        $dateF  = date("Y-12-31");
+      }
 
       //Obtiene todas las entradas que han entrado por devolucion.
       $devoluciones =  DB::table('insumos_entradas')->where('insumo', $insumo)
@@ -420,7 +436,6 @@ class inventarioController extends Controller
 
       $movimientos = $query->orderBy('fulldate','desc')
                      ->get();
-
       /**
        *Si ha hay movimientos del insumo consultado
        *se calcula la existencia en la que se encontraba

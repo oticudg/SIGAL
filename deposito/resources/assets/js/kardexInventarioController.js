@@ -290,20 +290,17 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		}
 	}
 
-	function dateForamat(data){
+	function dateForamat(date){
 
-		if(data != null){
+		if(date != null){
 
-			var month = data.getMonth() + 1;
-			var day = data.getDate();
-
-			if( day < 10 )
-				day = "0"+day;
+			var month = date.getMonth() + 1;
+			var day = date.getDate();
 
 			if(month < 10)
 				month = "0"+month;
 
-			return data.getFullYear() + '-' + month + '-' + day;
+			return day + '/' + month + '/' + date.getFullYear();
 		}
 	}
 
