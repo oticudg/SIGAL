@@ -104,7 +104,8 @@ controller('inventarioController',function($scope,$http,$modal){
 	$scope.gerenarParcial = function(){
 
 		var data = {
-			'insumos':empaquetaData($scope.insumos)
+			'insumos':empaquetaData($scope.insumos),
+			'date':$scope.dateF
 		};
 
 		if($scope.thereIsSelect()){
