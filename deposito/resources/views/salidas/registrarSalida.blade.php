@@ -1,7 +1,7 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="registroSalidaController"')
 @section('front-page')
-	
+
 	<div ng-show="loader" class="div_loader">
 		<div id="img_loader" class="img_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
@@ -11,7 +11,7 @@
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-transfer"></span> Tranferencias</li>	
+			<li><span class="glyphicon glyphicon-transfer"></span> Tranferencias</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida</li>
 		</ul>
 	</nav>
@@ -19,23 +19,28 @@
 	<center>
 		<h3 class="text-title-modal">Registro de Pro-Forma de Pedido</h3>
 	</center>
-	
+
 	<br>
 
 	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
-	
+
 	<div class="row">
-		<div class="form-group col-md-3 text-title-modal">
-  			<select class="form-control" id="provedor" ng-model="servicio">
-  				<option value="" selected disabled>Servicio</option>
-  				<option value="{#departamento.id#}" ng-repeat="departamento in departamentos">
-  				{#departamento.nombre#}</option>
-  			</select>
-		</div>
+		<div class="form-group col-md-4">
+        <ui-select ng-model="servSelect.selected"
+                 ng-disabled="disabled"
+                 reset-search-input="true">
+        <ui-select-match placeholder="Seleccione un servicio">
+        {#$select.selected.nombre#}</ui-select-match>
+        <ui-select-choices repeat="departamento in departamentos | filter:$select.search track by departamento.id">
+          <div ng-bind-html="departamento.nombre | highlight: $select.search"></div>
+        </ui-select-choices>
+        </ui-select>
+    </div>
 	</div>
-	
+
 	<br>
-	
+	<br>
+
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">
@@ -59,7 +64,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<br>
 	<br>
 
@@ -98,7 +103,7 @@
 			<button class="btn btn-success" ng-click="registrar()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 		</center>
 	</div>
-	
+
 	<script type="text/ng-template" id="successRegister.html">
         <div class="modal-header">
             <h3 class="modal-title text-title-modal">{#response.menssage#}</h3>

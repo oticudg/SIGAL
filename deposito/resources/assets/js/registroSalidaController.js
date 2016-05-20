@@ -3,15 +3,15 @@
 angular.module('deposito').
 controller('registroSalidaController',function($scope,$http,$modal){
 
-  $scope.insumoSelect = {}; 
+  $scope.insumoSelect = {};
   $scope.departamentos = [];
   $scope.listInsumos = [];
-  $scope.servicio = '';
+  $scope.servSelect = {};
   $scope.insumos = [];
   $scope.alert = {};
 
   $scope.refreshInsumos = function(insumo) {
-    
+
     var params = {insumo: insumo};
     return $http.get(
       'inventario/getInsumosInventario',
@@ -23,23 +23,23 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
   $http.get('/getDepartamentos')
       .success( function(response){ $scope.departamentos = response;});
-  
+
   $scope.agregarInsumos = function(){
-    
+
     if(!$scope.insumoSelect.selected){
       $scope.alert = {type:"danger" , msg:"Por favor especifique un insumo"};
       return;
     }
-    
+
     if( insumoExist($scope.insumoSelect.selected.codigo) ){
       $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
-      return; 
+      return;
     }
-    
+
     $scope.insumos.unshift(
       {
-        'id':$scope.insumoSelect.selected.id, 
-        'codigo':$scope.insumoSelect.selected.codigo, 
+        'id':$scope.insumoSelect.selected.id,
+        'codigo':$scope.insumoSelect.selected.codigo,
         'descripcion':$scope.insumoSelect.selected.descripcion
       }
     );
@@ -54,12 +54,11 @@ controller('registroSalidaController',function($scope,$http,$modal){
       return;
     }
 
-     $scope.modalInstance = $modal.open({
+    $scope.modalInstance = $modal.open({
       animation: true,
       templateUrl: 'confirmeRegister.html',
-      'scope':$scope          
+      'scope':$scope
     });
-
 
     $scope.cancel = function () {
       $scope.modalInstance.dismiss('cancel');
@@ -75,14 +74,14 @@ controller('registroSalidaController',function($scope,$http,$modal){
   var save = function($data){
 
     var $data = {
-      'departamento': $scope.servicio,
+      'departamento': parseServ(),
       'insumos'     : empaquetaData()
     };
 
     $http.post('/registrarSalida', $data)
-      .success( 
+      .success(
         function(response){
-          
+
           $scope.loader = false;
 
           if(response.status == 'unexist'){
@@ -93,7 +92,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
           }
 
           if( response.status == 'success'){
-            
+
             $modal.open({
                 animation: true,
                 templateUrl: 'successRegister.html',
@@ -142,8 +141,8 @@ controller('registroSalidaController',function($scope,$http,$modal){
     var index;
 
     for( index in $scope.insumos){
-      if( !$scope.insumos[index].despachado || $scope.insumos[index].despachado < 0 || 
-          !Number.isInteger($scope.insumos[index].despachado) || 
+      if( !$scope.insumos[index].despachado || $scope.insumos[index].despachado < 0 ||
+          !Number.isInteger($scope.insumos[index].despachado) ||
           $scope.insumos[index].solicitado < $scope.insumos[index].despachado)
         return false;
     }
@@ -157,7 +156,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
     var insumos = [];
 
     for( index in $scope.insumos){
-      insumos.push({'id': $scope.insumos[index].id, 'solicitado':$scope.insumos[index].solicitado, 
+      insumos.push({'id': $scope.insumos[index].id, 'solicitado':$scope.insumos[index].solicitado,
         'despachado':$scope.insumos[index].despachado});
     }
 
@@ -184,9 +183,16 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
   function restablecer(){
     $scope.insumos  = [];
-    $scope.servicio = '';
     $scope.alert = {};
+    $scope.servSelect = {};
   }
+
+  var parseServ = function(){
+		if($scope.servSelect.hasOwnProperty('selected'))
+		  return $scope.servSelect.selected.id;
+
+    return '';
+	}
 
 });
 

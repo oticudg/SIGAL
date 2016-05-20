@@ -1,7 +1,6 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="registroEntradaController"')
 @section('addscript')
-<script src="{{asset('js/registroEntradaController.js')}}"></script>
 @endsection
 
 @section('front-page')
@@ -14,7 +13,7 @@
 
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-transfer"></span> Tranferencias</li>	
+			<li><span class="glyphicon glyphicon-transfer"></span> Tranferencias</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada</li>
 		</ul>
 	</nav>
@@ -23,34 +22,38 @@
 	<center>
 		<h3 class="text-title-modal">Registro de Pro-Forma de entrada</h3>
 	</center>
-	
+
 	<br>
 
 	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
-	
+
 	<ul class="nav nav-tabs">
 		<li class="active" ng-click="restablecer()"><a data-toggle="tab" class="text-enlace" href="#orden">Orden</a></li>
 		<li ng-click="restablecer()"><a data-toggle="tab" class="text-enlace" href="#donacion">Donacion</a></li>
 		<li ng-click="restablecer()"><a data-toggle="tab" class="text-enlace" href="#devolucion">Devolucion</a></li>
 	</ul>
-	
+
 	{{--Panel de registro de ordenes de compra--}}
 	<div class="tab-content">
 		<div id="orden" class="tab-pane fade in active">
-			
+
 			<br>
 
 			<div class="row">
 				<div class="col-md-2">
 					<input class="form-control text-center" type="text" placeholder="N° Orden" ng-model="orden">
 				</div>
-
-				<div class="form-group col-md-3 text-title-modal">
-						<select class="form-control" id="provedor" ng-model="provedor">
-							<option value="" selected disabled>Proveedor</option>
-							<option value="{#provedore.id#}" ng-repeat="provedore in provedores">{#provedore.nombre#}</option>
-						</select>
-				</div>
+				<div class="form-group col-md-4">
+		        <ui-select ng-model="proveSelect.selected"
+		                 ng-disabled="disabled"
+		                 reset-search-input="true">
+		        <ui-select-match placeholder="Seleccione un proveedor">
+		        {#$select.selected.nombre#}</ui-select-match>
+		        <ui-select-choices repeat="provedore in provedores | filter:$select.search track by provedore.id">
+		          <div ng-bind-html="provedore.nombre | highlight: $select.search"></div>
+		        </ui-select-choices>
+		        </ui-select>
+		    </div>
 			</div>
 
 			<br>
@@ -80,7 +83,7 @@
 			</div>
 
 			<br>
-			
+
 			<div ng-show="thereInsumos()" >
 				<table class="table table-striped">
 					<thead>
@@ -126,19 +129,24 @@
 				</center>
 			</div>
 		</div>
-		
+
 	    {{--Panel de registro de donaciones--}}
 		<div id="donacion" class="tab-pane fade">
 
 			<br>
 
 			<div class="row">
-				<div class="form-group col-md-3 text-title-modal">
-						<select class="form-control" id="provedor" ng-model="provedor">
-							<option value="" selected disabled>Proveedor</option>
-							<option value="{#provedore.id#}" ng-repeat="provedore in provedores">{#provedore.nombre#}</option>
-						</select>
-				</div>
+				<div class="form-group col-md-4">
+		        <ui-select ng-model="proveSelect.selected"
+		                 ng-disabled="disabled"
+		                 reset-search-input="true">
+		        <ui-select-match placeholder="Seleccione un proveedor">
+		        {#$select.selected.nombre#}</ui-select-match>
+		        <ui-select-choices repeat="provedore in provedores | filter:$select.search track by provedore.id">
+		          <div ng-bind-html="provedore.nombre | highlight: $select.search"></div>
+		        </ui-select-choices>
+		        </ui-select>
+		    </div>
 			</div>
 
 			<br>
@@ -168,7 +176,7 @@
 			</div>
 
 			<br>
-			
+
 			<div ng-show="thereInsumos(insumosDon)" >
 				<table class="table table-striped">
 					<thead>
@@ -213,7 +221,7 @@
 					<button class="btn btn-success" ng-click="registrar('donacion')"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
 				</center>
 			</div>
-			
+
 		</div>
 
 		{{--Panel de registro de devoluciones--}}
@@ -222,12 +230,17 @@
 			<br>
 
 			<div class="row">
-				<div class="form-group col-md-3 text-title-modal">
-						<select class="form-control" id="departamento" ng-model="departamento">
-							<option value="" selected disabled>Servicio</option>
-							<option value="{#departamento.id#}" ng-repeat="departamento in departamentos">{#departamento.nombre#}</option>
-						</select>
-				</div>
+				<div class="form-group col-md-4">
+		        <ui-select ng-model="deparSelect.selected"
+		                 ng-disabled="disabled"
+		                 reset-search-input="true">
+		        <ui-select-match placeholder="Seleccione un departamento">
+		        {#$select.selected.nombre#}</ui-select-match>
+		        <ui-select-choices repeat="departamento in departamentos | filter:$select.search track by departamento.id">
+		          <div ng-bind-html="departamento.nombre | highlight: $select.search"></div>
+		        </ui-select-choices>
+		        </ui-select>
+		    </div>
 			</div>
 
 			<br>
@@ -257,7 +270,7 @@
 			</div>
 
 			<br>
-			
+
 			<div ng-show="thereInsumos(insumosDon)" >
 				<table class="table table-striped">
 					<thead>
