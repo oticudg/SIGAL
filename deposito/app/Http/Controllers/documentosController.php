@@ -108,4 +108,20 @@ class documentosController extends Controller
     }
  }
 
+ public function allDocumentos(){
+   return Documento::orderBy('id', 'desc')->get();
+ }
+
+ public function getDocumento($id){
+
+     $documento = Documento::where('id',$id)->first();
+
+     if(!$documento){
+       return Response()->json(['status' => 'danger', 'menssage' => 'Este documento no existe']);
+     }
+     else{
+       return $documento;
+     }
+ }
+
 }

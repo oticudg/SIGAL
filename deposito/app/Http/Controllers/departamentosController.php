@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Departamento;
 
 class departamentosController extends Controller
-{   
+{
 
     private $menssage = [
         'nombre.unique' => 'Ya fue registrado un departamento con este nombre',
@@ -46,12 +46,12 @@ class departamentosController extends Controller
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
-        
+
             Departamento::create([
                 'nombre'    => $data['nombre']
             ]);
 
-            return Response()->json(['status' => 'success', 'menssage' => 'Departamento registrado']);  
+            return Response()->json(['status' => 'success', 'menssage' => 'Departamento registrado']);
         }
     }
 
@@ -61,13 +61,13 @@ class departamentosController extends Controller
 
         if(!$insumo){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este departamento no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este departamento no existe']);
         }
         else{
-            
+
             $data = $request->all();
 
-            $validator = Validator::make($data,[    
+            $validator = Validator::make($data,[
                 'nombre' =>  'required|unique:departamentos'
             ], $this->menssage);
 
@@ -92,10 +92,10 @@ class departamentosController extends Controller
 
         if(!$departamento){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta departamento no exist']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Esta departamento no exist']);
         }
         else{
-            
+
             Departamento::where('id',$id)->delete();
             return Response()->json(['status' => 'success', 'menssage' => 'Departamento Eliminado']);
         }
@@ -107,11 +107,11 @@ class departamentosController extends Controller
 
         if(!$insumo){
 
-            return Response()->json(['status' => 'danger', 'menssage' => 'Este departamento no existe']);            
+            return Response()->json(['status' => 'danger', 'menssage' => 'Este departamento no existe']);
         }
         else{
 
-            return $insumo; 
+            return $insumo;
         }
     }
 
