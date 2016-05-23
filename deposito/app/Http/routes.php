@@ -459,6 +459,8 @@ Route::group(['middleware' => 'auth' ], function(){
 Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
 	Route::get('/', ['uses' => 'documentosController@index']);
 	Route::get('registrar', ['uses' => 'documentosController@registrar']);
+	Route::get('editar/{id}', ['uses' => 'documentosController@editar']);
+	Route::get('eliminar/{id}', ['uses' => 'documentosController@eliminar']);
 });
 
 /*** Fin de modulo de documentos ***/
