@@ -452,13 +452,13 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Fin de modulo de Reportes ***/
 
-
-	/*** Modulo de documentos ***/
-
-	Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
-		Route::get('/', ['uses' => 'documentosController@index']);
-	});
-
-	/*** Fin de modulo de documentos ***/
-
 });
+
+/*** Modulo de documentos ***/
+
+Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
+	Route::get('/', ['uses' => 'documentosController@index']);
+	Route::get('registrar', ['uses' => 'documentosController@registrar']);
+});
+
+/*** Fin de modulo de documentos ***/
