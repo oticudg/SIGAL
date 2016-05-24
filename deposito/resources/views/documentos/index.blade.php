@@ -1,5 +1,5 @@
 @extends('panel')
-@section('bodytag', 'ng-controller="departamentosController"')
+@section('bodytag', 'ng-controller="documentosController"')
 @section('front-page')
 
 	<div data-loading class="div_loader">
@@ -12,13 +12,13 @@
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
 			<li><span class="glyphicon glyphicon-cog"></span> Administració</li>
-			<li class="nav-active"><span class="glyphicon glyphicon-briefcase"></span> Documentos</li>
+			<li class="nav-active"><span class="glyphicon glyphicon-folder-close"></span> Documentos</li>
 		</ul>
 	</nav>
 	<br>
 
 	@if( Auth::user()->haspermission('departamentoN') )
-		<button class="btn btn-success" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Documento</button>
+		<button class="btn btn-success" ng-click="registrarDocumento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Documento</button>
 	@endif
 
 	<br>
@@ -51,7 +51,11 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>Documentos</th>
+				<th class="col-md-1">Abreviatura</th>
+				<th class="col-md-2">Nombre</th>
+				<th class="col-md-1">Tipo</th>
+				<th class="col-md-1">Naturaleza</th>
+				<th>Uso</th>
 				@if( Auth::user()->haspermission('departamentoD') && Auth::user()->haspermission('departamentoM'))
 					<th colspan="2" class="table-edit">Modificaciones</th>
 				@elseif( Auth::user()->haspermission('departamentoD') || Auth::user()->haspermission('departamentoM') )
@@ -60,13 +64,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:cRegistro">
-				<td>{#departamento.nombre | capitalize#}</td>
+			<tr dir-paginate="documento in documentos | filter:busqueda | itemsPerPage:cRegistro">
+				<td>{#documento.abreviatura#}</td>
+				<td>{#documento.nombre | capitalize#}</td>
+				<td>{#documento.tipo | capitalize#}</td>
+				<td>{#documento.naturaleza | capitalize #}</td>
+				<td>{#documento.uso | capitalize#}</td>
 				@if( Auth::user()->haspermission('departamentoM') )
-					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDocumento(documento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
 				@if( Auth::user()->haspermission('departamentoD') )
-					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDocumento(documento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>
 		</tbody>

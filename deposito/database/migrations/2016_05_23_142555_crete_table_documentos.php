@@ -16,7 +16,7 @@ class CreteTableDocumentos extends Migration
             $table->increments('id');
             $table->char('abreviatura',2)->unique();
             $table->string('nombre')->unique();
-            $table->enum('tipo', ['provedor', 'deposito', 'servicio','interno']);
+            $table->enum('tipo', ['proveedor', 'deposito', 'servicio','interno']);
             $table->enum('naturaleza',['entrada', 'salida']);
             $table->string('uso');
             $table->timestamps();

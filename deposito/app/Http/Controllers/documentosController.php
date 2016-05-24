@@ -15,6 +15,18 @@ class documentosController extends Controller
     return view('documentos/index');
   }
 
+  public function viewRegistrar(){
+    return view('documentos/registrar');
+  }
+
+  public function viewEditar(){
+    return view('documentos/editar');
+  }
+
+  public function viewEliminar(){
+    return view('documentos/eliminar');
+  }
+
   public function registrar(Request $request){
     $data = $request->all();
 

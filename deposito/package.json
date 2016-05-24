@@ -4,7 +4,8 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-uglify": "^1.5.3",
-    "gulp-uglifycss": "^1.0.6"
+    "gulp-uglifycss": "^1.0.6",
+    "gulp-jsvalidate": "~2.1.0"
   },
   "dependencies": {
     "laravel-elixir": "^2.0.0",

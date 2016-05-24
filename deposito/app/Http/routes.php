@@ -458,11 +458,14 @@ Route::group(['middleware' => 'auth' ], function(){
 
 Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
 	Route::get('/', ['uses' => 'documentosController@index']);
-	Route::get('registrar', ['uses' => 'documentosController@registrar']);
-	Route::get('editar/{id}', ['uses' => 'documentosController@editar']);
-	Route::get('eliminar/{id}', ['uses' => 'documentosController@eliminar']);
+	Route::get('registrar',['uses' => 'documentosController@viewRegistrar']);
+	Route::post('registrar', ['uses' => 'documentosController@registrar']);
+	Route::get('editar',['uses' => 'documentosController@viewEditar']);
+	Route::post('editar/{id}', ['uses' => 'documentosController@editar']);
+	Route::get('eliminar', ['uses' => 'documentosController@viewEliminar']);
+	Route::post('eliminar/{id}', ['uses' => 'documentosController@eliminar']);
 	Route::get('all', ['uses' => 'documentosController@allDocumentos']);
-	Route::get('get/{id}', ['uses' => 'documentosController@getDocumento']);	
+	Route::get('get/{id}', ['uses' => 'documentosController@getDocumento']);
 });
 
 /*** Fin de modulo de documentos ***/
