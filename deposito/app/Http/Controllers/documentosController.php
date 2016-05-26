@@ -136,4 +136,20 @@ class documentosController extends Controller
      }
  }
 
+ public function allFilter($naturaleza){
+   if($naturaleza == 'entradas'){
+    return Documento::orderBy('id', 'desc')
+          ->where('naturaleza', 'entrada')
+          ->get(['id','nombre', 'abreviatura']);
+   }
+   elseif($naturaleza == 'salidas'){
+     return Documento::orderBy('id', 'desc')
+           ->where('naturaleza', 'salida')
+           ->get(['id','nombre', 'abreviatura']);
+   }
+   else{
+     abort('404');
+   }
+ }
+
 }

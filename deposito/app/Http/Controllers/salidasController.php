@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Salida;
 use App\Insumos_salida;
 use App\Deposito;
-use App\Departamento;
 
 class salidasController extends Controller
 {
