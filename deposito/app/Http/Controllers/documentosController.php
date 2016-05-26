@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Documento;
+use DB;
 
 
 class documentosController extends Controller
@@ -140,12 +141,12 @@ class documentosController extends Controller
    if($naturaleza == 'entradas'){
     return Documento::orderBy('id', 'desc')
           ->where('naturaleza', 'entrada')
-          ->get(['id','nombre', 'abreviatura']);
+          ->get(['id','nombre', 'abreviatura','tipo']);
    }
    elseif($naturaleza == 'salidas'){
      return Documento::orderBy('id', 'desc')
            ->where('naturaleza', 'salida')
-           ->get(['id','nombre', 'abreviatura']);
+           ->get(['id','nombre', 'abreviatura','tipo']);
    }
    else{
      abort('404');
