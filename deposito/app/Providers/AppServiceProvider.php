@@ -8,9 +8,12 @@ use App\Insumo;
 use App\Entrada;
 use App\Salida;
 use App\Deposito;
+use App\Provedore;
+use App\Departamento;
 use App\Insumos_entrada;
 use App\Insumos_salida;
 use Illuminate\Support\ServiceProvider;
+use App\Documento;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -256,7 +259,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('date_limit_current', function($attribute, $value)
         {
             $value = str_replace('/','-',$value);
-            
+
             if(strtotime($value) > strtotime(date("Y-m-d")) )
                 return false;
 
@@ -274,6 +277,39 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return true;
+        });
+
+        Validator::extend('documento_salida', function($attribute, $value)
+        {
+            $documento = Documento::where('id', $value)->first();
+
+            if(!$documento)
+              return false;
+
+            return $documento->naturaleza == 'salida';
+
+        });
+
+        Validator::extend('tercero', function($attribute, $value, $parameters)
+        {
+            $documento = Input::get($parameters[0]);
+            $tipo      = Documento::where('id', $documento)->value('tipo');
+
+            if($tipo == 'interno')
+              return true;
+
+            if($tipo == 'proveedor'){
+              return Provedore::where('id', $value)->first();
+            }
+
+            if($tipo == 'servicio'){
+              return Departamento::where('id', $value)->first();
+            }
+
+            if($tipo == 'deposito'){
+              return Deposito::where('id', $value)->first();
+            }
+
         });
     }
 

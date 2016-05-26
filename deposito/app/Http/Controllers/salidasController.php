@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Salida;
 use App\Insumos_salida;
 use App\Deposito;
+use App\Departamento;
 
 class salidasController extends Controller
 {
@@ -182,8 +183,9 @@ class salidasController extends Controller
         $deposito = Auth::user()->deposito;
 
         $validator = Validator::make($data,[
-            'departamento' =>  'required',
-            'insumos'      =>  'required|insumos_salida'
+            'documento' =>  'required|numeric|documento_salida',
+            'tercero'   =>  'required|numeric|tercero:documento',
+            'insumos'   =>  'required|insumos_salida'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -195,38 +197,37 @@ class salidasController extends Controller
             $insumosInvalidos = inventarioController::validaExist($insumos, $deposito);
 
             if($insumosInvalidos){
-
-                return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
+              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
             }
             else{
+              //Codigo para la salida
+              $code = $this->generateCode('S', $deposito);
 
-                //Codigo para la salida
-                $code = $this->generateCode('S', $deposito);
+              $salida = Salida::create([
+                          'codigo'       => $code,
+                          'tercero'      => $data['tercero'],
+                          'documento'    => $data['documento'],
+                          'usuario'      => $usuario,
+                          'deposito'     => $deposito
+                      ])['id'];
 
-                $salida = Salida::create([
-                            'codigo'       => $code,
-                            'departamento' => $data['departamento'],
-                            'usuario'      => $usuario,
-                            'deposito'     => $deposito
-                        ])['id'];
+              foreach ($insumos as $insumo) {
 
-                foreach ($insumos as $insumo) {
+                  Insumos_salida::create([
+                      'salida'      => $salida,
+                      'insumo'      => $insumo['id'],
+                      'solicitado'  => $insumo['solicitado'],
+                      'despachado'  => $insumo['despachado'],
+                      'deposito'    => $deposito
+                  ]);
 
-                    Insumos_salida::create([
-                        'salida'      => $salida,
-                        'insumo'      => $insumo['id'],
-                        'solicitado'  => $insumo['solicitado'],
-                        'despachado'  => $insumo['despachado'],
-                        'deposito'    => $deposito
-                    ]);
+                  inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito, 'salida',
+                      $salida);
 
-                    inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito, 'salida',
-                        $salida);
+              }
 
-                }
-
-                return Response()->json(['status' => 'success', 'menssage' =>
-                    'Salida completada satisfactoriamente', 'codigo' => $code]);
+              return Response()->json(['status' => 'success', 'menssage' =>
+                  'Salida completada satisfactoriamente', 'codigo' => $code]);
             }
         }
     }
