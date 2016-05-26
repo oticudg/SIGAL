@@ -26,6 +26,17 @@
 
 	<div class="row">
 		<div class="form-group col-md-4">
+        <ui-select ng-model="documentoSelect.selected"
+                 ng-disabled="disabled"
+                 reset-search-input="true">
+        <ui-select-match placeholder="Seleccione un concepto de salida">
+        {#$select.selected.nombre#}</ui-select-match>
+        <ui-select-choices repeat="documento in documentos | filter:$select.search">
+          <div ng-bind-html="documento.nombre | highlight: $select.search"></div>
+        </ui-select-choices>
+        </ui-select>
+    </div>
+		<div class="form-group col-md-4">
         <ui-select ng-model="servSelect.selected"
                  ng-disabled="disabled"
                  reset-search-input="true">

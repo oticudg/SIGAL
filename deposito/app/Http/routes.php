@@ -433,6 +433,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 		//Regresa todas los depositos que existan
 		Route::get('getDepositos','depositosController@allDepositos');
+		Route::get('terceros/{tipo}', 'depositosController@allTerceros');
 	});
 
 

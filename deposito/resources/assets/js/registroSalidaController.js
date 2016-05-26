@@ -5,8 +5,10 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
   $scope.insumoSelect = {};
   $scope.departamentos = [];
+  $scope.documentos = [];
   $scope.listInsumos = [];
   $scope.servSelect = {};
+  $scope.documentoSelect = {};
   $scope.insumos = [];
   $scope.alert = {};
 
@@ -20,6 +22,9 @@ controller('registroSalidaController',function($scope,$http,$modal){
       $scope.listInsumos =  response.data
     });
   };
+
+  $http.get('/documentos/all/salidas')
+      .success( function(response){ $scope.documentos = response;});
 
   $http.get('/getDepartamentos')
       .success( function(response){ $scope.departamentos = response;});
