@@ -60,7 +60,8 @@
 				<tr>
 					<th class="col-md-1">Fecha</th>
 					<th class="col-md-1">Codigo</th>
-					<th class="col-md-6">Servicio</th>
+					<th class="col-md-1">Concepto</th>
+					<th class="col-md-6">Tercero</th>
 					<th class="col-md-1">Detalles</th>
 				</tr>
 			</thead>
@@ -68,7 +69,8 @@
 				<tr dir-paginate="salida in salidas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
 					<td>{#salida.fecha#}</td>
 					<td>{#salida.codigo | codeforma#}</td>
-					<td>{#salida.departamento#}</td>
+					<td><span class="text-enlace" tooltip="{#salida.concepto#}">{#salida.abreviatura#}</span></td>
+					<td>{#salida.tercero#}</td>
 					<td><button class="btn btn-warning" ng-click="detallesSalida(salida.id)"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				</tr>
 			</tbody>
