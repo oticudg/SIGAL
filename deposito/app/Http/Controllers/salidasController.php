@@ -102,28 +102,75 @@ class salidasController extends Controller
 
     public function getSalida($id){
 
+        //Busca la salida cuyo id se a pasado
         $salida = Salida::where('id',$id)->first();
 
+        //Si la salida no existe envia menssage de error
         if(!$salida){
             return Response()->json(['status' => 'danger', 'menssage' => 'Esta Salida no existe']);
         }
         else{
 
-           $salida = DB::table('salidas')->where('salidas.id',$id)
-                ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
-                ->join('users', 'salidas.usuario' , '=', 'users.id' )
-                ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
-                    DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora'), 'salidas.codigo',
-                    'departamentos.nombre as departamento', 'users.email as usuario', 'salidas.id')
-                ->first();
+          //Obtiene el tipo de documento de la salida
+          $tipo = Documento::where('id', $salida->documento)->value('tipo');
 
-           $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
-                ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.solicitado',
-                	'insumos_salidas.despachado')
-                ->get();
+          //Campos a consultar
+          $select = [
+            "salidas.codigo",
+            "users.email as usuario",
+            "salidas.id",
+            "documentos.abreviatura",
+            "documentos.nombre as concepto",
+            DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
+            DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora')
+          ];
 
-            return Response()->json(['status' => 'success', 'nota' => $salida , 'insumos' => $insumos]);
+          //Consulta base para la salidas
+          $query = DB::table('salidas')->where('salidas.id',$id)
+               ->join('users', 'salidas.usuario' , '=', 'users.id')
+               ->join('documentos','salidas.documento', '=','documentos.id')
+               ->select($select);
+
+          /**
+            *Une table para buscar el nombre del tercero, segun el
+            *tipo del documento de la salida y lo selecciona.
+            */
+          switch ($tipo){
+
+            case 'servicio':
+              $query->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
+                  ->addSelect('departamentos.nombre as tercero');
+            break;
+
+            case 'proveedor':
+              $query->join('provedores', 'salidas.tercero', '=', 'provedores.id')
+                  ->addSelect('provedores.nombre as tercero');
+            break;
+
+            case 'deposito':
+              $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+            case 'interno':
+              $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+          }
+
+          //Realiza la consulta
+          $salida = $query->first();
+
+          //Consulta los insumos de la salida
+          $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
+            ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
+            ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.solicitado',
+            	'insumos_salidas.despachado')
+            ->get();
+
+          //Devuelve los datos de la salida
+          return Response()->json(['status' => 'success','nota' => $salida,'insumos' => $insumos]);
         }
     }
 
