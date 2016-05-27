@@ -25,8 +25,10 @@
 	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 
 	<div class="row">
-		<div class="form-group col-md-4">
-        <ui-select ng-model="documentoSelect.selected"
+
+		<div class="col-md-5">
+			<div class="input-group">
+				<ui-select ng-model="documentoSelect.selected"
                  ng-disabled="disabled"
                  reset-search-input="true">
         <ui-select-match placeholder="Seleccione un concepto de salida">
@@ -35,15 +37,20 @@
           <div ng-bind-html="documento.nombre | highlight: $select.search"></div>
         </ui-select-choices>
         </ui-select>
-    </div>
-		<div class="form-group col-md-4">
-        <ui-select ng-model="servSelect.selected"
+				<div class="input-group-btn">
+						<button class="btn btn-success" ng-click="searchTerceros()"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-md-4" ng-show="panelTerceros">
+        <ui-select ng-model="terceroSelect.selected"
                  ng-disabled="disabled"
                  reset-search-input="true">
-        <ui-select-match placeholder="Seleccione un servicio">
+        <ui-select-match placeholder="Seleccione un tercero">
         {#$select.selected.nombre#}</ui-select-match>
-        <ui-select-choices repeat="departamento in departamentos | filter:$select.search track by departamento.id">
-          <div ng-bind-html="departamento.nombre | highlight: $select.search"></div>
+        <ui-select-choices repeat="tercero in terceros | filter:$select.search">
+          <div ng-bind-html="tercero.nombre | highlight: $select.search"></div>
         </ui-select-choices>
         </ui-select>
     </div>
