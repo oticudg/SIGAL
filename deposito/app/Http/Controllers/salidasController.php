@@ -56,12 +56,48 @@ class salidasController extends Controller
 
         $deposito = Auth::user()->deposito;
 
-        return DB::table('salidas')
+        $servicios =  DB::table('salidas')
+            ->join('documentos', 'salidas.documento', '=', 'documentos.id')
+            ->join('departamentos','salidas.tercero', '=', 'departamentos.id')
             ->where('salidas.deposito', $deposito)
-            ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
+            ->where('documentos.tipo', 'servicio')
+            ->where('documentos.naturaleza', 'salida')
             ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
-                'departamentos.nombre as departamento', 'salidas.id')
-            ->orderBy('salidas.id', 'desc')->get();
+                'departamentos.nombre as tercero', 'salidas.id', 'documentos.nombre as concepto', 'documentos.abreviatura');
+
+        $provedores =  DB::table('salidas')
+            ->join('documentos', 'salidas.documento', '=', 'documentos.id')
+            ->join('provedores','salidas.tercero', '=', 'provedores.id')
+            ->where('salidas.deposito', $deposito)
+            ->where('documentos.tipo', 'proveedor')
+            ->where('documentos.naturaleza', 'salida')
+            ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
+                'provedores.nombre as tercero', 'salidas.id', 'documentos.nombre as concepto', 'documentos.abreviatura');
+
+        $depositos =  DB::table('salidas')
+            ->join('documentos', 'salidas.documento', '=', 'documentos.id')
+            ->join('depositos','salidas.tercero', '=', 'depositos.id')
+            ->where('salidas.deposito', $deposito)
+            ->where('documentos.tipo', 'deposito')
+            ->where('documentos.naturaleza', 'salida')
+            ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
+                'depositos.nombre as tercero', 'salidas.id', 'documentos.nombre as concepto', 'documentos.abreviatura');
+
+        $internos = DB::table('salidas')
+            ->join('documentos', 'salidas.documento', '=', 'documentos.id')
+            ->join('depositos','salidas.tercero', '=', 'depositos.id')
+            ->where('salidas.deposito', $deposito)
+            ->where('documentos.tipo', 'interno')
+            ->where('documentos.naturaleza', 'salida')
+            ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
+                'depositos.nombre as tercero', 'salidas.id', 'documentos.nombre as concepto', 'documentos.abreviatura');
+
+        $salidas = $provedores
+                   ->union($servicios)
+                   ->union($depositos)
+                   ->union($internos);
+
+        return $salidas->take(50)->orderBy('id', 'desc')->get();
     }
 
     public function getSalida($id){
