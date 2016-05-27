@@ -27,20 +27,15 @@
 	<div class="row">
 
 		<div class="col-md-5">
-			<div class="input-group">
-				<ui-select ng-model="documentoSelect.selected"
-                 ng-disabled="disabled"
-                 reset-search-input="true">
-        <ui-select-match placeholder="Seleccione un concepto de salida">
-        {#$select.selected.nombre#}</ui-select-match>
-        <ui-select-choices repeat="documento in documentos | filter:$select.search">
-          <div ng-bind-html="documento.nombre | highlight: $select.search"></div>
-        </ui-select-choices>
-        </ui-select>
-				<div class="input-group-btn">
-						<button class="btn btn-success" ng-click="searchTerceros()"><span class="glyphicon glyphicon-search"></span></button>
-				</div>
-			</div>
+			<ui-select ng-model="documentoSelect.selected"
+               ng-disabled="disabled"
+               reset-search-input="true">
+      <ui-select-match placeholder="Seleccione un concepto de salida">
+      {#$select.selected.nombre#}</ui-select-match>
+      <ui-select-choices repeat="documento in documentos | filter:$select.search track by documento.id" ng-click="searchTerceros()">
+        <div ng-bind-html="documento.nombre | highlight: $select.search"></div>
+      </ui-select-choices>
+      </ui-select>
 		</div>
 
 		<div class="form-group col-md-4" ng-show="panelTerceros">

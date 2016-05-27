@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Salida;
 use App\Insumos_salida;
 use App\Deposito;
+use App\Documento;
 
 class salidasController extends Controller
 {
@@ -183,7 +184,7 @@ class salidasController extends Controller
 
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_salida',
-            'tercero'   =>  'required|numeric|tercero:documento',
+            'tercero'   =>  'numeric|tercero:documento',
             'insumos'   =>  'required|insumos_salida'
         ], $this->menssage);
 
@@ -191,6 +192,16 @@ class salidasController extends Controller
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
+
+            if(!isset($data['tercero']) || empty($data['tercero'])){
+              $tipo = Documento::where('id', $data['documento'])->value('tipo');
+              if($tipo == 'interno'){
+                $data['tercero'] = $deposito;
+              }
+              else{
+                return Response()->json(['status' => 'danger', 'menssage' => 'Seleccione un tercero']);
+              }
+            }
 
             $insumos = $data['insumos'];
             $insumosInvalidos = inventarioController::validaExist($insumos, $deposito);
