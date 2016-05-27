@@ -23,7 +23,9 @@
 			<tr>
 				<th class="col-md-1">Fecha</th>
 				<th class="col-md-1">Hora</th>
-				<th>Servicio</th>
+				<th class="col-md-1">Concepto</th>
+				<th class="col-md-1">Insumos</th>
+				<th>Tercero</th>
 				<th class="col-md-3">Usuario</th>
 			</tr>
 		</thead>
@@ -31,7 +33,9 @@
 			<tr>
 				<td>{#nota.fecha#}</td>
 				<td>{#nota.hora#}</td>
-				<td>{#nota.departamento#}</td>
+				<td><span class="text-enlace" tooltip="{#nota.concepto#}">{#nota.abreviatura#}</span></td>
+				<td>{#insumos.length#}</td>
+				<td>{#nota.tercero#}</td>
 				<td>{#nota.usuario#}</td>
 			</tr>
 		</tbody>
