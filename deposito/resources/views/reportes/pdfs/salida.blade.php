@@ -22,14 +22,20 @@
 			<tr>
           <td>FECHA DE REGISTRO</td>
           <td>{{$salida->fecha}}</td>
-					<td>SERVICIO</td>
-					<td>{{ strtoupper($salida->departamento) }}</td>
+					<td>TERCERO</td>
+					<td>{{ strtoupper($salida->tercero) }}</td>
 			</tr>
 			<tr>
 				<td>HORA</td>
 				<td>{{$salida->hora}}</td>
 				<td>USUARIO</td>
 				<td>{{ strtoupper($salida->usuario) }}</td>
+			</tr>
+			<tr>
+				<td>INSUMOS</td>
+				<td>{{count($insumos)}}</td>
+				<td>CONCEPTO</td>
+				<td>{{ strtoupper($salida->concepto)}}</td>
 			</tr>
 		</tbody>
 	</table>

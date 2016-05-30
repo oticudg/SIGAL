@@ -15,6 +15,7 @@ use Validator;
 use App\Insumos_entrada;
 use App\Insumos_salida;
 use App\Insumo;
+use App\Documento;
 
 class reportesController extends Controller
 {
@@ -306,15 +307,57 @@ class reportesController extends Controller
                           ->where('deposito', $deposito)
                           ->firstOrFail();
 
-      $salida = DB::table('salidas')->where('salidas.id',$id)
-           ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
-           ->join('depositos', 'depositos.id', '=', 'salidas.deposito')
-           ->join('users', 'salidas.usuario' , '=', 'users.id' )
-           ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
-               DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora'), 'salidas.codigo',
-               'departamentos.nombre as departamento', 'users.email as usuario', 'salidas.id',
-               'depositos.nombre as deposito')
-           ->first();
+      //Obtiene el tipo de documento de la salida
+      $tipo = Documento::where('id', $salida->documento)->value('tipo');
+
+      //Campos a consultar
+      $select = [
+        "salidas.codigo",
+        "users.email as usuario",
+        "salidas.id",
+        "documentos.nombre as concepto",
+        "depositos.nombre as deposito",
+        DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),
+        DB::raw('DATE_FORMAT(salidas.created_at, "%H:%i:%s") as hora')
+      ];
+
+      //Consulta base para la salidas
+      $query = DB::table('salidas')->where('salidas.id',$id)
+           ->join('users', 'salidas.usuario' , '=', 'users.id')
+           ->join('depositos', 'salidas.deposito', '=', 'depositos.id')
+           ->join('documentos','salidas.documento', '=','documentos.id')
+           ->select($select);
+
+      /**
+        *Une table para buscar el nombre del tercero, segun el
+        *tipo del documento de la salida y lo selecciona.
+        */
+      switch ($tipo){
+
+        case 'servicio':
+          $query->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
+              ->addSelect('departamentos.nombre as tercero');
+        break;
+
+        case 'proveedor':
+          $query->join('provedores', 'salidas.tercero', '=', 'provedores.id')
+              ->addSelect('provedores.nombre as tercero');
+        break;
+
+        case 'deposito':
+          $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+              ->addSelect('depositos.nombre as tercero');
+        break;
+
+        case 'interno':
+          $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+              ->addSelect('depositos.nombre as tercero');
+        break;
+
+      }
+
+      //Realiza la consulta
+      $salida = $query->first();
 
       $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
            ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
