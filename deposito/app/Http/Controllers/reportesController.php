@@ -345,13 +345,11 @@ class reportesController extends Controller
         break;
 
         case 'deposito':
-          $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
-              ->addSelect('depositos.nombre as tercero');
+          $query->addSelect('depositos.nombre as tercero');
         break;
 
         case 'interno':
-          $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
-              ->addSelect('depositos.nombre as tercero');
+          $query->addSelect('depositos.nombre as tercero');
         break;
 
       }
