@@ -25,14 +25,13 @@
 	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 
 	<div class="row">
-
 		<div class="col-md-5">
 			<ui-select ng-model="documentoSelect.selected"
                ng-disabled="disabled"
-               reset-search-input="true">
+               reset-search-input="true" on-select="searchTerceros()">
       <ui-select-match placeholder="Seleccione un concepto de salida">
       {#$select.selected.nombre#}</ui-select-match>
-      <ui-select-choices repeat="documento in documentos | filter:$select.search track by documento.id" ng-click="searchTerceros()">
+      <ui-select-choices repeat="documento in documentos | filter:$select.search track by documento.id">
         <div ng-bind-html="documento.nombre | highlight: $select.search"></div>
       </ui-select-choices>
       </ui-select>

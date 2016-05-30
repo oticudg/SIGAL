@@ -208,6 +208,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
     $scope.documentoSelect = {};
     $scope.terceroSelect   = {};
     $scope.panelTerceros = false;
+    $scope.insumoSelect = {};
   }
 
   var parseDocumento = function(){
