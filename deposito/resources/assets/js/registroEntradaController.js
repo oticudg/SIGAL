@@ -4,13 +4,14 @@ angular.module('deposito').
 controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.insumoSelect = {};
-  $scope.proveSelect = {};
-  $scope.deparSelect = {};
-  $scope.provedores = [];
-  $scope.departamentos = [];
+  $scope.terceroSelect = {};
+  $scope.documentoSelect = {};
+  $scope.documentos = [];
+  $scope.terceros = [];
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
+
 
   $scope.openI = function($event, dI) {
       $event.preventDefault();
@@ -29,12 +30,8 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       });
   };
 
-  $http.get('/getProvedores')
-    .success( function(response){ $scope.provedores = response;});
-
-  $http.get('/getDepartamentos')
-    .success( function(response){ $scope.departamentos = response;});
-
+  $http.get('/documentos/all/entradas')
+      .success( function(response){ $scope.documentos = response;});
 
   $scope.agregarInsumos = function(){
 
@@ -60,7 +57,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     $scope.insumoSelect = {};
   }
 
-  $scope.registrar = function(datos){
+  $scope.registrar = function(){
 
     if( !validaCantidad($scope.insumos) ){
       $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
@@ -79,74 +76,45 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     };
 
     $scope.cofirme = function(){
-        save(datos);
+        save();
         $scope.modalInstance.dismiss('cancel');
         $scope.loader = true;
     }
   }
 
-  var save = function(datos){
+  var save = function(){
 
-      switch(datos){
+    var data = {
+      'documento': parseDocumento(),
+      'tercero' : parseTercero(),
+      'insumos'  : empaquetaData()
+    };
 
-        case 'orden':
+    $http.post('/entradas/registrar', data)
+      .success(
+        function(response){
+          $scope.loader = false;
 
-          var data = {
-            'orden'  : $scope.orden,
-            'provedor': parseProve(),
-            'insumos' : empaquetaData($scope.insumos)
-          };
+          if( response.status == 'success'){
 
-          var origen = '/entradas/registrar/orden';
-        break;
-
-        case 'donacion':
-
-          var data = {
-            'provedor': parseProve(),
-            'insumos' : empaquetaData($scope.insumos)
-          };
-
-          var origen = '/entradas/registrar/donacion';
-        break;
-
-        case 'devolucion':
-
-          var data = {
-            'departamento': parseDepar(),
-            'insumos' : empaquetaData($scope.insumos)
-          };
-
-          var origen = '/entradas/registrar/devolucion';
-        break;
-      }
-
-      $http.post(origen, data)
-        .success(
-          function(response){
-
-            $scope.loader = false;
-
-            if( response.status == 'success'){
-
-              $modal.open({
-                  animation: true,
-                  templateUrl: 'successRegister.html',
-                  controller: 'successRegisterCtrl',
-                  resolve: {
-                    response: function () {
-                      return response;
-                    }
+            $modal.open({
+                animation: true,
+                templateUrl: 'successRegister.html',
+                controller: 'successRegisterCtrl',
+                resolve: {
+                  response: function () {
+                    return response;
                   }
-              });
+                }
+            });
 
-              $scope.restablecer();
-              return;
-            }
-
-            $scope.alert = {type:response.status , msg: response.menssage};
+            $scope.restablecer();
+            return;
           }
-        );
+
+          $scope.alert = {type:response.status , msg: response.menssage};
+        }
+    );
   }
 
   $scope.eliminarInsumo = function(index){
@@ -185,17 +153,17 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     return true;
   }
 
-  function empaquetaData(insumosOri){
+  function empaquetaData(){
 
     var index;
     var insumos = [];
 
-    for( index in insumosOri){
+    for( index in $scope.insumos){
       insumos.push({
-        'id': insumosOri[index].id,
-        'cantidad':insumosOri[index].cantidad,
-        'fecha': dataForamat(insumosOri[index].fecha),
-        'lote':insumosOri[index].lote
+        'id': $scope.insumos[index].id,
+        'cantidad':$scope.insumos[index].cantidad,
+        'fecha': dataForamat($scope.insumos[index].fecha),
+        'lote':$scope.insumos[index].lote
       });
     }
 
@@ -221,24 +189,43 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.restablecer = function(){
     $scope.insumos  = [];
-    $scope.orden   = '';
     $scope.alert = {};
-    $scope.proveSelect  = {};
-    $scope.deparSelect = {};
+    $scope.documentoSelect = {};
+    $scope.terceroSelect   = {};
+    $scope.panelTerceros = false;
+    $scope.insumoSelect = {};
   }
 
-  var parseProve = function(){
-		if($scope.proveSelect.hasOwnProperty('selected'))
-		  return $scope.proveSelect.selected.id;
+  var parseDocumento = function(){
+    if($scope.documentoSelect.hasOwnProperty('selected'))
+      return $scope.documentoSelect.selected.id;
 
     return '';
-	}
+  }
 
-  var parseDepar = function(){
-    if($scope.deparSelect.hasOwnProperty('selected'))
-      return $scope.deparSelect.selected.id;
+  var parseTercero = function(){
+    if($scope.terceroSelect.hasOwnProperty('selected'))
+      return $scope.terceroSelect.selected.id;
 
     return '';
+  }
+
+  $scope.searchTerceros = function(){
+    if($scope.documentoSelect.hasOwnProperty('selected')){
+      $scope.terceros = [];
+      $scope.terceroSelect = {};
+
+      if($scope.documentoSelect.selected.tipo != "interno"){
+        $http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+          .success(function(response){
+            $scope.terceros = response;
+            $scope.panelTerceros = true;
+          });
+      }
+      else{
+        $scope.panelTerceros = false;
+      }
+    }
   }
 
 });

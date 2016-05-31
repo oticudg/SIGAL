@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Entrada;
 use App\Insumos_entrada;
 use App\Deposito;
+use App\Documento;
 
 class entradasController extends Controller
 {
