@@ -295,8 +295,8 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Muestra la vista de registro de entrada
 			Route::get('registrar',['as' => 'Registrar', 'uses' => 'entradasController@viewRegistrar']);
 
-			//Registra una entrada segun un tipo que se espesifique
-			Route::post('registrar/{type}' ,'entradasController@registrar');
+			//Registra una entrada
+			Route::post('registrar' ,'entradasController@registrar');
 		});
 
 		//Regresa los todos los datos de una entrada cuyo codigo se especifique

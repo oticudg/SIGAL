@@ -417,159 +417,67 @@ class entradasController extends Controller
         return $query->get();
     }
 
-    public function registrar($type, Request $request){
+    public function registrar(Request $request){
 
         $data     = $request->all();
         $usuario  = Auth::user()->id;
         $deposito = Auth::user()->deposito;
 
-        switch ($type){
+        $validator = Validator::make($data,[
+            'documento' =>  'required|numeric|documento_entrada',
+            'tercero'   =>  'numeric|tercero:documento',
+            'insumos'   =>  'required|insumos'
+        ], $this->menssage);
 
-            case 'orden':
+        if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+        }
+        else{
 
-                $validator = Validator::make($data,[
-                    'orden'   =>  'required',
-                    'provedor' =>  'required|equal_provedor:orden',
-                    'insumos'  =>  'required|insumos'
-                ], $this->menssage);
+          if(!isset($data['tercero']) || empty($data['tercero'])){
+            $tipo = Documento::where('id', $data['documento'])->value('tipo');
+            if($tipo == 'interno'){
+              $data['tercero'] = $deposito;
+            }
+            else{
+              return Response()->json(['status' => 'danger', 'menssage' => 'Seleccione un tercero']);
+            }
+          }
 
-                if($validator->fails()){
-                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
-                }
-                else{
+          $insumos = $data['insumos'];
 
-                    $insumos = $data['insumos'];
-                    //Codigo para la entrada
-                    $code = $this->generateCode('EO', $deposito);
+          //Codigo para la entrada
+          $code = $this->generateCode('E', $deposito);
 
-                    $entrada = Entrada::create([
-                                'codigo'   => $code,
-                                'orden'    => $data['orden'],
-                                'provedor' => $data['provedor'],
-                                'type'     => 'orden',
-                                'usuario'  => $usuario,
-                                'deposito' => $deposito
-                            ])['id'];
+          $entrada = Entrada::create([
+                      'codigo'   => $code,
+                      'tercero'  => $data['tercero'],
+                      'documento'=> $data['documento'],
+                      'usuario'  => $usuario,
+                      'deposito' => $deposito
+                  ])['id'];
 
-                    foreach ($insumos as $insumo){
+          foreach ($insumos as $insumo){
 
-                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+              $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
+              $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
 
-                        Insumos_entrada::create([
-                            'entrada'   => $entrada,
-                            'insumo'    => $insumo['id'],
-                            'cantidad'  => $insumo['cantidad'],
-                            'type'      => 'orden',
-                            'lote'      => $lote,
-                            'fechaV'    => $fecha,
-                            'deposito'  => $deposito
-                        ]);
+              Insumos_entrada::create([
+                  'entrada'   => $entrada,
+                  'insumo'    => $insumo['id'],
+                  'cantidad'  => $insumo['cantidad'],
+                  'lote'      => $lote,
+                  'fechaV'    => $fecha,
+                  'deposito'  => $deposito
+              ]);
 
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
-                            'entrada', $entrada);
-                    }
+              inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
+                  'entrada', $entrada);
 
-                    return Response()->json(['status' => 'success', 'menssage' =>
-                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
-                }
-            break;
+          }
 
-            case 'donacion':
-
-                $validator = Validator::make($data,[
-                    'provedor' =>  'required',
-                    'insumos'  =>  'required|insumos'
-                ], $this->menssage);
-
-                if($validator->fails()){
-                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
-                }
-                else{
-
-                    $insumos = $data['insumos'];
-                    //Codigo para la entrada
-                    $code = $this->generateCode('ED', $deposito);
-
-                    $donacion = Entrada::create([
-                                'codigo'   => $code,
-                                'provedor' => $data['provedor'],
-                                'type'     => 'donacion',
-                                'usuario'  => $usuario,
-                                'deposito' => $deposito
-                              ])['id'];
-
-                    foreach ($insumos as $insumo) {
-
-                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
-
-                        Insumos_entrada::create([
-                            'entrada'   => $donacion,
-                            'insumo'    => $insumo['id'],
-                            'cantidad'  => $insumo['cantidad'],
-                            'type'      => 'donacion',
-                            'lote'      => $lote,
-                            'fechaV'    => $fecha,
-                            'deposito'  => $deposito
-                        ]);
-
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
-                            'entrada', $donacion);
-                    }
-
-                    return Response()->json(['status' => 'success', 'menssage' =>
-                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
-                }
-            break;
-
-            case 'devolucion':
-
-                $validator = Validator::make($data,[
-                    'departamento' =>  'required',
-                    'insumos'      =>  'required|insumos'
-                ], $this->menssage);
-
-                if($validator->fails()){
-                    return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
-                }
-                else{
-
-                    $insumos = $data['insumos'];
-                    //Codigo para la entrada
-                    $code = $this->generateCode('EV', $deposito);
-
-                    $devolucion = Entrada::create([
-                                'codigo'   => $code,
-                                'provedor' => $data['departamento'],
-                                'type'     => 'devolucion',
-                                'usuario'  => $usuario,
-                                'deposito' => $deposito
-                              ])['id'];
-
-                    foreach ($insumos as $insumo) {
-
-                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
-
-                        Insumos_entrada::create([
-                            'entrada'     => $devolucion,
-                            'insumo'      => $insumo['id'],
-                            'cantidad'    => $insumo['cantidad'],
-                            'type'        => 'devolucion',
-                            'lote'        => $lote,
-                            'fechaV'      => $fecha,
-                            'deposito'    => $deposito
-                        ]);
-
-                        inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
-                            'entrada', $devolucion);
-                    }
-
-                    return Response()->json(['status' => 'success', 'menssage' =>
-                        'Entrada completada satisfactoriamente', 'codigo' => $code]);
-                }
-            break;
+          return Response()->json(['status' => 'success', 'menssage' =>
+              'Entrada completada satisfactoriamente', 'codigo' => $code]);
         }
     }
 
@@ -581,6 +489,6 @@ class entradasController extends Controller
         //Obtiene Codigo del deposito
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
 
-        return strtoupper( $depCode .'-'.$prefix.str_random(6) );
+        return strtoupper( $depCode .'-'.$prefix.str_random(7) );
     }
 }

@@ -290,6 +290,17 @@ class AppServiceProvider extends ServiceProvider
 
         });
 
+        Validator::extend('documento_entrada', function($attribute, $value)
+        {
+            $documento = Documento::where('id', $value)->first();
+
+            if(!$documento)
+              return false;
+
+            return $documento->naturaleza == 'entrada';
+
+        });
+
         Validator::extend('tercero', function($attribute, $value, $parameters)
         {
             $documento = Input::get($parameters[0]);
