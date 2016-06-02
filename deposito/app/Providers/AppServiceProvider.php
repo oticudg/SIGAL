@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Validator;
+use DB;
 use Input;
 use App\Insumo;
 use App\Entrada;
@@ -245,6 +246,14 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
+        Validator::extend('insumo_with_daleted', function($attribute, $value)
+        {
+            if( !DB::table('insumos')->where('id', $value)->first())
+                return false;
+
+            return true;
+        });
+
         Validator::extend('deposito', function($attribute, $value)
         {
             if( !Deposito::where('id', $value)->first() )
@@ -256,7 +265,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('date_limit_current', function($attribute, $value)
         {
             $value = str_replace('/','-',$value);
-            
+
             if(strtotime($value) > strtotime(date("Y-m-d")) )
                 return false;
 

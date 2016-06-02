@@ -87,8 +87,8 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{strtoupper($insumoData['codigo'])}}</td>
-         <td>{{strtoupper($insumoData['descripcion'])}}</td>
+        <td>{{strtoupper($insumoData->codigo)}}</td>
+         <td>{{strtoupper($insumoData->descripcion)}}</td>
       </tr>
     </tbody>
   </table>
