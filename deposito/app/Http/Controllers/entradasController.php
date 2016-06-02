@@ -115,64 +115,51 @@ class entradasController extends Controller
         }
     }
 
-    public function allEntradas($type = NULL){
+    public function allEntradas(){
 
         $deposito = Auth::user()->deposito;
 
-        switch ($type) {
+        $select = [
+          DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+          'entradas.codigo',
+          'entradas.id',
+          'documentos.nombre as concepto',
+          'documentos.abreviatura'
+        ];
 
-            case 'orden':
-                return DB::table('entradas')
-                    ->where('type', 'orden')
-                    ->where('deposito', $deposito)
-                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
-                        'entradas.orden','provedores.nombre as provedor', 'entradas.id')
-                     ->orderBy('entradas.id', 'desc')->get();
-            break;
+        $servicios = DB::table('entradas')
+                      ->join('documentos', 'entradas.documento', '=', 'documentos.id')
+                      ->join('departamentos','entradas.tercero', '=', 'departamentos.id')
+                      ->where('entradas.deposito', $deposito)
+                      ->where('documentos.tipo', 'servicio')
+                      ->where('documentos.naturaleza', 'entrada')
+                      ->select($select)
+                      ->addSelect('departamentos.nombre as tercero');
 
-            case 'donacion':
-                return DB::table('entradas')
-                    ->where('type', 'donacion')
-                    ->where('deposito', $deposito)
-                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.codigo','provedores.nombre as provedor', 'entradas.id')
-                     ->orderBy('entradas.id', 'desc')->get();
-            break;
+        $provedores = DB::table('entradas')
+                      ->join('documentos', 'entradas.documento', '=', 'documentos.id')
+                      ->join('provedores','entradas.tercero', '=', 'provedores.id')
+                      ->where('entradas.deposito', $deposito)
+                      ->where('documentos.tipo', 'proveedor')
+                      ->where('documentos.naturaleza', 'entrada')
+                      ->select($select)
+                      ->addSelect('provedores.nombre as tercero');
 
-            case 'devolucion':
-                return DB::table('entradas')
-                    ->where('type', 'devolucion')
-                    ->where('deposito', $deposito)
-                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.codigo','departamentos.nombre as provedor', 'entradas.id')
-                     ->orderBy('entradas.id', 'desc')->get();
-            break;
+        $depositos = DB::table('entradas')
+                      ->join('documentos', 'entradas.documento', '=', 'documentos.id')
+                      ->join('depositos','entradas.tercero', '=', 'depositos.id')
+                      ->where('entradas.deposito', $deposito)
+                      ->where('documentos.tipo', 'deposito')
+                      ->Orwhere('documentos.tipo', 'interno')
+                      ->where('documentos.naturaleza', 'entrada')
+                      ->select($select)
+                      ->addSelect('depositos.nombre as tercero');
 
-            default:
+        $entradas = $servicios
+                    ->unionAll($provedores)
+                    ->unionAll($depositos);
 
-                $devoluciones = DB::table('entradas')
-                    ->where('entradas.type', 'devolucion')
-                    ->where('entradas.deposito', $deposito)
-                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'type');
-
-                return DB::table('entradas')
-                    ->where(function ($query) {
-                        $query->where('entradas.type', 'orden')
-                        ->orWhere('entradas.type', 'donacion');
-                    })
-                    ->where('entradas.deposito', $deposito)
-                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.id', 'codigo', 'provedores.nombre as provedor', 'type')
-                    ->unionAll($devoluciones)
-                    ->orderBy('id', 'desc')->get();
-            break;
-        }
+        return $entradas->take(100)->orderBy('id', 'desc')->get();
     }
 
     public function getEntrada($id){
