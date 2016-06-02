@@ -5,12 +5,7 @@
 		    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#nota.codigo | codeforma#}</strong>
 		    </h3>
 		  </div>
-	    <div class="col-md-4">
-					  <h3 class="modal-title text-title-modal" ng-show="nota.orden">
-				    	N° Orden: <strong>{#nota.orden#}</strong>
-				    </h3>
-		  </div>
-      <div style="text-align:right" class="col-md-2">
+      <div style="text-align:right" class="col-md-offset-4 col-md-2">
         <button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
         @if(Auth::user()->haspermission('inventarioH'))
           <a class="btn btn-warning" href="/reportes/entrada/{#nota.id#}" target="_blank">
@@ -27,7 +22,9 @@
 			<tr>
 				<th class="col-md-1">Fecha</th>
 				<th class="col-md-1">Hora</th>
-				<th>Proveedor</th>
+        <th class="col-md-1">Concepto</th>
+        <th class="col-md-1">Insumos</th>
+				<th>Tercero</th>
 				<th class="col-md-3">Usuario</th>
 			</tr>
 		</thead>
@@ -35,7 +32,9 @@
 			<tr>
 				<td>{#nota.fecha#}</td>
 				<td>{#nota.hora#}</td>
-				<td>{#nota.provedor#}</td>
+        <td><span class="text-enlace" tooltip="{#nota.concepto#}">{#nota.abreviatura#}</span></td>
+				<td>{#insumos.length#}</td>
+				<td>{#nota.tercero#}</td>
 				<td>{#nota.usuario#}</td>
 			</tr>
 		</tbody>
