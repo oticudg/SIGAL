@@ -170,44 +170,69 @@ class entradasController extends Controller
                             ->first();
 
         if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);
+          return Response()->json(['status' => 'danger', 'menssage' => 'Esta Entrada no existe']);
         }
         else{
 
-            if($entrada['type'] == 'devolucion'){
+          //Obtiene el tipo de documento de la entrada
+          $tipo = Documento::where('id', $entrada->documento)->value('tipo');
 
-                $entrada = DB::table('entradas')->where('entradas.id',$id)
-                    ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-                    ->join('users', 'entradas.usuario' , '=', 'users.id' )
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                        'entradas.orden', 'departamentos.nombre as provedor', 'users.email as usuario', 'entradas.id')
-                    ->first();
+          //Campos a consultar
+          $select = [
+            "entradas.codigo",
+            "users.email as usuario",
+            "entradas.id",
+            "documentos.abreviatura",
+            "documentos.nombre as concepto",
+            DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
+            DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora')
+          ];
 
-                $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
-                    ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                    ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad', 'insumos_entradas.lote',
-                            'insumos_entradas.fechaV as fecha')
-                    ->get();
-            }
-            else{
+          //Consulta base para la entrada
+          $query = DB::table('entradas')->where('entradas.id',$id)
+               ->join('users', 'entradas.usuario' , '=', 'users.id')
+               ->join('documentos','entradas.documento', '=','documentos.id')
+               ->select($select);
 
-                $entrada = DB::table('entradas')->where('entradas.id',$id)
-                    ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-                    ->join('users', 'entradas.usuario' , '=', 'users.id' )
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                        'entradas.orden', 'provedores.nombre as provedor', 'users.email as usuario','entradas.id')
-                    ->first();
+          /**
+            *Une table para buscar el nombre del tercero, segun el
+            *tipo del documento de la entrada y lo selecciona.
+            */
+          switch ($tipo){
 
-                $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
-                    ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                    ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad','insumos_entradas.lote',
-                            'insumos_entradas.fechaV as fecha')
-                    ->get();
-            }
+            case 'servicio':
+              $query->join('departamentos', 'entradas.tercero', '=', 'departamentos.id')
+                  ->addSelect('departamentos.nombre as tercero');
+            break;
 
-            return Response()->json(['status' => 'success', 'nota' => $entrada , 'insumos' => $insumos]);
+            case 'proveedor':
+              $query->join('provedores', 'entradas.tercero', '=', 'provedores.id')
+                  ->addSelect('provedores.nombre as tercero');
+            break;
+
+            case 'deposito':
+              $query->join('depositos', 'entradas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+            case 'interno':
+              $query->join('depositos', 'entradas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+          }
+
+          //Realiza la consulta
+          $entradas = $query->first();
+
+          //Consulta los insumos de la entrada
+          $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
+            ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
+            ->select('insumos.codigo', 'insumos.descripcion','insumos_entradas.cantidad')
+            ->get();
+
+          //Devuelve los datos de la entrada
+          return Response()->json(['status' => 'success','nota' => $entradas,'insumos' => $insumos]);
         }
     }
 
