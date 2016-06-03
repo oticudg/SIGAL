@@ -42,77 +42,15 @@ class entradasController extends Controller
 
         $deposito = Auth::user()->deposito;
 
-        switch($type){
-
-            case 'orden':
-
-                return DB::table('insumos_entradas')
-                    ->where('insumos_entradas.type', 'orden')
-                    ->where('insumos_entradas.deposito', $deposito)
-                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
-                    ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
-                        'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote',
-                        'insumos_entradas.fechaV')
-                    ->orderBy('insumos_entradas.id', 'desc')->get();
-            break;
-
-            case 'donacion':
-
-                return DB::table('insumos_entradas')
-                    ->where('insumos_entradas.type', 'donacion')
-                    ->where('insumos_entradas.deposito', $deposito)
-                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
-                    ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
-                        'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote',
-                        'insumos_entradas.fechaV')
-                    ->orderBy('insumos_entradas.id', 'desc')->get();
-            break;
-
-            case 'devolucion':
-                return DB::table('insumos_entradas')
-                    ->where('insumos_entradas.type', 'devolucion')
-                    ->where('insumos_entradas.deposito', $deposito)
-                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
-                    ->join('insumos', 'insumos.id' ,  '=', 'insumos_entradas.insumo')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.codigo as entrada', 'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.lote',
-                        'insumos_entradas.fechaV')
-                    ->orderBy('insumos_entradas.id', 'desc')->get();
-            break;
-
-            default:
-
-                $devoluciones = DB::table('insumos_entradas')
-                    ->where('insumos_entradas.type', 'devolucion')
-                    ->where('insumos_entradas.deposito', $deposito)
-                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
-                    ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.codigo as entrada', 'insumos_entradas.id', 'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad', 'insumos_entradas.type', 'insumos_entradas.lote',
-                        'insumos_entradas.fechaV');
-
-                return DB::table('insumos_entradas')
-                    ->where(function ($query) {
-                        $query->where('insumos_entradas.type','orden')
-                        ->orWhere('insumos_entradas.type','donacion');
-                    })
-                    ->where('insumos_entradas.deposito', $deposito)
-                    ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
-                    ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                        'entradas.codigo as entrada', 'insumos_entradas.id', 'entradas.id as entradaId','insumos.codigo',
-                        'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.type', 'insumos_entradas.lote',
-                        'insumos_entradas.fechaV')
-                    ->unionAll($devoluciones)
-                    ->orderBy('id', 'desc')->get();
-            break;
-        }
+        return DB::table('insumos_entradas')
+                  ->where('insumos_entradas.deposito', $deposito)
+                  ->join('entradas', 'entradas.id', '=', 'insumos_entradas.entrada')
+                  ->join('insumos', 'insumos.id' , '=', 'insumos_entradas.insumo')
+                  ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo as entrada',
+                      'entradas.id as entradaId','insumos.codigo',
+                      'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote',
+                      'insumos_entradas.fechaV')
+                  ->orderBy('insumos_entradas.id', 'desc')->get();
     }
 
     public function allEntradas(){
