@@ -16,26 +16,26 @@
 			<tr>
 				<td class="green-td">CÓDIGO</td>
 				<td>{{substr($entrada->codigo,11)}}</td>
-				<td>FECHA DE REGISTRO</td>
-				<td>{{$entrada->fecha}}</td>
-			</tr>
-			<tr>
-				<td>TIPO</td>
-				<td>{{ strtoupper($entrada->type) }}</td>
-				<td>PROVEEDOR</td>
-				<td>{{ strtoupper($entrada->provedor) }}</td>
-			</tr>
-			<tr>
 				<td>DEPÓSITO</td>
 				<td>{{ strtoupper($entrada->deposito)}}</td>
+			</tr>
+			<tr>
+				<td>FECHA DE REGISTRO</td>
+				<td>{{$entrada->fecha}}</td>
+				<td>TERCERO</td>
+				<td>{{ strtoupper($entrada->tercero) }}</td>
+			</tr>
+			<tr>
+				<td>HORA</td>
+				<td>{{$entrada->hora}}</td>
 				<td>USUARIO</td>
 				<td>{{ strtoupper($entrada->usuario) }}</td>
 			</tr>
 			<tr>
-					<td>ORDEN</td>
-					<td>{{$entrada->orden or 'N/A'}}</td>
-					<td>HORA</td>
-					<td>{{$entrada->hora}}</td>
+					<td>INSUMOS</td>
+					<td>{{count($insumos)}}</td>
+					<td>CONCEPTO</td>
+					<td>{{ strtoupper($entrada->concepto) }}</td>
 			</tr>
 		</tbody>
 	</table>
