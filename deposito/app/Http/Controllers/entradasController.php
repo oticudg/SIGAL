@@ -228,7 +228,9 @@ class entradasController extends Controller
           //Consulta los insumos de la entrada
           $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
             ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-            ->select('insumos.codigo', 'insumos.descripcion','insumos_entradas.cantidad')
+            ->select('insumos.codigo', 'insumos.descripcion','insumos_entradas.cantidad',
+                    DB::raw('DATE_FORMAT(insumos_entradas.fechaV, "%d/%m/%Y") as fecha'),
+                    'insumos_entradas.lote')
             ->get();
 
           //Devuelve los datos de la entrada
