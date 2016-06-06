@@ -306,16 +306,16 @@ class salidasController extends Controller
 
               foreach ($insumos as $insumo) {
 
+                  $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+
                   Insumos_salida::create([
                       'salida'      => $salida,
                       'insumo'      => $insumo['id'],
                       'solicitado'  => $insumo['solicitado'],
                       'despachado'  => $insumo['despachado'],
-                      'deposito'    => $deposito
+                      'deposito'    => $deposito,
+                      'existencia'  => $existencia
                   ]);
-
-                  inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito, 'salida',
-                      $salida);
 
               }
 
