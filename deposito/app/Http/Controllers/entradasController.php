@@ -412,20 +412,21 @@ class entradasController extends Controller
 
           foreach ($insumos as $insumo){
 
+              $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
+                  'entrada', $entrada);
+
               $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
               $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
 
               Insumos_entrada::create([
-                  'entrada'   => $entrada,
-                  'insumo'    => $insumo['id'],
-                  'cantidad'  => $insumo['cantidad'],
-                  'lote'      => $lote,
-                  'fechaV'    => $fecha,
-                  'deposito'  => $deposito
+                  'entrada'    => $entrada,
+                  'insumo'     => $insumo['id'],
+                  'cantidad'   => $insumo['cantidad'],
+                  'lote'       => $lote,
+                  'fechaV'     => $fecha,
+                  'deposito'   => $deposito,
+                  'existencia' => $existencia 
               ]);
-
-              inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
-                  'entrada', $entrada);
 
           }
 
