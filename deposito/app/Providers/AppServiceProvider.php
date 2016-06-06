@@ -14,6 +14,7 @@ use App\Insumos_entrada;
 use App\Insumos_salida;
 use Illuminate\Support\ServiceProvider;
 use App\Documento;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -318,7 +319,12 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if($tipo == 'deposito'){
-              return Deposito::where('id', $value)->first();
+
+              $deposito = Auth::user()->deposito;
+
+              return Deposito::where('id', $value)
+                     ->where('id','!=', $deposito)
+                     ->first();
             }
 
         });

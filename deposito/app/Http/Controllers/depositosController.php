@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Deposito;
 use App\Departamento;
 use App\Provedore;
+use Auth;
 
 class depositosController extends Controller
 {
@@ -129,7 +130,11 @@ class depositosController extends Controller
         return Departamento::get(['id', 'nombre']);
       }
       elseif($tipo == 'deposito'){
-        return Deposito::get(['id', 'nombre']);
+
+        $deposito = Auth::user()->deposito;
+
+        return Deposito::where('id', '!=',$deposito)
+               ->get(['id', 'nombre']);
       }
       else{
         abort('404');
