@@ -135,7 +135,7 @@ class AppServiceProvider extends ServiceProvider
                         !isset($insumo['id']) || $insumo['solicitado'] <= 0 ||
                         $insumo['despachado'] <= 0 || $insumo['solicitado'] < $insumo['despachado'] ||
                         !is_int($insumo['solicitado']) || !is_int($insumo['despachado']) ||
-                        !Insumo::where('id',$insumo['id'])->first())
+                        !Insumo::withTrashed()->where('id',$insumo['id'])->first())
 
                         return false;
                 }
@@ -168,8 +168,8 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('insumos_validate_e', function($attribute, $value)
         {
             foreach ($value as $insumo){
-
                 if(!isset($insumo['cantidad']))
+
                     continue;
 
                 $originalI = Insumos_entrada::where('id',$insumo['id'])->first();
@@ -248,7 +248,7 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('insumo_with_daleted', function($attribute, $value)
         {
-            if( !DB::table('insumos')->where('id', $value)->first())
+            if( !insumo::withTrashed()->where('id', $value)->first())
                 return false;
 
             return true;
