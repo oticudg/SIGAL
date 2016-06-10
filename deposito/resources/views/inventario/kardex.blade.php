@@ -97,6 +97,7 @@
 		<thead>
 			<tr>
 				<th class="col-md-1">Fecha</th>
+        <th class="col-md-1">Concepto</th>
 				<th>Procedencia o Destino</th>
         <th class="col-md-1">Tipo</th>
 				<th class="col-md-1">Mov.</th>
@@ -108,6 +109,9 @@
       <tr ng-show="barSearch">
 				<td>
 					<input type="text" class="form-control" placeholder="Fecha" ng-model="filtro.fecha">
+				</td>
+        <td>
+					<input type="text" class="form-control" placeholder="Concepto" ng-model="filtro.abreviatura">
 				</td>
 				<td>
 					<input type="text" class="form-control" placeholder="Procedencia o Destino" ng-model="filtro.pod">
@@ -125,6 +129,7 @@
 			</tr>
 			<tr dir-paginate="movimiento in movimientos | filter:filtro | itemsPerPage:cRegistro" pagination-id="movimientos">
 				<td>{#movimiento.fecha#}</td>
+        <td><span class="text-enlace" tooltip="{#movimiento.concepto#}">{#movimiento.abreviatura#}</span></td>
 				<td>{#movimiento.pod | uppercase #}</td>
         <td>{#movimiento.type | uppercase #}</td>
         <td>{#movimiento.movido#}</td>
