@@ -446,7 +446,8 @@ class inventarioController extends Controller
       //Campos comunes a seleccionar en las salidas.
       $select_salida = [
         'insumos_salidas.despachado as movido',
-        'salidas.id as referencia', 'insumos_salidas.created_at as fulldate',
+        'salidas.id as referencia',
+        'insumos_salidas.created_at as fulldate',
         'documentos.naturaleza as type',
         'documentos.nombre as concepto',
         'documentos.abreviatura',
@@ -456,7 +457,8 @@ class inventarioController extends Controller
       //Campos comunes a seleccionar en las entradas.
       $select_entrada = [
         'insumos_entradas.cantidad as movido',
-        'entradas.id as referencia', 'insumos_entradas.created_at as fulldate',
+        'entradas.id as referencia',
+        'insumos_entradas.created_at as fulldate',
         'documentos.naturaleza as type',
         'documentos.nombre as concepto',
         'documentos.abreviatura',
@@ -549,14 +551,16 @@ class inventarioController extends Controller
       //$query = $this->filterKardex($salidas, $entradas, $devoluciones, $data);
 
       //Une todas las consultas de entradas y salidas.
-      $uniones = $salida_servicios
-                 ->unionAll($salida_provedores)
-                 ->unionAll($salida_depositos)
-                 ->unionAll($salida_internos)
-                 ->unionAll($entradas_servicios)
-                 ->unionAll($entradas_provedores)
-                 ->unionAll($entradas_depositos)
-                 ->unionAll($entradas_internos);
+      $uniones = $this->filterKardex($salida_servicios, $data,1)
+                 ->unionAll( $this->filterKardex($salida_provedores, $data, 1))
+                 ->unionAll( $this->filterKardex($salida_depositos, $data, 1))
+                 ->unionAll( $this->filterKardex($salida_internos, $data, 1))
+                 ->unionAll( $this->filterKardex($entradas_servicios, $data, 2))
+                 ->unionAll( $this->filterKardex($entradas_provedores, $data, 2))
+                 ->unionAll( $this->filterKardex($entradas_depositos, $data, 2))
+                 ->unionAll( $this->filterKardex($entradas_internos, $data, 2));
+
+      //$uniones = $this->filterKardex($uniones, $data);
 
       //Realiza todas las consultas y establece el orden en los resultados.
       $movimientos =  $uniones
@@ -681,18 +685,71 @@ class inventarioController extends Controller
 
     /*Funcion que genera codigos para las carga de
      * inventario segun un deposito que se pase y un
-     * prefijo
+     * prefijo.
      */
     private function generateCode($prefix,$deposito){
 
-        //Obtiene Codigo del deposito
+        //Obtiene Codigo del deposito.
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
 
         return strtoupper( $depCode .'-'.$prefix.str_random(6) );
     }
 
-    private function filterKardex($salidas, $entradas, $devoluciones,$filters){
+    private function filterKardex($movimientos,$filters, $type){
 
+      //Filtro para buscar movimiento por naturaleza.
+      if(isset($filters['type'])){
+        if($filters['type'] == 'entrada'){
+          $movimientos->where('documentos.naturaleza', 'entrada');
+        }
+        elseif($filters['type'] == 'salida'){
+          $movimientos->where('documentos.naturaleza', 'salida');
+        }
+      }
+
+      //Filtro para buscar movimientos por usuario.
+      if(isset($filters['user'])){
+        $movimientos->where('usuario', $filters['user']);
+      }
+
+      //Filtro para buscar movimientos por rango de hora.
+      if(isset($filters['hourrange'])){
+        if($type == 1){
+          $movimientos->whereBetween(DB::raw('DATE_FORMAT(salidas.created_at, "%H-%i")'),
+                      [$filters['horaI'],$filters['horaF']]);
+        }
+        elseif($type == 2){
+          $movimientos->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
+                      [$filters['horaI'],$filters['horaF']]);
+        }
+      }
+
+      //Filtro para buscar movimientos por rango de cantidad.
+      if(isset($filters['moveRange'])){
+        if($type == 1){
+          $movimientos->whereBetween('insumos_salidas.despachado',
+            [$filters['cantidadI'],$filters['cantidadF']]);
+        }
+        elseif($type == 2){
+          $movimientos->whereBetween('insumos_entradas.cantidad',
+            [$filters['cantidadI'],$filters['cantidadF']]);
+        }
+      }
+
+      //Filtro para buscar movimientos por rango de existencia.
+      if(isset($filters['existRange'])){
+        $movimientos->whereBetween('existencia',
+          [$filters['existenciaI'],$filters['existenciaF']]);
+      }
+
+      //Filtro para buscar movimientos por rango comcepto.
+      if(isset($filters['concep'])){
+        $movimientos->where('documentos.id', $filters['concep']);
+      }
+
+      return $movimientos;
+
+      /*
         //Filtro para filtrar movimientos por usuario
         if(!empty($filters['user'])){
           $salidas->where('salidas.usuario', $filters['user']);
@@ -774,7 +831,7 @@ class inventarioController extends Controller
         else{
           return $salidas->unionAll($entradas)
                          ->unionAll($devoluciones);
-        }
+        }*/
     }
 
     private function insumosMove($date, $deposito){

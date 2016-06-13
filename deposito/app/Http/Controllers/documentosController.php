@@ -149,7 +149,8 @@ class documentosController extends Controller
            ->get(['id','nombre', 'abreviatura','tipo']);
    }
    else{
-     abort('404');
+     return Documento::orderBy('id', 'desc')
+           ->get(['id','nombre', 'abreviatura','tipo']);
    }
  }
 

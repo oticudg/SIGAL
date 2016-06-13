@@ -129,14 +129,14 @@ angular.module('deposito').controller('detallesNotaCtrl', function ($scope, $mod
 });
 
 
-angular.module('deposito').controller('searchKardexCtrl', function ($scope, $modalInstance, $http, obtenerKardex) {
+angular.module('deposito').controller('searchKardexCtrl', function ($scope, $modalInstance, $http, obtenerKardex){
 
 	$scope.data = {};
-	$scope.type  = "all";
-	$scope.comcp = "all";
+	$scope.data.type  = "all";
   $scope.insumoSelect = {};
 	$scope.userSelect   = {};
-	$scope.proveSelect  = {};
+	$scope.documentoSelect = {};
+	$scope.documentos = [];
 
 	$http.get('/getUsuariosDeposito')
 		.success(function(response){
@@ -155,6 +155,9 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 			$scope.usuarios = userSet;
 		});
 
+	$http.get('/documentos/all')
+      .success( function(response){ $scope.documentos = response;});
+
 	$scope.refreshInsumos = function(insumo) {
 		$scope.searchAjax = true;
 			var params = {insumo: insumo};
@@ -167,12 +170,11 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		};
 
 	$scope.buscar = function(){
-		parseType();
 		parseAmount();
 		parseUser();
-		parseProve();
 		parseDate();
 		parseTime();
+		parseDocumento();
 
 		obtenerKardex($scope.data);
 		$modalInstance.dismiss('cancel');
@@ -200,6 +202,10 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		$scope.amounp = $scope.amounp ? false:true;
 	}
 
+	$scope.amounESearch = function(){
+		$scope.amounEp = $scope.amounEp ? false:true;
+	}
+
 	$scope.openI = function($event) {
 			$event.preventDefault();
 			$event.stopPropagation();
@@ -216,62 +222,40 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 
 	$scope.moviType = function(type){
 
-		if(type == 'entrada'){
-			$scope.comcpp = true;
-			$scope.provedorp = false;
+		$scope.documentos = [];
+		$scope.documentoSelect = {};
+
+		switch(type){
+
+			case "entrada":
+				$http.get('/documentos/all/entradas')
+						.success( function(response){ $scope.documentos = response;});
+			break;
+
+			case "salida":
+				$http.get('/documentos/all/salidas')
+						.success( function(response){ $scope.documentos = response;});
+			break;
+
+			case "all":
+				$http.get('/documentos/all')
+						.success( function(response){ $scope.documentos = response;});
+			break;
+
 		}
-		else{
-
-			$scope.comcpp = false;
-			$scope.provedorp = true;
-			$scope.proveSelect  = {};
-			$http.get('/getDepartamentos')
-		      .success( function(response){ $scope.provedores = response;});
-		}
-	}
-
-	$scope.comcpType = function(type){
-		if(type != 'all'){
-			if(type == 'devolucion'){
-				$scope.proveSelect  = {};
-				$scope.provedorp = true;
-				$http.get('/getDepartamentos')
-			      .success( function(response){ $scope.provedores = response;});
-			}
-			else{
-				$scope.proveSelect  = {};
-				$scope.provedorp = true;
-				$http.get('/getProvedores')
-					.success( function(response){ $scope.provedores = response;});
-			}
-		}
-		else{
-			$scope.provedorp = false;
-		}
-	}
-
-	var parseType = function(){
-		if($scope.type != "all")
-			$scope.data.type = $scope.type;
-
-		if($scope.type == "entrada" && $scope.comcp != 'all')
-			$scope.data.comcp = $scope.comcp;
-
 	}
 
 	var parseAmount = function(){
 		if($scope.data.cantidadI && $scope.data.cantidadF)
-				$scope.data.amountrange = true;
+				$scope.data.moveRange = true;
+
+		if($scope.data.existenciaF != null && $scope.data.existenciaF != null)
+				$scope.data.existRange = true;
 	}
 
 	var parseUser = function(){
 		if($scope.userSelect.hasOwnProperty('selected'))
 			$scope.data.user = $scope.userSelect.selected.id;
-	}
-
-	var parseProve = function(){
-		if($scope.proveSelect.hasOwnProperty('selected'))
-			$scope.data.provedor = $scope.proveSelect.selected.id;
 	}
 
 	var parseDate = function(){
@@ -288,6 +272,11 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 				$scope.data.horaF = timeFormat($scope.timeF);
 				$scope.data.hourrange = true;
 		}
+	}
+
+	var parseDocumento = function(){
+		if($scope.documentoSelect.hasOwnProperty('selected'))
+			$scope.data.concep = $scope.documentoSelect.selected.id;
 	}
 
 	function dateForamat(date){
