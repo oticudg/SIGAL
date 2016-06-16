@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -122,22 +123,43 @@ class depositosController extends Controller
         return Deposito::orderBy('id', 'desc')->get(['id','codigo', 'nombre']);
     }
 
-    public function allTerceros($tipo){
-      if($tipo == 'proveedor'){
-        return Provedore::get(['id', 'nombre']);
-      }
-      elseif($tipo == 'servicio'){
-        return Departamento::get(['id', 'nombre']);
-      }
-      elseif($tipo == 'deposito'){
+    public function allTerceros($tipo = null){
+      switch($tipo){
 
-        $deposito = Auth::user()->deposito;
+        case 'proveedor':
+          return Provedore::get(['id', 'nombre', DB::raw('("proveedor") as type')]);
+        break;
 
-        return Deposito::where('id', '!=',$deposito)
-               ->get(['id', 'nombre']);
-      }
-      else{
-        abort('404');
+        case 'servicio':
+          return Departamento::get(['id', 'nombre', DB::raw('("servicio") as type')]);
+        break;
+
+        case 'deposito':
+          $deposito = Auth::user()->deposito;
+
+          return Deposito::where('id', '!=',$deposito)
+                 ->get(['id', 'nombre', DB::raw('("deposito") as type')]);
+
+        default:
+
+          $provedores = DB::table('provedores')
+                        ->where('deleted_at', null)
+                        ->select('id', 'nombre', DB::raw('("proveedor") as type'));
+
+          $servicios  = DB::table('departamentos')
+                        ->where('deleted_at', null)
+                        ->select('id', 'nombre', DB::raw('("servicio") as type'));
+
+          $depositos  = DB::table('depositos')
+                        ->where('deleted_at', null)
+                        ->select('id', 'nombre', DB::raw('("deposito") as type'));
+
+          return $provedores
+                 ->unionAll($servicios)
+                 ->unionAll($depositos)
+                 ->orderBy('id', 'desc')
+                 ->get();
+        break;
       }
     }
 }
