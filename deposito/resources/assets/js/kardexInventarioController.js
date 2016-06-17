@@ -136,7 +136,10 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
   $scope.insumoSelect = {};
 	$scope.userSelect   = {};
 	$scope.documentoSelect = {};
+	$scope.terceroSelect = {};
+	$scope.terceros = [];
 	$scope.documentos = [];
+	$scope.panelTerceros = true;
 
 	$http.get('/getUsuariosDeposito')
 		.success(function(response){
@@ -155,8 +158,12 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 			$scope.usuarios = userSet;
 		});
 
-	$http.get('/documentos/all')
-      .success( function(response){ $scope.documentos = response;});
+	var getTerceros = function(){
+		$http.get('/depositos/terceros')
+			.success(function(response){
+				$scope.terceros = response;
+			});
+	}
 
 	$scope.refreshInsumos = function(insumo) {
 		$scope.searchAjax = true;
@@ -174,6 +181,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		parseUser();
 		parseDate();
 		parseTime();
+		parseTercero();
 		parseDocumento();
 
 		obtenerKardex($scope.data);
@@ -224,6 +232,9 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 
 		$scope.documentos = [];
 		$scope.documentoSelect = {};
+		$scope.terceroSelect   = {};
+		$scope.panelTerceros = true;
+		getTerceros();
 
 		switch(type){
 
@@ -279,6 +290,32 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 			$scope.data.concep = $scope.documentoSelect.selected.id;
 	}
 
+	var parseTercero = function(){
+		if($scope.terceroSelect.hasOwnProperty('selected')){
+		 	$scope.data.tercero =  $scope.terceroSelect.selected.id;
+			$scope.data.tType   =  $scope.terceroSelect.selected.type;
+			$scope.data.terceroSearch = true;
+		}
+	}
+
+	$scope.searchTerceros = function(){
+		if($scope.documentoSelect.hasOwnProperty('selected')){
+			$scope.terceros = [];
+			$scope.terceroSelect = {};
+
+			if($scope.documentoSelect.selected.tipo != "interno"){
+				$http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+					.success(function(response){
+						$scope.terceros = response;
+						$scope.panelTerceros = true;
+					});
+			}
+			else{
+				$scope.panelTerceros = false;
+			}
+		}
+	}
+
 	function dateForamat(date){
 
 		if(date != null){
@@ -306,5 +343,11 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 
 		return  hour + '-' + minute;
 	}
+
+
+	$http.get('/documentos/all')
+	    .success( function(response){ $scope.documentos = response;});
+
+	getTerceros();
 
 });

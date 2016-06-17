@@ -547,9 +547,6 @@ class inventarioController extends Controller
                           ->where('documentos.naturaleza', 'entrada')
                           ->addSelect('depositos.nombre as pod', 'insumos_entradas.existencia');
 
-      //Aplica filtros a las consultas de movimientos.
-      //$query = $this->filterKardex($salidas, $entradas, $devoluciones, $data);
-
       //Une todas las consultas de entradas y salidas.
       $uniones = $this->filterKardex($salida_servicios, $data,1)
                  ->unionAll( $this->filterKardex($salida_provedores, $data, 1))
@@ -747,91 +744,22 @@ class inventarioController extends Controller
         $movimientos->where('documentos.id', $filters['concep']);
       }
 
+      //Filtro para buscar movimientos por tercero.
+      if(isset($filters['terceroSearch'])){
+        if($type == 1){
+          $movimientos
+            ->where('documentos.tipo', $filters['tType'])
+            ->where('salidas.tercero', $filters['tercero']);
+        }
+        elseif($type == 2){
+          $movimientos
+            ->where('documentos.tipo',  $filters['tType'])
+            ->where('entradas.tercero', $filters['tercero']);
+        }
+      }
+
       return $movimientos;
 
-      /*
-        //Filtro para filtrar movimientos por usuario
-        if(!empty($filters['user'])){
-          $salidas->where('salidas.usuario', $filters['user']);
-          $entradas->where('entradas.usuario', $filters['user']);
-          $devoluciones->where('entradas.usuario', $filters['user']);
-        }
-
-        //Filtro para filtrar movimientos por rango de fecha
-        if(!empty($filters['hourrange']) && !empty($filters['horaI']) && !empty($filters['horaF']) ){
-
-          $salidas->whereBetween(DB::raw('DATE_FORMAT(salidas.created_at, "%H-%i")'),
-            [$filters['horaI'],$filters['horaF']]);
-
-          $entradas->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
-            [$filters['horaI'],$filters['horaF']]);
-
-          $devoluciones->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
-            [$filters['horaI'],$filters['horaF']]);
-        }
-
-        //Filtro para filtrar movimientos por rango de cantidad movido
-        if(!empty($filters['amountrange']) && !empty($filters['cantidadI']) && !empty($filters['cantidadF']) ){
-
-          $salidas->whereBetween('insumos_salidas.despachado',
-            [$filters['cantidadI'],$filters['cantidadF']]);
-
-          $entradas->whereBetween('insumos_entradas.cantidad',
-            [$filters['cantidadI'],$filters['cantidadF']]);
-
-          $devoluciones->whereBetween('insumos_entradas.cantidad',
-            [$filters['cantidadI'],$filters['cantidadF']]);
-        }
-
-        //Filtro para filtrar movimientos por entrada o salidas
-        if(!empty($filters['type'])){
-
-          if(empty($filters['comcp']) && $filters['type'] == 'entrada'){
-            $query = $entradas
-                     ->unionAll($devoluciones);
-          }
-          //SubFiltro para filtrar movimientos de entrada segun tipos de entrada
-          else if(!empty($filters['comcp']) && $filters['type'] == 'entrada'){
-
-            switch ($filters['comcp']){
-              case 'orden':
-                $query = $entradas
-                         ->where('entradas.type', 'orden');
-                break;
-
-              case 'donacion':
-                 $query = $entradas
-                          ->where('entradas.type', 'donacion');
-                break;
-
-              case 'devolucion':
-                $query = $devoluciones;
-                break;
-            }
-
-             //SubFiltro para filtrar movimientos de entrada segun un proveedor
-             if(!empty($filters['provedor'])){
-               $query->where('entradas.provedor', $filters['provedor']);
-             }
-          }
-          else{
-            $query = $salidas;
-
-            //SubFiltro para filtrar movimientos de salida segun un proveedor
-            if(!empty($filters['provedor'])){
-              $query->where('salidas.departamento', $filters['provedor']);
-            }
-          }
-
-        }
-
-        if(isset($query)){
-          return $query;
-        }
-        else{
-          return $salidas->unionAll($entradas)
-                         ->unionAll($devoluciones);
-        }*/
     }
 
     private function insumosMove($date, $deposito){

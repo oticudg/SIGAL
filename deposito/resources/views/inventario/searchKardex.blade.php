@@ -48,13 +48,25 @@
           			<ui-select ng-model="documentoSelect.selected"
                          ng-disabled="disabled"
                          reset-search-input="true" on-select="searchTerceros()">
-                <ui-select-match placeholder="Seleccione un concepto de salida">
+                <ui-select-match placeholder="Seleccione un concepto">
                 {#$select.selected.nombre#}</ui-select-match>
                 <ui-select-choices repeat="documento in documentos | filter:$select.search track by documento.id">
                   <div ng-bind-html="documento.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
                 </ui-select>
           		</div>
+          		<div class="form-group col-md-4" ng-show="panelTerceros">
+                  <label class="text-muted">Tercero</label>
+                  <ui-select ng-model="terceroSelect.selected"
+                           ng-disabled="disabled"
+                           reset-search-input="true">
+                  <ui-select-match placeholder="Seleccione un tercero">
+                  {#$select.selected.nombre#}</ui-select-match>
+                  <ui-select-choices repeat="tercero in terceros | filter:$select.search">
+                    <div ng-bind-html="tercero.nombre | highlight: $select.search"></div>
+                  </ui-select-choices>
+                  </ui-select>
+              </div>
             </div>
           </div>
       </div>
