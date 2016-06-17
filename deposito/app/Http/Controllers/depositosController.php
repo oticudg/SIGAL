@@ -142,6 +142,8 @@ class depositosController extends Controller
 
         default:
 
+          $deposito = Auth::user()->deposito;
+
           $provedores = DB::table('provedores')
                         ->where('deleted_at', null)
                         ->select('id', 'nombre', DB::raw('("proveedor") as type'));
@@ -151,12 +153,18 @@ class depositosController extends Controller
                         ->select('id', 'nombre', DB::raw('("servicio") as type'));
 
           $depositos  = DB::table('depositos')
+                        ->where('id', '!=',$deposito)
                         ->where('deleted_at', null)
                         ->select('id', 'nombre', DB::raw('("deposito") as type'));
+
+          $interno    = DB::table('depositos')
+                          ->where('id', $deposito)
+                          ->select('id', 'nombre', DB::raw('("interno") as type'));
 
           return $provedores
                  ->unionAll($servicios)
                  ->unionAll($depositos)
+                 ->unionAll($interno)
                  ->orderBy('id', 'desc')
                  ->get();
         break;
