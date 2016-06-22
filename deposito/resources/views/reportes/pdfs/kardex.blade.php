@@ -40,6 +40,7 @@
 			<tr>
 				<th>FECHA</th>
 				<th>PROCEDENCIA O DESTINO</th>
+				<th>CONCEPTO</th>
 				<th>TIPO</th>
 				<th>MOV.</th>
 				<th>EXIST.</th>
@@ -48,11 +49,12 @@
 		<tbody>
 			@foreach ($movimientos as $movimiento)
 				<tr>
-					<td class="decp" width="10">{{$movimiento->fecha}}</td>
+					<td>{{$movimiento->fecha}}</td>
 					<td class="decp">{{strtoupper($movimiento->pod)}}</td>
-					<td class="decp" width="10">{{strtoupper($movimiento->type)}}</td>
-					<td width="50">{{$movimiento->movido}}</td>
-					<td width="50">{{$movimiento->existencia}}</td>
+					<td class="decp">{{strtoupper($movimiento->concepto)}}</td>
+					<td>{{strtoupper($movimiento->type)}}</td>
+					<td>{{$movimiento->movido}}</td>
+					<td>{{$movimiento->existencia}}</td>
 				</tr>
 			@endforeach
 		</tbody>

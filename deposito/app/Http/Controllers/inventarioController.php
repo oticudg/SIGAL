@@ -557,8 +557,6 @@ class inventarioController extends Controller
                  ->unionAll( $this->filterKardex($entradas_depositos, $data, 2))
                  ->unionAll( $this->filterKardex($entradas_internos, $data, 2));
 
-      //$uniones = $this->filterKardex($uniones, $data);
-
       //Realiza todas las consultas y establece el orden en los resultados.
       $movimientos =  $uniones
                       ->orderBy('fulldate', 'desc')
