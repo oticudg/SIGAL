@@ -69,22 +69,26 @@ class reportesController extends Controller
           abort('404');
         }
 
-        //Si se pasa una fecha se transforma al formato a utilizar.
+        /**
+          *Si se pasa una fecha se transforma al formato a utilizar,
+          *de lo contrario se toma la fecha del mes actual.
+          */
         if(isset($data['date']) && !empty($data['date'])){
           $dateConvert = str_replace('/', '-', $data['date']);
           $date = Date('Y-m-d', strtotime($dateConvert));
         }
-        //Si no se pasa una fecha se toma la fecha del mes actual
         else{
           $date = date('Y-m-d');
         }
 
-
         //Año inicial del rango de fecha a consultar
         $init_year_search = date('Y-01-01',strtotime($date));
 
-        //Obtien la ultima carga de inventario
-        $last_cinve = DB::table('entradas')
+        /**
+          *Define la fecha inicial en el rango de fecha a consultar
+          *como la fecha de la ultima carga de inventario.
+          */
+        $first_date = DB::table('entradas')
                       ->where('deposito', $deposito)
                       ->where('type','cinventario')
                       ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
@@ -93,49 +97,82 @@ class reportesController extends Controller
                       ->value(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
 
         /**
-          *Obtiene los ids de todos los insumos que han entrado en el inventario
+          *Si no se encontro carga de inventario, la fecha incial en el rango de
+          *fecha a consultar se define como el año inicial del rango
+          *de fecha a consultar.
+          */
+        if(!$first_date)
+          $first_date = $init_year_search;
+
+        /**
+          *Obtiene los ids de todos los insumos que han entrada en el inventario
           *desde el año inicial de la fecha a consultar, hasta la fecha a consultar.
           */
         $insumoIds = Insumos_entrada::distinct('insumo')
-                    ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
-                    ,[$last_cinve, $date])->where('deposito', $deposito)
-                    ->lists('insumo');
+               ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+               ,[$first_date, $date])->where('deposito', $deposito)
+               ->lists('insumo');
+
 
         //Obtiene los datos de los insumos cuyos ids se han encontrado.
-        $insumos = DB::table('insumos')
+        $query = DB::table('insumos')
                        ->leftjoin('inventarios', function($join) use ($deposito){
                          $join->on('insumos.id','=','inventarios.insumo')
                          ->where('inventarios.deposito','=',$deposito);
                        })
                        ->whereIn('insumos.id', $insumoIds)
-                       ->select('insumos.id as id','insumos.codigo','insumos.descripcion',
-                          DB::raw('IFNULL(inventarios.cmin, 0) as min'),
-                          DB::raw('IFNULL(inventarios.cmed, 0) as med'))
-                       ->orderBy('insumos.codigo', 'desc')
-                       ->get();
+                       ->select('insumos.id as id','insumos.codigo','insumos.descripcion')
+                       ->orderBy('insumos.codigo', 'desc');
 
-        //Calcula la existencia de cada insumo que se ha encontrado.
-        foreach($insumos as $key => $insumo){
+        /**
+          *Si el inventario consultado es el de la fecha actual, obtiene la existencia en
+          *base a la tabla inventarios. de lo contrario obtiene la existencia en base al
+          *ultimo movimiento del insumo en el periodo de fecha consultado.
+          */
+        if( date('Y-m-d') == $date ){
 
-          //Obtiene la suma de todas las entradas del insumo que se consulta.
-          $entradas = Insumos_entrada::where('insumo', $insumo->id)
-                 ->where('deposito', $deposito)
-                 ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'),
-                 [$last_cinve, $date])
-                 ->sum('cantidad');
+          $insumos = $query
+                     ->addSelect(DB::raw('IFNULL(inventarios.existencia, 0) as existencia'))
+                     ->get();
+        }
+        else{
 
-          //Obtine la suma de todas las salidas del insumo que se consulta.
-          $salidas = Insumos_salida::where('insumo', $insumo->id)
-                     ->where('deposito', $deposito)
-                     ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
-                     ,[$last_cinve, $date])
-                     ->sum('despachado');
+          //Obtiene todos los insumos sin existencia.
+          $insumos = $query->get();
 
-          //Calcula la existencia
-          $existencia = $entradas - $salidas;
-          //Asigna existencia
-          $insumo->existencia = $existencia;
+          //Calcula la existencia de cada insumo que se ha encontrado.
+          foreach($insumos as $insumo){
 
+            //Obtien la ultima entrada del insumo a calcular existencia
+            $entradas = DB::table('insumos_entradas')->where('insumo', $insumo->id)
+                   ->where('deposito', $deposito)
+                   ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'),
+                   [$first_date, $date])
+                   ->select('existencia', 'created_at')
+                   ->orderBy('created_at', 'desc')
+                   ->take(1);
+
+            //Obtiene la ultima salida del insumo a calcular existencia
+            $salidas = DB::table('insumos_salidas')->where('insumo', $insumo->id)
+                        ->where('deposito', $deposito)
+                        ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                        ,[$first_date, $date])
+                        ->select('existencia', 'created_at')
+                        ->orderBy('created_at','desc')
+                        ->take(1);
+
+            /**
+              *Une los resultados de la ultima entrada y la ultima salida del insumo a calcular
+              *y obtiene el ultimo movimiento.
+              */
+            $existencia = $entradas->unionAll($salidas)
+                          ->orderBy('created_at', 'desc')
+                          ->first();
+
+            //Asigna la existencia del insumo en base al ultimo movimiento.
+            $insumo->existencia = $existencia->existencia;
+
+          }
         }
 
         //Filtro para filtrar registor en base a la existencia.
@@ -164,6 +201,7 @@ class reportesController extends Controller
         $pdf  =  \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         return $pdf->stream('Inventario total');
+
     }
 
     public function getInventario(Request $request){
