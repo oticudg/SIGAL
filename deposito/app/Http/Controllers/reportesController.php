@@ -51,16 +51,15 @@ class reportesController extends Controller
         }
     }
 
-    public function allInventario(Request $request){
+    public function allInventario(Request $request, $report){
 
         $data = $request->all();
         $deposito   = Auth::user()->deposito;
         $usuario    = Auth::user()->email;
         $depositoN  = Deposito::where('id', $deposito)->value('nombre');
+
         $fecha      = date("d/m/Y");
         $hora       = date("H:i:s");
-        $title      = "INVENTARIO TOTAL";
-
         $validator = Validator::make($data,[
             'date'   => 'date_format:d/m/Y|date_limit_current',
         ]);
@@ -68,6 +67,11 @@ class reportesController extends Controller
         if($validator->fails()){
           abort('404');
         }
+
+        if($report != 'total' && $report != 'parcial'){
+          abort('404');
+        }
+
 
         /**
           *Si se pasa una fecha se transforma al formato a utilizar,
@@ -104,15 +108,17 @@ class reportesController extends Controller
         if(!$first_date)
           $first_date = $init_year_search;
 
-        /**
-          *Obtiene los ids de todos los insumos que han entrada en el inventario
-          *desde el año inicial de la fecha a consultar, hasta la fecha a consultar.
-          */
-        $insumoIds = Insumos_entrada::distinct('insumo')
-               ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
-               ,[$first_date, $date])->where('deposito', $deposito)
-               ->lists('insumo');
+        if($report == 'total'){
 
+          /**
+            *Obtiene los ids de todos los insumos que han entrada en el inventario
+            *desde el año inicial de la fecha a consultar, hasta la fecha a consultar.
+            */
+          $insumoIds = Insumos_entrada::distinct('insumo')
+                 ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                 ,[$first_date, $date])->where('deposito', $deposito)
+                 ->lists('insumo');
+       }
 
         //Obtiene los datos de los insumos cuyos ids se han encontrado.
         $query = DB::table('insumos')
@@ -120,9 +126,18 @@ class reportesController extends Controller
                          $join->on('insumos.id','=','inventarios.insumo')
                          ->where('inventarios.deposito','=',$deposito);
                        })
-                       ->whereIn('insumos.id', $insumoIds)
-                       ->select('insumos.id as id','insumos.codigo','insumos.descripcion')
-                       ->orderBy('insumos.codigo', 'desc');
+                       ->select('insumos.id as id','insumos.codigo','insumos.descripcion');
+
+        if($report == 'parcial'){
+          $query->whereIn('insumos.id', $data['insumos']);
+          $title = "INVENTARIO PARCIAL";
+        }
+        else{
+          $query->whereIn('insumos.id', $insumoIds);
+          $title = "INVENTARIO TOTAL";
+        }
+
+        $query->orderBy('insumos.codigo', 'desc');
 
         /**
           *Si el inventario consultado es el de la fecha actual, obtiene la existencia en
@@ -200,90 +215,8 @@ class reportesController extends Controller
 
         $pdf  =  \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        return $pdf->stream('Inventario total');
+        return $pdf->stream($title);
 
-    }
-
-    public function getInventario(Request $request){
-
-        $data       = $request->all();
-        $deposito   = Auth::user()->deposito;
-        $usuario    = Auth::user()->email;
-        $depositoN  = Deposito::where('id', $deposito)->value('nombre');
-        $fecha      = date("d/m/Y");
-        $hora       = date("H:i:s");
-
-        $validator = Validator::make($data,[
-            'date'    => 'required|date_format:d/m/Y|date_limit_current',
-            'insumos' => 'required|insumos_ids_array'
-        ]);
-
-        if($validator->fails()){
-          abort('404');
-        }
-
-        //Transforma al fecha al formato a utilizar.
-        $dateConvert = str_replace('/', '-', $data['date']);
-        $date = Date('Y-m-d', strtotime($dateConvert));
-
-
-        //Año inicial del rango de fecha a consultar
-        $init_year_search = date('Y-01-01',strtotime($date));
-
-        //Obtien la ultima carga de inventario
-        $last_cinve = DB::table('entradas')
-                      ->where('deposito', $deposito)
-                      ->where('type','cinventario')
-                      ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
-                      ,[$init_year_search, $date])
-                      ->orderBy('id', 'desc')
-                      ->value(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
-
-        //Obtiene los datos de los insumos cuyos ids se han encontrado.
-        $insumos = DB::table('insumos')
-                       ->leftjoin('inventarios', function($join) use ($deposito){
-                         $join->on('insumos.id','=','inventarios.insumo')
-                         ->where('inventarios.deposito','=',$deposito);
-                       })
-                       ->whereIn('insumos.id', $data['insumos'])
-                       ->select('insumos.id as id','insumos.codigo','insumos.descripcion',
-                          DB::raw('IFNULL(inventarios.cmin, 0) as min'),
-                          DB::raw('IFNULL(inventarios.cmed, 0) as med'))
-                       ->orderBy('insumos.codigo', 'desc')
-                       ->get();
-
-        //Calcula la existencia de cada insumo que se ha encontrado.
-        foreach($insumos as $key => $insumo){
-
-          //Obtiene la suma de todas las entradas del insumo que se consulta.
-          $entradas = Insumos_entrada::where('insumo', $insumo->id)
-                 ->where('deposito', $deposito)
-                 ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'),
-                 [$last_cinve, $date])
-                 ->sum('cantidad');
-
-          //Obtine la suma de todas las salidas del insumo que se consulta.
-          $salidas = Insumos_salida::where('insumo', $insumo->id)
-                     ->where('deposito', $deposito)
-                     ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
-                     ,[$last_cinve, $date])
-                     ->sum('despachado');
-
-          //Calcula la existencia
-          $existencia = $entradas - $salidas;
-          //Asigna existencia
-          $insumo->existencia = $existencia;
-
-        }
-
-        $view =  \View::make('reportes.pdfs.parcialInventario',
-                     compact('insumos', 'usuario', 'depositoN', 'fecha', 'hora'),
-                     ['date' => $data['date']]
-                     )->render();
-
-        $pdf  =  \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream('Inventario total');
     }
 
     public function getEntrada($id){
