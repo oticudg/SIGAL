@@ -110,7 +110,7 @@ controller('inventarioController',function($scope,$http,$modal){
 
 		if($scope.thereIsSelect()){
 
-			$http.post('/reportes/getInventario',data, {responseType:'arraybuffer'})
+			$http.post('/reportes/inventario/parcial',data, {responseType:'arraybuffer'})
 	  			.success(function (response) {
 
 	       			var file = new Blob([response], {type: 'application/pdf'});

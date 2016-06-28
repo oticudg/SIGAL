@@ -444,8 +444,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	Route::group(['prefix' => 'reportes', 'middleware' => 'permission:inventarioH', 'as' => 'repor'], function(){
 		Route::get('inventarioCarga/{id}', ['as' => 'CargaInv', 'uses' => 'reportesController@cargaInventario']);
-		Route::get('inventario',    ['as' => 'Inv', 'uses' => 'reportesController@allInventario']);
-		Route::post('getInventario', ['as' => 'InvPar', 'uses' => 'reportesController@getInventario']);
+		Route::match(['post', 'get'],'inventario/{report}',    ['as' => 'Inv', 'uses' => 'reportesController@allInventario']);
 		Route::get('entrada/{id}',    ['as' => 'Ent', 'uses' => 'reportesController@getEntrada']);
 		Route::get('salida/{id}',  ['as' => 'Sal', 'uses' => 'reportesController@getSalida']);
 		Route::get('kardex',  ['as' => 'kardex', 'uses' => 'reportesController@getKardex']);
