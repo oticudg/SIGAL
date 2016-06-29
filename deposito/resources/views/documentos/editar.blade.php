@@ -32,7 +32,7 @@
     <div class="col-md-2">
       <div class="form-group">
         <label  class="text-muted" for="tipo">Tipo</label>
-        <select class="form-control" id="tipo" ng-model="registro.tipo">
+        <select class="form-control" id="tipo" ng-model="registro.tipo" disabled>
           <option value="proveedor">Proveedor</option>
           <option value="servicio">Servicio</option>
           <option value="deposito">Deposito</option>

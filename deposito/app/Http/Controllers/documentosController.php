@@ -87,10 +87,6 @@ class documentosController extends Controller
           $modificacion['nombre'] = $data['nombre'];
         }
 
-        if(isset($data['tipo']) && !empty($data['tipo'])){
-          $modificacion['tipo'] = $data['tipo'];
-        }
-
         if(isset($data['uso']) && !empty($data['uso'])){
           $modificacion['uso'] = $data['uso'];
         }
