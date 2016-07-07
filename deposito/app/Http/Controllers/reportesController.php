@@ -375,7 +375,7 @@ class reportesController extends Controller
       $data = $request->all();
 
       $validator = Validator::make($data,[
-          'insumo'  => 'required|insumo',
+          'insumo'  => 'required|integer|insumo_with_daleted',
           'dateI'   => 'required|date_format:d/m/Y',
           'dateF'   => 'required|date_format:d/m/Y'
       ]);
@@ -532,7 +532,7 @@ class reportesController extends Controller
                       ->get();
 
        //Obtiene la informacion del insumo
-       $insumoData = Insumo::where('id', $data['insumo'])->first(['codigo', 'descripcion']);
+       $insumoData = DB::table('insumos')->where('id', $data['insumo'])->first(['codigo', 'descripcion']);
        //Obtiene nombre del deposito
        $deposito   =  Deposito::where('id', $deposito)->value('nombre');
        //Obtiene usuario

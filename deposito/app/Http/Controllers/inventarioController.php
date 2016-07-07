@@ -53,7 +53,7 @@ class inventarioController extends Controller
       $data = $request->all();
 
       $validator = Validator::make($data,[
-          'insumo'  => 'required|integer|insumo',
+          'insumo'  => 'required|integer|insumo_with_daleted',
           'dateI'   => 'date_format:d/m/Y',
           'dateF'   => 'date_format:d/m/Y'
       ], $this->menssage);
@@ -66,7 +66,7 @@ class inventarioController extends Controller
       $dateF = isset($data['dateF']) ? $data['dateF']:null;
 
       //Obtiene la informacion del insumo
-      $insumoData = Insumo::where('id', $data['insumo'])->first(['codigo', 'descripcion']);
+      $insumoData = DB::table('insumos')->where('id', $data['insumo'])->first(['codigo', 'descripcion']);
 
       return view('inventario/kardex',
         ['insumo' => $data['insumo'], 'dateI' => $dateI,
@@ -399,7 +399,7 @@ class inventarioController extends Controller
       $data = $request->all();
 
       $validator = Validator::make($data,[
-          'insumo'  => 'required|insumo',
+          'insumo'  => 'required|integer|insumo_with_daleted',
           'dateI'   => 'date_format:d/m/Y',
           'dateF'   => 'date_format:d/m/Y'
       ], $this->menssage);

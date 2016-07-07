@@ -415,8 +415,8 @@ class entradasController extends Controller
               $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
                   'entrada', $entrada);
 
-              $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-              $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+              $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])   ? $insumo['lote']  : NULL;
+              $fecha = isset($insumo['fecha']) && !empty($insumo['fecha'])  ? $insumo['fecha'] : NULL;
 
               Insumos_entrada::create([
                   'entrada'    => $entrada,
@@ -425,7 +425,7 @@ class entradasController extends Controller
                   'lote'       => $lote,
                   'fechaV'     => $fecha,
                   'deposito'   => $deposito,
-                  'existencia' => $existencia 
+                  'existencia' => $existencia
               ]);
 
           }
