@@ -453,8 +453,8 @@ class entradasController extends Controller
 
                     foreach ($insumos as $insumo){
 
-                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+                        $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])   ? $insumo['lote']  : NULL;
+                        $fecha = isset($insumo['fecha']) && !empty($insumo['fecha'])  ? $insumo['fecha'] : NULL;
 
                         Insumos_entrada::create([
                             'entrada'   => $entrada,
@@ -501,8 +501,8 @@ class entradasController extends Controller
 
                     foreach ($insumos as $insumo) {
 
-                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+                        $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])  ? $insumo['lote']  : NULL;
+                        $fecha = isset($insumo['fecha']) && !empty($insumo['fecha']) ? $insumo['fecha'] : NULL;
 
                         Insumos_entrada::create([
                             'entrada'   => $donacion,
@@ -549,8 +549,9 @@ class entradasController extends Controller
 
                     foreach ($insumos as $insumo) {
 
-                        $lote  = isset($insumo['lote'])  && $insumo['lote'] ? $insumo['lote']  : NULL;
-                        $fecha = isset($insumo['fecha']) && $insumo['lote'] ? $insumo['fecha'] : NULL;
+                        $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])  ? $insumo['lote']  : NULL;
+                        $fecha = isset($insumo['fecha']) && !empty($insumo['fecha']) ? $insumo['fecha'] : NULL;
+
 
                         Insumos_entrada::create([
                             'entrada'     => $devolucion,
