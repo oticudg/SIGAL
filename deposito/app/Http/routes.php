@@ -470,3 +470,14 @@ Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
 });
 
 /*** Fin de modulo de documentos ***/
+
+
+/*** Modulo de roles ***/
+
+Route::group(['prefix' => 'roles', 'as' => 'roles'], function(){
+	Route::get('/', ['as' => 'Index','uses' => 'rolesController@index']);
+	Route::get('registrar',['uses' => 'rolesController@viewRegistrar']);
+	Route::get('all', ['uses' => 'rolesController@allRoles']);
+});
+
+/*** Fin de modulo de roles ***/
