@@ -477,6 +477,7 @@ Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
 Route::group(['prefix' => 'roles', 'as' => 'roles'], function(){
 	Route::get('/', ['as' => 'Index','uses' => 'rolesController@index']);
 	Route::get('registrar',['uses' => 'rolesController@viewRegistrar']);
+	Route::post('registrar',['uses' => 'rolesController@registrar']);
 	Route::get('all', ['uses' => 'rolesController@allRoles']);
 	Route::get('permisos', ['uses' => 'rolesController@allPermissions']);
 });

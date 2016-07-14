@@ -18,10 +18,10 @@ controller('rolesController',function($scope,$http,$modal){
         animation: true,
           templateUrl: '/roles/registrar',
           windowClass: 'large-Modal',
-          controller: 'registrarDocumentoCtrl',
+          controller: 'registrarRolCtrl',
           resolve: {
-            obtenerDocumentos: function (){
-              return $scope.obtenerDocumentos;
+            obtenerRoles: function (){
+              return $scope.obtenerRoles;
             }
           }
       });
@@ -53,8 +53,8 @@ controller('rolesController',function($scope,$http,$modal){
           templateUrl: '/documentos/eliminar',
           controller: 'eliminarDocumentoCtrl',
           resolve: {
-             obtenerDocumentos: function (){
-                return $scope.obtenerDocumentos;
+             obtenerRoles: function (){
+                return $scope.obtenerRoles;
              },
              id:function (){
                 return index;
@@ -67,16 +67,50 @@ controller('rolesController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registrarDocumentoCtrl', function ($scope, $modalInstance, $http, obtenerDocumentos){
+angular.module('deposito').controller('registrarRolCtrl', function ($scope, $modalInstance, $http, obtenerRoles){
 
 	$scope.btnVisivilidad = true;
 	$scope.registro = {};
-  $scope.registro.tipo = "proveedor";
-	$scope.registro.naturaleza = "entrada";
+	$scope.permisos = [];
+	var permisos = [];
 
-  $scope.registrar = function () {
-    $scope.save();
-  };
+	$http.get('/roles/permisos')
+		.success(function(response){
+			$scope.permisos = response;
+		});
+
+
+	$scope.assignPermission = function(permiso){
+
+			var index = permisos.indexOf(permiso);
+
+			if( index != -1){
+				permisos.splice(index, 1);
+			}
+			else{
+				permisos.push(permiso);
+			}
+	}
+
+	$scope.registrar = function(){
+
+		var data ={
+			'nombre':$scope.nombre,
+			'permisos':permisos
+		};
+
+		$http.post('/roles/registrar',data)
+			.success(function(response){
+				$scope.alerts = [];
+	      $scope.alerts.push( {"type":response.status , "msg":response.message});
+
+				if( response.status == "success"){
+						$scope.btnVisivilidad = false;
+			      obtenerRoles();
+				}
+
+			});
+	}
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
@@ -84,17 +118,6 @@ angular.module('deposito').controller('registrarDocumentoCtrl', function ($scope
 
   $scope.closeAlert = function(index){
     $scope.alerts.splice(index,1);
-  };
-
-  $scope.save = function(){
-
-    $http.post('/documentos/registrar', $scope.registro)
-      .success(function(response){
-        $scope.alerts = [];
-        $scope.alerts.push( {"type":response.status , "msg":response.menssage});
-          $scope.btnVisivilidad = ( response.status == "success") ? false : true;
-          obtenerDocumentos();
-    });
   };
 
 });

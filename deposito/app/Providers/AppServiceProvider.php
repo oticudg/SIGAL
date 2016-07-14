@@ -16,6 +16,7 @@ use App\Insumos_salida;
 use Illuminate\Support\ServiceProvider;
 use App\Documento;
 use Auth;
+use App\Permission;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -336,6 +337,21 @@ class AppServiceProvider extends ServiceProvider
                      ->first();
             }
 
+        });
+
+        Validator::extend('permissions', function($attribute, $value)
+        {
+            if( !is_array($value) ){
+              return false;
+            }
+            else{
+              foreach ($value as $permiso){
+                if(!Permission::where('id', $permiso)->first())
+                  return false;
+              }
+            }
+
+            return true;
         });
     }
 
