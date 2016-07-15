@@ -142,7 +142,6 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
     for( index in $scope.insumos){
       if( !$scope.insumos[index].despachado || $scope.insumos[index].despachado < 0 ||
-          !Number.isInteger($scope.insumos[index].despachado) ||
           $scope.insumos[index].solicitado < $scope.insumos[index].despachado)
         return false;
     }
