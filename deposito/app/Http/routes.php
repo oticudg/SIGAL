@@ -480,6 +480,8 @@ Route::group(['prefix' => 'roles', 'as' => 'roles'], function(){
 	Route::post('registrar',['uses' => 'rolesController@registrar']);
 	Route::get('editar', ['uses' => 'rolesController@viewEditar']);
 	Route::post('editar/{id}', ['uses' => 'rolesController@editar']);
+	Route::get('eliminar', ['uses' => 'rolesController@viewEliminar']);
+	Route::post('eliminar/{id}', ['uses' => 'rolesController@eliminar']);
 	Route::get('all', ['uses' => 'rolesController@allRoles']);
 	Route::get('permisos', ['uses' => 'rolesController@allPermissions']);
 	Route::get('getRol/{id}', ['uses' => 'rolesController@getRol']);

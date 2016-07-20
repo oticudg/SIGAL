@@ -66,7 +66,7 @@
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarRol(rol.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
 				@if( Auth::user()->haspermission('departamentoD') )
-					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDocumento(rol.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarRol(rol.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>
 		</tbody>

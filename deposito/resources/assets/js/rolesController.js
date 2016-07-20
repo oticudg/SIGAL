@@ -46,8 +46,7 @@ controller('rolesController',function($scope,$http,$modal){
     });
   };
 
-  $scope.eliminarDocumento = function(index){
-
+  $scope.eliminarRol = function(index){
     var modalInstance = $modal.open({
       		animation: true,
           templateUrl: '/roles/eliminar',
@@ -180,12 +179,12 @@ angular.module('deposito').controller('editarRolCtr', function ($scope, $modalIn
 	}
 });
 
-angular.module('deposito').controller('eliminarRolCtrl', function ($scope, $modalInstance, $http, obtenerDocumentos,id){
+angular.module('deposito').controller('eliminarRolCtrl', function ($scope, $modalInstance, $http, obtenerRoles,id){
 
   $scope.btnVisivilidad = true;
 
   $scope.eliminar = function () {
-    $scope.delet();
+    $scope.delete();
   };
 
   $scope.cancelar = function () {
@@ -193,19 +192,18 @@ angular.module('deposito').controller('eliminarRolCtrl', function ($scope, $moda
   };
 
   $scope.closeAlert = function(index){
-    $scope.alerts.splice(index,1);
+    $scope.alert = {};
   };
 
- $scope.delet = function(){
+ $scope.delete = function(){
 
-  $http.post('/documentos/eliminar/' + id)
+  $http.post('/roles/eliminar/' + id)
     .success(function(response){
-
-      $scope.alerts = [];
-      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
+      $scope.alert = {};
+      $scope.alert = {"type":response.status , "msg":response.message};
 
       $scope.btnVisivilidad = ( response.status == "success") ? false : true;
-      obtenerDocumentos();
+      obtenerRoles();
   });
  };
 

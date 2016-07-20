@@ -32,6 +32,10 @@ class rolesController extends Controller
       return view('roles.editar');
     }
 
+    public function viewEliminar(){
+      return view('roles.eliminar');
+    }
+
     public function allRoles(){
       return Role::orderBy('id', 'desc')->get();
     }
@@ -135,5 +139,16 @@ class rolesController extends Controller
       }
 
       return Response()->json(['status' => 'success', 'message' => 'El rol ha sido modificado satisfactoriamente.']);
+    }
+
+    public function eliminar($id){
+      if(!Role::where('id', $id)->first()){
+        return Response()->json(['status' => 'danger', 'message' => 'Este rol no existe']);
+      }
+
+      Role::where('id', $id)->delete();
+      Permissions_assigned::where('role', $id)->delete();
+      
+      return Response()->json(['status' => 'success', 'message' => 'Rol eliminado']);
     }
 }
