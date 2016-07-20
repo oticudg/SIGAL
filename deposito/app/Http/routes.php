@@ -478,8 +478,11 @@ Route::group(['prefix' => 'roles', 'as' => 'roles'], function(){
 	Route::get('/', ['as' => 'Index','uses' => 'rolesController@index']);
 	Route::get('registrar',['uses' => 'rolesController@viewRegistrar']);
 	Route::post('registrar',['uses' => 'rolesController@registrar']);
+	Route::get('editar', ['uses' => 'rolesController@viewEditar']);
+	Route::post('editar/{id}', ['uses' => 'rolesController@editar']);
 	Route::get('all', ['uses' => 'rolesController@allRoles']);
 	Route::get('permisos', ['uses' => 'rolesController@allPermissions']);
+	Route::get('getRol/{id}', ['uses' => 'rolesController@getRol']);
 });
 
 /*** Fin de modulo de roles ***/

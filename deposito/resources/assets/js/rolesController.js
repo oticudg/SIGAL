@@ -27,17 +27,17 @@ controller('rolesController',function($scope,$http,$modal){
       });
   }
 
-  $scope.editarDocumento = function(index){
+  $scope.editarRol = function(index){
 
     $modal.open({
 
       animation: true,
-          templateUrl: '/documentos/editar',
-          size:'lg',
-          controller: 'editarDocumentoCtr',
+          templateUrl: '/roles/editar',
+          windowClass: 'large-Modal',
+          controller: 'editarRolCtr',
           resolve: {
-             obtenerDocumentos: function () {
-                return $scope.obtenerDocumentos;
+             obtenerRoles: function () {
+                return $scope.obtenerRoles;
              },
              id:function () {
                 return index;
@@ -50,8 +50,8 @@ controller('rolesController',function($scope,$http,$modal){
 
     var modalInstance = $modal.open({
       		animation: true,
-          templateUrl: '/documentos/eliminar',
-          controller: 'eliminarDocumentoCtrl',
+          templateUrl: '/roles/eliminar',
+          controller: 'eliminarRolCtrl',
           resolve: {
              obtenerRoles: function (){
                 return $scope.obtenerRoles;
@@ -122,65 +122,65 @@ angular.module('deposito').controller('registrarRolCtrl', function ($scope, $mod
 
 });
 
-angular.module('deposito').controller('editarDocumentoCtr', function ($scope, $modalInstance, $http, obtenerDocumentos, id) {
+angular.module('deposito').controller('editarRolCtr', function ($scope, $modalInstance, $http, obtenerRoles, id) {
 
   $scope.btnVisivilidad = true;
+	$scope.data = {}
+	$scope.data.permisos = [];
+	$scope.alert = false;
+	var permisos = [];
 
-  $http.get('/documentos/get/' + id)
+	$http.get('/roles/permisos')
+		.success(function(response){
+			$scope.permisos = response;
+		});
+
+  $http.get('/roles/getRol/' + id)
       .success(function(response){
-      	$scope.registro = response;
-				$scope.registroCopi = {
-					'abreviatura' : response.abreviatura,
-					'nombre'			: response.nombre,
-					'tipo'				: response.tipo,
-					'uso'					: response.uso
-				};
-  		}
+      	$scope.data.permisos = response.permisos;
+				$scope.data.nombre   = response.nombre;
+   		}
 	);
 
-  $scope.modificar = function () {
-    $scope.save();
-  };
+
+	$scope.assignPermission = function(permiso){
+
+			var index = $scope.data.permisos.indexOf(permiso);
+
+			if( index != -1){
+				$scope.data.permisos.splice(index, 1);
+			}
+			else{
+				$scope.data.permisos.push(permiso);
+			}
+	}
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
   };
 
-  $scope.closeAlert = function(index){
-    $scope.alerts.splice(index,1);
+  $scope.closeAlert = function(){
+    $scope.alert = false;
   };
 
-	var setData = function(){
-		var data = {};
-
-		if($scope.registro.abreviatura !=  $scope.registroCopi.abreviatura)
-			data.abreviatura = $scope.registro.abreviatura;
-		if($scope.registro.nombre !=  $scope.registroCopi.nombre)
-			data.nombre = $scope.registro.nombre
-
-		if($scope.registro.tipo != $scope.registroCopi.tipo)
-			data.tipo = $scope.registro.tipo;
-
-		if($scope.registro.uso !=  $scope.registroCopi.uso)
-			data.uso = $scope.registro.uso;
-
-		return data;
+	$scope.isAsignedPermission = function(permiso){
+		return $scope.data.permisos.indexOf(permiso) != -1 ? true:false;
 	}
 
-  $scope.save = function(){
-	  $http.post('documentos/editar/' + id, setData())
-    .success(function(response){
-	      $scope.alerts = [];
-	      $scope.alerts.push( {"type":response.status , "msg":response.menssage});
-	      $scope.btnVisivilidad = ( response.status == "success") ? false : true;
-	      obtenerDocumentos();
-	  	}
+	$scope.registrar = function(){
+		$http.post('/roles/editar/' + id, $scope.data)
+	      .success(function(response){
+						$scope.alert = {'type':response.status, 'msg':response.message};
+						if(response.status == 'success'){
+							$scope.btnVisivilidad = false;
+							obtenerRoles();
+						}
+	   		}
 		);
- 	};
-
+	}
 });
 
-angular.module('deposito').controller('eliminarDocumentoCtrl', function ($scope, $modalInstance, $http, obtenerDocumentos,id){
+angular.module('deposito').controller('eliminarRolCtrl', function ($scope, $modalInstance, $http, obtenerDocumentos,id){
 
   $scope.btnVisivilidad = true;
 

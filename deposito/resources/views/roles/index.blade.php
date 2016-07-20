@@ -63,7 +63,7 @@
 			<tr dir-paginate="rol in roles | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#rol.nombre | capitalize#}</td>
 				@if( Auth::user()->haspermission('departamentoM') )
-					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDocumento(rol.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+					<td class="table-edit"><button class="btn btn-warning" ng-click="editarRol(rol.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
 				@if( Auth::user()->haspermission('departamentoD') )
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDocumento(rol.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
