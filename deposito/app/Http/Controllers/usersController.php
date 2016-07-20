@@ -55,97 +55,28 @@ class usersController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'cedula'         => 'required|cedula',
-            'nombre'         => 'required|alpha|min:3|max:15',
-            'apellido'       => 'required|alpha|min:3|max:20',
-            'email'          => 'required|email|max:50|unique:users',
-            'password'       => 'required|min:8|confirmed',
-            'deposito'       => 'required|deposito',
-            'pUsuario'       => 'required',
-            'pUsuarioR'      => 'required',
-            'pUsuarioM'      => 'required',
-            'pUsuarioE'      => 'required',
-            'pDepartamento'  => 'required',
-            'pDepartamentoR' => 'required',
-            'pDepartamentoM' => 'required',
-            'pDepartamentoE' => 'required',
-            'pInsumo'        => 'required',
-            'pInsumoR'       => 'required',
-            'pInsumoM'       => 'required',
-            'pInsumoE'       => 'required',
-            'pInventario'    => 'required',
-            'pInventarioH'   => 'required',
-            'pModificacion'  => 'required',
-            'pEntradaV'      => 'required',
-            'pEntradaR'      => 'required',
-            'pSalidaV'       => 'required',
-            'pSalidaR'       => 'required',
-            'pEstadistica'   => 'required',
-            'pProvedor'      => 'required',
-            'pProvedorR'     => 'required',
-            'pProvedorM'     => 'required',
-            'pProvedorE'     => 'required',
-            'pDeposito'      => 'required',
-            'pDepositoR'     => 'required',
-            'pDepositoM'     => 'required',
-            'pDepositoE'     => 'required',
-            'pTranference'   => 'required'
+            'cedula'    => 'required|cedula',
+            'nombre'    => 'required|alpha|min:3|max:15',
+            'apellido'  => 'required|alpha|min:3|max:20',
+            'email'     => 'required|email|max:50|unique:users',
+            'password'  => 'required|min:8|confirmed',
+            'deposito'  => 'required|deposito',
+            'rol'       => 'required|rol'
         ], $this->menssage);
 
         if($validator->fails()){
-
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
         }
         else{
 
-            if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
-                && $data['pInventario'] == null && $data['pModificacion'] == null &&
-                $data['pTranference'] == null && $data['pEstadistica'] == null &&
-                $data['pProvedor'] == null && $data['pDeposito'] == null){
-
-                return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
-            }
-
-            $usuario = User::create([
-                        'nombre'   => $data['nombre'],
-                        'apellido' => $data['apellido'],
-                        'cedula'   => $data['cedula'],
-                        'email'    => $data['email'],
-                        'password' => bcrypt($data['password']),
-                        'deposito' => $data['deposito']
-                    ])['id'];
-
-            Privilegio::create([
-                'usuario'        => $usuario,
-                'usuarios'       => $data['pUsuario'],
-                'usuarioN'       => $data['pUsuarioR'],
-                'usuarioM'       => $data['pUsuarioM'],
-                'usuarioD'       => $data['pUsuarioE'],
-                'provedores'     => $data['pProvedor'],
-                'provedoreN'     => $data['pProvedorR'],
-                'provedoreM'     => $data['pProvedorM'],
-                'provedoreD'     => $data['pProvedorE'],
-                'departamentos'  => $data['pDepartamento'],
-                'departamentoN'  => $data['pDepartamentoR'],
-                'departamentoM'  => $data['pDepartamentoM'],
-                'departamentoD'  => $data['pDepartamentoE'],
-                'insumos'        => $data['pInsumo'],
-                'insumoN'        => $data['pInsumoR'],
-                'insumoM'        => $data['pInsumoM'],
-                'insumoD'        => $data['pInsumoE'],
-                'insumos'        => $data['pInsumo'],
-                'inventarios'    => $data['pInventario'],
-                'inventarioH'    => $data['pInventarioH'],
-                'modificaciones' => $data['pModificacion'],
-                'entradas'       => $data['pEntradaV'],
-                'entradaR'       => $data['pEntradaR'],
-                'salidas'        => $data['pSalidaV'],
-                'salidaR'        => $data['pSalidaR'],
-                'estadisticas'   => $data['pEstadistica'],
-                'depositos'      => $data['pDeposito'],
-                'depositoN'      => $data['pDepositoR'],
-                'depositoM'      => $data['pDepositoM'],
-                'depositoD'      => $data['pDepositoE']
+            User::create([
+                'nombre'   => $data['nombre'],
+                'apellido' => $data['apellido'],
+                'cedula'   => $data['cedula'],
+                'email'    => $data['email'],
+                'password' => bcrypt($data['password']),
+                'deposito' => $data['deposito'],
+                'rol'      => $data['rol']
             ]);
 
             return Response()->json(['status' => 'success', 'menssage' => 'Usuario registrado']);

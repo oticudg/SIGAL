@@ -73,138 +73,14 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
 
   $scope.btnVisivilidad = true;
   $scope.depositos = [];
+	$scope.roles = [];
+	$scope.alert = false;
 
   $http.get('/depositos/getDepositos')
       .success( function(response){$scope.depositos = response;});
 
-  $scope.data = {
-    'pUsuario':false,
-    'pUsuarioR':false,
-    'pUsuarioM':false,
-    'pUsuarioE':false,
-    'pProvedor':false,
-    'pProvedorR':false,
-    'pProvedorM':false,
-    'pProvedorE':false,
-    'pDepartamento':false,
-    'pDepartamentoR':false,
-    'pDepartamentoM':false,
-    'pDepartamentoE':false,
-    'pInsumo':false,
-    'pInsumoR':false,
-    'pInsumoM':false,
-    'pInsumoE':false,
-    'pInventario':false,
-    'pInventarioH':false,
-    'pModificacion':false,
-    'pEntradaR':false,
-    'pEntradaV':false,
-    'pSalidaR':false,
-    'pSalidaV':false,
-    'pEstadistica':false,
-    'pDeposito':false,
-    'pDepositoR':false,
-    'pDepositoM':false,
-    'pDepositoE':false,
-    'pTranference':false
-
-  };
-
-  $scope.usuarioActive = function(){
-    
-    if($scope.data.pUsuario == true){
-      $scope.data.pUsuarioR = true;
-      $scope.data.pUsuarioM = true;
-      $scope.data.pUsuarioE = true;
-    }
-    else{
-      $scope.data.pUsuarioR = false;
-      $scope.data.pUsuarioM = false;
-      $scope.data.pUsuarioE = false;
-    }
-  }
-
-  $scope.provedorActive = function(){
-    
-    if($scope.data.pProvedor == true){
-      $scope.data.pProvedorR = true;
-      $scope.data.pProvedorM = true;
-      $scope.data.pProvedorE = true;
-    }
-    else{
-      $scope.data.pProvedorR = false;
-      $scope.data.pProvedorM = false;
-      $scope.data.pProvedorE = false;
-    }
-  }
-
-  $scope.departamentoActive = function(){
-    
-    if($scope.data.pDepartamento == true){
-      $scope.data.pDepartamentoR = true;
-      $scope.data.pDepartamentoM = true;
-      $scope.data.pDepartamentoE = true;
-    }
-    else{
-      $scope.data.pDepartamentoR = false;
-      $scope.data.pDepartamentoM = false;
-      $scope.data.pDepartamentoE = false;
-    }
-  }
-
-  $scope.insumoActive = function(){
-    
-    if($scope.data.pInsumo == true){
-      $scope.data.pInsumoR = true;
-      $scope.data.pInsumoM = true;
-      $scope.data.pInsumoE = true;
-    }
-    else{
-      $scope.data.pInsumoR = false;
-      $scope.data.pInsumoM = false;
-      $scope.data.pInsumoE = false;
-    }
-  }
-
-  $scope.inventarioActive = function(){
-    
-    if($scope.data.pInventario == true){
-      $scope.data.pInventarioH = true;
-      $scope.data.pEntradaV = true;
-      $scope.data.pSalidaV = true;
-    }
-    else{
-      $scope.data.pInventarioH = false;
-      $scope.data.pEntradaV = false;
-      $scope.data.pSalidaV = false;
-    }
-  }
-
-  $scope.tranferenciaActive = function(){
-
-    if($scope.data.pTranference == true){
-      $scope.data.pEntradaR = true;
-      $scope.data.pSalidaR = true;
-    }
-    else{
-      $scope.data.pEntradaR = false;
-      $scope.data.pSalidaR = false;
-    }
-  }
-
-  $scope.depositoActive = function(){
-    
-    if($scope.data.pDeposito == true){
-      $scope.data.pDepositoR = true;
-      $scope.data.pDepositoM = true;
-      $scope.data.pDepositoE = true;
-    }
-    else{
-      $scope.data.pDepositoR = false;
-      $scope.data.pDepositoM = false;
-      $scope.data.pDepositoE = false;
-    }
-  }
+	$http.get('/roles/all')
+      .success( function(response){$scope.roles = response;});
 
   $scope.registrar = function () {
   	$scope.save();
@@ -214,26 +90,17 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
     $modalInstance.dismiss('cancel');
   };
 
-
   $scope.closeAlert = function(index){
-
-  	$scope.alerts.splice(index,1);
-
+  	$scope.alert = false;
   };
 
-
- $scope.save = function(){
+  $scope.save = function(){
 
  	$http.post('/registrarUsuario',$scope.data)
  		.success(function(response){
-
- 			$scope.alerts = [];
- 			$scope.alerts.push( {"type":response.status , "msg":response.menssage});
- 			
-      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-
+ 			$scope.alert = {"type":response.status , "msg":response.menssage};
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true;
       obtenerUsuarios();
-
  	});
  };
 
@@ -287,7 +154,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   });
 
   $scope.usuarioActive = function(){
-    
+
     if($scope.data.pUsuario == true){
       $scope.data.pUsuarioR = true;
       $scope.data.pUsuarioM = true;
@@ -301,7 +168,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.provedorActive = function(){
-    
+
     if($scope.data.pProvedor == true){
       $scope.data.pProvedorR = true;
       $scope.data.pProvedorM = true;
@@ -315,7 +182,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.departamentoActive = function(){
-    
+
     if($scope.data.pDepartamento == true){
       $scope.data.pDepartamentoR = true;
       $scope.data.pDepartamentoM = true;
@@ -329,7 +196,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.insumoActive = function(){
-    
+
     if($scope.data.pInsumo == true){
       $scope.data.pInsumoR = true;
       $scope.data.pInsumoM = true;
@@ -343,7 +210,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.inventarioActive = function(){
-    
+
     if($scope.data.pInventario == true){
       $scope.data.pInventarioH = true;
     }
@@ -365,7 +232,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.entradaActive = function(){
-    
+
     if($scope.data.pEntrada == true){
       $scope.data.pEntradaV = true;
       $scope.data.pEntradaR = true;
@@ -377,7 +244,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.salidaActive = function(){
-    
+
     if($scope.data.pSalida == true){
       $scope.data.pSalidaV = true;
       $scope.data.pSalidaR = true;
@@ -389,7 +256,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   }
 
   $scope.depositoActive = function(){
-    
+
     if($scope.data.pDeposito == true){
       $scope.data.pDepositoR = true;
       $scope.data.pDepositoM = true;
@@ -424,8 +291,8 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
 
  			$scope.alerts = [];
  			$scope.alerts.push( {"type":response.status , "msg":response.menssage});
- 			
-      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
+
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true;
 
       obtenerUsuarios();
 
@@ -459,9 +326,9 @@ angular.module('deposito').controller('elimUsuarioCtrl', function ($scope, $moda
 
       $scope.alerts = [];
       $scope.alerts.push( {"type":response.status , "msg":response.menssage});
-    
-      $scope.btnVisivilidad = ( response.status == "success") ? false : true; 
-     
+
+      $scope.btnVisivilidad = ( response.status == "success") ? false : true;
+
       obtenerUsuarios();
   });
 

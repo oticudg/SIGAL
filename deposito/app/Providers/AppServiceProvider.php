@@ -17,6 +17,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Documento;
 use Auth;
 use App\Permission;
+use App\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -351,6 +352,11 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return true;
+        });
+
+        Validator::extend('rol', function($attribute, $value)
+        {
+            return Role::where('id', $value)->first();
         });
     }
 
