@@ -145,8 +145,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     var index;
 
     for( index in insumos){
-      if( !insumos[index].cantidad || insumos[index].cantidad  < 0 ||
-          !Number.isInteger($scope.insumos[index].cantidad))
+      if( !insumos[index].cantidad || insumos[index].cantidad  < 0 )
         return false;
     }
 

@@ -119,7 +119,7 @@ class AppServiceProvider extends ServiceProvider
 
                 foreach ($value as $insumo){
                     if( !isset($insumo['cantidad']) || !isset($insumo['id']) || $insumo['cantidad'] <= 0
-                        || !is_int($insumo['cantidad']) || !Insumo::where('id',$insumo['id'])->first())
+                        || !Insumo::where('id',$insumo['id'])->first())
 
                         return false;
                 }
@@ -139,7 +139,6 @@ class AppServiceProvider extends ServiceProvider
                     if( !isset($insumo['solicitado']) || !isset($insumo['despachado']) ||
                         !isset($insumo['id']) || $insumo['solicitado'] <= 0 ||
                         $insumo['despachado'] <= 0 || $insumo['solicitado'] < $insumo['despachado'] ||
-                        !is_int($insumo['solicitado']) || !is_int($insumo['despachado']) ||
                         !Insumo::withTrashed()->where('id',$insumo['id'])->first())
 
                         return false;
@@ -181,7 +180,7 @@ class AppServiceProvider extends ServiceProvider
 
                 if( !isset($insumo['id']) || !$originalI ||
                     $originalI['cantidad'] == $insumo['cantidad'] ||
-                    !is_int($insumo['cantidad']) || $insumo['cantidad'] < 0)
+                    $insumo['cantidad'] < 0)
                     return false;
             }
 
@@ -199,7 +198,7 @@ class AppServiceProvider extends ServiceProvider
 
                 if( !isset($insumo['id']) || ! $originalI ||
                     $insumo['despachado'] == $originalI['despachado'] ||
-                    !is_int($insumo['despachado']) || $insumo['despachado'] < 0)
+                    $insumo['despachado'] < 0)
                     return false;
 
                 if( !isset( $insumo['solicitado'] ) ){
