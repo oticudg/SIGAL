@@ -98,17 +98,7 @@ class usersController extends Controller
 
         $usuario = DB::table('users')
                   ->where('users.id',$id)
-                  ->join('privilegios', 'users.id', '=', 'privilegios.usuario')
-                  ->select('users.nombre', 'users.apellido', 'users.id', 'users.email', 'users.cedula',
-                    'usuarios as pUsuario', 'usuarioN as pUsuarioR', 'usuarioM as pUsuarioM', 'usuarioD as pUsuarioE',
-                    'provedores as pProvedor', 'provedoreN as pProvedorR', 'provedoreM as pProvedorM', 'provedoreD as pProvedorE',
-                    'departamentos as pDepartamento', 'departamentoN as pDepartamentoR', 'departamentoD as pDepartamentoE',
-                    'insumos as pInsumo', 'insumoN as pInsumoR', 'insumoM as pInsumoM', 'insumoD as pInsumoE',
-                    'inventarios as pInventario', 'inventarioH as pInventarioH', 'modificaciones as pModificacion',
-                    'entradas as pEntradaV', 'entradaR as pEntradaR', 'salidas as pSalidaV', 'salidaR as pSalidaR', 'estadisticas as pEstadistica',
-                    'departamentoM as pDepartamentoM', 'depositos as pDeposito' , 'depositoN as pDepositoR',
-                    'depositoM as pDepositoM','depositoD as pDepositoE')
-                  ->first();
+                  ->first(['cedula', 'nombre', 'apellido', 'email', 'deposito', 'rol']);
 
         if(!$usuario){
 
@@ -143,36 +133,8 @@ class usersController extends Controller
                     'apellido'       => 'required|alpha|min:3|max:20',
                     'cedula'         => 'required|cedula',
                     'password'       => 'min:8|confirmed',
-                    'deposito'		 => 'deposito',
-                    'pUsuario'       => 'required',
-                    'pUsuarioR'      => 'required',
-                    'pUsuarioM'      => 'required',
-                    'pUsuarioE'      => 'required',
-                    'pDepartamento'  => 'required',
-                    'pDepartamentoR' => 'required',
-                    'pDepartamentoM' => 'required',
-                    'pDepartamentoE' => 'required',
-                    'pInsumo'        => 'required',
-                    'pInsumoR'       => 'required',
-                    'pInsumoM'       => 'required',
-                    'pInsumoE'       => 'required',
-                    'pInventario'    => 'required',
-                    'pInventarioH'   => 'required',
-                    'pModificacion'  => 'required',
-                    'pEntradaV'      => 'required',
-                    'pEntradaR'      => 'required',
-                    'pSalidaV'       => 'required',
-                    'pSalidaR'       => 'required',
-                    'pEstadistica'   => 'required',
-                    'pProvedor'      => 'required',
-                    'pProvedorR'     => 'required',
-                    'pProvedorM'     => 'required',
-                    'pProvedorE'     => 'required',
-                    'pDeposito'      => 'required',
-                    'pDepositoR'     => 'required',
-                    'pDepositoM'     => 'required',
-                    'pDepositoE'     => 'required',
-                    'pTranference'   => 'required'
+                    'deposito'		   => 'deposito',
+                    'rol'            => 'required|rol'
             ], $this->menssage);
 
 
@@ -182,66 +144,25 @@ class usersController extends Controller
             }
             else{
 
-                if( $data['pUsuario'] == null && $data['pDepartamento'] == null && $data['pInsumo'] == null
-                	&& $data['pInventario'] == null && $data['pModificacion'] == null &&
-                	$data['pTranference'] == null && $data['pEstadistica'] == null &&
-                    $data['pProvedor'] == null && $data['pDeposito'] == null){
-
-                    return Response()->json(['status' => 'danger', 'menssage' => 'Por favor Asigné al menos un privilegio a este usuario']);
-                }
+                $update = [
+                  'nombre'        => $data['nombre'],
+                  'apellido'      => $data['apellido'],
+                  'cedula'        => $data['cedula']
+                ];
 
                 if( isset($data['password']) ){
-
-                    User::where('id',$id)->update([
-                        'password' => bcrypt($data['password'])
-                    ]);
+                    $update['password'] = bcrypt($data['password']);
                 }
 
                 if( isset($data['deposito']) ){
-
-                    User::where('id',$id)->update([
-                        'deposito' => $data['deposito']
-                    ]);
+                    $update['deposito'] = $data['deposito'];
                 }
 
-                User::where('id',$id)->update([
+                if( isset($data['rol']) ){
+                    $update['rol'] = $data['rol'];
+                }
 
-                    'nombre'        => $data['nombre'],
-                    'apellido'      => $data['apellido'],
-                    'cedula'        => $data['cedula']
-                ]);
-
-                Privilegio::where('usuario', $id)->update([
-                    'usuarios'       => $data['pUsuario'],
-                    'usuarioN'       => $data['pUsuarioR'],
-                    'usuarioM'       => $data['pUsuarioM'],
-                    'usuarioD'       => $data['pUsuarioE'],
-                    'provedores'     => $data['pProvedor'],
-                    'provedoreN'     => $data['pProvedorR'],
-                    'provedoreM'     => $data['pProvedorM'],
-                    'provedoreD'     => $data['pProvedorE'],
-                    'departamentos'  => $data['pDepartamento'],
-                    'departamentoN'  => $data['pDepartamentoR'],
-                    'departamentoM'  => $data['pDepartamentoM'],
-                    'departamentoD'  => $data['pDepartamentoE'],
-                    'insumos'        => $data['pInsumo'],
-                    'insumoN'        => $data['pInsumoR'],
-                    'insumoM'        => $data['pInsumoM'],
-                    'insumoD'        => $data['pInsumoE'],
-                    'insumos'        => $data['pInsumo'],
-                    'inventarios'    => $data['pInventario'],
-                    'inventarioH'    => $data['pInventarioH'],
-                    'modificaciones' => $data['pModificacion'],
-                    'entradas'       => $data['pEntradaV'],
-                    'entradaR'       => $data['pEntradaR'],
-                    'salidas'        => $data['pSalidaV'],
-                    'salidaR'        => $data['pSalidaR'],
-                    'estadisticas'   => $data['pEstadistica'],
-                    'depositos'      => $data['pDeposito'],
-                    'depositoN'      => $data['pDepositoR'],
-                    'depositoM'      => $data['pDepositoM'],
-                    'depositoD'      => $data['pDepositoE']
-                ]);
+                User::where('id',$id)->update($update);
 
                 return Response()->json(['status' => 'success', 'menssage' => 'Cambios Guardados']);
             }

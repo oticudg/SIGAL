@@ -5,13 +5,13 @@
 
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
 
-	<center><h3 class="text-danger" ng-show="btnVisivilidad">Esta seguro que desea borrar este Usuario</h3></center>
+	<center><h3 class="text-danger" ng-show="btnVisivilidad">Esta seguro que desea borrar este usuario</h3></center>
 
 </div>
 <div class="modal-footer">
     <center>
     	<button class="btn btn-danger" ng-show="btnVisivilidad" ng-click="eliminar()"><span class="glyphicon glyphicon-ban-circle"></span>  Eliminar</button>
     	<button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
-   	    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>	
+   	    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
 	</center>
 </div>
