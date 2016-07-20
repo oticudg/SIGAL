@@ -39,6 +39,7 @@
 							@endif
 
 								<li><a href="{{route('documIndex')}}"><span class="glyphicon glyphicon-folder-close"></span> Documentos</a></li></li>
+								<li><a href="{{route('rolesIndex')}}"><span class="glyphicon glyphicon-compressed"></span> Roles</a></li></li>
 
 		                    @if( Auth::user()->haspermission('departamentos') )
 					   	 	   <li><a href="/departamentos"><span class="glyphicon glyphicon-briefcase"></span> Departamentos</a></li>
