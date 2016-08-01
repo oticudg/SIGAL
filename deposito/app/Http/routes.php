@@ -269,9 +269,6 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Muestra la vista detallada de una entrada
 			Route::get('detalles', 'entradasController@detalles');
 
-			//Muestra la vista del buscador de entradas
-			Route::get('search', 'entradasController@viewSearch');
-
 			//Regresa todas las entradas segun el tipo que se espesifique, si no se espesifica un
 			//tipo se regresan todas las entradas
 			Route::get('getEntradas/{type?}', 'entradasController@allEntradas');
@@ -286,8 +283,6 @@ Route::group(['middleware' => 'auth' ], function(){
 			//Regresa todas las entradas de el numero de orden que se expecifique
 			Route::get('getOrden/{number}', 'entradasController@getOrden');
 
-			//Regresa todas las entradas que coincidan con los filtros que se apliquen
-			Route::get('getSearch', 'entradasController@search');
 		});
 
 		Route::group(['middleware' => 'permission:movements_register_entry'], function(){
@@ -313,16 +308,12 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('salidas','salidasController@index');
 		//Muestra la vista detallada de una salida
 		Route::get('detallesSalida','salidasController@detalles');
-		//Muestra la vista del buscador de salidas
-		Route::get('search', 'salidasController@viewSearch');
 		//Regresa todos los insumos que han salido
 		Route::get('getInsumosSalidas','salidasController@allInsumos');
 		//Regresa todas las salidas
 		Route::get('getSalidas','salidasController@allSalidas');
 		//Regresa los todos los datos de una salida cuyo id se pase
 		Route::get('getSalida/{id}', 'salidasController@getSalida');
-		//Regresa todas las salidas que coincidan con los filtros que se apliquen
-		Route::get('getSearch','salidasController@search');
 	});
 
 	Route::group(['middleware' => 'permission:movements_register_egress'], function(){

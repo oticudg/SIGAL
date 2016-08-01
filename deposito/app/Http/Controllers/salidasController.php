@@ -30,10 +30,6 @@ class salidasController extends Controller
         return view('salidas/registrarSalida');
     }
 
-    public function viewSearch(){
-        return view('salidas/searchSalidas');
-    }
-
     public function detalles(){
         return view('salidas/detallesSalida');
     }
@@ -202,61 +198,6 @@ class salidasController extends Controller
 
             return Response()->json(['status' => 'success', 'salida' => $salida, 'insumos' => $insumos]);
         }
-    }
-
-    public function search(Request $request){
-
-      $deposito = Auth::user()->deposito;
-
-      $query = DB::table('salidas')
-              ->where('salidas.deposito', $deposito)
-              ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
-              ->select(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha'),'salidas.codigo',
-              'departamentos.nombre as departamento', 'salidas.id');
-
-      //Filtro para buscar salidas por rangos de fecha
-      if($request->dateranger){
-        $query->whereBetween(DB::raw('DATE_FORMAT(salidas.created_at, "%Y-%m-%d")'),
-          [$request->fechaI,$request->fechaF]);
-      }
-
-      //Filtro para buscar salidas por rangos de horas
-      if($request->hourrange){
-        $query->whereBetween(DB::raw('DATE_FORMAT(salidas.created_at, "%H-%i")'),
-          [$request->horaI,$request->horaF]);
-      }
-
-      //Filtro para buscar salidas segun un departamento
-      if($request->depart){
-        $query->where('salidas.departamento',$request->depart);
-      }
-
-      //Filtro para buscar salidas segun un usuario
-      if($request->user){
-        $query->where('usuario',$request->user);
-      }
-
-      //Filtro para buscar salida segun un insumo
-      if($request->insumo){
-        $query->join('insumos_salidas', 'insumos_salidas.salida', '=', 'salidas.id')
-          ->where('insumos_salidas.insumo', $request->insumo);
-
-         //Filtro para buscar salidas segun rangos de cantidad del insumo
-         if($request->amountrange){
-           $query->whereBetween('insumos_salidas.despachado',
-            [$request->cantidadI,$request->cantidadF]);
-         }
-      }
-
-      //Filtro para ordenar los resultados de forma decendente o acendentes
-      if($request->orden){
-        $query->orderBy('id',$request->orden);
-      }
-      else{
-        $query->orderBy('id','decs');
-      }
-
-      return $query->get();
     }
 
     public function registrar(Request $request){

@@ -8,7 +8,7 @@
 
 	    <div style="text-align:right" class="col-md-2">
 	    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
-				@if(Auth::user()->haspermission('inventarioH'))
+				@if(Auth::user()->hasPermissions(['inventory_report']))
 					<a class="btn btn-warning" href="/reportes/salida/{#nota.id#}" target="_blank">
 		        <span class="glyphicon glyphicon glyphicon-print"></span>
 		      </a>

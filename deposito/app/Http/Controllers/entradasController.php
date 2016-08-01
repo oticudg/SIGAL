@@ -33,11 +33,6 @@ class entradasController extends Controller
         return view('entradas/detallesEntrada');
     }
 
-    public function viewSearch(){
-        return view('entradas/searchEntradas');
-    }
-
-
     public function allInsumos($type = NULL){
 
         $deposito = Auth::user()->deposito;
@@ -251,123 +246,6 @@ class entradasController extends Controller
             return Response()->json(['status' => 'success', 'orden' => $orden, 'insumos' => $insumos]);
 
         }
-    }
-
-    public function search(Request $request){
-
-        $deposito = Auth::user()->deposito;
-
-        if( $request->type === 'devolucion' ){
-          $query = DB::table('entradas')
-             ->where('entradas.type', 'devolucion')
-             ->where('entradas.deposito',$deposito)
-             ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-             ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                 'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'entradas.type');
-        }
-        else{
-         $query = DB::table('entradas')->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-            'entradas.id', 'codigo', 'provedores.nombre as provedor', 'entradas.type')
-            ->join('provedores', 'entradas.provedor', '=', 'provedores.id')
-            ->where('entradas.deposito', $deposito);
-        }
-
-        //Filtro para buscar entradas por el tipo de orden o donacion
-        if($request->type === 'orden' || $request->type === 'donacion'){
-          $query->where('entradas.type', $request->type);
-        }
-
-        //Filtro que devuelve todas las entradas
-        if($request->type === 'all'){
-
-           $devoluciones = DB::table('entradas')
-              ->where('entradas.type', 'devolucion')
-              ->where('entradas.deposito',$deposito)
-              ->join('departamentos', 'entradas.provedor', '=', 'departamentos.id')
-              ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                  'entradas.id', 'codigo', 'departamentos.nombre as provedor', 'entradas.type');
-
-            //Filtro para buscar entradas segun un insumo
-            if($request->insumo){
-              $devoluciones->join('insumos_entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
-              ->where('insumos_entradas.insumo', $request->insumo);
-
-              //Filtro para buscar entradas segun rangos de cantidad del insumo
-              if($request->amountrange){
-                  $devoluciones->whereBetween('insumos_entradas.cantidad',
-                  [$request->cantidadI,$request->cantidadF]);
-              }
-            }
-
-            //Filtro para buscar entradas por rangos de fecha
-            if($request->dateranger){
-              $devoluciones->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%Y-%m-%d")'),
-                [$request->fechaI,$request->fechaF]);
-            }
-
-            //Filtro para buscar entradas segun un usuario
-            if($request->user){
-              $devoluciones->where('usuario',$request->user);
-            }
-
-            //Filtro para buscar entradas por rangos de horas
-            if($request->hourrange){
-              $devoluciones->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
-                [$request->horaI,$request->horaF]);
-            }
-
-            $query->where(function ($query) {
-                $query->where('entradas.type', 'orden')
-                ->orWhere('entradas.type', 'donacion');
-             });
-
-            $query->unionAll($devoluciones);
-        }
-
-        //Filtro para buscar entradas por rangos de fecha
-        if($request->dateranger){
-          $query->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%Y-%m-%d")'),
-            [$request->fechaI,$request->fechaF]);
-        }
-
-        //Filtro para buscar entradas segun un proveedor
-        if($request->prove){
-          $query->where('entradas.provedor',$request->prove);
-        }
-
-        //Filtro para buscar entradas segun un insumo
-        if($request->insumo){
-          $query->join('insumos_entradas', 'insumos_entradas.entrada', '=', 'entradas.id')
-            ->where('insumos_entradas.insumo', $request->insumo);
-
-            //Filtro para buscar entradas segun rangos de cantidad del insumo
-           if($request->amountrange){
-             $query->whereBetween('insumos_entradas.cantidad',
-              [$request->cantidadI,$request->cantidadF]);
-           }
-        }
-
-        //Filtro para buscar entradas segun un usuario
-        if($request->user){
-          $query->where('usuario',$request->user);
-        }
-
-        //Filtro para buscar entradas por rangos de horas
-        if($request->hourrange){
-          $query->whereBetween(DB::raw('DATE_FORMAT(entradas.created_at, "%H-%i")'),
-            [$request->horaI,$request->horaF]);
-        }
-
-        //Filtro para ordenar los resultados de forma decendente o acendentes
-        if($request->orden){
-          $query->orderBy('id',$request->orden);
-        }
-        else{
-          $query->orderBy('id','decs');
-        }
-
-        //Regresa los resultados.
-        return $query->get();
     }
 
     public function registrar(Request $request){
