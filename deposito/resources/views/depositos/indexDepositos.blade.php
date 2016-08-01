@@ -1,26 +1,26 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="depositosController"')
 @section('front-page')
-	
+
 	<div data-loading class="div_loader">
 		<div id="img_loader" class="img_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
 		</div>
 	</div>
-	
+
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-inbox"></span> Almacenes</li>
 		</ul>
 	</nav>
 	<br>
-	
-	@if( Auth::user()->haspermission('depositoN') )		
+
+	@if(Auth::user()->hasPermissions(['stores_register']))
 		<button class="btn btn-success" ng-click="registrarDeposito()"><span class="glyphicon glyphicon-plus"></span> Nuevo Almacén</button>
 	@endif
-	
+
 	<br>
 	<br>
 	<br>
@@ -40,7 +40,7 @@
 			<select id="cantidad" class="form-control" ng-model="cRegistro">
 				<option value="5">5</option>
 				<option value="10">10</option>
-				<option value="20">20</option>	
+				<option value="20">20</option>
 			</select>
 		</div>
 	</div>
@@ -53,9 +53,9 @@
 			<tr>
 				<th class="col-md-2">Codigo</th>
 				<th>Nombre</th>
-				@if( Auth::user()->haspermission('depositoD') && Auth::user()->haspermission('depositoM'))
+				@if( Auth::user()->hasPermissions(['stores_edit', 'stores_delete'], true))
 					<th colspan="2" class="table-edit">Modificaciones</th>
-				@elseif( Auth::user()->haspermission('depositoD') || Auth::user()->haspermission('depositoM') )
+				@elseif( Auth::user()->hasPermissions(['stores_edit', 'stores_delete']))
 					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
@@ -64,10 +64,10 @@
 			<tr dir-paginate="deposito in depositos | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#deposito.codigo#}</td>
 				<td>{#deposito.nombre | capitalize#}</td>
-				@if( Auth::user()->haspermission('depositoM') )
+				@if( Auth::user()->hasPermissions(['stores_edit']) )
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDeposito(deposito.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
-				@if( Auth::user()->haspermission('depositoD') )
+				@if( Auth::user()->hasPermissions(['stores_delete']) )
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDeposito(deposito.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>

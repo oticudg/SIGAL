@@ -19,7 +19,7 @@
 	<br>
 	<br>
 
-	@if(Auth::user()->haspermission('inventarioH'))
+	@if(Auth::user()->hasPermissions(['inventory_report']))
 		<div class="row">
 			<div class="col-md-2" ng-hide="status">
 				<div class="input-group-btn">
@@ -94,7 +94,7 @@
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
 				<th class="col-md-1">Exist.</th>
-				@if(Auth::user()->haspermission('entradas') && Auth::user()->haspermission('salidas'))
+				@if(Auth::user()->hasPermissions(['inventory_kardex']))
 					<th class="col-md-1">Kardex</th>
 				@endif
 			</tr>
@@ -120,7 +120,7 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.existencia#}</td>
-				@if(Auth::user()->haspermission('entradas') && Auth::user()->haspermission('salidas'))
+				@if(Auth::user()->hasPermissions(['inventory_kardex']))
 					<td><a class="btn btn-warning btn-sm" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
 						<span class="glyphicon glyphicon-eye-open"></span></a>
 					</td>

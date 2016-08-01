@@ -24,90 +24,93 @@
                     <a href="/inicio">Inicio</a>
                 </li>
 
-                @if( Auth::user()->haspermission('usuarios') || Auth::user()->haspermission('departamentos')
-				|| Auth::user()->haspermission('provedores') || Auth::user()->haspermission('insumos')
-			    || Auth::user()->haspermission('depositos'))
+                @if( Auth::user()->hasPermissions(['users_consult', 'stores_consult', 'documents_consult', 'roles_consult', 'departs_consult', 'providers_consult', 'items_consult']) )
 	                <li class="dropdown droAdmin admi">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Administración <span class="caret"></span></a>
 		                <ul class="dropdown-menu  dropdown-panel" role="menu">
-			                @if( Auth::user()->haspermission('usuarios') )
+			                @if( Auth::user()->hasPermissions(['users_consult']))
 		                       <li><a href="/usuarios"><span class="glyphicon glyphicon-user"></span> Usuario</a></li>
-		                    @endif
+							        @endif
 
-							@if( Auth::user()->haspermission('depositos') )
-								<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Almacenes</a></li></li>
-							@endif
+											@if( Auth::user()->hasPermissions(['stores_consult']) )
+												<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Almacenes</a></li></li>
+											@endif
 
-								<li><a href="{{route('documIndex')}}"><span class="glyphicon glyphicon-folder-close"></span> Documentos</a></li></li>
-								<li><a href="{{route('rolesIndex')}}"><span class="glyphicon glyphicon-compressed"></span> Roles</a></li></li>
+											@if(Auth::user()->hasPermissions(['documents_consult']))
+												<li><a href="{{route('documIndex')}}"><span class="glyphicon glyphicon-folder-close"></span> Documentos</a></li></li>
+												<li><a href="{{route('rolesIndex')}}"><span class="glyphicon glyphicon-compressed"></span> Roles</a></li></li>
+											@endif
 
-		                    @if( Auth::user()->haspermission('departamentos') )
-					   	 	   <li><a href="/departamentos"><span class="glyphicon glyphicon-briefcase"></span> Departamentos</a></li>
-				       		@endif
+					            @if( Auth::user()->hasPermissions(['departs_consult']) )
+								   	 	   <li><a href="/departamentos"><span class="glyphicon glyphicon-briefcase"></span> Departamentos</a></li>
+							       	@endif
 
-					        @if( Auth::user()->haspermission('provedores') )
-					       	 	<li><a href="/proveedores"><span class="glyphicon glyphicon-folder-open"></span> Proveedores</a></li>
-					        @endif
+							        @if( Auth::user()->hasPermissions(['providers_consult']) )
+							       	 	<li><a href="/proveedores"><span class="glyphicon glyphicon-folder-open"></span> Proveedores</a></li>
+							        @endif
 
-					        @if( Auth::user()->haspermission('insumos') )
-					       	 	<li><a href="/insumos"><span class="glyphicon glyphicon-th"></span> Insumos</a></li>
-					        @endif
+							        @if( Auth::user()->hasPermissions(['providers_consult']) )
+							       	 	<li><a href="/insumos"><span class="glyphicon glyphicon-th"></span> Insumos</a></li>
+							        @endif
 		                </ul>
                 	</li>
 	            @endif
 
-	            @if( Auth::user()->haspermission('inventarios') )
-					<li class="dropdown dropInv inve">
+	            @if( Auth::user()->hasPermissions(['inventory_stock', 'inventory_movements', 'inventory_tools']) )
+								<li class="dropdown dropInv inve">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th-list"></span> Inventario <span class="caret"></span></a>
 		                <ul class="dropdown-menu  dropdown-panel" role="menu">
-			            	<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-equalizer"></span> Existencia</a></li>
 
-			            	@if( Auth::user()->haspermission('entradas') )
-					  		 	<li><a href="{{route('entrPanel')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
-					        @endif
+											@if( Auth::user()->hasPermissions(['inventory_stock']) )
+				            		<li><a href="{{route('invenInicio')}}"><span class="glyphicon glyphicon-equalizer"></span> Existencia</a></li>
+											@endif
 
-					        @if( Auth::user()->haspermission('salidas') )
-					       	 	<li><a href="/salidas"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
-					        @endif
+					            @if( Auth::user()->hasPermissions(['inventory_movements']) )
+							  		 		<li><a href="{{route('entrPanel')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
+							        @endif
 
-			            	@if( Auth::user()->haspermission('inventarioH') )
-			            		<li><a href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a></li>
-		                	@endif
-		                </ul>
-                	</li>
-				@endif
+							        @if( Auth::user()->hasPermissions(['inventory_movements']) )
+							       	 	<li><a href="/salidas"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
+							        @endif
 
-	            @if( Auth::user()->haspermission('modificaciones') )
-					<li class="dropdown dropMod mod">
-		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon glyphicon-edit"></span> Modificaciones <span class="caret"></span></a>
-		                <ul class="dropdown-menu  dropdown-panel" role="menu">
-			             	<li><a href="{{route('modifiEntrada')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
-			       			<li><a href="{{route('modifiSalida')}}"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
-		                </ul>
-                	</li>
-				@endif
+					            @if( Auth::user()->hasPermissions(['inventory_tools']) )
+					            	<li><a href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a></li>
+				              @endif
+			              </ul>
+               	</li>
+							 @endif
 
-				@if( Auth::user()->haspermission('estadisticas') )
-					<li class="esta">
-                    	<a href="/estadisticas"><span class="glyphicon glyphicon-tasks"></span> Estadisticas</a>
-                	</li>
-				@endif
+	            @if( false )
+								<li class="dropdown dropMod mod">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon glyphicon-edit"></span> Modificaciones <span class="caret"></span></a>
+	                <ul class="dropdown-menu  dropdown-panel" role="menu">
+		             		<li><a href="{{route('modifiEntrada')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
+		       					<li><a href="{{route('modifiSalida')}}"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
+	                </ul>
+              	</li>
+							@endif
 
-				@if( Auth::user()->haspermission('entradaR') || Auth::user()->haspermission('salidaR') )
+							@if( false )
+								<li class="esta">
+			          	<a href="/estadisticas"><span class="glyphicon glyphicon-tasks"></span> Estadisticas</a>
+			          </li>
+							@endif
 
-					<li class="dropdown dropTrn trn">
-	                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-transfer"></span> Tranferencias <span class="caret"></span></a>
-	                  <ul class="dropdown-menu  dropdown-panel" role="menu">
-	                    @if( Auth::user()->haspermission('entradaR') )
-			       			<li><a href="{{route('entrRegistrar')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada</a></li>
-			       		@endif
+							@if( Auth::user()->hasPermissions(['movements_register_entry', 'movements_register_egress']) )
 
-			       		@if( Auth::user()->haspermission('salidaR') )
-			       			<li><a href="/registrarSalida"><span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida</a></li>
-			       		@endif
-	                  </ul>
-	                </li>
-				@endif
+								<li class="dropdown dropTrn trn">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-transfer"></span> Tranferencias <span class="caret"></span></a>
+                  <ul class="dropdown-menu  dropdown-panel" role="menu">
+			              @if( Auth::user()->hasPermissions(['movements_register_entry']) )
+					       			<li><a href="{{route('entrRegistrar')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Registro de Entrada</a></li>
+					       		@endif
+
+					       		@if( Auth::user()->hasPermissions(['movements_register_egress']) )
+					       			<li><a href="/registrarSalida"><span class="glyphicon glyphicon-circle-arrow-up"></span> Registro de Salida</a></li>
+					       		@endif
+		              </ul>
+		            </li>
+							@endif
 
             </ul>
         </nav>

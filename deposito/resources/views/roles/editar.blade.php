@@ -108,9 +108,9 @@
 
                 <div class="col-md-4">
                   <div class="col-md-5">
-                    <h4 class="text-muted">Tranferencias</h4>
+                    <h4 class="text-muted">Movimientos</h4>
                     <div>
-                      <div class="row" ng-repeat="permiso in permisos | filter:{modulo:'tranferencias'}">
+                      <div class="row" ng-repeat="permiso in permisos | filter:{modulo:'movimientos'}">
                         <div class="col-md-4">
                           <label class="checkbox-inline"><input  ng-click="assignPermission(permiso.id)" ng-checked="isAsignedPermission(permiso.id)" type="checkbox">{#permiso.nombre#}</label>
                         </div>

@@ -17,7 +17,7 @@
 	</nav>
 	<br>
 
-	@if( Auth::user()->haspermission('departamentoN') )
+	@if( Auth::user()->hasPermissions(['documents_register']))
 		<button class="btn btn-success" ng-click="registrarDocumento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Documento</button>
 	@endif
 
@@ -56,9 +56,9 @@
 				<th class="col-md-1">Tipo</th>
 				<th class="col-md-1">Naturaleza</th>
 				<th>Uso</th>
-				@if( Auth::user()->haspermission('departamentoD') && Auth::user()->haspermission('departamentoM'))
+				@if( Auth::user()->hasPermissions(['documents_edit', 'documents_delete'], true))
 					<th colspan="2" class="table-edit">Modificaciones</th>
-				@elseif( Auth::user()->haspermission('departamentoD') || Auth::user()->haspermission('departamentoM') )
+				@elseif(  Auth::user()->hasPermissions(['documents_edit', 'documents_delete']))
 					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
@@ -70,10 +70,10 @@
 				<td>{#documento.tipo | capitalize#}</td>
 				<td>{#documento.naturaleza | capitalize #}</td>
 				<td>{#documento.uso | capitalize#}</td>
-				@if( Auth::user()->haspermission('departamentoM') )
+				@if( Auth::user()->hasPermissions(['documents_edit']))
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDocumento(documento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
-				@if( Auth::user()->haspermission('departamentoD') )
+				@if( Auth::user()->hasPermissions(['documents_delete']))
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDocumento(documento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>

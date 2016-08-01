@@ -9,6 +9,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Privilegio;
+use App\Permissions_assigned;
+use App\Permission;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -37,8 +39,30 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token','created_at' , 'updated_at', 'deleted_at'];
 
-    public function haspermission($role){
+    public function hasPermissions($permissions,$all=false){
 
-        return  Privilegio::where('usuario', $this->id)->value($role);
+
+      if( $this->id  == 1)
+        return true;
+
+
+      if(!$all){
+        foreach ($permissions as $permission){
+          $idP  = Permission::where('ip', $permission)->value('id');
+          if(Permissions_assigned::where('role', $this->rol)->where('permission', $idP)->first())
+            return true;
+        }
+
+        return false;
+      }
+      else{
+        foreach ($permissions as $permission){
+          $idP  = Permission::where('ip', $permission)->value('id');
+          if(!Permissions_assigned::where('role', $this->rol)->where('permission', $idP)->first())
+            return false;
+        }
+
+        return true;
+      }
     }
 }

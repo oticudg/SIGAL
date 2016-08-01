@@ -1,29 +1,29 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="provedoresController"')
 @section('front-page')
-	
+
 	<div data-loading class="div_loader">
 		<div id="img_loader" class="img_loader">
 			<img src="{{asset('imagen/loader.gif')}}" alt="">
 			<p> Cargando ...</p>
 		</div>
 	</div>
-	
+
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>	
+			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>
 			<li class="nav-active"><span class="glyphicon glyphicon-folder-open"></span> Proveedores</li>
 		</ul>
 	</nav>
 	<br>
-	
-	@if( Auth::user()->haspermission('provedoreN') )
+
+	@if( Auth::user()->hasPermissions(['providers_register']))
 		<button class="btn btn-success" ng-click="registraProvedor()"><span class="glyphicon glyphicon-plus"></span> Nuevo proveedor</button>
-	@endif		
+	@endif
 	<br>
 	<br>
 	<br>
-	
+
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">
@@ -39,23 +39,23 @@
 			<select id="cantidad" class="form-control" ng-model="cRegistro">
 				<option value="5">5</option>
 				<option value="10">10</option>
-				<option value="20">20</option>	
+				<option value="20">20</option>
 			</select>
 		</div>
 	</div>
 
 	<br>
 	<br>
-	
+
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
 				<th class="col-md-2">Rif</th>
 				<th>Nombre</th>
-				@if( Auth::user()->haspermission('provedoreD') && Auth::user()->haspermission('provedoreM'))
-					<th colspan="2" class="table-edit">Modificaciones</th>		
-				@elseif( Auth::user()->haspermission('provedoreD') || Auth::user()->haspermission('provedoreM') )
-					<th class="table-edit">Modificaciones</th>		
+				@if( Auth::user()->hasPermissions(['providers_edit', 'providers_delete'], true))
+					<th colspan="2" class="table-edit">Modificaciones</th>
+				@elseif( Auth::user()->hasPermissions(['providers_edit','providers_delete']))
+					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
 		</thead>
@@ -63,10 +63,10 @@
 			<tr dir-paginate="provedor in provedores | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#provedor.rif | capitalize#}</td>
 				<td>{#provedor.nombre | capitalize#}</td>
-				@if( Auth::user()->haspermission('provedoreM') )
+				@if( Auth::user()->hasPermissions(['providers_edit']))
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
-				@if( Auth::user()->haspermission('provedoreD') )
+				@if( Auth::user()->hasPermissions(['providers_delete']))
 					<td class="table-edit"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>
@@ -81,4 +81,3 @@
 
 
 @endsection
-

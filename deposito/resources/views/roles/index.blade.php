@@ -17,7 +17,7 @@
 	</nav>
 	<br>
 
-	@if( Auth::user()->haspermission('departamentoN') )
+	@if( Auth::user()->hasPermissions(['roles_register']) )
 		<button class="btn btn-success" ng-click="registrarRol()"><span class="glyphicon glyphicon-plus"></span> Nuevo Rol</button>
 	@endif
 
@@ -52,9 +52,9 @@
 		<thead>
 			<tr>
 				<th class="col-md-10">Nombre</th>
-				@if( Auth::user()->haspermission('departamentoD') && Auth::user()->haspermission('departamentoM'))
+				@if( Auth::user()->hasPermissions(['roles_edit', 'roles_delete'], true))
 					<th colspan="2" class="table-edit">Modificaciones</th>
-				@elseif( Auth::user()->haspermission('departamentoD') || Auth::user()->haspermission('departamentoM') )
+				@elseif( Auth::user()->hasPermissions(['roles_edit', 'roles_delete']))
 					<th class="table-edit">Modificaciones</th>
 				@endif
 			</tr>
@@ -62,10 +62,10 @@
 		<tbody>
 			<tr dir-paginate="rol in roles | filter:busqueda | itemsPerPage:cRegistro">
 				<td>{#rol.nombre | capitalize#}</td>
-				@if( Auth::user()->haspermission('departamentoM') )
+				@if( Auth::user()->hasPermissions(['roles_edit']))
 					<td class="table-edit"><button class="btn btn-warning" ng-click="editarRol(rol.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 				@endif
-				@if( Auth::user()->haspermission('departamentoD') )
+				@if( Auth::user()->hasPermissions(['roles_delete']))
 					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarRol(rol.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
 				@endif
 			</tr>

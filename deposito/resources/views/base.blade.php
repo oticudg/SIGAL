@@ -21,7 +21,7 @@
 		    <div class="collapse navbar-collapse">
 			    @if(Auth::check())
 			      <ul class="nav navbar-nav navbar-right">
-			      	@if( Auth::user()->haspermission('inventarioH') && ( $var = App\Inventario::alert() ) > 0 )
+			      	@if( Auth::user()->hasPermissions(['inventory_notification_alert']) && ( $var = App\Inventario::alert() ) > 0 )
 				      	<li>
 							<a href="{{route('invenHerraNiveles')}}">
 							  <span class="glyphicon glyphicon-bell"></span> <span class="badge">{{$var}}</span>
@@ -33,7 +33,7 @@
 							<span class="glyphicon glyphicon-user"></span> {{ ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}} <span class="caret"></span>
 						</a>
 				  	    <ul class="dropdown-menu" role="menu">
-				        	@if( Auth::user()->haspermission('depositos'))
+				        	@if( Auth::user()->hasPermissions(['stores_multiple']))
 				        		<li ng-click="deposito()"><a href="#"><span class="glyphicon glyphicon-inbox"></span> Cambiar almacén</a></li>
 				        		<li class="divider"></li>
 				        	@endif
@@ -48,7 +48,7 @@
 		  </div>
 		</nav>
 	</div>
-	
+
 	<div>
 		@yield('conten')
 	</div>
@@ -61,7 +61,7 @@
 	<script src="{{asset('js/vendor/angular-sanitize.min.js')}}"></script>
 	<script src="{{asset('js/vendor/select.min.js')}}"></script>
 	<script src="{{asset('js/deposito.js')}}"></script>
-	
+
 	@yield('addscript')
 
 </body>

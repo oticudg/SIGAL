@@ -67,7 +67,7 @@
 
       <button type="button" class="btn btn-success" ng-click="update()">
         <span class="glyphicon glyphicon-repeat"></span></button>
-      @if(Auth::user()->haspermission('inventarioH'))
+      @if(Auth::user()->hasPermissions(['inventory_report']))
         <a class="btn btn-warning" href="/reportes/kardex?insumo={#insumoInfo.insumo#}&dateI={#insumoInfo.dateI#}&dateF={#insumoInfo.dateF#}" target="_blank">
           <span class="glyphicon glyphicon glyphicon-print"></span>
         </a>
@@ -102,8 +102,10 @@
         <th class="col-md-1">Tipo</th>
 				<th class="col-md-1">Mov.</th>
 				<th class="col-md-1">Exist.</th>
-        <th class="col-md-1">Nota</th>
-			</tr>
+        @if(Auth::user()->hasPermissions(['inventory_movements']))
+          <th class="col-md-1">Nota</th>
+        @endif
+      </tr>
 		</thead>
 		<tbody>
       <tr ng-show="barSearch">
@@ -134,11 +136,8 @@
         <td>{#movimiento.type | uppercase #}</td>
         <td>{#movimiento.movido#}</td>
 				<td>{#movimiento.existencia#}</td>
-        @if(Auth::user()->haspermission('inventarioH'))
-        <td><button class="btn btn-warning btn-sm" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-        @else
-        <td ng-hide="movimiento.i"><button class="btn btn-warning btn-sm" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-        <td ng-show="movimiento.i"><button class="btn btn-warning btn-sm disabled"><span class="glyphicon glyphicon-eye-close"></span></button></td>
+        @if(Auth::user()->hasPermissions(['inventory_movements']))
+          <td><button class="btn btn-warning btn-sm" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
         @endif
       </tr>
 		</tbody>

@@ -8,7 +8,7 @@ controller('insumosAlertController',function($scope,$http,$modal){
 
 	$scope.obtenerInsumos = function(){
 
-		$http.get('/inventario/getAlertInsumos')
+		$http.get('/inventario/herramientas/getAlertInsumos')
 			.success( function(response){$scope.insumos = response});
 	};
 
