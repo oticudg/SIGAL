@@ -467,10 +467,11 @@ Route::group(['prefix' => 'documentos', 'as' => 'docum'], function(){
 			Route::post('eliminar/{id}', ['uses' => 'documentosController@eliminar']);
 		});
 
-		Route::get('all', ['uses' => 'documentosController@allDocumentos']);
 		Route::get('get/{id}', ['uses' => 'documentosController@getDocumento']);
-		Route::get('all/{naturaleza}', ['uses' => 'documentosController@allFilter']);
 	});
+
+	Route::get('all', ['uses' => 'documentosController@allDocumentos']);
+	Route::get('all/{naturaleza}', ['uses' => 'documentosController@allFilter']);
 });
 
 /*** Fin de modulo de documentos ***/

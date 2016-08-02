@@ -38,6 +38,9 @@
 
 											@if(Auth::user()->hasPermissions(['documents_consult']))
 												<li><a href="{{route('documIndex')}}"><span class="glyphicon glyphicon-folder-close"></span> Documentos</a></li></li>
+											@endif
+
+											@if(Auth::user()->hasPermissions(['roles_consult']))
 												<li><a href="{{route('rolesIndex')}}"><span class="glyphicon glyphicon-compressed"></span> Roles</a></li></li>
 											@endif
 
@@ -49,7 +52,7 @@
 							       	 	<li><a href="/proveedores"><span class="glyphicon glyphicon-folder-open"></span> Proveedores</a></li>
 							        @endif
 
-							        @if( Auth::user()->hasPermissions(['providers_consult']) )
+							        @if( Auth::user()->hasPermissions(['items_consult']) )
 							       	 	<li><a href="/insumos"><span class="glyphicon glyphicon-th"></span> Insumos</a></li>
 							        @endif
 		                </ul>
