@@ -97,7 +97,7 @@ class salidasController extends Controller
                    ->union($depositos)
                    ->union($internos);
 
-        return $salidas->take(50)->orderBy('id', 'desc')->get();
+        return $salidas->orderBy('id', 'desc')->get();
     }
 
     public function getSalida($id){

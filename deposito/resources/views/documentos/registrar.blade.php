@@ -9,18 +9,18 @@
 		<div class="col-md-2">
 			<div class="form-group">
 				<label  class="text-muted" for="abre">Abreviatura</label>
-				<input class="form-control" id="abre" type="text" placeholder="Abreviatura" ng-model="registro.abreviatura">
+				<input class="form-control" id="abre" type="text" placeholder="Solo 3 dígitos" ng-model="registro.abreviatura" autofocus>
 			</div>
 		</div>
     <div class="col-md-8">
       <div class="form-group">
         <label  class="text-muted" for="nombre">Nombre</label>
-        <input class="form-control" id="nombre" type="text" placeholder="Nombre" ng-model="registro.nombre">
+        <input class="form-control" id="nombre" type="text" placeholder="Colocar el nombre o concepto del documento." ng-model="registro.nombre">
       </div>
     </div>
     <div class="col-md-2">
       <div class="form-group">
-        <label  class="text-muted" for="natu">Naturaleza</label>
+        <label  class="text-muted" for="natu">Movimiento</label>
         <select class="form-control" id="natu" ng-model="registro.naturaleza">
           <option value="entrada">Entrada</option>
           <option value="salida">Salida</option>
@@ -43,7 +43,7 @@
     <div class="col-md-10">
 			<div class="form-group">
 				<label  class="text-muted" for="uso">Modo de uso</label>
-				<textarea  class="form-control" placeholder="Uso" ng-model="registro.uso"></textarea>
+				<textarea  class="form-control" placeholder="Acá debe colocar para que debe usarse el documento, según la publicación n° 15." ng-model="registro.uso"></textarea>
 			</div>
 		</div>
   </div>

@@ -97,7 +97,7 @@ class entradasController extends Controller
                     ->unionAll($provedores)
                     ->unionAll($depositos);
 
-        return $entradas->take(100)->orderBy('id', 'desc')->get();
+        return $entradas->orderBy('id', 'desc')->get();
     }
 
     public function getEntrada($id){
