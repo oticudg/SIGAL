@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Deposito</title>
+	<title>Depósito</title>
+	<link rel="icon" type="image/png" href="{{asset('imagen/isigal.ico')}}" />
 	<link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('css/vendor/bootstrap-theme.min.css')}}">
 	<link rel="stylesheet" href="{{asset('css/vendor/select.min.css')}}">
@@ -12,11 +13,11 @@
 </head>
 <body @yield('bodytag')>
 
-	<div id="bar-menu" ng-controller="menuController">
-		<nav class="navbar navbar-inverse custon-bar navbar-fixed-top">
+	<div id="bar-menu" ng-controller="menuController" >
+		<nav class="navbar navbar-inverse custon-bar navbar-fixed-top" >
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="/inicio">Deposito Sahum</a>
+		      <a class="navbar-brand" href="/inicio"><img id="imagen" src="{{asset('imagen/lsigal.png')}}"></a>
 		    </div>
 		    <div class="collapse navbar-collapse">
 			    @if(Auth::check())

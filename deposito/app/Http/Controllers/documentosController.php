@@ -32,7 +32,7 @@ class documentosController extends Controller
     $data = $request->all();
 
     $validator = Validator::make($data,[
-        'abreviatura' => 'required|min:2|max:2|unique:documentos',
+        'abreviatura' => 'required|min:1|max:3|unique:documentos',
         'nombre'      => 'required|unique:documentos',
         'tipo'        => 'required',
         'naturaleza'  => 'required',
@@ -68,7 +68,7 @@ class documentosController extends Controller
       $data = $request->all();
 
       $validator = Validator::make($data,[
-          'abreviatura' => 'min:2|max:2|unique:documentos',
+          'abreviatura' => 'min:1|max:3|unique:documentos',
           'nombre'      => 'unique:documentos',
       ]);
 
@@ -109,7 +109,7 @@ class documentosController extends Controller
     $documento = Documento::where('id',$id)->first();
 
     if(!$documento){
-      return Response()->json(['status' => 'danger', 'menssage' => 'Esta documento no exist']);
+      return Response()->json(['status' => 'danger', 'menssage' => 'Esta documento no existe']);
     }
     else{
       Documento::where('id',$id)->delete();

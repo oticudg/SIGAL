@@ -12,7 +12,7 @@
         <div class="overlay"></div>
 
         <!-- Sidebar -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation" style="background-color: #505152">
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">

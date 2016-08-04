@@ -137,7 +137,7 @@ class reportesController extends Controller
           $title = "INVENTARIO TOTAL";
         }
 
-        $query->orderBy('insumos.codigo', 'desc');
+        $query->orderBy('insumos.descripcion', 'asc');
 
         /**
           *Si el inventario consultado es el de la fecha actual, obtiene la existencia en

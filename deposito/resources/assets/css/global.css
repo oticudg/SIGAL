@@ -68,6 +68,13 @@
 	border-radius: 0px;
 }
 
+/*** Encabezado ***/
+
+.container-fluid {
+
+  background-color: #505152;
+
+}
 
 .nav-ubication{
   color:#777
@@ -144,18 +151,29 @@
 
 /*** Modal form ***/
 
-.form-description{
+.form-description {
 	width:570px;
 	max-width:570px;
 }
 
 /*** Fin de modal form ***/
 
+/*** Estilo de vista de acceso ***/
+
+ 
+.navbar-brand img {
+  width: 100px;
+}
+
 /*** Mensage de bienvenida al sistema ***/
 
 #bienvenida{
 
 	text-align: center;
+}
+
+#bienvenida p {
+  font-size: 28px;
 }
 
 /*** Fin de mensage de bienvenida al sistema ***/
@@ -173,13 +191,18 @@
 .custon-imagen{
 
 	width: 800px;
-
+  padding: 5px;
+  padding-top: 40px;
+  -webkit-box-shadow: 5px 5px 1px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 5px 1px 0px rgba(0,0,0,0.75);
+  box-shadow: 5px 5px 1px 0px rgba(0,0,0,0.75);
 }
 
-#contenedor-imagen{
+/*#contenedor-imagen{
 
-	padding: 10px;
-	padding-top: 40px;
+  padding: 5px;
+  padding-top: 40px;
+	
 }
 
 /*** Fin del contenido de la pagina de bienvenida ***/
@@ -225,6 +248,7 @@
 	text-align: center;
 }
 
+
 .table-edit{
 	width: 100px;
 }
@@ -242,6 +266,12 @@
 
 .default{
 	background-color:#F1F1F1;
+}
+
+/* Buscadores, filtros y otros de tablas */
+
+.row {
+  margin-top: 30px;
 }
 
 /*** Fin de contenido de las paginas ***/
