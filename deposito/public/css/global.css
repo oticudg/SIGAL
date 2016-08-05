@@ -16,7 +16,7 @@
 #formTitle{padding-top:5%;padding-bottom:8%;text-align:center;height:50px;margin:0}
 .table th{background-color:#419641;color:white;text-align:center}.table td{text-align:center}
 .table-edit{width:100px}.img-lg{width:300px;height:300px}.separ{border-left:1px solid #ccc}
-.default{background-color:#f1f1f1}.row{margin-top:30px}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.default{background-color:#f1f1f1}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .div_loader{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2000;background-color:black;color:white;opacity:.8;padding:15%;text-align:center}
 .simgle_loader{position:fixed;width:100px;height:0;left:85%;top:10%;z-index:1000;color:#419641;opacity:.8;padding:0;text-align:center}
 .img_single_loader img{width:30px;height:30px}.div_loader_resouerce{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2000;background-color:black;color:white;padding:15%;text-align:center}

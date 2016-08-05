@@ -160,7 +160,7 @@
 
 /*** Estilo de vista de acceso ***/
 
- 
+
 .navbar-brand img {
   width: 100px;
 }
@@ -202,7 +202,7 @@
 
   padding: 5px;
   padding-top: 40px;
-	
+
 }
 
 /*** Fin del contenido de la pagina de bienvenida ***/
@@ -266,12 +266,6 @@
 
 .default{
 	background-color:#F1F1F1;
-}
-
-/* Buscadores, filtros y otros de tablas */
-
-.row {
-  margin-top: 30px;
 }
 
 /*** Fin de contenido de las paginas ***/
