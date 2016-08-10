@@ -157,7 +157,8 @@ class inventarioController extends Controller
                      ->sum('despachado');
 
           //Calcula la existencia
-          $insumo->existencia = $entradas - $salidas;
+          $existencia = $entradas - $salidas;
+          $insumo->existencia = round( $existencia , 2);
 
         }
 
@@ -491,7 +492,7 @@ class inventarioController extends Controller
 
           //Calcula la existencia inicial del insumo antes de los movimientos consultados.
           $existencia = $entradaM - $salidaM;
-          $movimiento->existencia = $existencia;
+          $movimiento->existencia =  round( $existencia , 2);
 
           if($movimiento->pod == null){
             $movimiento->pod = "CARGA DE INVENTARIO";
