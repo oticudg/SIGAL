@@ -404,7 +404,7 @@ class reportesController extends Controller
 
           foreach ($movimientos as $movimiento){
             //Obtiene la fecha de la ultima carga de inventario realizada en el primer año del rango de fecha a consultar
-            $last_cinve = DB::table('insumos_entradas')
+            $last_cinve = DB::table('entradas')
                           ->where('deposito', $deposito)
                           ->where('type','cinventario')
                           ->whereBetween('created_at', [$init_year_search, $movimiento->fulldate])
