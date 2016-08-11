@@ -196,7 +196,7 @@ class inventarioController extends Controller
                           ->first();
 
             //Asigna la existencia del insumo en base al ultimo movimiento.
-            $insumo->existencia = $existencia->existencia;
+            $insumo->existencia = round( $existencia->existencia, 2);
 
           }
        }
