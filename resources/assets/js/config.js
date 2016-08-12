@@ -2,10 +2,10 @@
 
 
 var deposito = angular.module('deposito',
-	
+
 	[	'ui.bootstrap',
 		'angularUtils.directives.dirPagination',
-		'ngSanitize', 
+		'ngSanitize',
 		'ui.select',
     'directive.loading'
 	]
@@ -29,7 +29,7 @@ filter('propsFilter', function() {
 
     if (angular.isArray(items)) {
       var keys = Object.keys(props);
-        
+
       items.forEach(function(item) {
         var itemMatches = false;
 
@@ -90,7 +90,7 @@ angular.module('directive.loading', [])
 }]);
 
 deposito.controller('menuController', function($scope, $http, $modal){
-  
+
   $scope.deposito = function(){
     $modal.open({
         animation: true,
@@ -103,7 +103,7 @@ deposito.controller('menuController', function($scope, $http, $modal){
           }
     });
   }
-  
+
   $scope.password = function(){
     $modal.open({
         animation: true,
@@ -143,7 +143,7 @@ deposito.controller('cambiaDepositoController', function($scope, $http, $modalIn
           location.reload();
           return;
         }
-                
+
         $scope.alert = {type:response.status , msg: response.menssage};
     });
   };
@@ -175,7 +175,7 @@ deposito.controller('cambiaPasswordController', function($scope, $http, $modalIn
           $modalInstance.dismiss('cancel');
           return;
         }
-                
+
         $scope.alert = {type:response.status , msg: response.menssage};
     });
   };
@@ -197,31 +197,29 @@ var trigger = $('.hamburger'),
    isClosed = false;
 
   trigger.click(function () {
-    hamburger_cross();      
+    hamburger_cross();
   });
 
   function hamburger_cross() {
 
-    if (isClosed == true) {          
+    if (isClosed == true) {
       overlay.hide();
       trigger.removeClass('is-open');
       trigger.addClass('is-closed');
       isClosed = false;
-    } else {   
+    } else {
       overlay.show();
       trigger.removeClass('is-closed');
       trigger.addClass('is-open');
       isClosed = true;
     }
 }
-  
+
 $('[data-toggle="offcanvas"]').click(function () {
     $('#wrapper').toggleClass('toggled');
-  });  
+  });
 });
 
 $(window).load(function() {
-  $("#loader").fadeOut("fast"); 
+  $("#loader").fadeOut("fast");
 });
-
-

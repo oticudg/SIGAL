@@ -27,20 +27,12 @@ class inventarioController extends Controller
         return view('inventario/indexInventario');
     }
 
-    public function viewHerramientas(){
-        return view('inventario/herramientasInventario');
+    public function viewAlerts(){
+        return view('inventario/alerts');
     }
 
     public function viewInsumosAlertas(){
         return view('inventario/nivelesInventario');
-    }
-
-    public function viewCargaInventario(){
-        return view('inventario/herramientasCargaInventario');
-    }
-
-    public function viewDetallesCarga(){
-        return view('inventario/detallesInventarioCarga');
     }
 
     public function searchKardex(){
@@ -304,94 +296,6 @@ class inventarioController extends Controller
 
         return $insumos;
 
-    }
-
-    public function carga(Request $request){
-
-        $data     = $request->all();
-        $usuario  = Auth::user()->id;
-        $deposito = Auth::user()->deposito;
-
-        $validator = Validator::make($data,[
-            'insumos'  =>  'required|insumos'
-        ], $this->menssage);
-
-        if($validator->fails()){
-            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
-        }
-        else{
-
-            $insumos = $data['insumos'];
-            //Codigo para la entrada
-            $code = $this->generateCode('CI', $deposito);
-
-            Inventario::where('deposito', $deposito)->delete();
-
-            $entrada = Entrada::create([
-                        'codigo'   => $code,
-                        'type'     => 'cinventario',
-                        'usuario'  => $usuario,
-                        'deposito' => $deposito
-                    ])['id'];
-
-            foreach ($insumos as $insumo){
-
-                Insumos_entrada::create([
-                    'entrada'   => $entrada,
-                    'insumo'    => $insumo['id'],
-                    'cantidad'  => $insumo['cantidad'],
-                    'type'      => 'cinventario',
-                    'deposito'  => $deposito
-                ]);
-
-                inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito, 'carga-inventario', $entrada);
-            }
-
-            return Response()->json(['status' => 'success', 'menssage' =>
-            'Inventario cargado satisfactoriamente', 'codigo' => $code]);
-
-        }
-    }
-
-    public function allInventarioCargas(){
-
-        $deposito = Auth::user()->deposito;
-
-        return DB::table('entradas')
-                    ->where('type', 'cinventario')
-                    ->where('deposito', $deposito)
-                    ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),'entradas.codigo',
-                        'entradas.id')
-                     ->orderBy('entradas.id', 'desc')->get();
-    }
-
-    public function getCarga($id){
-
-        $deposito = Auth::user()->deposito;
-
-        $entrada = Entrada::where('id',$id)
-                            ->where('deposito', $deposito)
-                            ->where('type', 'cinventario')
-                            ->first();
-        if(!$entrada){
-            return Response()->json(['status' => 'danger', 'menssage' => 'Esta carga de inventario no existe']);
-        }
-        else{
-
-            $entrada = DB::table('entradas')->where('entradas.id',$id)
-                ->join('users', 'entradas.usuario' , '=', 'users.id' )
-                ->select(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha'),
-                    DB::raw('DATE_FORMAT(entradas.created_at, "%H:%i:%s") as hora'), 'entradas.codigo',
-                    'users.email as usuario',  'entradas.id')
-                ->first();
-
-            $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
-                ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-                ->select('insumos.codigo', 'insumos.descripcion', 'insumos_entradas.cantidad')
-                ->get();
-
-            return Response()->json(['status' => 'success', 'nota' => $entrada , 'insumos' => $insumos]);
-        }
     }
 
     public function kardex(Request $request){

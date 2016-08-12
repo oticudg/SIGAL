@@ -59,7 +59,7 @@
                 	</li>
 	            @endif
 
-	            @if( Auth::user()->hasPermissions(['inventory_stock', 'inventory_movements', 'inventory_tools']) )
+	            @if( Auth::user()->hasPermissions(['inventory_stock', 'inventory_movements', 'inventory_alerts']) )
 								<li class="dropdown dropInv inve">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th-list"></span> Inventario <span class="caret"></span></a>
 		                <ul class="dropdown-menu  dropdown-panel" role="menu">
@@ -76,8 +76,8 @@
 							       	 	<li><a href="/salidas"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
 							        @endif
 
-					            @if( Auth::user()->hasPermissions(['inventory_tools']) )
-					            	<li><a href="{{route('invenHerraInicio')}}"><span class="glyphicon glyphicon-wrench"></span> Herramientas</a></li>
+					            @if( Auth::user()->hasPermissions(['inventory_alerts']) )
+					            	<li><a href="{{route('invenAlertsInicio')}}"><span class="glyphicon glyphicon-bell"></span> Alertas</a></li>
 				              @endif
 			              </ul>
                	</li>

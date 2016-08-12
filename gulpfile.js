@@ -5,14 +5,20 @@ var gulp = require('gulp')
   jsValidate = require('gulp-jsvalidate');
 
 gulp.task('js', function(){
-	gulp.src('resources/assets/js/*.js')
+	gulp.src([
+        'resources/assets/js/config.js',
+        'resources/assets/js/controllers/*.js'
+   ])
 	.pipe(concat('deposito.js'))
 	.pipe(uglify({mangle: false}))
 	.pipe(gulp.dest('public/js'));
 })
 
 gulp.task('validate-js', function(){
-  return gulp.src('resources/assets/js/*.js')
+  return gulp.src([
+        'resources/assets/js/config.js',
+        'resources/assets/js/controllers/*.js'
+    ])
 		.pipe(jsValidate());
 });
 
@@ -26,7 +32,15 @@ gulp.task('css', function(){
 })
 
 gulp.task('default', function(){
-  gulp.watch('resources/assets/js/*.js', ['validate-js']);
-  gulp.watch('resources/assets/js/*.js', ['js']);
+  gulp.watch([
+    'resources/assets/js/config.js',
+    'resources/assets/js/controllers/*.js'
+  ], ['validate-js']);
+
+  gulp.watch([
+    'resources/assets/js/config.js',
+    'resources/assets/js/controllers/*.js'
+   ], ['js']);
+
   gulp.watch('resources/assets/css/*.css', ['css']);
 });

@@ -45,7 +45,7 @@ class PermissionsTableSeeder extends Seeder
           ['nombre' => 'Kardex', 'modulo' => 'inventario', 'ip' => 'inventory_kardex'],
           ['nombre' => 'Movimientos', 'modulo' => 'inventario',    'ip' => 'inventory_movements'],
           ['nombre' => 'Reportes', 'modulo' => 'inventario',  'ip' => 'inventory_report'],
-          ['nombre' => 'Herramientas', 'modulo' => 'inventario',  'ip' => 'inventory_tools'],
+          ['nombre' => 'Alertas', 'modulo' => 'inventario',  'ip' => 'inventory_alerts'],
           ['nombre' => 'Notificación fallas', 'modulo' => 'inventario',  'ip' => 'inventory_notification_alert'],
           ['nombre' => 'Registrar entradas',  'modulo' => 'movimientos', 'ip' => 'movements_register_entry'],
           ['nombre' => 'Registrar salidas',   'modulo' => 'movimientos', 'ip' => 'movements_register_egress']

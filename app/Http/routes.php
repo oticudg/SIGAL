@@ -218,24 +218,13 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::post('getKardex', 'inventarioController@kardex');
 			});
 
-			Route::group(['prefix' => 'herramientas', 'as' => 'Herra', 'middleware' => 'permission:inventory_tools'], function(){
-
-				//Muestra la vista de herramientas
-				Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@viewHerramientas']);
-				//Muestra la vista de inventarios cargados
-				Route::get('inventarioCargas',['as' => 'InventarioCargas', 'uses' => 'inventarioController@viewCargaInventario']);
-				//Muestra la vista de detalles de un inventario cargado
-				Route::get('detallesCarga','inventarioController@viewDetallesCarga');
+			Route::group(['prefix' => 'alertas',  'as' => 'Alerts', 'middleware' => 'permission:inventory_alerts'], function(){
+				//Muestra la vista de	alertas
+				Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@viewAlerts']);
 				//configura el valor min y med de los insumos que se especifiquen
 				Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
 				//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
 				Route::get('getInventarioAlert', 'inventarioController@getInsumosAlert');
-				//Regresa una lista de los inventarios cargados
-				Route::get('getInventarioCargas', 'inventarioController@allInventarioCargas');
-				//Regresa todos los datos de un entrade de carga de inventario cuyo id se pase
-				Route::get('getInventarioCarga/{id}', 'inventarioController@getCarga');
-				//Registra una carga inicial para el inventario
-				Route::post('cargaInventario','inventarioController@carga');
 			});
 
 			Route::group(['prefix' => 'herramientas', 'as' => 'Herra','middleware' => 'permission:inventory_notification_alert'], function(){
