@@ -57,7 +57,7 @@
     </div>
 
     <div class="col-md-offset-1 col-md-2" style="padding-top:2%; text-align:right;">
-      <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+      <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" tooltip="Filtrar registros">
         <span class="glyphicon glyphicon-search"></span></button>
 
       <ul class="dropdown-menu pull-right" role="menu">
@@ -65,10 +65,10 @@
         <li ng-click="search()" ><a href="#">Busqueda avanzada</a></li>
       </ul>
 
-      <button type="button" class="btn btn-success" ng-click="update()">
+      <button type="button" class="btn btn-success" ng-click="update()" tooltip="Actualizar registros">
         <span class="glyphicon glyphicon-repeat"></span></button>
       @if(Auth::user()->hasPermissions(['inventory_report']))
-        <a class="btn btn-warning" href="/reportes/kardex?insumo={#insumoInfo.insumo#}&dateI={#insumoInfo.dateI#}&dateF={#insumoInfo.dateF#}" target="_blank">
+        <a class="btn btn-warning" href="/reportes/kardex?insumo={#insumoInfo.insumo#}&dateI={#insumoInfo.dateI#}&dateF={#insumoInfo.dateF#}" target="_blank" tooltip="Generar reporte">
           <span class="glyphicon glyphicon glyphicon-print"></span>
         </a>
       @endif

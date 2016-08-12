@@ -112,7 +112,7 @@
 		<br>
 
 		<center>
-			<button class="btn btn-success" ng-click="registrar()"><span class="glyphicon glyphicon-ok-sign"></span> Registar</button>
+			<button class="btn btn-success" ng-click="registrar()"><span class="glyphicon glyphicon-ok-sign"></span> Registrar</button>
 		</center>
 	</div>
 
@@ -142,7 +142,7 @@
         </div>
         <div class="modal-body">
         	<center>
-        		<h3 class="text-title-modal">Confirme el regitro para esta salida</h3>
+        		<h3 class="text-title-modal">Confirme el registro para esta salida</h3>
         	</center>
         </div>
         <div class="modal-footer">

@@ -5,10 +5,10 @@
 		<div>
 			<h1 class="text-title">Bienvenido</h1>
 			<hr>
-			<h3>Sistema para la Gestión de Almacenes <b>(SIGAL)</b><p>Sistema Autónomo Hospital Universitario de Maracaibo</p></h3>		
+			<h3>Sistema para la Gestión de Almacenes <b>(SIGAL)</b><p>Servicio Autónomo Hospital Universitario de Maracaibo</p></h3>		
 		</div>
 	</div>
-	
+
 	<div id="contenido">
 
 		<h1 class="text-title">Gestión Inteligente</h1>

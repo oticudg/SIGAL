@@ -19,32 +19,6 @@
 	<br>
 	<br>
 
-	@if(Auth::user()->hasPermissions(['inventory_report']))
-		<div class="row">
-			<div class="col-md-2" ng-hide="status">
-				<div class="input-group-btn">
-					<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-indent-right"></span> Reportes <span class="caret"></span></button>
-
-					<ul class="dropdown-menu" role="menu">
-						<li ng-click="parcialInventario()"><a href="#">Inventario parcial</a></li>
-						<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}&filter=true" target="_blank">Inventario sin fallas</a></li>
-			          	<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}" target="_blank">Inventario total</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-md-4" ng-show="status">
-				<button ng-class="thereIsSelect() ? 'active':'disabled'" ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
-				<button ng-click="closeSelect()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-			</div>
-		</div>
-
-		<br>
-		<br>
-
-	@endif
-
 	<div class="row">
 		<div class="col-md-1">
     		<label for="cantidad">Registros</label>
@@ -68,16 +42,35 @@
 			</table>
 		</div>
 
-		<div class="col-md-offset-2 col-md-2" style="padding-top:2%; text-align:right;">
-      <button class="btn btn-success" ng-click="search()">
-        <span class="glyphicon glyphicon-search"></span></button>
+		<div class="col-md-offset-1 col-md-3" style="padding-top:2%; text-align:right;">
 
-			<button type="button" class="btn btn-success" ng-click="dateSelect()">
-        <span class="glyphicon glyphicon-calendar"></span></button>
+			@if(Auth::user()->hasPermissions(['inventory_report']))
+					<button class="btn btn-success dropdown-toggle" data-toggle="dropdown" tooltip="Reportes" ng-hide="status">
+					<span class="glyphicon glyphicon-list-alt"></span></button>
 
-			<button type="button" class="btn btn-success" ng-click="move()"><span class="glyphicon glyphicon-transfer"></span></button>
-			<button type="button" class="btn btn-success" ng-click="current()"><span class="glyphicon glyphicon-screenshot"></span></button>
-    </div>
+					<ul class="dropdown-menu" role="menu">
+						<li ng-click="parcialInventario()"><a href="#">Inventario parcial</a></li>
+						<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}&filter=true" target="_blank">Inventario sin fallas</a></li>
+			          	<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}" target="_blank">Inventario total</a></li>
+					</ul>
+
+					<span ng-show="status">
+						<button ng-class="thereIsSelect() ? 'active':'disabled'"  tooltip="Generar reporte" ng-click="gerenarParcial()"class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span></button>
+						<button ng-click="closeSelect()" class="btn btn-danger" tooltip="Cancelar"><span class="glyphicon glyphicon-remove"></span></button>
+					</span>
+			@endif
+
+			<span ng-hide="status">
+	      <button class="btn btn-success" ng-click="search()" tooltip="Filtrar registros">
+	        <span class="glyphicon glyphicon-search"></span></button>
+
+				<button type="button" class="btn btn-success" ng-click="dateSelect()" tooltip="Situar el inventario en una fecha">
+	        <span class="glyphicon glyphicon-calendar"></span></button>
+
+				<button type="button" class="btn btn-success" ng-click="move()" tooltip="Insumos con movimientos"><span class="glyphicon glyphicon-transfer"></span></button>
+				<button type="button" class="btn btn-success" ng-click="current()" tooltip="Situar inventario en fecha actual"><span class="glyphicon glyphicon-screenshot"></span></button>
+			</span>
+		</div>
 	</div>
 
 	<br>
