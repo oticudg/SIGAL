@@ -83,14 +83,23 @@ class entradasController extends Controller
                       ->join('depositos','entradas.tercero', '=', 'depositos.id')
                       ->where('entradas.deposito', $deposito)
                       ->where('documentos.tipo', 'deposito')
-                      ->Orwhere('documentos.tipo', 'interno')
+                      ->where('documentos.naturaleza', 'entrada')
+                      ->select($select)
+                      ->addSelect('depositos.nombre as tercero');
+
+        $internos  = DB::table('entradas')
+                      ->join('documentos', 'entradas.documento', '=', 'documentos.id')
+                      ->join('depositos','entradas.tercero', '=', 'depositos.id')
+                      ->where('entradas.deposito', $deposito)
+                      ->where('documentos.tipo', 'interno')
                       ->where('documentos.naturaleza', 'entrada')
                       ->select($select)
                       ->addSelect('depositos.nombre as tercero');
 
         $entradas = $servicios
                     ->unionAll($provedores)
-                    ->unionAll($depositos);
+                    ->unionAll($depositos)
+                    ->unionAll($internos);
 
         return $entradas->orderBy('id', 'desc')->get();
     }
