@@ -24,6 +24,7 @@
                     <a href="/inicio">Inicio</a>
                 </li>
 
+								{{-- Menu de administracion --}}
                 @if( Auth::user()->hasPermissions(['users_consult', 'stores_consult', 'documents_consult', 'roles_consult', 'departs_consult', 'providers_consult', 'items_consult']) )
 	                <li class="dropdown droAdmin admi">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Administración <span class="caret"></span></a>
@@ -59,6 +60,8 @@
                 	</li>
 	            @endif
 
+
+							{{-- Menu de inventario --}}
 	            @if( Auth::user()->hasPermissions(['inventory_stock', 'inventory_movements', 'inventory_alerts']) )
 								<li class="dropdown dropInv inve">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th-list"></span> Inventario <span class="caret"></span></a>
@@ -79,19 +82,14 @@
 					            @if( Auth::user()->hasPermissions(['inventory_alerts']) )
 					            	<li><a href="{{route('invenAlertsInicio')}}"><span class="glyphicon glyphicon-bell"></span> Alarmas</a></li>
 				              @endif
+
+					            @if( Auth::user()->hasPermissions(['inventory_alerts']) )
+					            	<li><a href="{{route('invenModifInicio')}}"><span class="glyphicon glyphicon-edit"></span> Modificaciones</a></li>
+				              @endif
 			              </ul>
                	</li>
 							 @endif
 
-	            @if( false )
-								<li class="dropdown dropMod mod">
-	                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon glyphicon-edit"></span> Modificaciones <span class="caret"></span></a>
-	                <ul class="dropdown-menu  dropdown-panel" role="menu">
-		             		<li><a href="{{route('modifiEntrada')}}"><span class="glyphicon glyphicon-circle-arrow-down"></span> Entradas</a></li>
-		       					<li><a href="{{route('modifiSalida')}}"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</a></li>
-	                </ul>
-              	</li>
-							@endif
 
 							@if( false )
 								<li class="esta">
@@ -99,6 +97,7 @@
 			          </li>
 							@endif
 
+							{{-- Menu de transferencias --}}
 							@if( Auth::user()->hasPermissions(['movements_register_entry', 'movements_register_egress']) )
 
 								<li class="dropdown dropTrn trn">
