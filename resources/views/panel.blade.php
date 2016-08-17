@@ -77,7 +77,7 @@
 							        @endif
 
 					            @if( Auth::user()->hasPermissions(['inventory_alerts']) )
-					            	<li><a href="{{route('invenAlertsInicio')}}"><span class="glyphicon glyphicon-bell"></span> Alertas</a></li>
+					            	<li><a href="{{route('invenAlertsInicio')}}"><span class="glyphicon glyphicon-bell"></span> Alarmas</a></li>
 				              @endif
 			              </ul>
                	</li>

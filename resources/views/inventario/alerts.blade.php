@@ -4,7 +4,7 @@
 	<nav class="nav-ubication">
 		<ul class="nav-enlaces">
 			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
-			<li class="nav-active"><span class="glyphicon glyphicon-bell"></span> Alertas</li>
+			<li class="nav-active"><span class="glyphicon glyphicon-bell"></span> Alarmas</li>
 		</ul>
 	</nav>
 
