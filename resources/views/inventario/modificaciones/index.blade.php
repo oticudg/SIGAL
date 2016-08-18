@@ -1,5 +1,5 @@
 @extends('panel')
-@section('bodytag', 'ng-controller="modifiEntradasController"')
+@section('bodytag', 'ng-controller="modificacionesController"')
 @section('front-page')
 
 	<div data-loading class="div_loader">

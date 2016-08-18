@@ -358,6 +358,47 @@ class AppServiceProvider extends ServiceProvider
         {
             return Role::where('id', $value)->first();
         });
+
+
+        Validator::extend('movimiento', function($attribute, $value, $parameters)
+        {
+            $documento = Input::get($parameters[0]);
+            $documento = Documento::where('id', $documento)->value('id');
+            $deposito = 1;//Auth::user()->deposito;
+
+            if( Entrada::where('id', $value)->where('documento', $documento)->where('deposito', $deposito)->first()){
+              return true;
+            }
+            else if(Salida::where('id', $value)->where('documento', $documento)->where('deposito', $deposito)->first()){
+              return true;
+            }
+            else{
+              return false;
+            }
+        });
+
+        Validator::extend('documento', function($attribute, $value)
+        {
+             return Documento::where('id', $value)->first();
+        });
+
+        Validator::extend('documento_same_nature', function($attribute, $value, $parameters)
+        {
+            $id  = Input::get($parameters[0]);
+            $ori_naturaleza = Documento::where('id', $id)->value('naturaleza');
+            $up_naturaleza = Documento::where('id', $value)->value('naturaleza');
+
+            return $ori_naturaleza == $up_naturaleza;
+        });
+
+        Validator::extend('document_not_equal', function($attribute, $value, $parameters)
+        {
+            $id  = Input::get($parameters[0]);
+            $ori_documento = Documento::where('id', $id)->value('id');
+            $up_documento  = Documento::where('id', $value)->value('id');
+
+            return !($ori_documento == $up_documento);
+        });
     }
 
     /**

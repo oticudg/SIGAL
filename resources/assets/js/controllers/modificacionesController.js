@@ -1,27 +1,27 @@
 "use strict";
 
 angular.module('deposito').
-controller('modifiSalidasController',function($scope,$http,$modal){
+controller('modificacionesController',function($scope,$http,$modal){
 
-	$scope.salidas = [];
+	$scope.entradas = [];
   $scope.cRegistro = '5';
 
-	$scope.obtenerSalidas = function(){
+	$scope.obtenerEntradas = function(){
 
-		$http.get('/modificaciones/getSalidas')
-			.success( function(response){$scope.salidas = response});
+		$http.get('/modificaciones/getEntradas')
+			.success( function(response){$scope.entradas = response});
 	};
 
 	$scope.registrarModificacion = function() {
 
       $modal.open({
      		animation: true,
-      		templateUrl: '/modificaciones/registrarSalida',
+      		templateUrl: '/modificaciones/registrarEntrada',
       		windowClass: 'large-Modal',
-      		controller: 'registraModificacionSalidaCtrl',
+      		controller: 'registraModificacionEntradaCtrl',
       		resolve: {
-       			 obtenerSalidas: function () {
-          			return $scope.obtenerSalidas;
+       			 obtenerEntradas: function () {
+          			return $scope.obtenerEntradas;
         		 }
       		}
 	    });
@@ -32,8 +32,8 @@ controller('modifiSalidasController',function($scope,$http,$modal){
 	    var modalInstance = $modal.open({
 
 	      animation: true,
-	          templateUrl: '/modificaciones/detallesSalida',
-	          controller: 'detallesModificacionSalidaCtrl',
+	          templateUrl: '/modificaciones/detallesEntrada',
+	          controller: 'detallesModificacionEntradaCtrl',
 	          windowClass: 'large-Modal',
 	          resolve: {
 
@@ -44,25 +44,25 @@ controller('modifiSalidasController',function($scope,$http,$modal){
 	    });
   	};
 
-  	$scope.obtenerSalidas();
+  	$scope.obtenerEntradas();
 
 });
 
-angular.module('deposito').controller('registraModificacionSalidaCtrl', 
-	function ($scope, $modalInstance, $http, obtenerSalidas){
+angular.module('deposito').controller('registraModificacionEntradaCtrl',
+	function ($scope, $modalInstance, $http, obtenerEntradas){
 
   $scope.btnVisivilidad = true;
   $scope.alert = {};
   $scope.codigo = '';
   $scope.orden = '';
-  $scope.departamento = '';
-  $scope.salida = {};
+  $scope.provedor = '';
+  $scope.entrada = {};
   $scope.insumos = [];
   $scope.status = false;
-  $scope.departamentos = [];
+  $scope.provedores = [];
 
-  $http.get('/getDepartamentos')
-    .success( function(response){ $scope.departamentos = response;});
+  $http.get('/getProvedores')
+    .success( function(response){ $scope.provedores = response;});
 
   $scope.registrar = function () {
   	$scope.save();
@@ -78,24 +78,24 @@ angular.module('deposito').controller('registraModificacionSalidaCtrl',
 
   };
 
-  $scope.ubicarSalida = function(){
+  $scope.ubicarEntrada = function(){
 
   	if($scope.codigo == ''){
   		$scope.alert = {'type':'danger' , 'msg':'Espefifique un codigo de Pro-Forma'};
   	}
   	else{
 
-  		$http.get('/getSalidaCodigo/' + $scope.codigo)
+  		$http.get('/entradas/getCodigo/' + $scope.codigo)
   			.success(
   				function(response){
 
   					if( response.status == 'danger'){
-						$scope.alert = {'type':response.status , 'msg':response.menssage};					
+						$scope.alert = {'type':response.status , 'msg':response.menssage};
   						return;
   					}
   					else{
 
-  						$scope.salida = response.salida;
+  						$scope.entrada = response.entrada;
   						$scope.insumos = response.insumos;
   						$scope.alert = {};
   						$scope.status = true;
@@ -128,16 +128,12 @@ angular.module('deposito').controller('registraModificacionSalidaCtrl',
   function serializeInsumos(){
 
   	var insumos = [];
-  	var index; 
+  	var index;
 
   	for( index in $scope.insumos){
 
-  		insumos.push(
-        {
-         'id':$scope.insumos[index].id, 
-  			 'solicitado':$scope.insumos[index].Msolicitado, 
-         'despachado':$scope.insumos[index].Mdespachado
-      });
+  		insumos.push({'id':$scope.insumos[index].id,
+  			'cantidad':$scope.insumos[index].modificacion});
   	}
 
   	return insumos;
@@ -148,12 +144,13 @@ angular.module('deposito').controller('registraModificacionSalidaCtrl',
 
    	var $data = {
 
-   		'salida'	      : $scope.salida.id,
-  		'departamento'	: $scope.departamento,
-  		'insumos'	      : serializeInsumos()
+   		'entrada'	: $scope.entrada.id,
+  		'orden'		: $scope.orden,
+  		'provedor'	: $scope.provedor,
+  		'insumos'	: serializeInsumos()
  	};
 
-    $http.post('/modificaciones/registrarSalida', $data)
+    $http.post('/modificaciones/registrarEntrada', $data)
       .success(function(response){
 
     		$scope.alert = {};
@@ -161,41 +158,41 @@ angular.module('deposito').controller('registraModificacionSalidaCtrl',
         if(response.status == 'unexist'){
 
           marcaInsumos(response.data);
-          $scope.alert = {type:'danger', 
+          $scope.alert = {type:'danger',
             msg:'La cantidad de los insumos marcados no puede ser modificada por este monto, por favor verifique el inventario'};
           return;
         }
-    	  
+
         $scope.alert = {"type":response.status , "msg":response.menssage};
 
         if( response.status == "success"){
-          $scope.btnVisivilidad = false; 
-          obtenerSalidas();
+          $scope.btnVisivilidad = false;
+          obtenerEntradas();
         }
-        
+
    	});
 
  };
 
 });
 
-angular.module('deposito').controller('detallesModificacionSalidaCtrl', function ($scope, $modalInstance, $http, id) {
+angular.module('deposito').controller('detallesModificacionEntradaCtrl', function ($scope, $modalInstance, $http, id) {
 
-  $scope.salida = {};
+  $scope.entrada = {};
   $scope.insumos = [];
 
   $scope.cancelar = function () {
     $modalInstance.dismiss('cancel');
-  
+
   };
 
   $scope.detalles = function(){
 
-    $http.get('/modificaciones/getSalida/' + id)
+    $http.get('/modificaciones/getEntradas/' + id)
       .success(function(response){
 
       	$scope.modificacion = response.modificacion;
-        $scope.salida = response.salida;
+        $scope.entrada = response.entrada;
         $scope.insumos = response.insumos;
 
     });
