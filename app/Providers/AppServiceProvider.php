@@ -364,7 +364,7 @@ class AppServiceProvider extends ServiceProvider
         {
             $documento = Input::get($parameters[0]);
             $documento = Documento::where('id', $documento)->value('id');
-            $deposito = 1;//Auth::user()->deposito;
+            $deposito =  Auth::user()->deposito;
 
             if( Entrada::where('id', $value)->where('documento', $documento)->where('deposito', $deposito)->first()){
               return true;

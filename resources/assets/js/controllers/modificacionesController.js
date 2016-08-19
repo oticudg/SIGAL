@@ -16,14 +16,14 @@ controller('modificacionesController',function($scope,$http,$modal){
 
       $modal.open({
      		animation: true,
-      		templateUrl: '/modificaciones/registrarEntrada',
-      		windowClass: 'large-Modal',
-      		controller: 'registraModificacionEntradaCtrl',
-      		resolve: {
-       			 obtenerEntradas: function () {
-          			return $scope.obtenerEntradas;
-        		 }
-      		}
+    		templateUrl: '/inventario/modificaciones/registrar',
+    		windowClass: 'large-Modal',
+    		controller: 'registraModificacionCtrl',
+    		resolve: {
+     			 obtenerEntradas: function () {
+        			return $scope.obtenerEntradas;
+      		 }
+    		}
 	    });
 	}
 
@@ -48,21 +48,18 @@ controller('modificacionesController',function($scope,$http,$modal){
 
 });
 
-angular.module('deposito').controller('registraModificacionEntradaCtrl',
+angular.module('deposito').controller('registraModificacionCtrl',
 	function ($scope, $modalInstance, $http, obtenerEntradas){
 
-  $scope.btnVisivilidad = true;
+  $scope.uiStatus =	false;
+	$scope.documentos = [];
+	$scope.terceros = [];
+	$scope.documentoSelect = {};
+	$scope.terceroSelect = {};
+	$scope.panelTerceros = true;
   $scope.alert = {};
-  $scope.codigo = '';
-  $scope.orden = '';
-  $scope.provedor = '';
-  $scope.entrada = {};
-  $scope.insumos = [];
-  $scope.status = false;
-  $scope.provedores = [];
-
-  $http.get('/getProvedores')
-    .success( function(response){ $scope.provedores = response;});
+  $scope.code = '';
+	var registerUpdate = {};
 
   $scope.registrar = function () {
   	$scope.save();
@@ -73,106 +70,96 @@ angular.module('deposito').controller('registraModificacionEntradaCtrl',
   };
 
   $scope.closeAlert = function(){
-
     $scope.alert = {};
-
   };
 
-  $scope.ubicarEntrada = function(){
+	$scope.search = function(){
+			$http.post('/inventario/modificaciones/getMovimiento',{'code':$scope.code})
+				.success(function(response){
+					if( response.status != 'success'){
+						$scope.alert = {'type':response.status, 'msg':response.message};
+					}
+					else{
 
-  	if($scope.codigo == ''){
-  		$scope.alert = {'type':'danger' , 'msg':'Espefifique un codigo de Pro-Forma'};
-  	}
-  	else{
+						$http.get('/documentos/all/' + response.data.type)
+					      .success( function(response){ $scope.documentos = response;});
 
-  		$http.get('/entradas/getCodigo/' + $scope.codigo)
-  			.success(
-  				function(response){
+						if(response.data.tercero == 'interno'){
+							$scope.panelTerceros = false;
+						}
+						else{
+							$http.get('/depositos/terceros/'+ response.data.tercero)
+			          .success(function(response){
+			            $scope.terceros = response;
+			          });
+						}
 
-  					if( response.status == 'danger'){
-						$scope.alert = {'type':response.status , 'msg':response.menssage};
-  						return;
-  					}
-  					else{
+						registerUpdate = {
+							'movimiento':response.data.movimiento.id,
+							'documento':response.data.documento
+						}
 
-  						$scope.entrada = response.entrada;
-  						$scope.insumos = response.insumos;
-  						$scope.alert = {};
-  						$scope.status = true;
-  						return;
-  					}
-  				}
-  		);
-  	}
+						$scope.movimiento = response.data.movimiento;
+						$scope.uiStatus = true;
 
-  }
+					}
+				});
+	}
 
-  function marcaInsumos(ids){
-    var index;
-    var id;
+  $scope.searchTerceros = function(){
+    if($scope.documentoSelect.hasOwnProperty('selected')){
+      $scope.terceros = [];
+      $scope.terceroSelect = {};
 
-    for(index in $scope.insumos){
-      $scope.insumos[index].style = '';
+      if($scope.documentoSelect.selected.tipo != "interno"){
+        $http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+          .success(function(response){
+            $scope.terceros = response;
+            $scope.panelTerceros = true;
+          });
+      }
+      else{
+        $scope.panelTerceros = false;
+      }
     }
-
-    for( id in ids){
-      for(index = 0; index < $scope.insumos.length; index++)
-
-        if($scope.insumos[index].id == ids[id] ){
-          $scope.insumos[index].style = 'danger';
-          break;
-        }
-    }
   }
 
-  function serializeInsumos(){
+	$scope.update = function(){
 
-  	var insumos = [];
-  	var index;
+		registerUpdate.update_tercero = parseTercero();
+		registerUpdate.update_documento = parseDocumento();
 
-  	for( index in $scope.insumos){
+		$http.post('/inventario/modificaciones/registrar',registerUpdate)
+			.success(function(response){
+				$scope.alert = {'type':response.status, 'msg':response.message};
 
-  		insumos.push({'id':$scope.insumos[index].id,
-  			'cantidad':$scope.insumos[index].modificacion});
-  	}
+				if(response.status == 'success'){
+					$scope.uiStatus = false;
+					restart();
+				}
 
-  	return insumos;
+			});
+	};
 
-  }
+	var parseDocumento = function(){
+		if($scope.documentoSelect.hasOwnProperty('selected'))
+			return $scope.documentoSelect.selected.id;
 
-  $scope.save = function(){
+		return '';
+	}
 
-   	var $data = {
+	var parseTercero = function(){
+		if($scope.terceroSelect.hasOwnProperty('selected'))
+			return $scope.terceroSelect.selected.id;
 
-   		'entrada'	: $scope.entrada.id,
-  		'orden'		: $scope.orden,
-  		'provedor'	: $scope.provedor,
-  		'insumos'	: serializeInsumos()
- 	};
+		return '';
+	}
 
-    $http.post('/modificaciones/registrarEntrada', $data)
-      .success(function(response){
-
-    		$scope.alert = {};
-
-        if(response.status == 'unexist'){
-
-          marcaInsumos(response.data);
-          $scope.alert = {type:'danger',
-            msg:'La cantidad de los insumos marcados no puede ser modificada por este monto, por favor verifique el inventario'};
-          return;
-        }
-
-        $scope.alert = {"type":response.status , "msg":response.menssage};
-
-        if( response.status == "success"){
-          $scope.btnVisivilidad = false;
-          obtenerEntradas();
-        }
-
-   	});
-
- };
+	var restart = function(){
+		$scope.documentoSelect = {};
+		$scope.terceroSelect = {};
+		$scope.code = '';
+	}
 
 });
 

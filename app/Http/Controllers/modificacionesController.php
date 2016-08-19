@@ -18,10 +18,155 @@ use App\Deposito;
 
 class modificacionesController extends Controller
 {
-    private $menssage = [];
+    private $menssage = [
+      'update_documento.document_not_equal' => 'Seleccione otro documento para realizar la modificación'
+    ];
 
     public function index(){
         return view('inventario.modificaciones.index');
+    }
+
+    public function viewRegistrar(){
+        return view('inventario.modificaciones.registrar');
+    }
+
+    public function getMovimiento(Request $request){
+      $code = $request->get('code');
+      $deposito = Auth::user()->deposito;
+
+      //Si el codigo no es espesificado devuelve un mensaje de error.
+      if(empty($code)){
+        return Response()->json(['status' => 'danger', 'message' => 'Ingrese un codigo']);
+      }
+
+      //Asume que el codigo pertenece a una entrada.
+      $movimiento = Entrada::where('codigo', 'like', '%-'.$code)->where('deposito', $deposito)->first(['id', 'documento']);
+      $type = 'entradas';
+
+      //Si el codigo no pertenece a una entrada asume que es una salida.
+      if(!$movimiento){
+        $movimiento = Salida::where('codigo', 'like', '%-'.$code)->where('deposito', $deposito)->first(['id', 'documento']);
+        $type = 'salidas';
+      }
+
+      //Si el movimento no es encontrado devulve un mensaje de error.
+      if(!$movimiento){
+        return Response()->json(['status' => 'danger', 'message' => 'Movimiento no encontrado']);
+      }
+
+      //Obtiene el documento asociado al movimiento.
+      $documento = Documento::where('id', $movimiento->documento)->first(['tipo', 'id']);
+
+      //Obtiene el movimento.
+      if($type == 'entradas'){
+
+        //Campos a consultar
+        $select = [
+          "entradas.codigo",
+          "entradas.id",
+          "documentos.abreviatura",
+          "documentos.id as documentoId",
+          "documentos.nombre as concepto",
+          "documentos.naturaleza as type",
+          DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha')
+        ];
+
+        //Consulta base para la entrada
+        $query = DB::table('entradas')->where('entradas.id',$movimiento->id)
+             ->join('documentos','entradas.documento', '=','documentos.id')
+             ->select($select);
+
+        /**
+          *Une table para buscar el nombre del tercero, segun el
+          *tipo del documento de la entrada y lo selecciona.
+          */
+        switch ($documento->tipo){
+
+          case 'servicio':
+            $query->join('departamentos', 'entradas.tercero', '=', 'departamentos.id')
+                ->addSelect('departamentos.nombre as tercero');
+          break;
+
+          case 'proveedor':
+            $query->join('provedores', 'entradas.tercero', '=', 'provedores.id')
+                ->addSelect('provedores.nombre as tercero');
+          break;
+
+          case 'deposito':
+            $query->join('depositos', 'entradas.tercero', '=', 'depositos.id')
+                ->addSelect('depositos.nombre as tercero');
+          break;
+
+          case 'interno':
+            $query->join('depositos', 'entradas.tercero', '=', 'depositos.id')
+                ->addSelect('depositos.nombre as tercero');
+          break;
+
+        }
+
+        //Realiza la consulta
+        $movimiento = $query->first();
+      }
+      else{
+
+        //Campos a consultar
+        $select = [
+          "salidas.codigo",
+          "salidas.id",
+          "documentos.abreviatura",
+          "documentos.id as documentoId",
+          "documentos.nombre as concepto",
+          "documentos.naturaleza as type",
+          DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha')
+        ];
+
+        //Consulta base para la salidas
+        $query = DB::table('salidas')->where('salidas.id',$movimiento->id)
+             ->join('documentos','salidas.documento', '=','documentos.id')
+             ->select($select);
+
+        /**
+          *Une table para buscar el nombre del tercero, segun el
+          *tipo del documento de la salida y lo selecciona.
+          */
+        switch ($documento->tipo){
+
+          case 'servicio':
+            $query->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
+                ->addSelect('departamentos.nombre as tercero');
+          break;
+
+          case 'proveedor':
+            $query->join('provedores', 'salidas.tercero', '=', 'provedores.id')
+                ->addSelect('provedores.nombre as tercero');
+          break;
+
+          case 'deposito':
+            $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+                ->addSelect('depositos.nombre as tercero');
+          break;
+
+          case 'interno':
+            $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+                ->addSelect('depositos.nombre as tercero');
+          break;
+
+        }
+
+        //Realiza la consulta
+        $movimiento = $query->first();
+
+      }
+
+      return Response()->json(
+        [ 'status' => 'success',
+          'data' => [
+            'type' => $type,
+            'tercero' =>   $documento->tipo,
+            'documento' => $documento->id,
+            'movimiento' => $movimiento,
+          ]
+        ]);
     }
 
     public function registrar(Request $request){
@@ -39,7 +184,7 @@ class modificacionesController extends Controller
       }
       else{
 
-        $deposito = 1;//Auth::user()->deposito;
+        $deposito = Auth::user()->deposito;
 
         //Obtiene la documento actual asignado al movimiento.
         $ori_documento = Documento::where('id', $data['documento'])->first();

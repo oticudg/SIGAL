@@ -238,6 +238,12 @@ Route::group(['middleware' => 'auth' ], function(){
 		  Route::group(['prefix' => 'modificaciones', 'as' => 'Modif'], function(){
 				//Muestra la vista de modificaciones
 				Route::get('/', ['as' => 'Inicio', 'uses' => 'modificacionesController@index']);
+				//Muestra la vista de registro de modificaciones
+				Route::get('registrar', ['uses' => 'modificacionesController@viewRegistrar']);
+				//Registra una modificacion
+				Route::post('registrar', ['uses' => 'modificacionesController@registrar']);
+				//Regresa un movimiento cuyo codigo coincidan
+				Route::post('getMovimiento', ['uses' => 'modificacionesController@getMovimiento']);
 			});
 
 
