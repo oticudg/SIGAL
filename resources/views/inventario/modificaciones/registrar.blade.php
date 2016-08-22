@@ -73,7 +73,9 @@
                     <th class="col-md-1">Concepto</th>
                     <th class="col-md-1">Tipo</th>
                     <th class="col-md-5">Tercero</th>
-                    <th class="col-md-1">Detalles</th>
+                    @if( Auth::user()->hasPermissions(['inventory_movements']))
+                      <th class="col-md-1">Detalles</th>
+                    @endif
                   </tr>
                 </thead>
                 <tbody>
@@ -83,7 +85,9 @@
                     <td><span class="text-enlace" tooltip="{#movimiento.concepto#}">{#movimiento.abreviatura#}</span></td>
                     <td>{#movimiento.type#}</td>
                     <td>{#movimiento.tercero#}</td>
-                    <td><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+                    @if( Auth::user()->hasPermissions(['inventory_movements']))
+                      <td><button class="btn btn-warning" ng-click="detallesNota(movimiento.type,movimiento.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+                    @endif
                   </tr>
                 </tbody>
               </table>

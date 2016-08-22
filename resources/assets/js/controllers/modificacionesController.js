@@ -22,7 +22,10 @@ controller('modificacionesController',function($scope,$http,$modal){
     		resolve: {
      			 obtenerEntradas: function () {
         			return $scope.obtenerEntradas;
-      		 }
+      		 },
+					 detallesNota:function(){
+						 return $scope.detallesNota;
+					 }
     		}
 	    });
 	}
@@ -44,12 +47,42 @@ controller('modificacionesController',function($scope,$http,$modal){
 	    });
   	};
 
+		$scope.detallesNota = function(type,index){
+
+			if(type == "entrada"){
+				var search ={
+					view:"/entradas/detalles",
+					data:"/entradas/getEntrada/",
+					id:index
+				}
+			}
+			else{
+				var search = {
+					view:"/detallesSalida",
+					data:"/getSalida/",
+					id:index
+				}
+			}
+
+			var modalInstance = $modal.open({
+						animation: true,
+						templateUrl: search.view,
+						controller: 'detallesNotaCtrl',
+						windowClass: 'large-Modal',
+						resolve: {
+	             search:function() {
+	                return search;
+	             }
+	         }
+			});
+		};
+
   	$scope.obtenerEntradas();
 
 });
 
 angular.module('deposito').controller('registraModificacionCtrl',
-	function ($scope, $modalInstance, $http, obtenerEntradas){
+	function ($scope, $modalInstance, $http, obtenerEntradas, $modal, detallesNota){
 
   $scope.uiStatus =	false;
 	$scope.documentos = [];
@@ -161,6 +194,8 @@ angular.module('deposito').controller('registraModificacionCtrl',
 		$scope.code = '';
 	}
 
+	$scope.detallesNota = detallesNota;
+
 });
 
 angular.module('deposito').controller('detallesModificacionEntradaCtrl', function ($scope, $modalInstance, $http, id) {
@@ -186,5 +221,33 @@ angular.module('deposito').controller('detallesModificacionEntradaCtrl', functio
   };
 
   $scope.detalles(id);
+
+});
+
+angular.module('deposito').controller('detallesNotaCtrl', function ($scope, $modalInstance, $http,search){
+
+  $scope.insumos = [];
+  $scope.visibility = false;
+
+  $scope.cancelar = function () {
+    $modalInstance.dismiss('cancel');
+
+  };
+
+  $scope.chvisibility = function(){
+    $scope.search = {};
+    $scope.visibility =  !$scope.visibility ? true:false;
+  }
+
+  $scope.detalles = function(){
+
+    $http.get(search.data + search.id)
+      .success(function(response){
+        $scope.nota = response.nota;
+        $scope.insumos = response.insumos;
+    });
+  };
+
+  $scope.detalles();
 
 });

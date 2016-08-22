@@ -45,8 +45,10 @@
 			<thead>
 				<caption>Pro-Formas modificadas</caption>
 				<tr>
-					<th class="col-md-1">Fecha</th>
-					<th>Pro-Forma de entrada</th>
+					<th class="col-md-2">Fecha de modificacion</th>
+					<th class="col-md-2">Fecha de registro</th>
+					<th class="col-md-2">Pro-Forma</th>
+					<th class="col-md-2">Tipo</th>
 					<th class="col-md-1">Detalles</th>
 				</tr>
 			</thead>
