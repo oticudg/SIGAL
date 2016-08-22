@@ -30,6 +30,10 @@ class modificacionesController extends Controller
         return view('inventario.modificaciones.registrar');
     }
 
+    public function viewDetalle(){
+        return view('inventario.modificaciones.detalle');
+    }
+
     public function getMovimiento(Request $request){
       $code = $request->get('code');
       $deposito = Auth::user()->deposito;

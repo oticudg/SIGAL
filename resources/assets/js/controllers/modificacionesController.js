@@ -24,7 +24,7 @@ controller('modificacionesController',function($scope,$http,$modal){
         			return $scope.obtenerModificaciones;
       		 },
 					 detallesNota:function(){
-						 return $scope.detallesNota;
+						 return detallesNota;
 					 }
     		}
 	    });
@@ -35,19 +35,22 @@ controller('modificacionesController',function($scope,$http,$modal){
 	    var modalInstance = $modal.open({
 
 	      animation: true,
-	          templateUrl: '/modificaciones/detallesEntrada',
-	          controller: 'detallesModificacionEntradaCtrl',
+	          templateUrl: '/inventario/modificaciones/detalle',
+	          controller: 'detallesModificacionCtrl',
 	          windowClass: 'large-Modal',
 	          resolve: {
 
 	             id:function () {
 	                return index;
-	             }
+	             },
+							 detallesNota:function(){
+								 return detallesNota;
+							 }
 	         }
 	    });
   	};
 
-		$scope.detallesNota = function(type,index){
+		var detallesNota = function(type,index){
 
 			if(type == "entrada"){
 				var search ={
@@ -204,7 +207,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
 });
 
-angular.module('deposito').controller('detallesModificacionEntradaCtrl', function ($scope, $modalInstance, $http, id) {
+angular.module('deposito').controller('detallesModificacionCtrl', function ($scope, $modalInstance, $http, id, detallesNota) {
 
   $scope.entrada = {};
   $scope.insumos = [];
@@ -214,19 +217,18 @@ angular.module('deposito').controller('detallesModificacionEntradaCtrl', functio
 
   };
 
-  $scope.detalles = function(){
+  var detalles = function(){
 
-    $http.get('/modificaciones/getEntradas/' + id)
+    $http.post('/inventario/modificaciones/getModificacion/' + id)
       .success(function(response){
-
-      	$scope.modificacion = response.modificacion;
-        $scope.entrada = response.entrada;
-        $scope.insumos = response.insumos;
-
+      	$scope.movimiento = response.movimiento;
+				$scope.modificacion = response.modificacion;
     });
   };
 
-  $scope.detalles(id);
+	$scope.detallesNota = detallesNota;
+
+  detalles(id);
 
 });
 

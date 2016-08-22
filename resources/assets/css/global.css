@@ -253,6 +253,10 @@
 	width: 100px;
 }
 
+.tableWarning th{
+  background-color: #F89406;
+}
+
 
 .img-lg{
 
