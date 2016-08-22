@@ -197,6 +197,218 @@ class modificacionesController extends Controller
 
     }
 
+    public function getModificacion($id){
+
+      $deposito = Auth::user()->deposito;
+
+      $modification = Modification::where('id', $id)->where('deposito', $deposito)->first(
+                      ['id',
+                       'movimiento',
+                       'naturaleza',
+                       'original_documento',
+                       'original_tercero',
+                       'updated_tercero',
+                       'updated_documento']);
+
+      if(!$modification){
+        abort('404');
+      }
+      else{
+
+        //Obtiene el movimento.
+        if($modification->naturaleza == 'entrada'){
+
+          $documentoId = Entrada::where('id', $modification->movimiento)->value('documento');
+          //Obtiene el documento asociado al movimiento.
+          $documento = Documento::where('id', $documentoId)->first(['tipo', 'id']);
+
+          //Campos a consultar
+          $select = [
+            "entradas.codigo",
+            "entradas.id",
+            "documentos.abreviatura",
+            "documentos.id as documentoId",
+            "documentos.nombre as concepto",
+            "documentos.naturaleza as type",
+            DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fecha')
+          ];
+
+          //Consulta base para la entrada
+          $query = DB::table('entradas')->where('entradas.id',$modification->movimiento)
+               ->join('documentos','entradas.documento', '=','documentos.id')
+               ->select($select);
+
+          /**
+            *Une table para buscar el nombre del tercero, segun el
+            *tipo del documento de la entrada y lo selecciona.
+            */
+          switch ($documento->tipo){
+
+            case 'servicio':
+              $query->join('departamentos', 'entradas.tercero', '=', 'departamentos.id')
+                  ->addSelect('departamentos.nombre as tercero');
+            break;
+
+            case 'proveedor':
+              $query->join('provedores', 'entradas.tercero', '=', 'provedores.id')
+                  ->addSelect('provedores.nombre as tercero');
+            break;
+
+            case 'deposito':
+              $query->join('depositos', 'entradas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+            case 'interno':
+              $query->join('depositos', 'entradas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+          }
+
+          //Realiza la consulta
+          $movimiento = $query->first();
+        }
+        else{
+
+          $documentoId = Salida::where('id', $modification->movimiento)->value('documento');
+          //Obtiene el documento asociado al movimiento.
+          $documento = Documento::where('id', $documentoId)->first(['tipo', 'id']);
+
+          //Campos a consultar
+          $select = [
+            "salidas.codigo",
+            "salidas.id",
+            "documentos.abreviatura",
+            "documentos.id as documentoId",
+            "documentos.nombre as concepto",
+            "documentos.naturaleza as type",
+            DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fecha')
+          ];
+
+          //Consulta base para la salidas
+          $query = DB::table('salidas')->where('salidas.id',$modification->movimiento)
+               ->join('documentos','salidas.documento', '=','documentos.id')
+               ->select($select);
+
+          /**
+            *Une table para buscar el nombre del tercero, segun el
+            *tipo del documento de la salida y lo selecciona.
+            */
+          switch ($documento->tipo){
+
+            case 'servicio':
+              $query->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
+                  ->addSelect('departamentos.nombre as tercero');
+            break;
+
+            case 'proveedor':
+              $query->join('provedores', 'salidas.tercero', '=', 'provedores.id')
+                  ->addSelect('provedores.nombre as tercero');
+            break;
+
+            case 'deposito':
+              $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+            case 'interno':
+              $query->join('depositos', 'salidas.tercero', '=', 'depositos.id')
+                  ->addSelect('depositos.nombre as tercero');
+            break;
+
+          }
+
+          //Realiza la consulta
+          $movimiento = $query->first();
+
+        }
+
+      }
+
+      //Obtiene el nombre de el documento original
+      $original_documento  = Documento::where('id', $modification->original_documento)->first(['nombre', 'id', 'tipo']);
+
+      //Obtiene el nombre de el documento modificado, si ha sido modificado
+      if($modification->updated_documento){
+        $updated_documento  = Documento::where('id', $modification->updated_documento)->first(['nombre', 'id', 'tipo']);
+      }
+      else{
+        $updated_documento = null;
+      }
+
+      //Obtiene el nombre del tercero original
+      switch ($original_documento->tipo){
+
+        case 'servicio':
+          $original_tercero = Departamento::where('id', $modification->original_tercero)->value('nombre');
+        break;
+
+        case 'proveedor':
+          $original_tercero = Provedore::where('id', $modification->original_tercero)->value('nombre');
+        break;
+
+        case 'deposito':
+          $original_tercero = Deposito::where('id', $modification->original_tercero)->value('nombre');
+        break;
+
+        case 'interno':
+          $original_tercero = Deposito::where('id', $modification->original_tercero)->value('nombre');
+        break;
+
+      }
+
+      //Obtiene el nombre del tercero modificado, si ha sido modificado
+      if($modification->updated_tercero){
+
+        if($modification->updated_documento){
+          $tipo = $updated_documento->tipo;
+        }
+        else{
+          $tipo = $original_documento->tipo;
+        }
+
+        switch ($tipo){
+
+          case 'servicio':
+            $updated_tercero = Departamento::where('id', $modification->updated_tercero)->value('nombre');
+          break;
+
+          case 'proveedor':
+            $updated_tercero = Provedore::where('id', $modification->updated_tercero)->value('nombre');
+          break;
+
+          case 'deposito':
+            $updated_tercero = Deposito::where('id', $modification->updated_tercero)->value('nombre');
+          break;
+
+          case 'interno':
+            $updated_tercero = Deposito::where('id', $modification->updated_tercero)->value('nombre');
+          break;
+
+        }
+      }
+      else{
+        $updated_tercero = null;
+      }
+
+      $original_documento = $original_documento->nombre;
+
+      if($updated_documento){
+        $updated_documento = $updated_documento->nombre;
+      }
+
+      return Response()->json([
+         'movimiento'   => $movimiento,
+         'modificacion' => [
+           'original_documento' => $original_documento,
+           'updated_documento'  => $updated_documento,
+           'original_tercero'   => $original_tercero,
+           'updated_tercero'    => $updated_tercero
+         ]
+      ]);
+    }
+
     public function registrar(Request $request){
       $data  = $request->all();
 
