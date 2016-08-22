@@ -244,6 +244,8 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::post('registrar', ['uses' => 'modificacionesController@registrar']);
 				//Regresa un movimiento cuyo codigo coincidan
 				Route::post('getMovimiento', ['uses' => 'modificacionesController@getMovimiento']);
+				//Regresa todas las modifcaciones registradas
+				Route::get('getModificaciones', 'modificacionesController@allModificaciones');
 			});
 
 

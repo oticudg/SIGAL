@@ -3,13 +3,13 @@
 angular.module('deposito').
 controller('modificacionesController',function($scope,$http,$modal){
 
-	$scope.entradas = [];
+	$scope.modificaciones = [];
   $scope.cRegistro = '5';
 
-	$scope.obtenerEntradas = function(){
+	$scope.obtenerModificaciones = function(){
 
-		$http.get('/modificaciones/getEntradas')
-			.success( function(response){$scope.entradas = response});
+		$http.get('/inventario/modificaciones/getModificaciones')
+			.success( function(response){$scope.modificaciones = response});
 	};
 
 	$scope.registrarModificacion = function() {
@@ -20,8 +20,8 @@ controller('modificacionesController',function($scope,$http,$modal){
     		windowClass: 'large-Modal',
     		controller: 'registraModificacionCtrl',
     		resolve: {
-     			 obtenerEntradas: function () {
-        			return $scope.obtenerEntradas;
+     			 obtenerModificaciones: function () {
+        			return $scope.obtenerModificaciones;
       		 },
 					 detallesNota:function(){
 						 return $scope.detallesNota;
@@ -77,12 +77,17 @@ controller('modificacionesController',function($scope,$http,$modal){
 			});
 		};
 
-  	$scope.obtenerEntradas();
+		$scope.search = function(){
+			$scope.busqueda = {};
+			$scope.barSearch = $scope.barSearch ? false:true;
+		}
+
+  	$scope.obtenerModificaciones();
 
 });
 
 angular.module('deposito').controller('registraModificacionCtrl',
-	function ($scope, $modalInstance, $http, obtenerEntradas, $modal, detallesNota){
+	function ($scope, $modalInstance, $http, obtenerModificaciones, $modal, detallesNota){
 
   $scope.uiStatus =	false;
 	$scope.documentos = [];
@@ -168,6 +173,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
 
 				if(response.status == 'success'){
 					$scope.uiStatus = false;
+					obtenerModificaciones();
 					restart();
 				}
 

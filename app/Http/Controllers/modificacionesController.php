@@ -169,6 +169,34 @@ class modificacionesController extends Controller
         ]);
     }
 
+    public function allModificaciones(){
+
+      $deposito = Auth::user()->deposito;
+
+      //Campos a consultar
+      $select = [
+        "modifications.id",
+        DB::raw('DATE_FORMAT(modifications.created_at, "%d/%m/%Y") as fechaM'),
+        "modifications.naturaleza as type",
+        "codigo"
+      ];
+
+      $entradas = DB::table('modifications')->where('modifications.deposito', $deposito)
+                  ->where('naturaleza', 'entrada')
+                  ->join('entradas', 'entradas.id', '=', 'modifications.movimiento')
+                  ->select($select)
+                  ->addSelect(DB::raw('DATE_FORMAT(entradas.created_at, "%d/%m/%Y") as fechaR'));
+
+      $salidas  = DB::table('modifications')->where('modifications.deposito', $deposito)
+                  ->where('naturaleza', 'salida')
+                  ->join('salidas', 'salidas.id', '=', 'modifications.movimiento')
+                  ->select($select)
+                  ->addSelect(DB::raw('DATE_FORMAT(salidas.created_at, "%d/%m/%Y") as fechaR'));
+
+      return  $entradas->union($salidas)->orderBy('id', 'dec')->get();
+
+    }
+
     public function registrar(Request $request){
       $data  = $request->all();
 

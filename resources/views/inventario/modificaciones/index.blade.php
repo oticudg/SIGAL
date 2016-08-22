@@ -53,10 +53,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr dir-paginate="entrada in entradas | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
-					<td>{#entrada.fecha#}</td>
-					<td>{#entrada.codigo | codeforma#}</td>
-					<td><button ng-click="detallesModificacion(entrada.id)" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
+				<tr ng-show="barSearch">
+					<td ng-show="status"></td>
+					<td>
+						<input type="text" class="form-control" placeholder="Codigo" ng-model="busqueda.fechaM">
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="Descripción" ng-model="busqueda.fechaR">
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="Exist." ng-model="busqueda.codigo">
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="Exist." ng-model="busqueda.type">
+					</td>
+					<td></td>
+				</tr>
+				<tr dir-paginate="modificacion in modificaciones | filter:busqueda | itemsPerPage:cRegistro" pagination-id="proformas">
+					<td>{#modificacion.fechaM#}</td>
+					<td>{#modificacion.fechaR#}</td>
+					<td>{#modificacion.codigo | codeforma#}</td>
+					<td>{#modificacion.type#}</td>
+					<td><button ng-click="detallesModificacion(modificacion.id)" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Ver</button></td>
 				</tr>
 			</tbody>
 		</table>
