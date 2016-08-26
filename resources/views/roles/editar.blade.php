@@ -89,25 +89,6 @@
 
                 <div class="col-md-4">
                   <div class="col-md-5">
-                    <h4 class="text-muted">Modificaciones</h4>
-                    <div>
-                      <div class="row" ng-repeat="permiso in permisos | filter:{modulo:'modificaciones'}">
-                        <div class="col-md-4">
-                          <label class="checkbox-inline"><input  ng-click="assignPermission(permiso.id)" ng-checked="isAsignedPermission(permiso.id)" type="checkbox">{#permiso.nombre#}</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <br>
-
-              <div class="row">
-
-                <div class="col-md-4">
-                  <div class="col-md-5">
                     <h4 class="text-muted">Movimientos</h4>
                     <div>
                       <div class="row" ng-repeat="permiso in permisos | filter:{modulo:'movimientos'}">
@@ -118,7 +99,11 @@
                     </div>
                   </div>
                 </div>
+              </div>
 
+              <br>
+
+              <div class="row">
                 <div class="col-md-4">
                   <div class="col-md-5">
                     <h4 class="text-muted">Almacenes</h4>
@@ -145,9 +130,6 @@
                   </div>
                 </div>
 
-              </div>
-              <br>
-              <div class="row">
                 <div class="col-md-4">
                   <div class="col-md-5">
                     <h4 class="text-muted">Roles</h4>

@@ -235,7 +235,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			});
 
 
-		  Route::group(['prefix' => 'modificaciones', 'as' => 'Modif'], function(){
+		  Route::group(['prefix' => 'modificaciones', 'as' => 'Modif', 'middleware' => 'permission:inventory_modifications'], function(){
 				//Muestra la vista de modificaciones
 				Route::get('/', ['as' => 'Inicio', 'uses' => 'modificacionesController@index']);
 				//Muestra la vista de registro de modificaciones

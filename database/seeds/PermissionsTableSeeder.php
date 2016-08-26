@@ -48,7 +48,8 @@ class PermissionsTableSeeder extends Seeder
           ['nombre' => 'Alarmas', 'modulo' => 'inventario',  'ip' => 'inventory_alerts'],
           ['nombre' => 'Notificación fallas', 'modulo' => 'inventario',  'ip' => 'inventory_notification_alert'],
           ['nombre' => 'Registrar entradas',  'modulo' => 'movimientos', 'ip' => 'movements_register_entry'],
-          ['nombre' => 'Registrar salidas',   'modulo' => 'movimientos', 'ip' => 'movements_register_egress']
+          ['nombre' => 'Registrar salidas',   'modulo' => 'movimientos', 'ip' => 'movements_register_egress'],
+          ['nombre' => 'Modificaciones', 'modulo' => 'inventario',  'ip' => 'inventory_modifications'],
         ]);
     }
 }

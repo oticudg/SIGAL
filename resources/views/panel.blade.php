@@ -83,7 +83,7 @@
 					            	<li><a href="{{route('invenAlertsInicio')}}"><span class="glyphicon glyphicon-bell"></span> Alarmas</a></li>
 				              @endif
 
-					            @if( Auth::user()->hasPermissions(['inventory_alerts']) )
+					            @if( Auth::user()->hasPermissions(['inventory_modifications']) )
 					            	<li><a href="{{route('invenModifInicio')}}"><span class="glyphicon glyphicon-edit"></span> Modificaciones</a></li>
 				              @endif
 			              </ul>
