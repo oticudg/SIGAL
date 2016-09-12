@@ -420,7 +420,7 @@ class modificacionesController extends Controller
           'documento'        => 'required|numeric|documento',
           'movimiento'       => 'required|numeric|movimiento:documento',
           'update_documento' => 'numeric|documento|document_not_equal:documento|documento_same_nature:documento',
-          'update_tercero'   => 'numeric|'
+          'update_tercero'   => 'numeric'
       ], $this->menssage);
 
       if($validator->fails()){
@@ -430,28 +430,34 @@ class modificacionesController extends Controller
 
         $deposito = Auth::user()->deposito;
 
-        //Obtiene la documento actual asignado al movimiento.
-        $ori_documento = Documento::where('id', $data['documento'])->first();
-        //Obtiene el docuemnto a modificar.
-        $up_documento  = Documento::where('id', $data['update_documento'])->first();
-
         //Valida si no se han realizado modificaciones.
         if( empty($data['update_documento']) && empty($data['update_tercero']) ){
             return Response()->json(['status' => 'danger', 'message' => 'No se han hecho modificaciones']);
         }
 
-        //Valida si el docuemnto original y el documento a modificar tiene el mismo tipo.
-        if( !empty($data['update_documento']) && empty($data['update_tercero'])){
+        //Obtiene el documento actual asignado al movimiento.
+        $ori_documento = Documento::where('id', $data['documento'])->firstOrFail();
 
-          if( ($up_documento['tipo'] != 'interno') && ($ori_documento['tipo'] != $up_documento['tipo']) ){
-            return Response()->json(['status' => 'danger', 'message' => 'Seleccione un tercero para realizar la modificacio.']);
+        if(!empty($data['update_documento'])){
+          //Obtiene el documento a modificar.
+          $up_documento  = Documento::where('id', $data['update_documento'])->firstOrFail();
+        }
+
+        //Valida si el documento original y el documento a modificar tiene el mismo tipo.
+        if( $data['update_documento'] && empty($data['update_tercero'])){
+          if($up_documento['tipo'] == 'interno' ){
+			if($ori_documento['tipo'] != 'interno')
+            	$data['update_tercero'] = $deposito;
+          }
+          else if( $ori_documento['tipo'] != $up_documento['tipo'] ){
+            return Response()->json(['status' => 'danger', 'message' => 'Seleccione un tercero para realizar la modificación.']);
           }
         }
 
-        //Valida que el tercero a modificar, existe en el tipo del documento.
-        if( !empty($data['update_tercero'] ) ){
+        //Valida que el tercero a modificar existe en el tipo del documento.
+        if( !empty($data['update_tercero']) && !empty($data['update_documento']) && $up_documento['tipo'] != 'interno' ){
 
-          if(!empty($data['update_documento']) ){
+          if($up_documento){
             $tipo = $up_documento['tipo'];
           }
           else{
@@ -459,9 +465,6 @@ class modificacionesController extends Controller
           }
 
           switch ($tipo){
-            case 'interno':
-              $data['update_tercero'] = $deposito;
-              break;
 
             case 'proveedor':
               if(!Provedore::where('id', $data['update_tercero'])->first()){
@@ -485,10 +488,10 @@ class modificacionesController extends Controller
 
         //Localiza el movimiento.
         if($ori_documento['naturaleza'] == 'entrada'){
-          $movimiento = Entrada::where('id', $data['movimiento'])->where('documento', $data['documento'])->where('deposito', $deposito)->first();
+          $movimiento = Entrada::where('id', $data['movimiento'])->where('deposito', $deposito)->first();
         }
         else{
-          $movimiento = Salida::where('id', $data['movimiento'])->where('documento', $data['documento'])->where('deposito', $deposito)->first();
+          $movimiento = Salida::where('id', $data['movimiento'])->where('deposito', $deposito)->first();
         }
 
         //Si el tercero a modificar es el mismo del movimiento original se regresa un mensaje de error.
