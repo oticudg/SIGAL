@@ -3,8 +3,8 @@
 .modal-body-custon{max-height:450px;overflow-y:auto}.pagination li a{color:#53ac53}
 .pagination li a:hover{color:#419641}.pagination>.active>a,.pagination>.active>span,.pagination>.active>a:hover,.pagination>.active>span:hover,.pagination>.active>a:focus,.pagination>.active>span:focus{z-index:2;color:#fff;cursor:default;background-color:#419641;border-color:#398439}
 .pagination a:hover,.pagination .active a{background-color:#419641}.ui-select-bootstrap .ui-select-choices-row.active>a{background-color:#dff0d8;color:black}
-#bar-menu{margin-bottom:0}.custon-bar{margin-bottom:0;border-radius:0}.container-fluid{background-color:#505152}
-.nav-ubication{color:#777}.nav-ubication .nav-enlaces{list-style:none;padding-left:0;padding-top:1%}
+#bar-menu{margin-bottom:0}.custon-bar{margin-bottom:0;border-radius:0}.nav.navbar-nav.navbar-right .active-green a{background:#419641}
+.container-fluid{background-color:#505152}.nav-ubication{color:#777}.nav-ubication .nav-enlaces{list-style:none;padding-left:0;padding-top:1%}
 .nav-ubication .nav-enlaces li{display:inline-block}.nav-ubication .nav-enlaces a{text-decoration:none;color:#419641}
 .nav-ubication .nav-enlaces li::after{content:' >'}.nav-ubication .nav-enlaces .nav-active::after{content:none}
 .text-title{color:#419641}.text-center{text-align:center}.text-white{color:white}

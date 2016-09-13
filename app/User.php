@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Privilegio;
 use App\Permissions_assigned;
 use App\Permission;
+use App\Deposito;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -65,4 +66,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return true;
       }
     }
+
+	public function getDepositoName()
+	{
+		return  Deposito::where('id', $this->deposito)->value('nombre'); 
+	}
 }

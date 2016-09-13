@@ -22,6 +22,9 @@
 		    <div class="collapse navbar-collapse">
 			    @if(Auth::check())
 			      <ul class="nav navbar-nav navbar-right">
+					<li class="active active-green">
+						<a><span class="glyphicon glyphicon-inbox"></span> {{Auth::user()->getDepositoName()}}</a>
+					</li>
 			      	@if( Auth::user()->hasPermissions(['inventory_notification_alert']) && ( $var = App\Inventario::alert() ) > 0 )
 				      	<li>
 							<a href="{{route('invenHerraNiveles')}}">

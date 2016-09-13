@@ -68,6 +68,11 @@
 	border-radius: 0px;
 }
 
+.nav.navbar-nav.navbar-right .active-green a {
+	background:#419641;
+}
+
+
 /*** Encabezado ***/
 
 .container-fluid {
