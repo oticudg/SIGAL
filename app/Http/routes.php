@@ -480,4 +480,3 @@ Route::group(['prefix' => 'roles', 'as' => 'roles'], function(){
 /*** Fin de modulo de roles ***/
 
 
-Route::get('/prueba/{id}', 'modificacionesController@getModificacion');
