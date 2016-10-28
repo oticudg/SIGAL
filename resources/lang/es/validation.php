@@ -87,9 +87,12 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'password' => [
+            'required' => 'Por favor ingresé la :attribute',
         ],
+		'email' => [
+			'required' => 'Por favor ingresé el :attribute',
+		]
     ],
 
     /*
@@ -103,7 +106,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+		'email' => 'correo',
+		'password' => 'contraseña'
+	],
 
     /*
     |--------------------------------------------------------------------------
