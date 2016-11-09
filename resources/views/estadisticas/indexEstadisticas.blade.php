@@ -5,7 +5,6 @@
 <script src="{{asset('js/vendor/drilldown.js')}}"></script>
 {{--<script src="{{asset('js/vendor/exporting.js')}}"></script>--}}
 <script src="{{asset('js/vendor/dark-unica.js')}}"></script>
-<script src="{{asset('js/estadisticasController.js')}}"></script>
 @endsection
 
 @section('front-page')

@@ -37,17 +37,17 @@ class estadisticasController extends Controller
 
         $salidas  = DB::table('salidas')->where( DB::raw('DATE_FORMAT(salidas.created_at,"%Y-%m")'), $fecha)
                    ->where('salidas.deposito', $deposito)
-                   ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
+                   ->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
                    ->select('departamentos.nombre as name', 
-                      DB::raw('count(*) as total'), 'salidas.departamento as id')
-                   ->groupBy('salidas.departamento')
+                      DB::raw('count(*) as total'), 'salidas.tercero as id')
+                   ->groupBy('salidas.tercero')
                    ->orderBy('total', 'desc')
                    ->get();
 
         foreach($salidas as $salida){
             
             $insumos = DB::table('salidas')->where(DB::raw('DATE_FORMAT(salidas.created_at,"%Y-%m")'), $fecha)
-                      ->where('salidas.departamento', $salida->id)
+                      ->where('salidas.tercero', $salida->id)
                       ->join('insumos_salidas', 'insumos_salidas.salida', '=', 'salidas.id')
                       ->join('insumos', 'insumos.id', '=', 'insumos_salidas.insumo')
                       ->select('insumos.descripcion as name', DB::raw('sum(insumos_salidas.despachado) as total'))
@@ -100,7 +100,7 @@ class estadisticasController extends Controller
                       ->where('insumos_salidas.insumo', $data['insumo'])
                       ->where('insumos_salidas.deposito', $deposito)
                       ->join('salidas', 'insumos_salidas.salida', '=', 'salidas.id')
-                      ->join('departamentos', 'salidas.departamento', '=', 'departamentos.id')
+                      ->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
                       ->select('departamentos.nombre as name', DB::raw('sum(insumos_salidas.despachado) as y'))
                       ->groupBy('departamentos.nombre')
                       ->orderBy('y','desc')
@@ -132,7 +132,7 @@ class estadisticasController extends Controller
           
           $insumos = DB::table('salidas')->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at,"%Y-%m-%d")'), 
                       [$data['fechaI'], $data['fechaF'] ])
-                      ->where('salidas.departamento', $data['servicio'])
+                      ->where('salidas.tercero', $data['servicio'])
                       ->where('salidas.deposito', $deposito)
                       ->join('insumos_salidas', 'insumos_salidas.salida', '=', 'salidas.id')
                       ->join('insumos', 'insumos.id', '=', 'insumos_salidas.insumo')
