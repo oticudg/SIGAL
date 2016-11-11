@@ -336,9 +336,8 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Fin de modulo de salidas ***/
 
-	/*** Modulo de Estadisticas
+	/*** Modulo de Estadisticas ***/
 
-	Route::group(['middleware' => 'permission:estadisticas'], function(){
 		//Muesta el panel de estadisticas
 		Route::get('estadisticas', 'estadisticasController@index');
 
@@ -350,9 +349,8 @@ Route::group(['middleware' => 'auth' ], function(){
 
 		//Regresa todas los insumos que han salido de un servicio en un ranfo de fecha
 		Route::post('estadisticasServicio', 'estadisticasController@getServicio');
-	});
 
-	 Fin de modulo de Estadisticas ***/
+	/*** Fin de modulo de Estadisticas ***/
 
 
 	/*** Modulo de Depositos ***/
