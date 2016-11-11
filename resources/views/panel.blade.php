@@ -86,7 +86,7 @@
 					            @if( Auth::user()->hasPermissions(['inventory_modifications']) )
 					            	<li><a href="{{route('invenModifInicio')}}"><span class="glyphicon glyphicon-edit"></span> Modificaciones</a></li>
 				              @endif
-				              <li><a href="/estadísticas"><span class="glyphicon glyphicon-tasks"></span> 
+				              <li><a href="/estadisticas"><span class="glyphicon glyphicon-tasks"></span> 
 				              	Estadisticas</a></li>
 			              </ul>
                	</li>
