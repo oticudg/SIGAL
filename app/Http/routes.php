@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	//Inicio del panel de administracion
 	Route::get('inicio', function(){
-		return view('inicio');
+		return view('index2');
 	});
 
 	/*** Modulo Provedores ***/

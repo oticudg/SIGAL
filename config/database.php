@@ -61,8 +61,7 @@ return [
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
-            'strict'    => false,
-            'unix_socket' => '/opt/lampp/var/mysql/mysql.sock',
+            'strict'    => false
         ],
 
         'pgsql' => [

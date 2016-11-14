@@ -1,5 +1,5 @@
 @extends('base')
-@section('conten')
+@section('content')
 
 <div id="login" class="col-md-4 col-md-offset-4">
     

@@ -1,21 +1,6 @@
-@extends('panel')
+@extends('base')
 @section('bodytag', 'ng-controller="salidasController"')
-@section('front-page')
-
-	<div data-loading class="simgle_loader">
-		<div id="img_loader" class="img_single_loader">
-			<img src="{{asset('imagen/loader.gif')}}" alt="">
-			<p> Cargando ...</p>
-		</div>
-	</div>
-
-	<nav class="nav-ubication">
-		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
-			<li class="nav-active"><span class="glyphicon glyphicon-circle-arrow-up"></span> Salidas</li>
-		</ul>
-	</nav>
-	<br>
+@section('content')
 
 	{{--Buscador y Seleccion de Listados de datos--}}
 	<div class="row">
