@@ -1,19 +1,19 @@
 <div class="modal-header">
     <div class="row">
     	<div class="col-md-6">
-		    <h3 class="modal-title text-title-modal">
-		    	<span class="glyphicon glyphicon-circle-arrow-down"></span> Pro-Forma de Entrada: <strong>{#nota.codigo | codeforma#}</strong>
+		    <h3 class="modal-title">
+		    	<span class="glyphicon glyphicon-circle-arrow-down text-primary"></span> Pro-Forma de Entrada: <strong class="text-primary">{#nota.codigo | codeforma#}</strong>
 		    </h3>
 		  </div>
       <div style="text-align:right" class="col-md-offset-4 col-md-2">
-        <button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+        <button class="btn btn-primary" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
         @if(Auth::user()->hasPermissions(['inventory_report']))
           <a class="btn btn-warning" href="/reportes/entrada/{#nota.id#}" target="_blank">
             <span class="glyphicon glyphicon glyphicon-print"></span>
           </a>
         @endif
       </div>
-		 </div>
+	</div>
 </div>
 <div class="modal-body">
 
@@ -47,7 +47,7 @@
 				<th>Descripción</th>
 				<th class="col-md-1">Lote</th>
 				<th class="col-md-1">Fecha Vto</th>
-				<th class="col-md-2">Cantidad</th>
+				<th class="col-md-2 text-right">Cantidad</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -65,7 +65,7 @@
 					<input type="text" class="form-control" placeholder="Fecha" ng-model="search.fecha">
 				</td>
 				<td>
-					<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">
+					<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="search.cantidad">
 				</td>
 			</tr>
 			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">
@@ -73,7 +73,7 @@
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.lote#}</td>
 				<td>{#insumo.fecha#}</td>
-				<td>{#insumo.cantidad#}</td>
+				<td class="text-right">{#insumo.cantidad#}</td>
 			</tr>
 		</tbody>
 	</table>
