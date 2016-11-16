@@ -5652,5 +5652,28 @@ fieldset[disabled] .btn-yahoo.active {
 .skin-blue.layout-top-nav .main-header > .logo:hover {
   background-color: #3b8ab8;
 }
+.text-enlace {
+  color: #337ab7;
+  cursor: pointer;
+}
+.large-Modal .modal-dialog {
+  width: 80%;
+  position: absolute;
+  top: 5%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.table th {
+  background-color: #337ab7;
+  color: white;
+}
+.custon-table-bottom-off {
+  margin-bottom: 0px;
+}
+.custon-table-top-off {
+  margin-top: 0px;
+}
 
 /*# sourceMappingURL=app.css.map */

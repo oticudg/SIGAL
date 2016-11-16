@@ -1,13 +1,13 @@
 <div class="modal-header">
 	<div class="row">
 		<div class="col-md-10">
-	    	<h3 style="color:#54AF54;" class="modal-title">
-	    		<span class="glyphicon glyphicon-circle-arrow-up"></span> Pro-Forma de Pedido: <strong>{#nota.codigo | codeforma#}</strong>
+	    	<h3 class="modal-title ">
+	    		<span class="glyphicon glyphicon-circle-arrow-up text-primary"></span> Pro-Forma de Pedido: <strong class="text-primary">{#nota.codigo | codeforma#}</strong>
 	    	</h3>
 	    </div>
 
 	    <div style="text-align:right" class="col-md-2">
-	    	<button class="btn btn-success" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+	    	<button class="btn btn-primary" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
 				@if(Auth::user()->hasPermissions(['inventory_report']))
 					<a class="btn btn-warning" href="/reportes/salida/{#nota.id#}" target="_blank">
 		        <span class="glyphicon glyphicon glyphicon-print"></span>
@@ -46,8 +46,8 @@
 			<tr>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
-				<th class="col-md-1">Solicitado</th>
-				<th class="col-md-1">Despachado</th>
+				<th class="col-md-1 text-right">Solicitado</th>
+				<th class="col-md-1 text-right">Despachado</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -68,8 +68,8 @@
 			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
-				<td>{#insumo.solicitado#}</td>
-				<td>{#insumo.despachado#}</td>
+				<td class="text-right">{#insumo.solicitado#}</td>
+				<td class="text-right">{#insumo.despachado#}</td>
 			</tr>
 		</tbody>
 	</table>

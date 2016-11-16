@@ -6,7 +6,7 @@ controller('salidasController',function($scope,$http,$modal){
 	$scope.salidas = [];
   $scope.indice = 'Pro-Formas';
   $scope.salidasInsumos = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
   $scope.status = true;
 
 	$scope.obtenerSalidas = function(type,query){
