@@ -34,7 +34,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Salidas
+        @yield('panel-name')
       </h1>
       <ol class="breadcrumb">
         @yield('breadcrumb')

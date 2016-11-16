@@ -5656,6 +5656,11 @@ fieldset[disabled] .btn-yahoo.active {
   color: #337ab7;
   cursor: pointer;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .large-Modal .modal-dialog {
   width: 80%;
   position: absolute;
