@@ -4,7 +4,7 @@ angular.module('deposito').
 controller('inventarioController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
-	$scope.cRegistro = '5';
+	$scope.cRegistro = '10';
 	$scope.status = false;
 	$scope.all = false;
 
@@ -66,7 +66,7 @@ controller('inventarioController',function($scope,$http,$modal){
 
 		if(!$scope.busqueda){
 			for( var insumo in $scope.insumos){
-				$scope.insumos[insumo].color = "success";
+				$scope.insumos[insumo].color = "info";
 				$scope.insumos[insumo].select = true;
 			}
 		}
@@ -79,7 +79,7 @@ controller('inventarioController',function($scope,$http,$modal){
 				if( descripcion.indexOf(busqueda) == -1 )
 					continue;
 
-				$scope.insumos[insumo].color = "success";
+				$scope.insumos[insumo].color = "info";
 				$scope.insumos[insumo].select = true;
 			}
 		}
@@ -96,7 +96,7 @@ controller('inventarioController',function($scope,$http,$modal){
 			$scope.insumos[index].select = false;
 		}
 		else{
-			$scope.insumos[index].color = "success";
+			$scope.insumos[index].color = "info";
 			$scope.insumos[index].select = true;
 		}
 	};
