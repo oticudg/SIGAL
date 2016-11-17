@@ -105,7 +105,7 @@
 										<td>{#insumo.descripcion#}</td>
 										<td>{#insumo.lote#}</td>
 										<td>{#insumo.fechaV#}</td>
-										<td class="text-center">{#insumo.cantidad#}</td>
+										<td class="text-right">{#insumo.cantidad#}</td>
 									</tr>
 								</tbody>
 							</table>

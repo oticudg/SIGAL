@@ -7,14 +7,14 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
+  <link rel="stylesheet" href="{{asset('css/vendor/font-awesome.min.css')}}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="/css/vendor/ionicons.min.css">
+  <link rel="stylesheet" href="{{asset('css/vendor/ionicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/vendor/select.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="{{asset('css/app.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,7 +67,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="{{asset('plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
 
 <script src="{{asset('js/vendor/angular.min.js')}}"></script>
 <script src="{{asset('js/vendor/ui-bootstrap-tpls-0.13.0.min.js')}}"></script>
@@ -76,24 +76,24 @@
 <script src="{{asset('js/vendor/select.min.js')}}"></script>
 
 <!-- Bootstrap 3.3.6 -->
-<script src="/js/vendor/bootstrap.min.js"></script>
+<script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>
 <!-- FastClick -->
-<script src="plugins/fastclick/fastclick.js"></script>
+<script src="{{asset('plugins/fastclick/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
+<script src="{{asset('dist/js/app.min.js')}}"></script>
 <!-- Sparkline -->
-<script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>
 <!-- jvectormap -->
-<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="{{asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
+<script src="{{asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 <!-- SlimScroll 1.3.0 -->
-<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
 <!-- ChartJS 1.0.1 -->
-<script src="plugins/chartjs/Chart.min.js"></script>
+<script src="{{asset('plugins/chartjs/Chart.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard2.js"></script>
+<script src="{{asset('dist/js/pages/dashboard2.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="{{asset('dist/js/demo.js')}}"></script>
 <script src="{{asset('js/config.js')}}"></script>
 <script src="{{asset('js/deposito.js')}}"></script>
 
