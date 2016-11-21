@@ -5,7 +5,7 @@ angular.module('deposito').
 controller('documentosController',function($scope,$http,$modal){
 
 	$scope.documentos = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerDocumentos = function(){
 		$http.get('/documentos/all')

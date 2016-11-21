@@ -4,7 +4,7 @@ angular.module('deposito').
 controller('insumosAlertController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
-	$scope.cRegistro = '5';
+	$scope.cRegistro = '10';
 
 	$scope.obtenerInsumos = function(){
 

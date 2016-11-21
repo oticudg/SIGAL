@@ -1,8 +1,6 @@
 @extends('base')
 @section('bodytag', 'ng-controller="usersController"')
 
-@section('bodytag', 'ng-controller="salidasController"')
-
 @section('panel-name', 'Usuarios')
 
 @section('breadcrumb')

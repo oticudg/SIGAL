@@ -5,7 +5,7 @@ angular.module('deposito').
 controller('rolesController',function($scope,$http,$modal){
 
 	$scope.roles = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerRoles = function(){
 		$http.get('/roles/all')

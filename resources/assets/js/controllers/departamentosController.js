@@ -5,7 +5,7 @@ angular.module('deposito').
 controller('departamentosController',function($scope,$http,$modal){
 
 	$scope.departamentos = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerDepartamentos = function(){
 

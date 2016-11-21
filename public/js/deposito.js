@@ -144,7 +144,7 @@ angular.module('deposito').
 controller('departamentosController',function($scope,$http,$modal){
 
 	$scope.departamentos = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerDepartamentos = function(){
 
@@ -332,7 +332,7 @@ angular.module('deposito').
 controller('depositosController',function($scope,$http,$modal){
 
 	$scope.deposito = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerDepositos = function(){
 
@@ -520,7 +520,7 @@ angular.module('deposito').
 controller('documentosController',function($scope,$http,$modal){
 
 	$scope.documentos = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerDocumentos = function(){
 		$http.get('/documentos/all')
@@ -1015,7 +1015,7 @@ angular.module('deposito').
 controller('insumosAlertController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
-	$scope.cRegistro = '5';
+	$scope.cRegistro = '10';
 
 	$scope.obtenerInsumos = function(){
 
@@ -1042,7 +1042,7 @@ angular.module('deposito').
 controller('insumosController',function($scope,$http,$modal){
 
 	$scope.insumos = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.registrarInsumo = function() {
 
@@ -2298,7 +2298,7 @@ angular.module('deposito').
 controller('provedoresController',function($scope,$http,$modal){
 
 	$scope.provedores = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.registraProvedor = function() {
 
@@ -2983,7 +2983,7 @@ angular.module('deposito').
 controller('rolesController',function($scope,$http,$modal){
 
 	$scope.roles = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerRoles = function(){
 		$http.get('/roles/all')
