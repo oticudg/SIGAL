@@ -1,85 +1,82 @@
 @extends('panel')
-@section('front-page')
+@section('bodytag', 'ng-controller="alertController"')
 
-	<nav class="nav-ubication">
-		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-th-list"></span> Inventario</li>
-			<li class="nav-active"><span class="glyphicon glyphicon-bell"></span> Alarmas</li>
-		</ul>
-	</nav>
+@section('panel-name', 'Configuracion de alarmas')
 
-	<br>
+@section('breadcrumb')
+  <li><a href="#">Inventario</a></li>
+  <li><a href="{{route('invenInicio')}}"><i class="fa fa-dashboard"></i>Exitencias</a></li>
+  <li class="active">Kardex</li>
+@endsection
 
-	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" class="text-enlace" href="#alarmas">Alarmas</a></li>
-	</ul>
+@section('content')
+	
+	<div class="row">
+	    <div class="col-xs-12">
+	      <div class="box box-primary">
+	        <div class="box-header">
+	        </div>  
+	        <div class="box-body">
+	        	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-6">
+						<div class="input-group">
 
-	<div class="tab-content">
-		{{--Panel de registros de alarmas--}}
-		<div id="alarmas" class="tab-pane fade in active" ng-controller="alertController">
-			<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
-			<center>
-				<h3 class="text-success">Configuracion de alarmas</h3>
-			</center>
-			<br><br>
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
-					<div class="input-group">
+			          			<ui-select ng-model="insumoSelect.selected"
+							             ng-disabled="disabled"
+							             reset-search-input="true">
+							    <ui-select-match placeholder="Ingrese una Descripción o un codigo">
+							    {#$select.selected.descripcion#}</ui-select-match>
+							    <ui-select-choices repeat="insumo in listInsumos track by $index"
+							             refresh="refreshInsumos($select.search)"
+							             refresh-delay="0">
+							      <div ng-bind-html="insumo.descripcion | highlight: $select.search"></div>
+							       <small ng-bind-html="insumo.codigo"></small>
+							    </ui-select-choices>
+							    </ui-select>
 
-		          			<ui-select ng-model="insumoSelect.selected"
-						             ng-disabled="disabled"
-						             reset-search-input="true">
-						    <ui-select-match placeholder="Ingrese una Descripción o un codigo">
-						    {#$select.selected.descripcion#}</ui-select-match>
-						    <ui-select-choices repeat="insumo in listInsumos track by $index"
-						             refresh="refreshInsumos($select.search)"
-						             refresh-delay="0">
-						      <div ng-bind-html="insumo.descripcion | highlight: $select.search"></div>
-						       <small ng-bind-html="insumo.codigo"></small>
-						    </ui-select-choices>
-						    </ui-select>
-
-						<div class="input-group-btn">
-						    <button class="btn btn-success" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
+							<div class="input-group-btn">
+							    <button class="btn btn-primary" ng-click="agregarInsumos()"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<br>
-			<div ng-show="existInsumos()">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th class="col-md-2">Codigo</th>
-							<th>Descripción</th>
-							<th class="col-md-2">Nivel Critico</th>
-							<th class="col-md-2">Nivel Bajo</th>
-							<th class="col-md-1">Eliminar</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="insumo in insumos">
-							<td>{#insumo.codigo#}</td>
-							<td>{#insumo.descripcion#}</td>
-							<td class="danger">
-								<input class="form-control text-center" type="number" ng-model="insumo.min">
-							</td>
-							<td class="warning">
-								<input class="form-control text-center" type="number" ng-model="insumo.med">
-							</td>
-							<td>
-								<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<center>
-					<br>
-					<button ng-click="guardar()" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
-	    		</center>
-    		</div>
-		</div>
+				<br>
+				<div ng-show="existInsumos()">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th class="col-md-2">Codigo</th>
+								<th>Descripción</th>
+								<th class="col-md-2">Nivel Critico</th>
+								<th class="col-md-2">Nivel Bajo</th>
+								<th class="col-md-1">Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="insumo in insumos">
+								<td>{#insumo.codigo#}</td>
+								<td>{#insumo.descripcion#}</td>
+								<td class="danger">
+									<input class="form-control text-right" type="number" ng-model="insumo.min">
+								</td>
+								<td class="warning">
+									<input class="form-control text-right" type="number" ng-model="insumo.med">
+								</td>
+								<td class="text-center">
+									<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="text-right">
+						<br>
+						<button ng-click="guardar()" class="btn btn-primary"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
+		    		</div>
+				</div>
+	      </div>
+	    </div>
 	</div>
 
 @endsection
