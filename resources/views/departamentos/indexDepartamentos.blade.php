@@ -1,80 +1,88 @@
-@extends('panel')
+@extends('base')
 @section('bodytag', 'ng-controller="departamentosController"')
-@section('front-page')
 
-	<div data-loading class="div_loader">
-		<div id="img_loader" class="img_loader">
-			<img src="{{asset('imagen/loader.gif')}}" alt="">
-			<p> Cargando ...</p>
-		</div>
-	</div>
+@section('panel-name', 'Departamentos')
 
-	<nav class="nav-ubication">
-		<ul class="nav-enlaces">
-			<li><span class="glyphicon glyphicon-cog"></span> Administración</li>
-			<li class="nav-active"><span class="glyphicon glyphicon-briefcase"></span> Departamentos</li>
-		</ul>
-	</nav>
-	<br>
+@section('breadcrumb')
+	<li><a href="#"><i class="fa fa-dashboard"></i>Exitencias</a></li>
+	<li class="active">Salidas</li>
+@endsection
 
-	@if( Auth::user()->hasPermissions(['departs_register']))
-		<button class="btn btn-success" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button>
-	@endif
-
-	<br>
-	<br>
-	<br>
-
+@section('content')
+	
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="input-group">
-		  		<span class="input-group-addon btn-success text-white"><span class="glyphicon glyphicon-search"></span></span>
-		  		<input type="text" class="form-control" ng-model="busqueda">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header">
+					
+				</div>	
+				<div class="box-body">
+
+					@if( Auth::user()->hasPermissions(['departs_register']))
+						<div class="row">
+							<div class="col-md-2">
+								<button class="btn btn-primary" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button>
+
+							</div>								
+						</div>
+					@endif
+
+					<br>
+					<br>
+					<div class="dataTables_wrapper form-inline dt-bootstrap">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="dataTables_length">
+									<span>Mostrar</span>
+									<select id="cantidad" class="form-control" ng-model="cRegistro" class="form-control input-sm">
+										<option value="10">10</option>
+										<option value="25">25</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+									</select> 
+								</div>
+							</div>
+
+							<div class="col-sm-6 text-right">		
+							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+							</div>
+						</div>
+
+						<br>
+
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Departamento</th>
+									@if( Auth::user()->hasPermissions(['departs_edit', 'departs_delete'], true))
+										<th colspan="2" class="col-sm-1">Modificaciones</th>
+									@elseif( Auth::user()->hasPermissions(['departs_edit', 'departs_delete']))
+										<th class="col-sm-1">Modificaciones</th>
+									@endif
+								</tr>
+							</thead>
+							<tbody>
+								<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:cRegistro">
+									<td>{#departamento.nombre | capitalize#}</td>
+									@if( Auth::user()->hasPermissions(['departs_edit']) )
+										<td class="text-center"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
+									@endif
+									@if( Auth::user()->hasPermissions(['departs_delete']))
+										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+									@endif
+								</tr>
+							</tbody>
+						</table>
+
+						<div>
+					      <div class="text-center">
+					     	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+					      </div>
+					    </div>	
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-1">
-    		<label for="cantidad">Registros</label>
-			<select id="cantidad" class="form-control" ng-model="cRegistro">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="20">20</option>
-			</select>
-		</div>
-	</div>
-
-	<br>
-	<br>
-
-	<table class="table table-bordered table-hover">
-		<thead>
-			<tr>
-				<th>Departamento</th>
-				@if( Auth::user()->hasPermissions(['departs_edit', 'departs_delete'], true))
-					<th colspan="2" class="table-edit">Modificaciones</th>
-				@elseif( Auth::user()->hasPermissions(['departs_edit', 'departs_delete']))
-					<th class="table-edit">Modificaciones</th>
-				@endif
-			</tr>
-		</thead>
-		<tbody>
-			<tr dir-paginate="departamento in departamentos | filter:busqueda | itemsPerPage:cRegistro">
-				<td>{#departamento.nombre | capitalize#}</td>
-				@if( Auth::user()->hasPermissions(['departs_edit']) )
-					<td class="table-edit"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
-				@endif
-				@if( Auth::user()->hasPermissions(['departs_delete']))
-					<td class="table-edit"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
-				@endif
-			</tr>
-		</tbody>
-	</table>
-
-	<div>
-      <div class="text-center">
-     	 <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
-      </div>
-    </div>
 @endsection
