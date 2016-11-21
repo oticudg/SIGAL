@@ -55,7 +55,7 @@
 									<th class="col-md-2">Codigo</th>
 									<th>Nombre</th>
 									@if( Auth::user()->hasPermissions(['stores_edit', 'stores_delete'], true))
-										<th colspan="2" class="col-sm-2">Modificaciones</th>
+										<th colspan="2" class="col-sm-1">Modificaciones</th>
 									@elseif( Auth::user()->hasPermissions(['stores_edit', 'stores_delete']))
 										<th class="col-sm-1">Modificaciones</th>
 									@endif
