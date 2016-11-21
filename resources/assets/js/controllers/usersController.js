@@ -5,7 +5,7 @@ angular.module('deposito').
 controller('usersController',function($scope,$http,$modal){
 
 	$scope.usuarios = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.registrarUser = function() {
 

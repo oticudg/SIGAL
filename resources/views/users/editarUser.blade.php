@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 style="color:#54AF54;" class="modal-title"><span class="glyphicon glyphicon-pencil"></span> Editar Usuario</h3>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-pencil text-primary"></span> Editar Usuario</h3>
 </div>
 <div class="modal-body modal-body-custon">
   <alert ng-show="alert" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
@@ -85,7 +85,7 @@
   </div>
 </div>
 <div class="modal-footer">
-     <button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> Modificar</button>
+     <button class="btn btn-primary" ng-show="btnVisivilidad" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> Modificar</button>
     <button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
-    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
+    <button class="btn btn-primary" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
 </div>

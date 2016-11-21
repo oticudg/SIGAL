@@ -1,7 +1,7 @@
 @extends('panel')
 @section('bodytag', 'ng-controller="modificacionesController"')
 
-@section('panel-name', 'Existencia')
+@section('panel-name', 'Modificaciones')
 
 @section('breadcrumb')
 	<li><a href="#"><i class="fa fa-dashboard"></i>Exitencias</a></li>
