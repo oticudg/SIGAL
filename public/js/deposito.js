@@ -1833,7 +1833,7 @@ angular.module('deposito').
 controller('modificacionesController',function($scope,$http,$modal){
 
 	$scope.modificaciones = [];
-  $scope.cRegistro = '5';
+  $scope.cRegistro = '10';
 
 	$scope.obtenerModificaciones = function(){
 

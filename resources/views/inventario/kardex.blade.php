@@ -100,8 +100,8 @@
                 <th class="col-md-1">Concepto</th>
                 <th>Procedencia o Destino</th>
                 <th class="col-md-1">Tipo</th>
-                <th class="col-md-1 text-right">Mov.</th>
-                <th class="col-md-1 text-right">Exist.</th>
+                <th class="col-md-1 text-right">Moviminto</th>
+                <th class="col-md-1 text-right">Existencia</th>
                 @if(Auth::user()->hasPermissions(['inventory_movements']))
                   <th class="col-md-1">Nota</th>
                 @endif

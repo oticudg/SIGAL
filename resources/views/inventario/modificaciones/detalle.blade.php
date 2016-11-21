@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
 	     <h3 class="modal-title text-title-modal">
-	    	   <span class="glyphicon glyphicon-edit"></span> Modificación
+	    	   <span class="glyphicon glyphicon-edit text-primary"></span> Modificación
 	     </h3>
 		</div>
 	</div>
@@ -93,7 +93,7 @@
                   <td>{#movimiento.type#}</td>
                   <td>{#movimiento.tercero#}</td>
                   @if( Auth::user()->hasPermissions(['inventory_movements']))
-                    <td><button class="btn btn-warning" ng-click="detallesNota(movimiento.type,movimiento.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+                    <td class="text-center"><button class="btn btn-warning" ng-click="detallesNota(movimiento.type,movimiento.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
                   @endif
                 </tr>
               </tbody>

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
 	     <h3 class="modal-title text-title-modal">
-	    	   <span class="glyphicon glyphicon glyphicon-search"></span> Nueva modificacion
+	    	   <span class="glyphicon glyphicon glyphicon-search text-primary"></span> Nueva modificacion
 	     </h3>
 		</div>
 	</div>
@@ -16,7 +16,7 @@
           <div class="panel-body">
             <div class="input-group">
                 <input type="text" class="form-control text-center" ng-model="code">
-                <span class="input-group-addon btn-success text-white" ng-click="search()"><span class="glyphicon glyphicon-search"></span></span>
+                <span class="input-group-addon btn-primary text-white" ng-click="search()"><span class="glyphicon glyphicon-search"></span></span>
             </div>
           </div>
        </div>
@@ -99,6 +99,6 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success"  ng-show="uiStatus" ng-click="update()"><span class="glyphicon glyphicon-ok-sign"></span> Modificar</button>
+    <button class="btn btn-primary"  ng-show="uiStatus" ng-click="update()"><span class="glyphicon glyphicon-ok-sign"></span> Modificar</button>
     <button class="btn btn-warning" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
 </div>

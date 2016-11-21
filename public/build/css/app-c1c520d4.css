@@ -5680,5 +5680,8 @@ input[type=number]::-webkit-outer-spin-button {
 .custon-table-top-off {
   margin-top: 0px;
 }
+.tableWarning th {
+  background-color: #f0ad4e;
+}
 
 /*# sourceMappingURL=app.css.map */
