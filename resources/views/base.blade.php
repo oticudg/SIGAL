@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="{{asset('css/vendor/ionicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/vendor/select.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  <link rel="stylesheet" href="{{elixir('css/app.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -94,8 +94,8 @@
 <script src="{{asset('dist/js/pages/dashboard2.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
-<script src="{{asset('js/config.js')}}"></script>
-<script src="{{asset('js/deposito.js')}}"></script>
+<script src="{{elixir('js/config.js')}}"></script>
+<script src="{{elixir('js/deposito.js')}}"></script>
 
 @yield('addscript')
 

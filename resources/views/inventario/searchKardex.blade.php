@@ -2,7 +2,7 @@
     <div class="row">
     	<div class="col-md-6">
 		    <h3 class="modal-title text-title-modal">
-		    	<span class="glyphicon glyphicon glyphicon-search"></span> Buscador avanzado
+		    	<span class="glyphicon glyphicon glyphicon-search text-primary"></span> Buscador avanzado
 		    </h3>
 		</div>
 	    <div class="col-md-4">
@@ -80,19 +80,19 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-md-2 col-md-offset-2">
-                <button type="button" class="btn btn-success btn-block" ng-click="dateSearch()">Rango de fecha</button>
+                <button type="button" class="btn btn-primary btn-block" ng-click="dateSearch()">Rango de fecha</button>
               </div>
 
               <div class="col-md-2">
-                <button type="button" class="btn btn-success btn-block" ng-click="timeSearch()">Rango de hora</button>
+                <button type="button" class="btn btn-primary btn-block" ng-click="timeSearch()">Rango de hora</button>
               </div>
 
               <div class="col-md-2">
-                <button type="button" class="btn btn-success btn-block" ng-click="amounSearch()">Rango Mov.</button>
+                <button type="button" class="btn btn-primary btn-block" ng-click="amounSearch()">Rango Mov.</button>
               </div>
 
               <div class="col-md-2">
-                <button type="button" class="btn btn-success btn-block" ng-click="amounESearch()">Rango Exist.</button>
+                <button type="button" class="btn btn-primary btn-block" ng-click="amounESearch()">Rango Exist.</button>
               </div>
             </div>
             <br>
@@ -107,7 +107,7 @@
                           <p class="input-group">
                             <input type="text" id="fechaI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="fechaI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
                                 <span class="input-group-btn">
-                                  <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                  <button type="button" class="btn btn-primary text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                           </p>
                         </div>
@@ -116,7 +116,7 @@
                           <p class="input-group">
                             <input type="text" id="fechaF" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="fechaF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
                                 <span class="input-group-btn">
-                                  <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                  <button type="button" class="btn btn-primary text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                           </p>
                         </div>
@@ -184,6 +184,6 @@
   </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-click="buscar()"><span class="glyphicon glyphicon glyphicon-search"></span> Buscar</button>
+    <button class="btn btn-primary" ng-click="buscar()"><span class="glyphicon glyphicon glyphicon-search"></span> Buscar</button>
     <button class="btn btn-warning" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
 </div>

@@ -4,7 +4,7 @@ angular.module('deposito').
 controller('kardexController',function($scope,$http,$modal){
 
 	$scope.movimientos = [];
-	$scope.cRegistro   = '5';
+	$scope.cRegistro   = '10';
 	$scope.insumoInfo  = insumoKardex;
 
 	var obtenerKardex = function(filter){
