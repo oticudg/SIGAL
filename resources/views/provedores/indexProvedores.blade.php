@@ -55,9 +55,9 @@
 									<th class="col-md-2">Rif</th>
 									<th>Nombre</th>
 									@if( Auth::user()->hasPermissions(['providers_edit', 'providers_delete'], true))
-										<th colspan="2" class="col-md-1">Modificaciones</th>
+										<th colspan="2" class="col-sm-1">Modificaciones</th>
 									@elseif( Auth::user()->hasPermissions(['providers_edit','providers_delete']))
-										<th class="col-md-1">Modificaciones</th>
+										<th class="col-sm-1">Modificaciones</th>
 									@endif
 								</tr>
 							</thead>
