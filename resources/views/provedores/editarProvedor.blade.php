@@ -1,12 +1,12 @@
 <div class="modal-header">
-    <h3 class="modal-title text-title-modal"><span class="glyphicon glyphicon-pencil"></span> Editar Proveedor</h3>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-pencil text-primary"></span> Editar Proveedor</h3>
 </div>
 <div class="modal-body">
 
 	<alert ng-repeat="alert in alerts" type="{#alert.type#}" close="closeAlert($index)">{#alert.msg#}</alert>
 	
 	<center>
-		<h3 class="text-title-modal">Rif:<strong class="text-muted"> {#rif#}</strong></h3>
+		<h3>Rif:<strong class="text-muted"> {#rif#}</strong></h3>
 	</center>
 
 	<br>
@@ -21,7 +21,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-success" ng-show="btnVisivilidad" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> modificar</button>
+	<button class="btn btn-primary" ng-show="btnVisivilidad" ng-click="modificar()"><span class="glyphicon glyphicon-ok-sign"></span> modificar</button>
     <button class="btn btn-warning" ng-show="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
-    <button class="btn btn-success" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
+    <button class="btn btn-primary" ng-hide="btnVisivilidad" ng-click="cancelar()"><span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
 </div>
