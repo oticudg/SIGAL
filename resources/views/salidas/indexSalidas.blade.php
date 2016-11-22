@@ -3,11 +3,6 @@
 
 @section('panel-name', 'Salidas')
 
-@section('breadcrumb')
-	<li><a href="#"><i class="fa fa-dashboard"></i>Exitencias</a></li>
-	<li class="active">Salidas</li>
-@endsection
-
 @section('content')
 	{{--Buscador y Seleccion de Listados de datos--}}
 

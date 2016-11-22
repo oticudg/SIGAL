@@ -3,12 +3,6 @@
 
 @section('panel-name', 'Configuracion de alarmas')
 
-@section('breadcrumb')
-  <li><a href="#">Inventario</a></li>
-  <li><a href="{{route('invenInicio')}}"><i class="fa fa-dashboard"></i>Exitencias</a></li>
-  <li class="active">Kardex</li>
-@endsection
-
 @section('content')
 	
 	<div class="row">

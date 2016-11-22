@@ -3,11 +3,6 @@
 
 @section('panel-name', 'Insumos')
 
-@section('breadcrumb')
-	<li><a href="#"><i class="fa fa-dashboard"></i>Exitencias</a></li>
-	<li class="active">Salidas</li>
-@endsection
-
 @section('content')
 
 	<div class="row">
