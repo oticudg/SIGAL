@@ -63,7 +63,7 @@
   
     {{-- Menu de inventario --}}
       @if( Auth::user()->hasPermissions(['inventory_stock', 'inventory_movements', 'inventory_alerts']) )
-        <li class="treeview">
+        <li class="treeview @if(Request()->is('inventario/*')) active @endif">
           <a href="#">
             <i class="glyphicon glyphicon-th-list"></i>
             <span>Inventario</span>
@@ -73,26 +73,26 @@
           </a>
           <ul class="treeview-menu">
             @if( Auth::user()->hasPermissions(['inventory_stock']) )
-              <li><a href="{{route('invenInicio')}}"><i class="glyphicon glyphicon-equalizer"></i> Existencia</a></li>
+              <li class="@if(Request()->is('inventario/existencia')) active @endif"><a href="{{route('inven::index')}}"><i class="glyphicon glyphicon-equalizer"></i> Existencia</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_movements']) )
-              <li><a href="{{route('entrPanel')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Entradas</a></li>
+              <li class="@if(Request()->is('inventario/entradas')) active @endif"><a href="{{route('inven::entr::index')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Entradas</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_movements']) )
-              <li><a href="/salidas"><i class="glyphicon glyphicon-circle-arrow-up"></i> Salidas</a></li>
+              <li class="@if(Request()->is('inventario/salidas')) active @endif"><a href="{{route('inven::sali::index')}}"><i class="glyphicon glyphicon-circle-arrow-up"></i> Salidas</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_alerts']) )
-              <li><a href="{{route('invenAlertsInicio')}}"><i class="glyphicon glyphicon-bell"></i> Alarmas</a></li>
+              <li class="@if(Request()->is('inventario/alertas')) active @endif"><a href="{{route('inven::alerts::index')}}"><i class="glyphicon glyphicon-bell"></i> Alarmas</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_modifications']) )
-              <li><a href="{{route('invenModifInicio')}}"><i class="glyphicon glyphicon-edit"></i> Modificaciones</a></li>
+              <li class="@if(Request()->is('inventario/modificaciones')) active @endif"><a href="{{route('inven::modif::index')}}"><i class="glyphicon glyphicon-edit"></i> Modificaciones</a></li>
             @endif
 
-            <li><a href="/estadisticas"><i class="glyphicon glyphicon-tasks"></i> 
+            <li class="@if(Request()->is('inventario/estadisticas')) active @endif"><a href="/estadisticas"><i class="glyphicon glyphicon-tasks"></i> 
               Estadisticas</a></li>
           </ul>
         </li>
@@ -110,7 +110,7 @@
           </a>
           <ul class="treeview-menu">
             @if( Auth::user()->hasPermissions(['movements_register_entry']) )
-              <li><a href="{{route('entrRegistrar')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Registro de Entrada</a></li>
+              <li><a href="{{route('inven::entr::registrar')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Registro de Entrada</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['movements_register_egress']) )

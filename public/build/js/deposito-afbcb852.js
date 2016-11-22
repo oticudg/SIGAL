@@ -715,12 +715,12 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.status = true;
 
 	var obtenerEntradas = function(){
-    $http.get('/entradas/getEntradas/')
+    $http.get('/inventario/entradas/getEntradas/')
 			.success( function(response){$scope.entradas = response});
   };
 
   var obtenerInsumos = function(datos){
-    $http.get('/entradas/getInsumos')
+    $http.get('/inventario/entradas/getInsumos')
       .success( function(response){$scope.insumos = response});
   };
 
@@ -742,7 +742,7 @@ controller('entradasController',function($scope,$http,$modal){
 
   $scope.detallesOrden = function(orden){
 
-    $http.get('/entradas/getOrden/'+ orden)
+    $http.get('/inventario/entradas/getOrden/'+ orden)
       .success(
         function(response){
           $scope.orden   = response.orden;
@@ -755,7 +755,7 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.detallesEntrada = function(index){
     var modalInstance = $modal.open({
       animation: true,
-          templateUrl: '/entradas/detalles',
+          templateUrl: '/inventario/entradas/detalles',
           controller: 'detallesEntradaCtrl',
           windowClass: 'large-Modal',
           resolve: {
@@ -787,7 +787,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
 
   $scope.detalles = function(){
 
-    $http.get('/entradas/getEntrada/' + id)
+    $http.get('/inventario/entradas/getEntrada/' + id)
       .success(function(response){
 
         $scope.nota = response.nota;
@@ -1526,16 +1526,16 @@ controller('kardexController',function($scope,$http,$modal){
 			}
 			else{
 				var search ={
-					view:"/entradas/detalles",
-					data:"/entradas/getEntrada/",
+					view:"/inventario/entradas/detalles",
+					data:"/inventario/entradas/getEntrada/",
 					id:index
 				}
 			}
 		}
 		else{
 			var search = {
-				view:"/detallesSalida",
-				data:"/getSalida/",
+				view:"/inventario/salidas/detallesSalida",
+				data:"/inventario/salidas/getSalida/",
 				id:index
 			}
 		}
@@ -1616,7 +1616,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 	$scope.documentos = [];
 	$scope.panelTerceros = true;
 
-	$http.get('/getUsuariosDeposito')
+	$http.get('/administracion/usuarios/getUsuariosDeposito')
 		.success(function(response){
 			var usuarios = response;
 			var userSet = [];
@@ -1634,7 +1634,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		});
 
 	var getTerceros = function(){
-		$http.get('/depositos/terceros')
+		$http.get('/administracion/almacenes/terceros')
 			.success(function(response){
 				$scope.terceros = response;
 			});
@@ -1714,17 +1714,17 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		switch(type){
 
 			case "entrada":
-				$http.get('/documentos/all/entradas')
+				$http.get('/administracion/documentos/all/entradas')
 						.success( function(response){ $scope.documentos = response;});
 			break;
 
 			case "salida":
-				$http.get('/documentos/all/salidas')
+				$http.get('/administracion/documentos/all/salidas')
 						.success( function(response){ $scope.documentos = response;});
 			break;
 
 			case "all":
-				$http.get('/documentos/all')
+				$http.get('/administracion/documentos/all')
 						.success( function(response){ $scope.documentos = response;});
 			break;
 
@@ -1820,7 +1820,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 	}
 
 
-	$http.get('/documentos/all')
+	$http.get('/administracion/documentos/all')
 	    .success( function(response){ $scope.documentos = response;});
 
 	getTerceros();
@@ -1883,15 +1883,15 @@ controller('modificacionesController',function($scope,$http,$modal){
 
 			if(type == "entrada"){
 				var search ={
-					view:"/entradas/detalles",
-					data:"/entradas/getEntrada/",
+					view:"/inventario/entradas/detalles",
+					data:"/inventario/entradas/getEntrada/",
 					id:index
 				}
 			}
 			else{
 				var search = {
-					view:"/detallesSalida",
-					data:"/getSalida/",
+					view:"/inventario/salidas/detallesSalida",
+					data:"/inventario/salidas/getSalida/",
 					id:index
 				}
 			}
@@ -1951,14 +1951,14 @@ angular.module('deposito').controller('registraModificacionCtrl',
 					}
 					else{
 
-						$http.get('/documentos/all/' + response.data.type)
+						$http.get('/administracion/documentos/all/' + response.data.type)
 					      .success( function(response){ $scope.documentos = response;});
 
 						if(response.data.tercero == 'interno'){
 							$scope.panelTerceros = false;
 						}
 						else{
-							$http.get('/depositos/terceros/'+ response.data.tercero)
+							$http.get('/administracion/almacenes/terceros/'+ response.data.tercero)
 			          .success(function(response){
 			            $scope.terceros = response;
 			          });
@@ -1982,7 +1982,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
       $scope.terceroSelect = {};
 
       if($scope.documentoSelect.selected.tipo != "interno"){
-        $http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+        $http.get('/administracion/almacenes/terceros/'+ $scope.documentoSelect.selected.tipo)
           .success(function(response){
             $scope.terceros = response;
             $scope.panelTerceros = true;
@@ -3205,14 +3205,14 @@ controller('salidasController',function($scope,$http,$modal){
 				.success( function(response){$scope.salidas = response});
 		}
 		else{
-			$http.get('/getSalidas')
+			$http.get('/inventario/salidas/getSalidas')
 				.success( function(response){$scope.salidas = response});
 		}
 	};
 
   $scope.obtenerSalidasInsumos = function(){
 
-    $http.get('/getInsumosSalidas')
+    $http.get('/inventario/salidas/getInsumosSalidas')
       .success( function(response){$scope.salidasInsumos = response});
   };
 
@@ -3237,7 +3237,7 @@ controller('salidasController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/detallesSalida',
+          templateUrl: '/inventario/salidas/detallesSalida',
           controller: 'detallesSalidaCtrl',
           windowClass: 'large-Modal',
           resolve: {
@@ -3271,7 +3271,7 @@ angular.module('deposito').controller('detallesSalidaCtrl', function ($scope, $m
 
   $scope.detalles = function(){
 
-    $http.get('/getSalida/' + id)
+    $http.get('/inventario/salidas/getSalida/' + id)
       .success(function(response){
 
         $scope.nota = response.nota;

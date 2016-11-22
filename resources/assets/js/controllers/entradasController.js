@@ -10,12 +10,12 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.status = true;
 
 	var obtenerEntradas = function(){
-    $http.get('/entradas/getEntradas/')
+    $http.get('/inventario/entradas/getEntradas/')
 			.success( function(response){$scope.entradas = response});
   };
 
   var obtenerInsumos = function(datos){
-    $http.get('/entradas/getInsumos')
+    $http.get('/inventario/entradas/getInsumos')
       .success( function(response){$scope.insumos = response});
   };
 
@@ -37,7 +37,7 @@ controller('entradasController',function($scope,$http,$modal){
 
   $scope.detallesOrden = function(orden){
 
-    $http.get('/entradas/getOrden/'+ orden)
+    $http.get('/inventario/entradas/getOrden/'+ orden)
       .success(
         function(response){
           $scope.orden   = response.orden;
@@ -50,7 +50,7 @@ controller('entradasController',function($scope,$http,$modal){
   $scope.detallesEntrada = function(index){
     var modalInstance = $modal.open({
       animation: true,
-          templateUrl: '/entradas/detalles',
+          templateUrl: '/inventario/entradas/detalles',
           controller: 'detallesEntradaCtrl',
           windowClass: 'large-Modal',
           resolve: {
@@ -82,7 +82,7 @@ angular.module('deposito').controller('detallesEntradaCtrl', function ($scope, $
 
   $scope.detalles = function(){
 
-    $http.get('/entradas/getEntrada/' + id)
+    $http.get('/inventario/entradas/getEntrada/' + id)
       .success(function(response){
 
         $scope.nota = response.nota;

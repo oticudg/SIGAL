@@ -54,15 +54,15 @@ controller('modificacionesController',function($scope,$http,$modal){
 
 			if(type == "entrada"){
 				var search ={
-					view:"/entradas/detalles",
-					data:"/entradas/getEntrada/",
+					view:"/inventario/entradas/detalles",
+					data:"/inventario/entradas/getEntrada/",
 					id:index
 				}
 			}
 			else{
 				var search = {
-					view:"/detallesSalida",
-					data:"/getSalida/",
+					view:"/inventario/salidas/detallesSalida",
+					data:"/inventario/salidas/getSalida/",
 					id:index
 				}
 			}
@@ -122,14 +122,14 @@ angular.module('deposito').controller('registraModificacionCtrl',
 					}
 					else{
 
-						$http.get('/documentos/all/' + response.data.type)
+						$http.get('/administracion/documentos/all/' + response.data.type)
 					      .success( function(response){ $scope.documentos = response;});
 
 						if(response.data.tercero == 'interno'){
 							$scope.panelTerceros = false;
 						}
 						else{
-							$http.get('/depositos/terceros/'+ response.data.tercero)
+							$http.get('/administracion/almacenes/terceros/'+ response.data.tercero)
 			          .success(function(response){
 			            $scope.terceros = response;
 			          });
@@ -153,7 +153,7 @@ angular.module('deposito').controller('registraModificacionCtrl',
       $scope.terceroSelect = {};
 
       if($scope.documentoSelect.selected.tipo != "interno"){
-        $http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+        $http.get('/administracion/almacenes/terceros/'+ $scope.documentoSelect.selected.tipo)
           .success(function(response){
             $scope.terceros = response;
             $scope.panelTerceros = true;

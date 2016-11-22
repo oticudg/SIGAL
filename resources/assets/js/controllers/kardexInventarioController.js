@@ -51,16 +51,16 @@ controller('kardexController',function($scope,$http,$modal){
 			}
 			else{
 				var search ={
-					view:"/entradas/detalles",
-					data:"/entradas/getEntrada/",
+					view:"/inventario/entradas/detalles",
+					data:"/inventario/entradas/getEntrada/",
 					id:index
 				}
 			}
 		}
 		else{
 			var search = {
-				view:"/detallesSalida",
-				data:"/getSalida/",
+				view:"/inventario/salidas/detallesSalida",
+				data:"/inventario/salidas/getSalida/",
 				id:index
 			}
 		}
@@ -141,7 +141,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 	$scope.documentos = [];
 	$scope.panelTerceros = true;
 
-	$http.get('/getUsuariosDeposito')
+	$http.get('/administracion/usuarios/getUsuariosDeposito')
 		.success(function(response){
 			var usuarios = response;
 			var userSet = [];
@@ -159,7 +159,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		});
 
 	var getTerceros = function(){
-		$http.get('/depositos/terceros')
+		$http.get('/administracion/almacenes/terceros')
 			.success(function(response){
 				$scope.terceros = response;
 			});
@@ -239,17 +239,17 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 		switch(type){
 
 			case "entrada":
-				$http.get('/documentos/all/entradas')
+				$http.get('/administracion/documentos/all/entradas')
 						.success( function(response){ $scope.documentos = response;});
 			break;
 
 			case "salida":
-				$http.get('/documentos/all/salidas')
+				$http.get('/administracion/documentos/all/salidas')
 						.success( function(response){ $scope.documentos = response;});
 			break;
 
 			case "all":
-				$http.get('/documentos/all')
+				$http.get('/administracion/documentos/all')
 						.success( function(response){ $scope.documentos = response;});
 			break;
 
@@ -345,7 +345,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 	}
 
 
-	$http.get('/documentos/all')
+	$http.get('/administracion/documentos/all')
 	    .success( function(response){ $scope.documentos = response;});
 
 	getTerceros();

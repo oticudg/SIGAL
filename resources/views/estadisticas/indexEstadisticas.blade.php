@@ -1,4 +1,4 @@
-@extends('panel')
+@extends('base')
 @section('bodytag', 'ng-controller="estadisticasController"')
 @section('addscript')
 <script src="{{asset('js/vendor/highcharts.js')}}"></script>

@@ -322,17 +322,17 @@ Route::group(['middleware' => 'auth' ], function(){
 
 	/*** Modulo de inventario ***/
 
-	Route::group(['prefix' => 'inventario', 'as' => 'inven'],
+	Route::group(['prefix' => 'inventario', 'as' => 'inven::'],
 		function(){
 
 			Route::group(['middleware' => 'permission:inventory_stock'], function(){
 				//Muestra el panel de inventario
-				Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@index']);
+				Route::get('existencia',['as' => 'index', 'uses' => 'inventarioController@index']);
 				//Regresa todos las insumos en el inventario
 				Route::post('getInventario','inventarioController@allInsumos');
 		  });
 
-			Route::group(['prefix' => 'kardex', 'as' => 'kardex', 'middleware' => 'permission:inventory_kardex'], function(){
+			Route::group(['prefix' => 'kardex', 'as' => 'kardex::', 'middleware' => 'permission:inventory_kardex'], function(){
 				//Muestra la vista de kardek
 				Route::get('/',['as' => 'index', 'uses' => 'inventarioController@viewKardex']);
 				//Muestra la vista de avanzada de busqueda
@@ -341,26 +341,26 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::post('getKardex', 'inventarioController@kardex');
 			});
 
-			Route::group(['prefix' => 'alertas',  'as' => 'Alerts', 'middleware' => 'permission:inventory_alerts'], function(){
-				//Muestra la vista de	alertas
-				Route::get('/',['as' => 'Inicio', 'uses' => 'inventarioController@viewAlerts']);
+			Route::group(['prefix' => 'alertas',  'as' => 'alerts::', 'middleware' => 'permission:inventory_alerts'], function(){
+				//Muestra la vista de alertas
+				Route::get('/',['as' => 'index', 'uses' => 'inventarioController@viewAlerts']);
 				//configura el valor min y med de los insumos que se especifiquen
 				Route::post('estableceAlarmas','inventarioController@configuraAlarmas');
 				//Regresa una lista de insumos que coincidan con la descripcion o codigo que se pase
 				Route::get('getInventarioAlert', 'inventarioController@getInsumosAlert');
 			});
 
-			Route::group(['prefix' => 'herramientas', 'as' => 'Herra','middleware' => 'permission:inventory_notification_alert'], function(){
+			Route::group(['prefix' => 'herramientas', 'as' => 'herra::','middleware' => 'permission:inventory_notification_alert'], function(){
 				//Muestra la  vista de insumos en niveles bajos y criticos
-				Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'Niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
+				Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
 				//Regresa todos los insumos en alerta del inventario
 				Route::get('getAlertInsumos','inventarioController@insumosAlert');
 			});
 
 
-		  Route::group(['prefix' => 'modificaciones', 'as' => 'Modif', 'middleware' => 'permission:inventory_modifications'], function(){
+		  	Route::group(['prefix' => 'modificaciones', 'as' => 'modif::', 'middleware' => 'permission:inventory_modifications'], function(){
 				//Muestra la vista de modificaciones
-				Route::get('/', ['as' => 'Inicio', 'uses' => 'modificacionesController@index']);
+				Route::get('/', ['as' => 'index', 'uses' => 'modificacionesController@index']);
 				//Muestra la vista de registro de modificaciones
 				Route::get('registrar', ['uses' => 'modificacionesController@viewRegistrar']);
 				//Registra una modificacion
@@ -375,89 +375,90 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::get('getModificaciones', 'modificacionesController@allModificaciones');
 			});
 
+			/*** Modulo de entradas ***/
 
-		/**
-		 *Regresa una lista de insumos que existen en el inventario que
-		 *coincidan con la descripcion o codigo que se pase
-		 */
-		Route::get('getInsumosInventario', 'inventarioController@getInsumosInventario');
+			Route::group(['prefix' => 'entradas', 'as' => 'entr::'],
+				function(){
+
+				Route::group(['middleware' => 'permission:inventory_movements'], function(){
+
+					//Muestra el panel de entradas
+					Route::get('/',['as' => 'index', 'uses' => 'entradasController@index']);
+
+					//Muestra la vista detallada de una entrada
+					Route::get('detalles', 'entradasController@detalles');
+
+					//Regresa todas las entradas segun el tipo que se espesifique, si no se espesifica un
+					//tipo se regresan todas las entradas
+					Route::get('getEntradas/{type?}', 'entradasController@allEntradas');
+
+					//Regresa todos los insumos que han entrado segun el tipo que se espesifique, si no se espesifica
+					//tipo se regresan todos los insumos
+					Route::get('getInsumos/{type?}', 'entradasController@allInsumos');
+
+					//Regresa todos los datos de una entrada cuyo id se pase
+					Route::get('getEntrada/{id}', 'entradasController@getEntrada');
+
+					//Regresa todas las entradas de el numero de orden que se expecifique
+					Route::get('getOrden/{number}', 'entradasController@getOrden');
+
+				});
+
+				Route::group(['middleware' => 'permission:movements_register_entry'], function(){
+					//Muestra la vista de registro de entrada
+					Route::get('registrar',['as' => 'registrar', 'uses' => 'entradasController@viewRegistrar']);
+
+					//Registra una entrada
+					Route::post('registrar' ,'entradasController@registrar');
+				});
+
+				//Regresa los todos los datos de una entrada cuyo codigo se especifique
+				Route::get('getCodigo/{code}', 'entradasController@getEntradaCodigo');
+			});
+
+			/*** Fin de modulo de entradas ***/
+
+
+			/*** Modulo de salidas ***/
+
+			Route::group(['prefix' => 'salidas', 'as' => 'sali::'], function(){
+
+				Route::group(['middleware' => 'permission:inventory_movements'], function(){
+
+					//Muestra el panel de salidas
+					Route::get('/',['as' => 'index', 'uses' => 'salidasController@index']);
+					//Muestra la vista detallada de una salida
+					Route::get('detallesSalida','salidasController@detalles');
+					//Regresa todos los insumos que han salido
+					Route::get('getInsumosSalidas','salidasController@allInsumos');
+					//Regresa todas las salidas
+					Route::get('getSalidas','salidasController@allSalidas');
+					//Regresa los todos los datos de una salida cuyo id se pase
+					Route::get('getSalida/{id}', 'salidasController@getSalida');
+				});
+
+				Route::group(['middleware' => 'permission:movements_register_egress'], function(){
+					//Muestra la vista de registro de salida
+					Route::get('registrar', ['as' => 'registrar', 'uses' => 'salidasController@viewRegistrar']);
+					//Registra una salida
+					Route::post('registrar' ,'salidasController@registrar');
+				});
+
+				//Regresa todos los datos de una salida cuyo codigo se especifique
+				Route::get('getSalidaCodigo/{code}', 'salidasController@getSalidaCodigo');
+
+				/*** Fin de modulo de salidas ***/
+			});
+
+			/**
+			 *Regresa una lista de insumos que existen en el inventario que
+			 *coincidan con la descripcion o codigo que se pase
+			 */
+			Route::get('getInsumosInventario', 'inventarioController@getInsumosInventario');
 
 	});
 
 	/*** Fin de modulo de inventario ***/
-
-
-	/*** Modulo de entradas ***/
-
-	Route::group(['prefix' => 'entradas', 'as' => 'entr'],
-		function(){
-
-		Route::group(['middleware' => 'permission:inventory_movements'], function(){
-
-			//Muestra el panel de entradas
-			Route::get('/',['as' => 'Panel', 'uses' => 'entradasController@index']);
-
-			//Muestra la vista detallada de una entrada
-			Route::get('detalles', 'entradasController@detalles');
-
-			//Regresa todas las entradas segun el tipo que se espesifique, si no se espesifica un
-			//tipo se regresan todas las entradas
-			Route::get('getEntradas/{type?}', 'entradasController@allEntradas');
-
-			//Regresa todos los insumos que han entrado segun el tipo que se espesifique, si no se espesifica
-			//tipo se regresan todos los insumos
-			Route::get('getInsumos/{type?}', 'entradasController@allInsumos');
-
-			//Regresa todos los datos de una entrada cuyo id se pase
-			Route::get('getEntrada/{id}', 'entradasController@getEntrada');
-
-			//Regresa todas las entradas de el numero de orden que se expecifique
-			Route::get('getOrden/{number}', 'entradasController@getOrden');
-
-		});
-
-		Route::group(['middleware' => 'permission:movements_register_entry'], function(){
-			//Muestra la vista de registro de entrada
-			Route::get('registrar',['as' => 'Registrar', 'uses' => 'entradasController@viewRegistrar']);
-
-			//Registra una entrada
-			Route::post('registrar' ,'entradasController@registrar');
-		});
-
-		//Regresa los todos los datos de una entrada cuyo codigo se especifique
-		Route::get('getCodigo/{code}', 'entradasController@getEntradaCodigo');
-	});
-
-	/*** Fin de modulo de entradas ***/
-
-
-	/*** Modulo de salidas ***/
-
-	Route::group(['middleware' => 'permission:inventory_movements'], function(){
-
-		//Muestra el panel de salidas
-		Route::get('salidas','salidasController@index');
-		//Muestra la vista detallada de una salida
-		Route::get('detallesSalida','salidasController@detalles');
-		//Regresa todos los insumos que han salido
-		Route::get('getInsumosSalidas','salidasController@allInsumos');
-		//Regresa todas las salidas
-		Route::get('getSalidas','salidasController@allSalidas');
-		//Regresa los todos los datos de una salida cuyo id se pase
-		Route::get('getSalida/{id}', 'salidasController@getSalida');
-	});
-
-	Route::group(['middleware' => 'permission:movements_register_egress'], function(){
-		//Muestra la vista de registro de salida
-		Route::get('registrarSalida', 'salidasController@viewRegistrar');
-		//Registra una salida
-		Route::post('registrarSalida' ,'salidasController@registrar');
-	});
-
-	//Regresa los todos los datos de una salida cuyo codigo se especifique
-	Route::get('getSalidaCodigo/{code}', 'salidasController@getSalidaCodigo');
-
-	/*** Fin de modulo de salidas ***/
 
 	/*** Modulo de Estadisticas ***/
 

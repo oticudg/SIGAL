@@ -16,14 +16,14 @@ controller('salidasController',function($scope,$http,$modal){
 				.success( function(response){$scope.salidas = response});
 		}
 		else{
-			$http.get('/getSalidas')
+			$http.get('/inventario/salidas/getSalidas')
 				.success( function(response){$scope.salidas = response});
 		}
 	};
 
   $scope.obtenerSalidasInsumos = function(){
 
-    $http.get('/getInsumosSalidas')
+    $http.get('/inventario/salidas/getInsumosSalidas')
       .success( function(response){$scope.salidasInsumos = response});
   };
 
@@ -48,7 +48,7 @@ controller('salidasController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/detallesSalida',
+          templateUrl: '/inventario/salidas/detallesSalida',
           controller: 'detallesSalidaCtrl',
           windowClass: 'large-Modal',
           resolve: {
@@ -82,7 +82,7 @@ angular.module('deposito').controller('detallesSalidaCtrl', function ($scope, $m
 
   $scope.detalles = function(){
 
-    $http.get('/getSalida/' + id)
+    $http.get('/inventario/salidas/getSalida/' + id)
       .success(function(response){
 
         $scope.nota = response.nota;

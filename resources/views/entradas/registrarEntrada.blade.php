@@ -1,4 +1,4 @@
-@extends('panel')
+@extends('base')
 @section('bodytag', 'ng-controller="registroEntradaController"')
 
 @section('panel-name', 'Registro de Pro-Forma de entrada')
