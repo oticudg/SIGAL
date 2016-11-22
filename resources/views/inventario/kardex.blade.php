@@ -1,4 +1,4 @@
-@extends('panel')
+@extends('base')
 @section('bodytag', 'ng-controller="kardexController"')
 @section('addscript')
   <script>

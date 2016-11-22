@@ -1,4 +1,4 @@
-@extends('panel')
+@extends('base')
 @section('bodytag', 'ng-controller="rolesController"')
 
 @section('panel-name', 'Roles')
