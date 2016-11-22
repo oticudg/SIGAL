@@ -8,7 +8,7 @@ controller('rolesController',function($scope,$http,$modal){
   $scope.cRegistro = '10';
 
 	$scope.obtenerRoles = function(){
-		$http.get('/roles/all')
+		$http.get('/administracion/roles/all')
 			.success( function(response){$scope.roles = response});
 	};
 
@@ -16,7 +16,7 @@ controller('rolesController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/roles/registrar',
+          templateUrl: '/administracion/roles/registrar',
           windowClass: 'large-Modal',
           controller: 'registrarRolCtrl',
           resolve: {
@@ -32,7 +32,7 @@ controller('rolesController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/roles/editar',
+          templateUrl: '/administracion/roles/editar',
           windowClass: 'large-Modal',
           controller: 'editarRolCtr',
           resolve: {
@@ -49,7 +49,7 @@ controller('rolesController',function($scope,$http,$modal){
   $scope.eliminarRol = function(index){
     var modalInstance = $modal.open({
       		animation: true,
-          templateUrl: '/roles/eliminar',
+          templateUrl: '/administracion/roles/eliminar',
           controller: 'eliminarRolCtrl',
           resolve: {
              obtenerRoles: function (){
@@ -73,7 +73,7 @@ angular.module('deposito').controller('registrarRolCtrl', function ($scope, $mod
 	$scope.permisos = [];
 	var permisos = [];
 
-	$http.get('/roles/permisos')
+	$http.get('/administracion/roles/permisos')
 		.success(function(response){
 			$scope.permisos = response;
 		});
@@ -98,7 +98,7 @@ angular.module('deposito').controller('registrarRolCtrl', function ($scope, $mod
 			'permisos':permisos
 		};
 
-		$http.post('/roles/registrar',data)
+		$http.post('/administracion/roles/registrar',data)
 			.success(function(response){
 				$scope.alerts = [];
 	      $scope.alerts.push( {"type":response.status , "msg":response.message});
@@ -129,12 +129,12 @@ angular.module('deposito').controller('editarRolCtr', function ($scope, $modalIn
 	$scope.alert = false;
 	var permisos = [];
 
-	$http.get('/roles/permisos')
+	$http.get('/administracion/roles/permisos')
 		.success(function(response){
 			$scope.permisos = response;
 		});
 
-  $http.get('/roles/getRol/' + id)
+  $http.get('/administracion/roles/getRol/' + id)
       .success(function(response){
       	$scope.data.permisos = response.permisos;
 				$scope.data.nombre   = response.nombre;
@@ -167,7 +167,7 @@ angular.module('deposito').controller('editarRolCtr', function ($scope, $modalIn
 	}
 
 	$scope.registrar = function(){
-		$http.post('/roles/editar/' + id, $scope.data)
+		$http.post('/administracion/roles/editar/' + id, $scope.data)
 	      .success(function(response){
 						$scope.alert = {'type':response.status, 'msg':response.message};
 						if(response.status == 'success'){
@@ -197,7 +197,7 @@ angular.module('deposito').controller('eliminarRolCtrl', function ($scope, $moda
 
  $scope.delete = function(){
 
-  $http.post('/roles/eliminar/' + id)
+  $http.post('/administracion/roles/eliminar/' + id)
     .success(function(response){
       $scope.alert = {};
       $scope.alert = {"type":response.status , "msg":response.message};

@@ -9,7 +9,7 @@ controller('departamentosController',function($scope,$http,$modal){
 
 	$scope.obtenerDepartamentos = function(){
 
-		$http.get('/getDepartamentos')
+		$http.get('/administracion/departamentos/getDepartamentos')
 			.success( function(response){$scope.departamentos = response});
 	};
 
@@ -17,7 +17,7 @@ controller('departamentosController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/registrarDepartamento',
+          templateUrl: '/administracion/departamentos/registrarDepartamento',
           size:'lg',
           controller: 'registrarDepartamentoCtrl',
           resolve: {
@@ -33,7 +33,7 @@ controller('departamentosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/editarDepartamento',
+          templateUrl: '/administracion/departamentos/editarDepartamento',
           size:'lg',
           controller: 'editarDepartamentoCtrl',
           resolve: {
@@ -52,7 +52,7 @@ controller('departamentosController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarDepartamento',
+          templateUrl: '/administracion/departamentos/eliminarDepartamento',
           controller: 'eliminarDepartamentoCtrl',
           resolve: {
              obtenerDepartamentos: function () {
@@ -91,7 +91,7 @@ angular.module('deposito').controller('registrarDepartamentoCtrl', function ($sc
       'nombre' : $scope.nombre,
     };
 
-    $http.post('/registrarDepartamento', $data)
+    $http.post('/administracion/departamentos/registrarDepartamento', $data)
       .success(function(response){
 
         $scope.alerts = [];
@@ -110,7 +110,7 @@ angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope
 
   $scope.nombre  =   "";
 
-    $http.get('/getDepartamento/' + id)
+    $http.get('/administracion/departamentos/getDepartamento/' + id)
         .success(function(response){
         $scope.nombre = response.nombre;    
     });
@@ -138,7 +138,7 @@ angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope
   };
 
 
-  $http.post('/editarDepartamento/' + id , $data)
+  $http.post('/administracion/departamentos/editarDepartamento/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
@@ -172,7 +172,7 @@ angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($sco
 
  $scope.delet = function(){
 
-  $http.post('/eliminarDepartamento/' + id)
+  $http.post('/administracion/departamentos/eliminarDepartamento/' + id)
     .success(function(response){
 
       $scope.alerts = [];

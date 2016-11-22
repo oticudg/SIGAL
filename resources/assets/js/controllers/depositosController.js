@@ -9,7 +9,7 @@ controller('depositosController',function($scope,$http,$modal){
 
 	$scope.obtenerDepositos = function(){
 
-		$http.get('/depositos/getDepositos')
+		$http.get('/administracion/almacenes/getDepositos')
 			.success( function(response){$scope.depositos = response});
 	};
 
@@ -17,7 +17,7 @@ controller('depositosController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/depositos/registrarDeposito',
+          templateUrl: '/administracion/almacenes/registrarDeposito',
           size:'lg',
           controller: 'registrarDepositoCtrl',
           resolve: {
@@ -33,7 +33,7 @@ controller('depositosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/depositos/editarDeposito',
+          templateUrl: '/administracion/almacenes/editarDeposito',
           size:'lg',
           controller: 'editarDepositoCtrl',
           resolve: {
@@ -52,7 +52,7 @@ controller('depositosController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/depositos/eliminarDeposito',
+          templateUrl: '/administracion/almacenes/eliminarDeposito',
           controller: 'eliminarDepositoCtrl',
           resolve: {
              obtenerDepositos: function () {
@@ -91,7 +91,7 @@ angular.module('deposito').controller('registrarDepositoCtrl', function ($scope,
       'nombre' : $scope.nombre,
     };
 
-    $http.post('/depositos/registrarDeposito', $data)
+    $http.post('/administracion/almacenes/registrarDeposito', $data)
       .success(function(response){
 
         $scope.alerts = [];
@@ -110,7 +110,7 @@ angular.module('deposito').controller('editarDepositoCtrl', function ($scope, $m
 
   $scope.nombre  =   "";
 
-    $http.get('/depositos/getDeposito/' + id)
+    $http.get('/administracion/almacenes/getDeposito/' + id)
         .success(function(response){
         $scope.nombre = response.nombre;
         $scope.codigo = response.codigo;    
@@ -139,7 +139,7 @@ angular.module('deposito').controller('editarDepositoCtrl', function ($scope, $m
   };
 
 
-  $http.post('/depositos/editarDeposito/' + id , $data)
+  $http.post('/administracion/almacenes/editarDeposito/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
@@ -172,7 +172,7 @@ angular.module('deposito').controller('eliminarDepositoCtrl', function ($scope, 
 
  $scope.delet = function(){
 
-  $http.post('/depositos/eliminarDeposito/' + id)
+  $http.post('/administracion/almacenes/eliminarDeposito/' + id)
     .success(function(response){
 
       $scope.alerts = [];

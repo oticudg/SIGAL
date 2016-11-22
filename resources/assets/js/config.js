@@ -94,7 +94,7 @@ deposito.controller('menuController', function($scope, $http, $modal){
   $scope.deposito = function(){
     $modal.open({
         animation: true,
-          templateUrl: '/cambiarDeposito',
+          templateUrl: '/administracion/usuarios/cambiarDeposito',
           controller: 'cambiaDepositoController',
           resolve: {
              obtenerUsuarios: function () {
@@ -107,7 +107,7 @@ deposito.controller('menuController', function($scope, $http, $modal){
   $scope.password = function(){
     $modal.open({
         animation: true,
-          templateUrl: '/cambiarPassword',
+          templateUrl: '/administracion/usuarios/cambiarPassword',
           controller: 'cambiaPasswordController'
     });
   }
@@ -120,10 +120,7 @@ deposito.controller('cambiaDepositoController', function($scope, $http, $modalIn
   $scope.depositos = [];
   $scope.alert = {};
 
-  $http.get('/getDeposito')
-      .success( function(response){$scope.deposito = response;});
-
-  $http.get('/depositos/getDepositos')
+  $http.get('/administracion/almacenes/getDepositos')
       .success( function(response){$scope.depositos = response;});
 
   $scope.modificar = function () {
@@ -136,7 +133,7 @@ deposito.controller('cambiaDepositoController', function($scope, $http, $modalIn
       'deposito':$scope.depositoM
     };
 
-    $http.post('/editarDeposito', data)
+    $http.post('/administracion/usuarios/editarDeposito', data)
       .success(function(response){
         if(response.status == 'success'){
           $modalInstance.dismiss('cancel');
@@ -169,7 +166,7 @@ deposito.controller('cambiaPasswordController', function($scope, $http, $modalIn
 
   $scope.save = function(){
 
-    $http.post('/cambiarPassword', $scope.data)
+    $http.post('/administracion/usuarios/cambiarPassword', $scope.data)
       .success(function(response){
         if(response.status == 'success'){
           $modalInstance.dismiss('cancel');

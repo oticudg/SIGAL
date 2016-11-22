@@ -148,7 +148,7 @@ controller('departamentosController',function($scope,$http,$modal){
 
 	$scope.obtenerDepartamentos = function(){
 
-		$http.get('/getDepartamentos')
+		$http.get('/administracion/departamentos/getDepartamentos')
 			.success( function(response){$scope.departamentos = response});
 	};
 
@@ -156,7 +156,7 @@ controller('departamentosController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/registrarDepartamento',
+          templateUrl: '/administracion/departamentos/registrarDepartamento',
           size:'lg',
           controller: 'registrarDepartamentoCtrl',
           resolve: {
@@ -172,7 +172,7 @@ controller('departamentosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/editarDepartamento',
+          templateUrl: '/administracion/departamentos/editarDepartamento',
           size:'lg',
           controller: 'editarDepartamentoCtrl',
           resolve: {
@@ -191,7 +191,7 @@ controller('departamentosController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarDepartamento',
+          templateUrl: '/administracion/departamentos/eliminarDepartamento',
           controller: 'eliminarDepartamentoCtrl',
           resolve: {
              obtenerDepartamentos: function () {
@@ -230,7 +230,7 @@ angular.module('deposito').controller('registrarDepartamentoCtrl', function ($sc
       'nombre' : $scope.nombre,
     };
 
-    $http.post('/registrarDepartamento', $data)
+    $http.post('/administracion/departamentos/registrarDepartamento', $data)
       .success(function(response){
 
         $scope.alerts = [];
@@ -249,7 +249,7 @@ angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope
 
   $scope.nombre  =   "";
 
-    $http.get('/getDepartamento/' + id)
+    $http.get('/administracion/departamentos/getDepartamento/' + id)
         .success(function(response){
         $scope.nombre = response.nombre;    
     });
@@ -277,7 +277,7 @@ angular.module('deposito').controller('editarDepartamentoCtrl', function ($scope
   };
 
 
-  $http.post('/editarDepartamento/' + id , $data)
+  $http.post('/administracion/departamentos/editarDepartamento/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
@@ -311,7 +311,7 @@ angular.module('deposito').controller('eliminarDepartamentoCtrl', function ($sco
 
  $scope.delet = function(){
 
-  $http.post('/eliminarDepartamento/' + id)
+  $http.post('/administracion/departamentos/eliminarDepartamento/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -336,7 +336,7 @@ controller('depositosController',function($scope,$http,$modal){
 
 	$scope.obtenerDepositos = function(){
 
-		$http.get('/depositos/getDepositos')
+		$http.get('/administracion/almacenes/getDepositos')
 			.success( function(response){$scope.depositos = response});
 	};
 
@@ -344,7 +344,7 @@ controller('depositosController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/depositos/registrarDeposito',
+          templateUrl: '/administracion/almacenes/registrarDeposito',
           size:'lg',
           controller: 'registrarDepositoCtrl',
           resolve: {
@@ -360,7 +360,7 @@ controller('depositosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/depositos/editarDeposito',
+          templateUrl: '/administracion/almacenes/editarDeposito',
           size:'lg',
           controller: 'editarDepositoCtrl',
           resolve: {
@@ -379,7 +379,7 @@ controller('depositosController',function($scope,$http,$modal){
     var modalInstance = $modal.open({
 
       animation: true,
-          templateUrl: '/depositos/eliminarDeposito',
+          templateUrl: '/administracion/almacenes/eliminarDeposito',
           controller: 'eliminarDepositoCtrl',
           resolve: {
              obtenerDepositos: function () {
@@ -418,7 +418,7 @@ angular.module('deposito').controller('registrarDepositoCtrl', function ($scope,
       'nombre' : $scope.nombre,
     };
 
-    $http.post('/depositos/registrarDeposito', $data)
+    $http.post('/administracion/almacenes/registrarDeposito', $data)
       .success(function(response){
 
         $scope.alerts = [];
@@ -437,7 +437,7 @@ angular.module('deposito').controller('editarDepositoCtrl', function ($scope, $m
 
   $scope.nombre  =   "";
 
-    $http.get('/depositos/getDeposito/' + id)
+    $http.get('/administracion/almacenes/getDeposito/' + id)
         .success(function(response){
         $scope.nombre = response.nombre;
         $scope.codigo = response.codigo;    
@@ -466,7 +466,7 @@ angular.module('deposito').controller('editarDepositoCtrl', function ($scope, $m
   };
 
 
-  $http.post('/depositos/editarDeposito/' + id , $data)
+  $http.post('/administracion/almacenes/editarDeposito/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
@@ -499,7 +499,7 @@ angular.module('deposito').controller('eliminarDepositoCtrl', function ($scope, 
 
  $scope.delet = function(){
 
-  $http.post('/depositos/eliminarDeposito/' + id)
+  $http.post('/administracion/almacenes/eliminarDeposito/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -523,7 +523,7 @@ controller('documentosController',function($scope,$http,$modal){
   $scope.cRegistro = '10';
 
 	$scope.obtenerDocumentos = function(){
-		$http.get('/documentos/all')
+		$http.get('/administracion/documentos/all')
 			.success( function(response){$scope.documentos = response});
 	};
 
@@ -531,7 +531,7 @@ controller('documentosController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/documentos/registrar',
+          templateUrl: '/administracion/documentos/registrar',
           size:'lg',
           controller: 'registrarDocumentoCtrl',
           resolve: {
@@ -547,7 +547,7 @@ controller('documentosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/documentos/editar',
+          templateUrl: '/administracion/documentos/editar',
           size:'lg',
           controller: 'editarDocumentoCtr',
           resolve: {
@@ -565,7 +565,7 @@ controller('documentosController',function($scope,$http,$modal){
 
     var modalInstance = $modal.open({
       		animation: true,
-          templateUrl: '/documentos/eliminar',
+          templateUrl: '/administracion/documentos/eliminar',
           controller: 'eliminarDocumentoCtrl',
           resolve: {
              obtenerDocumentos: function (){
@@ -603,7 +603,7 @@ angular.module('deposito').controller('registrarDocumentoCtrl', function ($scope
 
   $scope.save = function(){
 
-    $http.post('/documentos/registrar', $scope.registro)
+    $http.post('/administracion/documentos/registrar', $scope.registro)
       .success(function(response){
         $scope.alerts = [];
         $scope.alerts.push( {"type":response.status , "msg":response.menssage});
@@ -618,7 +618,7 @@ angular.module('deposito').controller('editarDocumentoCtr', function ($scope, $m
 
   $scope.btnVisivilidad = true;
 
-  $http.get('/documentos/get/' + id)
+  $http.get('/administracion/documentos/get/' + id)
       .success(function(response){
       	$scope.registro = response;
 				$scope.registroCopi = {
@@ -690,7 +690,7 @@ angular.module('deposito').controller('eliminarDocumentoCtrl', function ($scope,
 
  $scope.delet = function(){
 
-  $http.post('/documentos/eliminar/' + id)
+  $http.post('/administracion/documentos/eliminar/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -1048,7 +1048,7 @@ controller('insumosController',function($scope,$http,$modal){
 
       $modal.open({
      		animation: true,
-      		templateUrl: '/registrarInsumo',
+      		templateUrl: '/administracion/insumos/registrarInsumo',
       		size:'lg',
       		controller: 'registraInsumoCtrl',
       		resolve: {
@@ -1063,7 +1063,7 @@ controller('insumosController',function($scope,$http,$modal){
 
     $scope.ver = true;
 
-		$http.get('/getInsumos')
+		$http.get('/administracion/insumos/getInsumos')
 			.success( function(response){$scope.insumos = response;$scope.ver=false;});
 	};
 
@@ -1072,7 +1072,7 @@ controller('insumosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/editarInsumo',
+          templateUrl: '/administracion/insumos/editarInsumo',
           size:'lg',
           controller: 'editarInsumoCtrl',
           resolve: {
@@ -1091,7 +1091,7 @@ controller('insumosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarInsumo',
+          templateUrl: '/administracion/insumos/eliminarInsumo',
           controller: 'eliminarInsumoCtrl',
           resolve: {
              obtenerInsumos: function () {
@@ -1134,7 +1134,7 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
   		'descripcion'		:  $scope.descripcion,
  	  };
 
-    $http.post('/registrarInsumo', $data)
+    $http.post('/administracion/insumos/registrarInsumo', $data)
       .success(function(response){
 
     		$scope.alerts = [];
@@ -1156,7 +1156,7 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
   $scope.codigo       =   "";    
   $scope.descripcion  =   "";
 
-    $http.get('/getInsumo/' + id)
+    $http.get('/administracion/insumos/getInsumo/' + id)
         .success(function(response){
 
         $scope.codigo       =   response.codigo;    
@@ -1187,7 +1187,7 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
   };
 
 
-  $http.post('/editarInsumo/' + id , $data)
+  $http.post('/administracion/insumos/editarInsumo/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
@@ -1223,7 +1223,7 @@ angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $m
 
  $scope.delet = function(){
 
-  $http.post('/eliminarInsumo/' + id)
+  $http.post('/administracion/insumos/eliminarInsumo/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -2304,7 +2304,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
     	$modal.open({
      		animation: true,
-      		templateUrl: '/registraProvedor',
+      		templateUrl: '/administracion/proveedores/registraProvedor',
       		size:'lg',
       		controller: 'registraProvedorCtrl',
       		resolve: {
@@ -2317,7 +2317,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
 	$scope.obtenerProvedores = function(){
 
-		$http.get('/getProvedores')
+		$http.get('/administracion/proveedores/getProvedores')
 			.success( function(response){$scope.provedores = response});
 	};
 
@@ -2327,7 +2327,7 @@ controller('provedoresController',function($scope,$http,$modal){
 		$modal.open({
 
 			animation: true,
-      		templateUrl: '/editarProvedor',
+      		templateUrl: '/administracion/proveedores/editarProvedor',
       		size:'lg',
       		controller: 'editarProvedorCtrl',
       		resolve: {
@@ -2347,7 +2347,7 @@ controller('provedoresController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/elimProvedor',
+          templateUrl: '/administracion/proveedores/elimProvedor',
           controller: 'elimProvedorCtrl',
           resolve: {
              obtenerProvedores: function () {
@@ -2395,7 +2395,7 @@ angular.module('deposito').controller('registraProvedorCtrl', function ($scope, 
  	};
 
 
- 	$http.post('/registraProvedor',$data)
+ 	$http.post('/administracion/proveedores/registraProvedor',$data)
  		.success(function(response){
 
  			$scope.alerts = [];
@@ -2417,7 +2417,7 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
   $scope.rif = '';
   $scope.nombre = '';
  
-  $http.get('/getProvedor/' + id)
+  $http.get('/administracion/proveedores/getProvedor/' + id)
     .success(function(response){
 
         $scope.rif       = response.rif;
@@ -2448,7 +2448,7 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
 		'nombre'	:  $scope.nombre,
  	};
 
- 	$http.post('/editProvedor/' + id ,$data)
+ 	$http.post('/administracion/proveedores/editProvedor/' + id ,$data)
  		.success(function(response){
 
  			$scope.alerts = [];
@@ -2483,7 +2483,7 @@ angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $mod
 
  $scope.delet = function(){
 
-  $http.post('/elimProvedor/' + id)
+  $http.post('/administracion/proveedores/elimProvedor/' + id)
     .success(function(response){
 
       $scope.alerts = [];
@@ -2986,7 +2986,7 @@ controller('rolesController',function($scope,$http,$modal){
   $scope.cRegistro = '10';
 
 	$scope.obtenerRoles = function(){
-		$http.get('/roles/all')
+		$http.get('/administracion/roles/all')
 			.success( function(response){$scope.roles = response});
 	};
 
@@ -2994,7 +2994,7 @@ controller('rolesController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/roles/registrar',
+          templateUrl: '/administracion/roles/registrar',
           windowClass: 'large-Modal',
           controller: 'registrarRolCtrl',
           resolve: {
@@ -3010,7 +3010,7 @@ controller('rolesController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/roles/editar',
+          templateUrl: '/administracion/roles/editar',
           windowClass: 'large-Modal',
           controller: 'editarRolCtr',
           resolve: {
@@ -3027,7 +3027,7 @@ controller('rolesController',function($scope,$http,$modal){
   $scope.eliminarRol = function(index){
     var modalInstance = $modal.open({
       		animation: true,
-          templateUrl: '/roles/eliminar',
+          templateUrl: '/administracion/roles/eliminar',
           controller: 'eliminarRolCtrl',
           resolve: {
              obtenerRoles: function (){
@@ -3051,7 +3051,7 @@ angular.module('deposito').controller('registrarRolCtrl', function ($scope, $mod
 	$scope.permisos = [];
 	var permisos = [];
 
-	$http.get('/roles/permisos')
+	$http.get('/administracion/roles/permisos')
 		.success(function(response){
 			$scope.permisos = response;
 		});
@@ -3076,7 +3076,7 @@ angular.module('deposito').controller('registrarRolCtrl', function ($scope, $mod
 			'permisos':permisos
 		};
 
-		$http.post('/roles/registrar',data)
+		$http.post('/administracion/roles/registrar',data)
 			.success(function(response){
 				$scope.alerts = [];
 	      $scope.alerts.push( {"type":response.status , "msg":response.message});
@@ -3107,12 +3107,12 @@ angular.module('deposito').controller('editarRolCtr', function ($scope, $modalIn
 	$scope.alert = false;
 	var permisos = [];
 
-	$http.get('/roles/permisos')
+	$http.get('/administracion/roles/permisos')
 		.success(function(response){
 			$scope.permisos = response;
 		});
 
-  $http.get('/roles/getRol/' + id)
+  $http.get('/administracion/roles/getRol/' + id)
       .success(function(response){
       	$scope.data.permisos = response.permisos;
 				$scope.data.nombre   = response.nombre;
@@ -3145,7 +3145,7 @@ angular.module('deposito').controller('editarRolCtr', function ($scope, $modalIn
 	}
 
 	$scope.registrar = function(){
-		$http.post('/roles/editar/' + id, $scope.data)
+		$http.post('/administracion/roles/editar/' + id, $scope.data)
 	      .success(function(response){
 						$scope.alert = {'type':response.status, 'msg':response.message};
 						if(response.status == 'success'){
@@ -3175,7 +3175,7 @@ angular.module('deposito').controller('eliminarRolCtrl', function ($scope, $moda
 
  $scope.delete = function(){
 
-  $http.post('/roles/eliminar/' + id)
+  $http.post('/administracion/roles/eliminar/' + id)
     .success(function(response){
       $scope.alert = {};
       $scope.alert = {"type":response.status , "msg":response.message};
@@ -3699,7 +3699,7 @@ controller('usersController',function($scope,$http,$modal){
 
     	$modal.open({
      		animation: true,
-      		templateUrl: '/registrarUser',
+      		templateUrl: '/administracion/usuarios/registrarUser',
       		windowClass: 'large-Modal',
       		controller: 'registraUsuarioCtrl',
       		resolve: {
@@ -3712,7 +3712,7 @@ controller('usersController',function($scope,$http,$modal){
 
 	$scope.obtenerUsuarios = function(){
 
-		$http.get('/getUsuarios')
+		$http.get('/administracion/usuarios/getUsuarios')
 			.success( function(response){$scope.usuarios = response;});
 	};
 
@@ -3721,7 +3721,7 @@ controller('usersController',function($scope,$http,$modal){
 	  $modal.open({
 
 			animation: true,
-      		templateUrl: '/editarUsuario',
+      		templateUrl: '/administracion/usuarios/editarUsuario',
       		windowClass: 'large-Modal',
       		controller: 'editarUsuarioCtrl',
       		resolve: {
@@ -3740,7 +3740,7 @@ controller('usersController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarUsuario',
+          templateUrl: '/administracion/usuarios/eliminarUsuario',
           controller: 'elimUsuarioCtrl',
           resolve: {
              obtenerUsuarios: function () {
@@ -3764,10 +3764,10 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
 	$scope.roles = [];
 	$scope.alert = false;
 
-  $http.get('/depositos/getDepositos')
+  $http.get('/administracion/almacenes/getDepositos')
       .success( function(response){$scope.depositos = response;});
 
-	$http.get('/roles/all')
+	$http.get('/administracion/roles/all')
       .success( function(response){$scope.roles = response;});
 
   $scope.registrar = function () {
@@ -3784,7 +3784,7 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
 
   $scope.save = function(){
 
- 	$http.post('/registrarUsuario',$scope.data)
+ 	$http.post('/administracion/usuarios/registrarUsuario',$scope.data)
  		.success(function(response){
  			$scope.alert = {"type":response.status , "msg":response.menssage};
       $scope.btnVisivilidad = ( response.status == "success") ? false : true;
@@ -3801,11 +3801,11 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   $scope.depositos = [];
 	$scope.roles = [];
 
-  $http.get('/depositos/getDepositos')
+  $http.get('/administracion/almacenes/getDepositos')
       .success( function(response){
 					$scope.depositos = response;
 
-					$http.get('/getUsuario/' + id)
+					$http.get('/administracion/usuarios/getUsuario/' + id)
 				    .success(function(response){
 				      $scope.data = response.usuario;
 							$scope.data.deposito =  String(response.usuario.deposito);
@@ -3813,7 +3813,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
 				  });
 	 });
 
-	$http.get('/roles/all')
+	$http.get('/administracion/roles/all')
 			.success( function(response){$scope.roles = response;});
 
   $scope.modificar = function () {
@@ -3829,7 +3829,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   };
 
 	$scope.save = function(){
-		$http.post('/editarUsuario/' + id ,$scope.data)
+		$http.post('/administracion/usuarios/editarUsuario/' + id ,$scope.data)
 			.success(function(response){
 				$scope.alert = {"type":response.status , "msg":response.menssage};
 
@@ -3863,7 +3863,7 @@ angular.module('deposito').controller('elimUsuarioCtrl', function ($scope, $moda
 
  $scope.delet = function(){
 
-  $http.post('/eliminarUsuario/' + id)
+  $http.post('/administracion/usuarios/eliminarUsuario/' + id)
     .success(function(response){
 
       $scope.alerts = [];

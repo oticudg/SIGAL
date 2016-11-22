@@ -11,7 +11,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
     	$modal.open({
      		animation: true,
-      		templateUrl: '/registraProvedor',
+      		templateUrl: '/administracion/proveedores/registraProvedor',
       		size:'lg',
       		controller: 'registraProvedorCtrl',
       		resolve: {
@@ -24,7 +24,7 @@ controller('provedoresController',function($scope,$http,$modal){
 
 	$scope.obtenerProvedores = function(){
 
-		$http.get('/getProvedores')
+		$http.get('/administracion/proveedores/getProvedores')
 			.success( function(response){$scope.provedores = response});
 	};
 
@@ -34,7 +34,7 @@ controller('provedoresController',function($scope,$http,$modal){
 		$modal.open({
 
 			animation: true,
-      		templateUrl: '/editarProvedor',
+      		templateUrl: '/administracion/proveedores/editarProvedor',
       		size:'lg',
       		controller: 'editarProvedorCtrl',
       		resolve: {
@@ -54,7 +54,7 @@ controller('provedoresController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/elimProvedor',
+          templateUrl: '/administracion/proveedores/elimProvedor',
           controller: 'elimProvedorCtrl',
           resolve: {
              obtenerProvedores: function () {
@@ -102,7 +102,7 @@ angular.module('deposito').controller('registraProvedorCtrl', function ($scope, 
  	};
 
 
- 	$http.post('/registraProvedor',$data)
+ 	$http.post('/administracion/proveedores/registraProvedor',$data)
  		.success(function(response){
 
  			$scope.alerts = [];
@@ -124,7 +124,7 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
   $scope.rif = '';
   $scope.nombre = '';
  
-  $http.get('/getProvedor/' + id)
+  $http.get('/administracion/proveedores/getProvedor/' + id)
     .success(function(response){
 
         $scope.rif       = response.rif;
@@ -155,7 +155,7 @@ angular.module('deposito').controller('editarProvedorCtrl', function ($scope, $m
 		'nombre'	:  $scope.nombre,
  	};
 
- 	$http.post('/editProvedor/' + id ,$data)
+ 	$http.post('/administracion/proveedores/editProvedor/' + id ,$data)
  		.success(function(response){
 
  			$scope.alerts = [];
@@ -190,7 +190,7 @@ angular.module('deposito').controller('elimProvedorCtrl', function ($scope, $mod
 
  $scope.delet = function(){
 
-  $http.post('/elimProvedor/' + id)
+  $http.post('/administracion/proveedores/elimProvedor/' + id)
     .success(function(response){
 
       $scope.alerts = [];

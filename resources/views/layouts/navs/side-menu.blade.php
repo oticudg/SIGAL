@@ -16,12 +16,12 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
       <li class="header">Manú de navegacion</li>
-      
+
       <li><a href="documentation/index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> 
 
       {{-- Menu de administracion --}}
       @if( Auth::user()->hasPermissions(['users_consult', 'stores_consult', 'documents_consult', 'roles_consult', 'departs_consult', 'providers_consult', 'items_consult']) )
-        <li class="treeview">
+        <li class="treeview @if(Request()->is('administracion/*')) active @endif">
           <a href="#">
             <i class="glyphicon glyphicon-cog"></i> <span>Administración</span>
             <span class="pull-right-container">
@@ -30,31 +30,31 @@
           </a>
           <ul class="treeview-menu">
             @if( Auth::user()->hasPermissions(['users_consult']))
-              <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Usuario</a></li>
+              <li class="@if(Request()->is('administracion/usuarios')) active @endif"><a href="{{route('admin::user::index')}}"><i class="glyphicon glyphicon-user"></i> Usuario</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['stores_consult']) )
-              <li><a href="{{route('depoInicio')}}"><i class="glyphicon glyphicon-inbox"></i> Almacenes</a></li></li>
+              <li class="@if(Request()->is('administracion/almacenes')) active @endif"><a href="{{route('admin::almac::index')}}"><i class="glyphicon glyphicon-inbox"></i> Almacenes</a></li></li>
             @endif
 
             @if(Auth::user()->hasPermissions(['documents_consult']))
-              <li><a href="{{route('documIndex')}}"><i class="glyphicon glyphicon-folder-close"></i> Documentos</a></li></li>
+              <li class="@if(Request()->is('administracion/documentos')) active @endif"><a href="{{route('admin::docum::index')}}"><i class="glyphicon glyphicon-folder-close"></i> Documentos</a></li></li>
             @endif
 
             @if(Auth::user()->hasPermissions(['roles_consult']))
-              <li><a href="{{route('rolesIndex')}}"><i class="glyphicon glyphicon-compressed"></i> Roles</a></li></li>
+              <li class="@if(Request()->is('administracion/roles')) active @endif"><a href="{{route('admin::roles::index')}}"><i class="glyphicon glyphicon-compressed"></i> Roles</a></li></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['departs_consult']) )
-              <li><a href="/departamentos"><i class="glyphicon glyphicon-briefcase"></i> Departamentos</a></li>
+              <li class="@if(Request()->is('administracion/departamentos')) active @endif"><a href="{{route('admin::depar::index')}}"><i class="glyphicon glyphicon-briefcase"></i> Departamentos</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['providers_consult']) )
-              <li><a href="/proveedores"><i class="glyphicon glyphicon-folder-open"></i> Proveedores</a></li>
+              <li class="@if(Request()->is('administracion/proveedores')) active @endif"><a href="{{route('admin::prove::index')}}"><i class="glyphicon glyphicon-folder-open"></i> Proveedores</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['items_consult']) )
-              <li><a href="/insumos"><i class="glyphicon glyphicon-th"></i> Insumos</a></li>
+              <li class="@if(Request()->is('administracion/insumos')) active @endif"><a href="{{route('admin::insum::index')}}"><i class="glyphicon glyphicon-th"></i> Insumos</a></li>
             @endif
 
           </ul>

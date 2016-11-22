@@ -8,7 +8,7 @@ controller('documentosController',function($scope,$http,$modal){
   $scope.cRegistro = '10';
 
 	$scope.obtenerDocumentos = function(){
-		$http.get('/documentos/all')
+		$http.get('/administracion/documentos/all')
 			.success( function(response){$scope.documentos = response});
 	};
 
@@ -16,7 +16,7 @@ controller('documentosController',function($scope,$http,$modal){
 
       $modal.open({
         animation: true,
-          templateUrl: '/documentos/registrar',
+          templateUrl: '/administracion/documentos/registrar',
           size:'lg',
           controller: 'registrarDocumentoCtrl',
           resolve: {
@@ -32,7 +32,7 @@ controller('documentosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/documentos/editar',
+          templateUrl: '/administracion/documentos/editar',
           size:'lg',
           controller: 'editarDocumentoCtr',
           resolve: {
@@ -50,7 +50,7 @@ controller('documentosController',function($scope,$http,$modal){
 
     var modalInstance = $modal.open({
       		animation: true,
-          templateUrl: '/documentos/eliminar',
+          templateUrl: '/administracion/documentos/eliminar',
           controller: 'eliminarDocumentoCtrl',
           resolve: {
              obtenerDocumentos: function (){
@@ -88,7 +88,7 @@ angular.module('deposito').controller('registrarDocumentoCtrl', function ($scope
 
   $scope.save = function(){
 
-    $http.post('/documentos/registrar', $scope.registro)
+    $http.post('/administracion/documentos/registrar', $scope.registro)
       .success(function(response){
         $scope.alerts = [];
         $scope.alerts.push( {"type":response.status , "msg":response.menssage});
@@ -103,7 +103,7 @@ angular.module('deposito').controller('editarDocumentoCtr', function ($scope, $m
 
   $scope.btnVisivilidad = true;
 
-  $http.get('/documentos/get/' + id)
+  $http.get('/administracion/documentos/get/' + id)
       .success(function(response){
       	$scope.registro = response;
 				$scope.registroCopi = {
@@ -175,7 +175,7 @@ angular.module('deposito').controller('eliminarDocumentoCtrl', function ($scope,
 
  $scope.delet = function(){
 
-  $http.post('/documentos/eliminar/' + id)
+  $http.post('/administracion/documentos/eliminar/' + id)
     .success(function(response){
 
       $scope.alerts = [];

@@ -11,7 +11,7 @@ controller('usersController',function($scope,$http,$modal){
 
     	$modal.open({
      		animation: true,
-      		templateUrl: '/registrarUser',
+      		templateUrl: '/administracion/usuarios/registrarUser',
       		windowClass: 'large-Modal',
       		controller: 'registraUsuarioCtrl',
       		resolve: {
@@ -24,7 +24,7 @@ controller('usersController',function($scope,$http,$modal){
 
 	$scope.obtenerUsuarios = function(){
 
-		$http.get('/getUsuarios')
+		$http.get('/administracion/usuarios/getUsuarios')
 			.success( function(response){$scope.usuarios = response;});
 	};
 
@@ -33,7 +33,7 @@ controller('usersController',function($scope,$http,$modal){
 	  $modal.open({
 
 			animation: true,
-      		templateUrl: '/editarUsuario',
+      		templateUrl: '/administracion/usuarios/editarUsuario',
       		windowClass: 'large-Modal',
       		controller: 'editarUsuarioCtrl',
       		resolve: {
@@ -52,7 +52,7 @@ controller('usersController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarUsuario',
+          templateUrl: '/administracion/usuarios/eliminarUsuario',
           controller: 'elimUsuarioCtrl',
           resolve: {
              obtenerUsuarios: function () {
@@ -76,10 +76,10 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
 	$scope.roles = [];
 	$scope.alert = false;
 
-  $http.get('/depositos/getDepositos')
+  $http.get('/administracion/almacenes/getDepositos')
       .success( function(response){$scope.depositos = response;});
 
-	$http.get('/roles/all')
+	$http.get('/administracion/roles/all')
       .success( function(response){$scope.roles = response;});
 
   $scope.registrar = function () {
@@ -96,7 +96,7 @@ angular.module('deposito').controller('registraUsuarioCtrl', function ($scope, $
 
   $scope.save = function(){
 
- 	$http.post('/registrarUsuario',$scope.data)
+ 	$http.post('/administracion/usuarios/registrarUsuario',$scope.data)
  		.success(function(response){
  			$scope.alert = {"type":response.status , "msg":response.menssage};
       $scope.btnVisivilidad = ( response.status == "success") ? false : true;
@@ -113,11 +113,11 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   $scope.depositos = [];
 	$scope.roles = [];
 
-  $http.get('/depositos/getDepositos')
+  $http.get('/administracion/almacenes/getDepositos')
       .success( function(response){
 					$scope.depositos = response;
 
-					$http.get('/getUsuario/' + id)
+					$http.get('/administracion/usuarios/getUsuario/' + id)
 				    .success(function(response){
 				      $scope.data = response.usuario;
 							$scope.data.deposito =  String(response.usuario.deposito);
@@ -125,7 +125,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
 				  });
 	 });
 
-	$http.get('/roles/all')
+	$http.get('/administracion/roles/all')
 			.success( function(response){$scope.roles = response;});
 
   $scope.modificar = function () {
@@ -141,7 +141,7 @@ angular.module('deposito').controller('editarUsuarioCtrl', function ($scope, $mo
   };
 
 	$scope.save = function(){
-		$http.post('/editarUsuario/' + id ,$scope.data)
+		$http.post('/administracion/usuarios/editarUsuario/' + id ,$scope.data)
 			.success(function(response){
 				$scope.alert = {"type":response.status , "msg":response.menssage};
 
@@ -175,7 +175,7 @@ angular.module('deposito').controller('elimUsuarioCtrl', function ($scope, $moda
 
  $scope.delet = function(){
 
-  $http.post('/eliminarUsuario/' + id)
+  $http.post('/administracion/usuarios/eliminarUsuario/' + id)
     .success(function(response){
 
       $scope.alerts = [];

@@ -10,7 +10,7 @@ controller('insumosController',function($scope,$http,$modal){
 
       $modal.open({
      		animation: true,
-      		templateUrl: '/registrarInsumo',
+      		templateUrl: '/administracion/insumos/registrarInsumo',
       		size:'lg',
       		controller: 'registraInsumoCtrl',
       		resolve: {
@@ -25,7 +25,7 @@ controller('insumosController',function($scope,$http,$modal){
 
     $scope.ver = true;
 
-		$http.get('/getInsumos')
+		$http.get('/administracion/insumos/getInsumos')
 			.success( function(response){$scope.insumos = response;$scope.ver=false;});
 	};
 
@@ -34,7 +34,7 @@ controller('insumosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/editarInsumo',
+          templateUrl: '/administracion/insumos/editarInsumo',
           size:'lg',
           controller: 'editarInsumoCtrl',
           resolve: {
@@ -53,7 +53,7 @@ controller('insumosController',function($scope,$http,$modal){
     $modal.open({
 
       animation: true,
-          templateUrl: '/eliminarInsumo',
+          templateUrl: '/administracion/insumos/eliminarInsumo',
           controller: 'eliminarInsumoCtrl',
           resolve: {
              obtenerInsumos: function () {
@@ -96,7 +96,7 @@ angular.module('deposito').controller('registraInsumoCtrl', function ($scope, $m
   		'descripcion'		:  $scope.descripcion,
  	  };
 
-    $http.post('/registrarInsumo', $data)
+    $http.post('/administracion/insumos/registrarInsumo', $data)
       .success(function(response){
 
     		$scope.alerts = [];
@@ -118,7 +118,7 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
   $scope.codigo       =   "";    
   $scope.descripcion  =   "";
 
-    $http.get('/getInsumo/' + id)
+    $http.get('/administracion/insumos/getInsumo/' + id)
         .success(function(response){
 
         $scope.codigo       =   response.codigo;    
@@ -149,7 +149,7 @@ angular.module('deposito').controller('editarInsumoCtrl', function ($scope, $mod
   };
 
 
-  $http.post('/editarInsumo/' + id , $data)
+  $http.post('/administracion/insumos/editarInsumo/' + id , $data)
     .success(function(response){
 
       $scope.alerts = [];
@@ -185,7 +185,7 @@ angular.module('deposito').controller('eliminarInsumoCtrl', function ($scope, $m
 
  $scope.delet = function(){
 
-  $http.post('/eliminarInsumo/' + id)
+  $http.post('/administracion/insumos/eliminarInsumo/' + id)
     .success(function(response){
 
       $scope.alerts = [];
