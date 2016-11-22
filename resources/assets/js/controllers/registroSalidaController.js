@@ -15,14 +15,14 @@ controller('registroSalidaController',function($scope,$http,$modal){
   $scope.refreshInsumos = function(insumo) {
     var params = {insumo: insumo};
     return $http.get(
-      'inventario/getInsumosInventario',
+      '/inventario/getInsumosInventario',
       {params: params}
     ).then(function(response){
       $scope.listInsumos =  response.data
     });
   };
 
-  $http.get('/documentos/all/salidas')
+  $http.get('/administracion/documentos/all/salidas')
       .success( function(response){ $scope.documentos = response;});
 
   $scope.agregarInsumos = function(){
@@ -80,7 +80,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
       'insumos'  : empaquetaData()
     };
 
-    $http.post('/registrarSalida', $data)
+    $http.post('/transferencias/salidas/registrar', $data)
       .success(
         function(response){
 
@@ -133,7 +133,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
       $scope.terceroSelect = {};
 
       if($scope.documentoSelect.selected.tipo != "interno"){
-        $http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+        $http.get('/administracion/almacenes/terceros/'+ $scope.documentoSelect.selected.tipo)
           .success(function(response){
             $scope.terceros = response;
             $scope.panelTerceros = true;

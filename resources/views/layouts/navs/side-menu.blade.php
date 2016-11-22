@@ -100,21 +100,21 @@
 
       {{-- Menu de transferencias --}}
       @if( Auth::user()->hasPermissions(['movements_register_entry', 'movements_register_egress']) )
-        <li class="treeview">
+        <li class="treeview @if(Request()->is('transferencias/*')) active @endif">
           <a href="#">
             <i class="glyphicon glyphicon-transfer"></i>
-            <span>Tranferencias</span>
+            <span>Transferencias</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
             @if( Auth::user()->hasPermissions(['movements_register_entry']) )
-              <li><a href="{{route('inven::entr::registrar')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Registro de Entrada</a></li>
+              <li class="@if(Request()->is('transferencias/entradas/registrar')) active @endif"><a href="{{route('tran::entr::registrar')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Registro de Entrada</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['movements_register_egress']) )
-              <li><a href="/registrarSalida"><i class="glyphicon glyphicon-circle-arrow-up"></i> Registro de Salida</a></li>
+              <li class="@if(Request()->is('transferencias/salidas/registrar')) active @endif"><a href="{{route('tran::sali::registrar')}}"><i class="glyphicon glyphicon-circle-arrow-up"></i> Registro de Salida</a></li>
             @endif 
           </ul>
         </li>

@@ -404,14 +404,6 @@ Route::group(['middleware' => 'auth' ], function(){
 
 				});
 
-				Route::group(['middleware' => 'permission:movements_register_entry'], function(){
-					//Muestra la vista de registro de entrada
-					Route::get('registrar',['as' => 'registrar', 'uses' => 'entradasController@viewRegistrar']);
-
-					//Registra una entrada
-					Route::post('registrar' ,'entradasController@registrar');
-				});
-
 				//Regresa los todos los datos de una entrada cuyo codigo se especifique
 				Route::get('getCodigo/{code}', 'entradasController@getEntradaCodigo');
 			});
@@ -437,13 +429,6 @@ Route::group(['middleware' => 'auth' ], function(){
 					Route::get('getSalida/{id}', 'salidasController@getSalida');
 				});
 
-				Route::group(['middleware' => 'permission:movements_register_egress'], function(){
-					//Muestra la vista de registro de salida
-					Route::get('registrar', ['as' => 'registrar', 'uses' => 'salidasController@viewRegistrar']);
-					//Registra una salida
-					Route::post('registrar' ,'salidasController@registrar');
-				});
-
 				//Regresa todos los datos de una salida cuyo codigo se especifique
 				Route::get('getSalidaCodigo/{code}', 'salidasController@getSalidaCodigo');
 
@@ -459,6 +444,25 @@ Route::group(['middleware' => 'auth' ], function(){
 	});
 
 	/*** Fin de modulo de inventario ***/
+
+	Route::group(['prefix' => 'transferencias', 'as' => 'tran::'], function(){
+
+		Route::group(['prefix' => 'entradas', 'as' => 'entr::', 'middleware' => 'permission:movements_register_entry'], function(){
+			//Muestra la vista de registro de entrada
+			Route::get('registrar',['as' => 'registrar', 'uses' => 'entradasController@viewRegistrar']);
+
+			//Registra una entrada
+			Route::post('registrar' ,'entradasController@registrar');
+		});
+
+		Route::group([ 'prefix' => 'salidas', 'as' => 'sali::', 'middleware' => 'permission:movements_register_egress'], function(){
+			//Muestra la vista de registro de salida
+			Route::get('registrar', ['as' => 'registrar', 'uses' => 'salidasController@viewRegistrar']);
+			//Registra una salida
+			Route::post('registrar' ,'salidasController@registrar');
+		});	
+	});
+
 
 	/*** Modulo de Estadisticas ***/
 
