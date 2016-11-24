@@ -51,10 +51,12 @@
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.3.8
+      <b>Version</b> 2.1.0
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-    reserved.
+    <strong>Copyleft &copy; 2015-2016 <a href="http://sahum.gob.ve">Servicio Autónomo Hospital Universitario de Maracaibo</a><strong> 
+
+
+
   </footer>
 
 
@@ -68,28 +70,15 @@
 
 <!-- jQuery 2.2.3 -->
 <script src="{{asset('plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
-
 <script src="{{asset('js/vendor/angular.min.js')}}"></script>
 <script src="{{asset('js/vendor/ui-bootstrap-tpls-0.13.0.min.js')}}"></script>
 <script src="{{asset('js/vendor/dirPagination.js')}}"></script>
 <script src="{{asset('js/vendor/angular-sanitize.min.js')}}"></script>
 <script src="{{asset('js/vendor/select.min.js')}}"></script>
-
 <!-- Bootstrap 3.3.6 -->
 <script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>
-<!-- FastClick -->
-<script src="{{asset('plugins/fastclick/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/app.min.js')}}"></script>
-<!-- Sparkline -->
-<script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>
-<!-- jvectormap -->
-<script src="{{asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
-<script src="{{asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
-<!-- SlimScroll 1.3.0 -->
-<script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
-<!-- ChartJS 1.0.1 -->
-<script src="{{asset('plugins/chartjs/Chart.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('dist/js/pages/dashboard2.js')}}"></script>
 <!-- AdminLTE for demo purposes -->

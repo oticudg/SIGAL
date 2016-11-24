@@ -17,7 +17,7 @@
     <ul class="sidebar-menu">
       <li class="header">Manú de navegacion</li>
 
-      <li><a href="documentation/index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> 
+      <li><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> 
 
       {{-- Menu de administracion --}}
       @if( Auth::user()->hasPermissions(['users_consult', 'stores_consult', 'documents_consult', 'roles_consult', 'departs_consult', 'providers_consult', 'items_consult']) )
