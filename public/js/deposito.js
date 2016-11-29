@@ -1790,7 +1790,7 @@ angular.module('deposito').controller('searchKardexCtrl', function ($scope, $mod
 			$scope.terceroSelect = {};
 
 			if($scope.documentoSelect.selected.tipo != "interno"){
-				$http.get('/depositos/terceros/'+ $scope.documentoSelect.selected.tipo)
+				$http.get('/administracion/almacenes/terceros/'+ $scope.documentoSelect.selected.tipo)
 					.success(function(response){
 						$scope.terceros = response;
 						$scope.panelTerceros = true;
