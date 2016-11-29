@@ -158,11 +158,17 @@ class AppServiceProvider extends ServiceProvider
 
                 foreach ($value as $insumo){
                     if( !isset($insumo['id']) || !isset($insumo['min']) ||
-                        !isset($insumo['med']))
+                        !isset($insumo['med']) || !isset($insumo['promedio']))
                         return false;
 
-                    if($insumo['min'] <= 0 || $insumo['med'] <= 0 ||
-                        $insumo['min'] >= $insumo['med'])
+                    if( !is_numeric($insumo['id']) || !is_numeric($insumo['min']) ||
+                        !is_numeric($insumo['med']) || !is_numeric($insumo['promedio']))
+                        return false;
+
+                    if( $insumo['min'] <= 0 || $insumo['med'] <= 0 ||
+                        $insumo['min'] >= $insumo['med'] || 
+                        $insumo['promedio'] <= $insumo['min'] ||
+                        $insumo['promedio'] <= $insumo['med'])
                            return false;
                 }
             }

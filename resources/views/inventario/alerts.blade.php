@@ -42,8 +42,9 @@
 							<tr>
 								<th class="col-md-2">Codigo</th>
 								<th>Descripción</th>
-								<th class="col-md-2">Nivel Critico</th>
-								<th class="col-md-2">Nivel Bajo</th>
+								<th class="col-md-1">Nvl. Critico</th>
+								<th class="col-md-1">Nvl. Bajo</th>
+								<th class="col-md-1">Promedio</th>
 								<th class="col-md-1">Eliminar</th>
 							</tr>
 						</thead>
@@ -56,6 +57,9 @@
 								</td>
 								<td class="warning">
 									<input class="form-control text-right" type="number" ng-model="insumo.med">
+								</td>
+								<td>
+									<input class="form-control text-right" type="number" ng-model="insumo.promedio">
 								</td>
 								<td class="text-center">
 									<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>

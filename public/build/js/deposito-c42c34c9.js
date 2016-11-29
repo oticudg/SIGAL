@@ -36,7 +36,8 @@ controller('alertController',function($scope,$http){
         'codigo':$scope.insumoSelect.selected.codigo,
     	  'descripcion':$scope.insumoSelect.selected.descripcion,
         'min':$scope.insumoSelect.selected.min,
-        'med':$scope.insumoSelect.selected.med
+        'med':$scope.insumoSelect.selected.med,
+        'promedio':$scope.insumoSelect.selected.promedio
       }
     );
 
@@ -62,7 +63,7 @@ controller('alertController',function($scope,$http){
 
     for( index in $scope.insumos){
       insumos.push({'id': $scope.insumos[index].id, 'min':$scope.insumos[index].min,
-  		'med':$scope.insumos[index].med});
+  		'med':$scope.insumos[index].med, 'promedio':$scope.insumos[index].promedio});
     }
 
     return insumos;
@@ -78,14 +79,24 @@ controller('alertController',function($scope,$http){
     for( index in $scope.insumos){
 
       if( !$scope.insumos[index].min || $scope.insumos[index].min <= 0 ||
-          !Number.isInteger($scope.insumos[index].min))
+          isNaN($scope.insumos[index].min))
         return false;
 
       if( !$scope.insumos[index].med || $scope.insumos[index].med <= 0 ||
-          !Number.isInteger($scope.insumos[index].med))
+          isNaN($scope.insumos[index].med))
+        return false;
+
+      if( !$scope.insumos[index].promedio || $scope.insumos[index].promedio <= 0 ||
+          isNaN($scope.insumos[index].promedio))
         return false;
 
       if( $scope.insumos[index].min >= $scope.insumos[index].med )
+        return false;
+
+      if( $scope.insumos[index].min >= $scope.insumos[index].promedio)
+        return false;
+
+      if( $scope.insumos[index].med >= $scope.insumos[index].promedio)
         return false;
 
     }

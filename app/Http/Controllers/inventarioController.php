@@ -213,7 +213,7 @@ class inventarioController extends Controller
             return DB::table('insumos')
                         ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
                         ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
-                            'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
+                            'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med', 'inventarios.promedio')
                         ->where('deposito', $deposito)
                         ->where(function($query) use ($consulta){
                             $query->where('descripcion', 'like', '%'.$consulta.'%')
@@ -265,8 +265,10 @@ class inventarioController extends Controller
                 Inventario::where('insumo' , $insumo['id'])
                             ->where('deposito', $deposito)
                             ->update([
-                                'Cmin' => $insumo['min'],
-                                'Cmed' => $insumo['med'] ]);
+                              'Cmin' => $insumo['min'],
+                              'Cmed' => $insumo['med'],
+                              'promedio' => $insumo['promedio']
+                            ]);
             }
 
             return Response()->json(['status' => 'success', 'menssage' =>
