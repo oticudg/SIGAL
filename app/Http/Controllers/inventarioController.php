@@ -139,7 +139,8 @@ class inventarioController extends Controller
                        ->whereIn('insumos.id', $insumoIds)
                        ->select('insumos.id as id','insumos.codigo','insumos.descripcion',
                           DB::raw('IFNULL(inventarios.cmin, 0) as min'),
-                          DB::raw('IFNULL(inventarios.cmed, 0) as med')
+                          DB::raw('IFNULL(inventarios.cmed, 0) as med'),
+                          'inventarios.promedio'
                        );
 
         /**

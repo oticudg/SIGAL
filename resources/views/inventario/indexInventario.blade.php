@@ -81,6 +81,7 @@
 								</th>
 								<th class="col-md-2">Codigo</th>
 								<th>Descripción</th>
+								<th class="col-md-1 text-right">Promedio</th>
 								<th class="col-md-1 text-right">Existencia</th>
 								@if(Auth::user()->hasPermissions(['inventory_kardex']))
 									<th class="col-md-1">Kardex</th>
@@ -97,6 +98,9 @@
 									<input type="text" class="form-control" placeholder="Descripción" ng-model="busqueda.descripcion">
 								</td>
 								<td>
+									<input type="text" class="form-control text-right" placeholder="Promd." ng-model="busqueda.promedio">
+								</td>
+								<td>
 									<input type="text" class="form-control text-right" placeholder="Exist." ng-model="busqueda.existencia">
 								</td>
 				        		<td></td>
@@ -107,6 +111,7 @@
 								</td>
 								<td>{#insumo.codigo#}</td>
 								<td>{#insumo.descripcion#}</td>
+								<td class="text-right">{#insumo.promedio#}</td>
 								<td class="text-right">{#insumo.existencia#}</td>
 								@if(Auth::user()->hasPermissions(['inventory_kardex']))
 									<td class="text-center"><a class="btn btn-warning" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
