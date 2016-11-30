@@ -405,6 +405,25 @@ class AppServiceProvider extends ServiceProvider
 
             return !($ori_documento == $up_documento);
         });
+
+        Validator::extend('diff_lote', function($attribute, $value)
+        {
+            foreach ($value as $key => $insumo){
+                
+                foreach( $value as $key_validate => $insumo_validate){
+
+                    if($key == $key_validate)
+                        continue;
+
+                    if($insumo_validate['id'] == $insumo['id']){
+                        if($insumo_validate['lote'] == $insumo['lote'])
+                            return false;
+                    }
+                }               
+            }
+
+            return true;
+        });
     }
 
     /**

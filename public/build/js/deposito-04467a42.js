@@ -2550,11 +2550,6 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       return;
     }
 
-    if( insumoExist($scope.insumoSelect.selected.codigo, $scope.insumos) ){
-      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
-      return;
-    }
-
     $scope.insumos.unshift(
       {
         'id':$scope.insumoSelect.selected.id,
@@ -2579,7 +2574,6 @@ controller('registroEntradaController',function($scope, $http ,$modal){
       templateUrl: 'confirmeRegister.html',
       'scope':$scope
     });
-
 
     $scope.cancel = function () {
       $scope.modalInstance.dismiss('cancel');
@@ -2637,18 +2631,6 @@ controller('registroEntradaController',function($scope, $http ,$modal){
 
   $scope.thereInsumos = function(){
     return $scope.insumos.length > 0 ? true:false;
-  };
-
-  function insumoExist(codigo, insumos){
-
-    var index;
-
-    for(index in insumos){
-      if(insumos[index].codigo  == codigo)
-        return true;
-    }
-
-    return false;
   };
 
   function validaCantidad(insumos){

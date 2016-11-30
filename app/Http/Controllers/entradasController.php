@@ -12,6 +12,7 @@ use App\Entrada;
 use App\Insumos_entrada;
 use App\Deposito;
 use App\Documento;
+use App\Repositories\LotesRepository;
 
 class entradasController extends Controller
 {
@@ -266,7 +267,7 @@ class entradasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_entrada',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos'
+            'insumos'   =>  'required|insumos|diff_lote'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -297,6 +298,8 @@ class entradasController extends Controller
                       'deposito' => $deposito
                   ])['id'];
 
+          $loteRegister = new LotesRepository();
+
           foreach ($insumos as $insumo){
 
               $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
@@ -315,6 +318,7 @@ class entradasController extends Controller
                   'existencia' => $existencia
               ]);
 
+              $loteRegister->registrar($insumo, $deposito);
           }
 
           return Response()->json(['status' => 'success', 'menssage' =>
