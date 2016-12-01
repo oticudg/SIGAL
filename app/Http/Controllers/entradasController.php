@@ -17,9 +17,11 @@ use App\Repositories\LotesRepository;
 class entradasController extends Controller
 {
     private $menssage = [
-        'orden.required'    =>  'Especifique un numero de orden de compra',
-        'provedor.required' =>  'Seleccione un proveedor',
-        'insumos.required'  =>  'No se han especificado insumos para esta entrada'
+        'orden.required'    =>  'Especifique un numero de orden de compra.',
+        'provedor.required' =>  'Seleccione un proveedor.',
+        'insumos.required'  =>  'No se han especificado insumos para esta entrada.',
+        'insumos.diff_lote' =>  'Solo es posible registrar mas de una vez el mismo insumo si pose lotes diferentes.',
+        'insumos.diff_date_vencimiento' => 'Las fechas de vencimientos de lotes no coinciden con los registros.' 
     ];
 
     public function index(){
@@ -267,7 +269,7 @@ class entradasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_entrada',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos|diff_lote'
+            'insumos'   =>  'required|insumos|req_lote'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -284,6 +286,15 @@ class entradasController extends Controller
               return Response()->json(['status' => 'danger', 'menssage' => 'Seleccione un tercero']);
             }
           }
+
+          $validator = Validator::make($data,[
+            'insumos'   =>  'diff_lote|diff_date_vencimiento'
+          ], $this->menssage);
+
+          if($validator->fails()){
+            return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+          }
+
 
           $insumos = $data['insumos'];
 
@@ -318,7 +329,7 @@ class entradasController extends Controller
                   'existencia' => $existencia
               ]);
 
-              $loteRegister->registrar($insumo, $deposito);
+              $loteRegister->registrar($insumo);
           }
 
           return Response()->json(['status' => 'success', 'menssage' =>

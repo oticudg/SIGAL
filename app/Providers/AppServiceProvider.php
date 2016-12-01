@@ -18,6 +18,7 @@ use App\Documento;
 use Auth;
 use App\Permission;
 use App\Role;
+use App\Repositories\LotesRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -408,19 +409,33 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('diff_lote', function($attribute, $value)
         {
-            foreach ($value as $key => $insumo){
-                
-                foreach( $value as $key_validate => $insumo_validate){
+            $lote = new LotesRepository();
 
-                    if($key == $key_validate)
-                        continue;
+            if( !empty($lote->equal_insumos_lotes($value))){
+                return false;
+            } 
 
-                    if($insumo_validate['id'] == $insumo['id']){
-                        if($insumo_validate['lote'] == $insumo['lote'])
-                            return false;
-                    }
-                }               
+            return true;
+        });
+
+        Validator::extend('req_lote', function($attribute, $value)
+        {
+            foreach ($value as $insumo){
+               if( !isset($insumo['lote']) || empty($insumo['lote']) ){
+                    return false;
+               } 
             }
+
+            return true;
+        });
+
+        Validator::extend('diff_date_vencimiento', function($attribute, $value){
+
+            $lote = new LotesRepository();
+
+            if( !empty($lote->nequal_vencimiento($value)) ){
+                return false;
+            } 
 
             return true;
         });
