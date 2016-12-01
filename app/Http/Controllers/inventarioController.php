@@ -352,6 +352,7 @@ class inventarioController extends Controller
 
       //Campos comunes a seleccionar en las salidas.
       $select_salida = [
+        'insumos_salidas.id as id',
         'insumos_salidas.despachado as movido',
         'salidas.id as referencia',
         'insumos_salidas.created_at as fulldate',
@@ -363,6 +364,7 @@ class inventarioController extends Controller
 
       //Campos comunes a seleccionar en las entradas.
       $select_entrada = [
+        'insumos_entradas.id as id',
         'insumos_entradas.cantidad as movido',
         'entradas.id as referencia',
         'insumos_entradas.created_at as fulldate',
@@ -467,6 +469,7 @@ class inventarioController extends Controller
       //Realiza todas las consultas y establece el orden en los resultados.
       $movimientos =  $uniones
                       ->orderBy('fulldate', 'desc')
+                      ->orderBy('id', 'desc')
                       ->get();
 
      return Response()->json(['status' => 'success', 'kardex' => $movimientos]);
