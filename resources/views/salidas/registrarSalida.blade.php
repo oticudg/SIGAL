@@ -67,6 +67,7 @@
 								<tr>
 									<th>Codigo</th>
 									<th>Descripción</th>
+									<th>lote</th>
 									<th class="text-right">Solicitado</th>
 									<th class="text-right">Despachado</th>
 									<th>Eliminar</th>
@@ -76,6 +77,9 @@
 								<tr ng-class="insumo.style" ng-repeat="insumo in insumos">
 									<td class="col-md-2">{#insumo.codigo#}</td>
 									<td>{#insumo.descripcion#}</td>
+									<td class="col-md-1">
+										<input class="form-control" type="number" ng-model="insumo.lote">
+									</td>
 									<td class="col-md-1">
 										<input class="form-control text-right" type="number" ng-model="insumo.solicitado">
 									</td>

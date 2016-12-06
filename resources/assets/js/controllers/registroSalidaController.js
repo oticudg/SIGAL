@@ -176,7 +176,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
     for( index in $scope.insumos){
       insumos.push({'id': $scope.insumos[index].id, 'solicitado':$scope.insumos[index].solicitado,
-        'despachado':$scope.insumos[index].despachado});
+        'despachado':$scope.insumos[index].despachado, 'lote':$scope.insumos[index].lote});
     }
 
     return insumos;

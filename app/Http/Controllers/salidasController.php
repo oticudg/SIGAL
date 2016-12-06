@@ -248,6 +248,7 @@ class salidasController extends Controller
               foreach ($insumos as $insumo) {
 
                   $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+                  $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])   ? $insumo['lote']  : NULL;
 
                   Insumos_salida::create([
                       'salida'      => $salida,
@@ -255,6 +256,7 @@ class salidasController extends Controller
                       'solicitado'  => $insumo['solicitado'],
                       'despachado'  => $insumo['despachado'],
                       'deposito'    => $deposito,
+                      'lote'        => $lote,
                       'existencia'  => $existencia
                   ]);
 
