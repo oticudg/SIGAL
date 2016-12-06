@@ -81,13 +81,6 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
           $scope.loader = false;
 
-          if(response.status == 'unexist'){
-
-            marcaInsumos(response.data);
-            $scope.alert = {type:'danger', msg:'La cantidad de los insumos marcados son insuficientes'};
-            return;
-          }
-
           if( response.status == 'success'){
 
             $modal.open({
@@ -102,6 +95,15 @@ controller('registroSalidaController',function($scope,$http,$modal){
             });
 
             restablecer();
+            return;
+          }
+
+          desmarcarInsumos();
+
+          if(response.status == 'unexist'){
+
+            marcaInsumos(response.data);
+            $scope.alert = {type:'danger', msg:response.message};
             return;
           }
 
@@ -165,21 +167,25 @@ controller('registroSalidaController',function($scope,$http,$modal){
     return insumos;
   }
 
-  function marcaInsumos(ids){
+  function marcaInsumos(insumos){
+    var index1;
+    var index2;
+
+    for(index1 in $scope.insumos){
+      for(index2 in insumos){
+        if($scope.insumos[index1].id == insumos[index2].insumo && $scope.insumos[index1].lote == insumos[index2].lote){
+          $scope.insumos[index1].style = 'danger';
+          break;
+        }
+      }
+    } 
+  }
+
+  function desmarcarInsumos(){
     var index;
-    var id;
 
     for(index in $scope.insumos){
       $scope.insumos[index].style = '';
-    }
-
-    for( id in ids){
-      for(index = 0; index < $scope.insumos.length; index++)
-
-        if($scope.insumos[index].id == ids[id] ){
-          $scope.insumos[index].style = 'danger';
-          break;
-        }
     }
   }
 

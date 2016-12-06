@@ -13,6 +13,7 @@ use App\Salida;
 use App\Insumos_salida;
 use App\Deposito;
 use App\Documento;
+use App\Repositories\LotesRepository;
 
 class salidasController extends Controller
 {
@@ -235,45 +236,54 @@ class salidasController extends Controller
               return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
             }
 
+            $loteRegister = new LotesRepository(); 
 
             $insumos = $data['insumos'];
-            $insumosInvalidos = inventarioController::validaExist($insumos, $deposito);
+
+            //Valida que todos los lotes pasados existan 
+            $insumosInvalidos = $loteRegister->exist($insumos);
 
             if($insumosInvalidos){
-              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos]);
+              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
             }
-            else{
-              //Codigo para la salida
-              $code = $this->generateCode('S', $deposito);
 
-              $salida = Salida::create([
-                          'codigo'       => $code,
-                          'tercero'      => $data['tercero'],
-                          'documento'    => $data['documento'],
-                          'usuario'      => $usuario,
-                          'deposito'     => $deposito
-                      ])['id'];
+            //Valida que todos los lotes pasados tengas la cantidad que se necesita
+            $insumosInvalidos = $loteRegister->exist($insumos);
 
-              foreach ($insumos as $insumo) {
-
-                  $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
-                  $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])   ? $insumo['lote']  : NULL;
-
-                  Insumos_salida::create([
-                      'salida'      => $salida,
-                      'insumo'      => $insumo['id'],
-                      'solicitado'  => $insumo['solicitado'],
-                      'despachado'  => $insumo['despachado'],
-                      'deposito'    => $deposito,
-                      'lote'        => $lote,
-                      'existencia'  => $existencia
-                  ]);
-
-              }
-
-              return Response()->json(['status' => 'success', 'menssage' =>
-                  'Salida completada satisfactoriamente', 'codigo' => $code]);
+            if($insumosInvalidos){
+              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
             }
+
+            //Codigo para la salida
+            $code = $this->generateCode('S', $deposito);
+
+            $salida = Salida::create([
+                        'codigo'       => $code,
+                        'tercero'      => $data['tercero'],
+                        'documento'    => $data['documento'],
+                        'usuario'      => $usuario,
+                        'deposito'     => $deposito
+                    ])['id'];
+
+            foreach ($insumos as $insumo) {
+
+                $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+
+                Insumos_salida::create([
+                    'salida'      => $salida,
+                    'insumo'      => $insumo['id'],
+                    'solicitado'  => $insumo['solicitado'],
+                    'despachado'  => $insumo['despachado'],
+                    'deposito'    => $deposito,
+                    'lote'        => $insumo['lote'],
+                    'existencia'  => $existencia
+                ]);
+
+                $loteRegister->reducir($insumo);
+            }
+
+            return Response()->json(['status' => 'success', 'menssage' =>
+                'Salida completada satisfactoriamente', 'codigo' => $code]);
         }
     }
 

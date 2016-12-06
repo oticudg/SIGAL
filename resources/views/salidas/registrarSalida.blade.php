@@ -78,7 +78,7 @@
 									<td class="col-md-2">{#insumo.codigo#}</td>
 									<td>{#insumo.descripcion#}</td>
 									<td class="col-md-1">
-										<input class="form-control" type="number" ng-model="insumo.lote">
+										<input class="form-control" type="text" ng-model="insumo.lote">
 									</td>
 									<td class="col-md-1">
 										<input class="form-control text-right" type="number" ng-model="insumo.solicitado">

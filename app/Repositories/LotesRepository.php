@@ -8,10 +8,10 @@ use Auth;
 class LotesRepository
 {
 	/**
-	 * Registra un lote asociandolo con un insumo
+	 * Registra un lote asociandolo con un insumo o agrega cantidad
+	 * a un lote existente.
 	 *
 	 * @param array $insumo
-	 * @param int $deposito 
 	 */
 	public function registrar($insumo){
 
@@ -45,6 +45,24 @@ class LotesRepository
 
 			$lote->save();	
 		}
+	}
+
+	/**
+	 * reduce la cantidad de un lote asociando con un insumo 
+	 *
+	 * @param array $insumo
+	 */
+	public function reducir($insumo){
+		
+		$insumoRegister =  Lote::where('insumo', $insumo['id'])
+						   ->where('codigo', $insumo['lote'])
+						   ->where('deposito', Auth::user()->deposito)
+						   ->orderBy('id', 'desc')
+						   ->first();			
+
+		$insumoRegister->cantidad = $insumoRegister->cantidad - $insumo['despachado'];
+
+		$insumoRegister->save();
 	}
 
 	/**
@@ -106,4 +124,30 @@ class LotesRepository
 	    return $errores;
 	}
 
+	/**
+	 * Devuelve insumos cuyos lotes no existan en el 
+	 * arreglo que se pase. 
+	 * 
+	 * @param array $insumos
+	 * @param array $errores 
+	 */
+	public function exist($insumos){
+
+		$errores = [];
+
+	 	foreach ($insumos as $key => $insumo){
+
+	 		$loteRegister = Lote::where('insumo', $insumo['id'])
+						   	->where('codigo', $insumo['lote'])
+						   	->where('deposito', Auth::user()->deposito)
+						   	->orderBy('id', 'desc')
+						   	->first(); 
+
+            if(!$loteRegister){
+                array_push($errores, ['insumo' => $insumo['id'], 'lote' => $insumo['lote']]);
+            }
+        }
+
+	    return $errores;
+	}
 }
