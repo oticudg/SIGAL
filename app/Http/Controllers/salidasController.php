@@ -209,7 +209,7 @@ class salidasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_salida',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos_salida'
+            'insumos'   =>  'required|insumos_salida|req_lote'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -226,6 +226,15 @@ class salidasController extends Controller
                 return Response()->json(['status' => 'danger', 'menssage' => 'Seleccione un tercero']);
               }
             }
+
+            $validator = Validator::make($data,[
+            'insumos'   =>  'diff_lote'
+            ], $this->menssage);
+
+            if($validator->fails()){
+              return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
+            }
+
 
             $insumos = $data['insumos'];
             $insumosInvalidos = inventarioController::validaExist($insumos, $deposito);

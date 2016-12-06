@@ -2766,11 +2766,6 @@ controller('registroSalidaController',function($scope,$http,$modal){
       return;
     }
 
-    if( insumoExist($scope.insumoSelect.selected.codigo) ){
-      $scope.alert = {type:"danger" , msg:"Este insumo ya se ha agregado en esta entrada"};
-      return;
-    }
-
     $scope.insumos.unshift(
       {
         'id':$scope.insumoSelect.selected.id,
@@ -2878,18 +2873,6 @@ controller('registroSalidaController',function($scope,$http,$modal){
       }
     }
   }
-
-  function insumoExist(codigo){
-
-    var index;
-
-    for(index in $scope.insumos){
-      if($scope.insumos[index].codigo  == codigo)
-        return true;
-    }
-
-    return false;
-  };
 
   function validaCantidad(){
     var index;

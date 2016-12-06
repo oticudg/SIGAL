@@ -133,6 +133,8 @@ return [
     "one_insumo_entrada" =>  "No es posible borrar el unico insumo de esta entrada",
     "one_insumo_salida"  =>  "No es posible borrar el unico insumo de esta salida",
     "deposito"           =>  "Deposito no valido",
-    "date_limit_current" =>  "No es posible consultar una fecha superior a la actual"
+    "date_limit_current" =>  "No es posible consultar una fecha superior a la actual",
+    'req_lote'  =>  'Se debe especificar el lote de todos los insumos.',
+    'diff_lote' =>  'Solo es posible registrar mas de una vez el mismo insumo si pose lotes diferentes.' 
 
 ];
