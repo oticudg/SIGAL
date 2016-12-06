@@ -59,8 +59,31 @@
 					</div>
 
 					<br>
+					<br>
 
 					<div ng-show="thereInsumos()" >
+						<div class="dataTables_wrapper form-inline dt-bootstrap">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="dataTables_length">
+										<span>Mostrar</span>
+										<select id="cantidad" class="form-control" ng-model="cRegistro" class="form-control input-sm">
+											<option value="10">10</option>
+											<option value="25">25</option>
+											<option value="50">50</option>
+											<option value="100">100</option>
+										</select> 
+									</div>
+								</div>
+
+								<div class="col-sm-6 text-right">		
+								  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+								</div>
+							</div>
+						</div>
+
+						<br>
+
 						<table class="table table-striped">
 							<thead>
 								<tr>
@@ -73,7 +96,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="insumo in insumos">
+								<tr dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumospag">
 									<td class="col-md-2">{#insumo.codigo#}</td>
 									<td>{#insumo.descripcion#}</td>
 									<td class="col-md-1">
@@ -97,6 +120,11 @@
 								</tr>
 							</tbody>
 						</table>
+
+						{{--Paginacion de la tabla de Pro-Formas--}}
+					    <div class="text-center">
+					 		<dir-pagination-controls boundary-links="true" pagination-id="insumospag" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
+					  	</div>
 
 						<br>
 

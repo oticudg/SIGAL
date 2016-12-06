@@ -11,6 +11,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
+  $scope.cRegistro = '10';
 
 
   $scope.openI = function($event, dI) {

@@ -21,7 +21,8 @@ class entradasController extends Controller
         'provedor.required' =>  'Seleccione un proveedor.',
         'insumos.required'  =>  'No se han especificado insumos para esta entrada.',
         'insumos.diff_lote' =>  'Solo es posible registrar mas de una vez el mismo insumo si pose lotes diferentes.',
-        'insumos.diff_date_vencimiento' => 'Las fechas de vencimientos de lotes no coinciden con los registros.' 
+        'insumos.diff_date_vencimiento' => 'Las fechas de vencimientos de lotes no coinciden con los registros.',
+        'insumos.req_lote'  =>  'Se debe especificar el lote de todos los insumos.' 
     ];
 
     public function index(){
