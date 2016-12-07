@@ -16,6 +16,7 @@ use App\Insumos_entrada;
 use App\Insumos_salida;
 use App\Inventario_operacione;
 use App\Deposito;
+use App\Repositories\LotesRepository;
 
 class inventarioController extends Controller
 {
@@ -474,6 +475,27 @@ class inventarioController extends Controller
 
      return Response()->json(['status' => 'success', 'kardex' => $movimientos]);
 
+    }
+
+    public function insumoLotes($id){
+      $insumo  = inventario::where('insumo', $id)
+                           ->where('deposito',1 )
+                           ->where('existencia', '>', 0)
+                           ->first();
+      if(!$insumo)
+          abort('404');
+
+      $loteRegister = new LotesRepository(); 
+
+      $nombre = insumo::where('id',$id)->value('descripcion');
+      $lotes = $loteRegister->lotes($id);
+
+      return Response()->json(
+        [
+          'insumo' => ['nombre' => $nombre, 'cantidad' => count($lotes)],
+          'lotes'  => $lotes 
+        ]
+      );
     }
 
     public static function almacenaInsumo($insumo, $cantidad, $deposito){

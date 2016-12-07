@@ -1399,6 +1399,25 @@ controller('inventarioController',function($scope,$http,$modal){
 		});
 	}
 
+	$scope.LotesView = function(id){
+
+		$http.post('/inventario/getLotes/' + id)
+			.success( function(response){
+				
+				$scope.modalInstance = $modal.open({
+					animation: true,
+					templateUrl: 'lotes.html',
+					controller:'lotesCtrl',
+					size:'lg',
+					resolve: {
+						data:function() {
+							return response;
+						}
+					}
+				});	
+			});
+	}
+
 	function empaquetaData(insumos){
 
 		var insumosSelect = [];
@@ -1483,6 +1502,25 @@ angular.module('deposito').controller('dateCtrl', function ($scope, $modalInstan
 	};
 
 });
+
+angular.module('deposito').controller('lotesCtrl', function ($scope, $modalInstance, data) {
+
+	$scope.lotes = data.lotes;
+	$scope.insumo = data.insumo;	
+	$scope.cRegistro = '5';
+	$scope.visibility = false;
+
+    $scope.chvisibility = function(){
+   		$scope.search = {};
+    	$scope.visibility =  !$scope.visibility ? true:false;
+  	}
+
+	$scope.cerrar = function () {
+    	$modalInstance.dismiss('cancel');
+ 	};
+
+});
+
 
 "use strict";
 

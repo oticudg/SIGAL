@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Lote;
 use Carbon\Carbon;
 use Auth;
+use DB;
 
 class LotesRepository
 {
@@ -70,7 +71,7 @@ class LotesRepository
 	 * vencimiento diferente a la previamente almacenada.
 	 * 
 	 * @param array $insumos
-	 * @param array $errores 
+	 * @return array $errores 
 	 */
 	public function nequal_vencimiento($insumos){
 
@@ -100,7 +101,7 @@ class LotesRepository
 	 * arreglo que se pase. 
 	 * 
 	 * @param array $insumos
-	 * @param array $errores 
+	 * @return array $errores 
 	 */
 	public function equal_insumos_lotes($insumos){
 
@@ -129,7 +130,7 @@ class LotesRepository
 	 * arreglo que se pase. 
 	 * 
 	 * @param array $insumos
-	 * @param array $errores 
+	 * @return array $errores 
 	 */
 	public function loteExist($insumos){
 
@@ -156,7 +157,7 @@ class LotesRepository
 	 * especificada en el arreglo que se pase. 
 	 * 
 	 * @param array $insumos
-	 * @param array $errores 
+	 * @return array $errores 
 	 */
 	public function saldoExist($insumos){
 
@@ -176,5 +177,21 @@ class LotesRepository
         }
 
 	    return $errores;
+	}
+
+	/**
+	 * Devuelve todos los lotes de un insumo que se pase 
+	 * 
+	 * @param int $insumo
+	 * @return Illuminate\Database\Eloquent\Collection $lotes
+	 */
+	public function lotes($insumo){
+
+		$lotes =  Lote::where('insumo', $insumo)
+					  ->where('cantidad', '>', 0)	
+					  ->select('codigo','cantidad', DB::raw('DATE_FORMAT(vencimiento, "%d/%m/%Y") as fecha'))
+					  ->get();
+
+		return $lotes;
 	}
 }

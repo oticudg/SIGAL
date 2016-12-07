@@ -330,7 +330,7 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::get('existencia',['as' => 'index', 'uses' => 'inventarioController@index']);
 				//Regresa todos las insumos en el inventario
 				Route::post('getInventario','inventarioController@allInsumos');
-		  });
+		  	});
 
 			Route::group(['prefix' => 'kardex', 'as' => 'kardex::', 'middleware' => 'permission:inventory_kardex'], function(){
 				//Muestra la vista de kardek
@@ -440,6 +440,11 @@ Route::group(['middleware' => 'auth' ], function(){
 			 *coincidan con la descripcion o codigo que se pase
 			 */
 			Route::get('getInsumosInventario', 'inventarioController@getInsumosInventario');
+
+			/**
+			 *Regresa una lista de todos los lotes que tiene un insumo
+			 */
+			Route::post('getLotes/{id}', 'inventarioController@insumoLotes');
 
 	});
 
