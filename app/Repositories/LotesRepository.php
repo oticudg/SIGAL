@@ -131,7 +131,7 @@ class LotesRepository
 	 * @param array $insumos
 	 * @param array $errores 
 	 */
-	public function exist($insumos){
+	public function loteExist($insumos){
 
 		$errores = [];
 
@@ -144,6 +144,33 @@ class LotesRepository
 						   	->first(); 
 
             if(!$loteRegister){
+                array_push($errores, ['insumo' => $insumo['id'], 'lote' => $insumo['lote']]);
+            }
+        }
+
+	    return $errores;
+	}
+
+	/**
+	 * Devuelve insumos cuyos lotes no tengan la cantidad
+	 * especificada en el arreglo que se pase. 
+	 * 
+	 * @param array $insumos
+	 * @param array $errores 
+	 */
+	public function saldoExist($insumos){
+
+		$errores = [];
+
+	 	foreach ($insumos as $key => $insumo){
+
+	 		$loteRegister = Lote::where('insumo', $insumo['id'])
+						   	->where('codigo', $insumo['lote'])
+						   	->where('deposito', Auth::user()->deposito)
+						   	->orderBy('id', 'desc')
+						   	->first(); 
+
+            if( ($loteRegister->cantidad - $insumo['despachado']) < 0){
                 array_push($errores, ['insumo' => $insumo['id'], 'lote' => $insumo['lote']]);
             }
         }

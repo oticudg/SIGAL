@@ -241,17 +241,17 @@ class salidasController extends Controller
             $insumos = $data['insumos'];
 
             //Valida que todos los lotes pasados existan 
-            $insumosInvalidos = $loteRegister->exist($insumos);
+            $insumosInvalidos = $loteRegister->LoteExist($insumos);
 
             if($insumosInvalidos){
               return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
             }
 
             //Valida que todos los lotes pasados tengas la cantidad que se necesita
-            $insumosInvalidos = $loteRegister->exist($insumos);
+            $insumosInvalidos = $loteRegister->saldoExist($insumos);
 
             if($insumosInvalidos){
-              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
+              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Las cantidad de los insumos marcados son insuficientes']);
             }
 
             //Codigo para la salida
