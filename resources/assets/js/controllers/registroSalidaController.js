@@ -11,6 +11,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
   $scope.listInsumos = [];
   $scope.insumos = [];
   $scope.alert = {};
+  $scope.cRegistro = '10';
 
   $scope.refreshInsumos = function(insumo) {
     var params = {insumo: insumo};
