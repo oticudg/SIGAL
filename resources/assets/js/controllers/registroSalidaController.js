@@ -11,6 +11,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
   $scope.listInsumos = [];
   $scope.insumos = [];
   $scope.alert = {};
+  $scope.loader = true;
   $scope.cRegistro = '10';
 
   $scope.refreshInsumos = function(insumo) {
@@ -64,7 +65,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
     $scope.cofirme = function(){
         save();
         $scope.modalInstance.dismiss('cancel');
-        $scope.loader = true;
+        $scope.loader = false;
     }
   }
 
@@ -80,7 +81,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
       .success(
         function(response){
 
-          $scope.loader = false;
+          $scope.loader = true;
 
           if( response.status == 'success'){
 

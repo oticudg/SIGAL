@@ -6,6 +6,7 @@ controller('alertController',function($scope,$http){
   $scope.insumoSelect = {};
   $scope.listInsumos = [];
   $scope.insumos = [];
+  $scope.loader = true;
 
   $scope.refreshInsumos = function(insumo){
 
@@ -123,6 +124,8 @@ controller('alertController',function($scope,$http){
 
   $scope.guardar = function(){
 
+    $scope.loader = false;
+
   	if( !validaCantidad() ){
       $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
       return;
@@ -135,6 +138,8 @@ controller('alertController',function($scope,$http){
   	$http.post('/inventario/alertas/estableceAlarmas', data)
   	 .success(
   	 	function(response){
+
+      $scope.loader = true;
 
 			$scope.alert = {type:response.status , msg:response.menssage};
 
@@ -2559,6 +2564,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
+  $scope.loader = true;
   $scope.cRegistro = '10';
 
 
@@ -2621,7 +2627,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     $scope.cofirme = function(){
         save();
         $scope.modalInstance.dismiss('cancel');
-        $scope.loader = true;
+        $scope.loader = false;
     }
   }
 
@@ -2636,7 +2642,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     $http.post('/transferencias/entradas/registrar', data)
       .success(
         function(response){
-          $scope.loader = false;
+          $scope.loader = true;
 
           if( response.status == 'success'){
 
@@ -2783,6 +2789,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
   $scope.listInsumos = [];
   $scope.insumos = [];
   $scope.alert = {};
+  $scope.loader = true;
   $scope.cRegistro = '10';
 
   $scope.refreshInsumos = function(insumo) {
@@ -2836,7 +2843,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
     $scope.cofirme = function(){
         save();
         $scope.modalInstance.dismiss('cancel');
-        $scope.loader = true;
+        $scope.loader = false;
     }
   }
 
@@ -2852,7 +2859,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
       .success(
         function(response){
 
-          $scope.loader = false;
+          $scope.loader = true;
 
           if( response.status == 'success'){
 

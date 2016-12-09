@@ -30,7 +30,14 @@
   @include('layouts.navs.side-menu')
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" ng-cloak>
+
+    <div data-loading ng-hide="loader" class="div_loader">
+      <div id="img_loader" class="img_loader">
+        <img src="{{asset('imagen/loader.gif')}}" alt="">
+        <p> Cargando ...</p>
+      </div>
+    </div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>

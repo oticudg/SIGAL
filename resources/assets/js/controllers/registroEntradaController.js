@@ -11,6 +11,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
   $scope.insumos = [];
   $scope.listInsumos = [];
   $scope.alert = {};
+  $scope.loader = true;
   $scope.cRegistro = '10';
 
 
@@ -73,7 +74,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     $scope.cofirme = function(){
         save();
         $scope.modalInstance.dismiss('cancel');
-        $scope.loader = true;
+        $scope.loader = false;
     }
   }
 
@@ -88,7 +89,7 @@ controller('registroEntradaController',function($scope, $http ,$modal){
     $http.post('/transferencias/entradas/registrar', data)
       .success(
         function(response){
-          $scope.loader = false;
+          $scope.loader = true;
 
           if( response.status == 'success'){
 

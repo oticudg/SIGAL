@@ -5670,6 +5670,20 @@ input[type=number]::-webkit-outer-spin-button {
   right: 0;
   margin: auto;
 }
+.simgle_loader {
+  top: 0;
+  width: 100px;
+  height: 0px;
+  z-index: 1000;
+  color: #419641;
+  opacity: 0.8;
+  padding: 0px;
+  text-align: center;
+}
+.img_single_loader img {
+  width: 30px;
+  height: 30px;
+}
 .table th {
   background-color: #337ab7;
   color: white;

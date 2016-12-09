@@ -6,6 +6,7 @@ controller('alertController',function($scope,$http){
   $scope.insumoSelect = {};
   $scope.listInsumos = [];
   $scope.insumos = [];
+  $scope.loader = true;
 
   $scope.refreshInsumos = function(insumo){
 
@@ -123,6 +124,8 @@ controller('alertController',function($scope,$http){
 
   $scope.guardar = function(){
 
+    $scope.loader = false;
+
   	if( !validaCantidad() ){
       $scope.alert = {type:"danger" , msg:"Especifique un valor valido para cada insumo"};
       return;
@@ -135,6 +138,8 @@ controller('alertController',function($scope,$http){
   	$http.post('/inventario/alertas/estableceAlarmas', data)
   	 .success(
   	 	function(response){
+
+      $scope.loader = true;
 
 			$scope.alert = {type:response.status , msg:response.menssage};
 
