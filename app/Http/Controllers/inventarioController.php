@@ -479,7 +479,7 @@ class inventarioController extends Controller
 
     public function insumoLotes($id){
       $insumo  = inventario::where('insumo', $id)
-                           ->where('deposito',1 )
+                           ->where('deposito', Auth::user()->deposito)
                            ->where('existencia', '>', 0)
                            ->first();
       if(!$insumo)
