@@ -46,8 +46,7 @@
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
 				<th class="col-md-1">Lote</th>
-				<th class="col-md-1">Fecha Vto</th>
-				<th class="col-md-2 text-right">Cantidad</th>
+				<th class="col-md-1 text-right">Cantidad</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,9 +61,6 @@
 					<input type="text" class="form-control" placeholder="Lote" ng-model="search.lote">
 				</td>
 				<td>
-					<input type="text" class="form-control" placeholder="Fecha" ng-model="search.fecha">
-				</td>
-				<td>
 					<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="search.cantidad">
 				</td>
 			</tr>
@@ -72,7 +68,6 @@
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
 				<td>{#insumo.lote#}</td>
-				<td>{#insumo.fecha#}</td>
 				<td class="text-right">{#insumo.cantidad#}</td>
 			</tr>
 		</tbody>

@@ -87,7 +87,6 @@
 										<th class="col-md-2">Codigo de Insumo</th>
 										<th class="col-md-6">Descripción</th>
 										<th class="col-md-1">Lote</th>
-										<th class="col-md-1">Fecha Vto</th>
 										<th class="col-md-1 text-right">Cantidad</th>
 									</tr>
 								</thead>
@@ -99,7 +98,6 @@
 										<td>{#insumo.codigo#}</td>
 										<td>{#insumo.descripcion#}</td>
 										<td>{#insumo.lote#}</td>
-										<td>{#insumo.fechaV#}</td>
 										<td class="text-right">{#insumo.cantidad#}</td>
 									</tr>
 								</tbody>
