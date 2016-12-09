@@ -46,6 +46,7 @@
 			<tr>
 				<th class="col-md-2">Codigo</th>
 				<th>Descripción</th>
+				<th class="col-md-1">Lote</th>
 				<th class="col-md-1 text-right">Solicitado</th>
 				<th class="col-md-1 text-right">Despachado</th>
 			</tr>
@@ -59,6 +60,9 @@
 					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.descripcion">
 				</td>
 				<td>
+					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.lote">
+				</td>
+				<td>
 					<input type="text" class="form-control text-right" placeholder="S" ng-model="search.solicitado">
 				</td>
 				<td>
@@ -68,6 +72,7 @@
 			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
+				<td>{#insumo.lote#}</td>
 				<td class="text-right">{#insumo.solicitado#}</td>
 				<td class="text-right">{#insumo.despachado#}</td>
 			</tr>

@@ -87,6 +87,7 @@
 										<th class="col-md-2">Pro-Forma de Pedido</th>
 										<th class="col-md-2">Codigo de Insumo</th>
 										<th class="col-md-5">Descripción</th>
+										<th class="col-md-1">Lote</th>
 										<th class="col-md-1 text-right">Solicitado</th>
 										<th class="col-md-1 text-right">Despachado</th>
 									</tr>
@@ -98,6 +99,7 @@
 										{#insumo.salida | codeforma#}</span></td>
 										<td>{#insumo.codigo#}</td>
 										<td>{#insumo.descripcion#}</td>
+										<td>{#insumo.lote#}</td>
 										<td class="text-right">{#insumo.solicitado#}</td>
 										<td class="text-right">{#insumo.despachado#}</td>
 									</tr>
