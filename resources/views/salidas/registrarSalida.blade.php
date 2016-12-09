@@ -88,28 +88,33 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>Codigo</th>
+									<th class="col-sm-2">Codigo</th>
 									<th>Descripción</th>
-									<th>lote</th>
-									<th class="text-right">Solicitado</th>
-									<th class="text-right">Despachado</th>
-									<th>Eliminar</th>
+									<th class="col-sm-2">lote</th>
+									<th class="col-sm-1 text-right">Solicitado</th>
+									<th class="col-sm-1 text-right">Despachado</th>
+									<th class="col-sm-1 text-center">Eliminar</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-class="insumo.style" dir-paginate="insumo in insumos | filter:busqueda | itemsPerPage:cRegistro" pagination-id="insumospag">
-									<td class="col-md-2">{#insumo.codigo#}</td>
+									<td>{#insumo.codigo#}</td>
 									<td>{#insumo.descripcion#}</td>
-									<td class="col-md-1">
-										<input class="form-control" type="text" ng-model="insumo.lote">
+									<td>
+										<div class="input-group">
+											<input class="form-control" type="text" ng-model="insumo.lote">
+											<div class="input-group-btn">
+								    			<button class="btn btn-primary" ng-click="LotesSelect(insumo)"><span class="glyphicon glyphicon-barcode"></span></button>
+											</div>
+										</div
 									</td>
-									<td class="col-md-1">
+									<td>
 										<input class="form-control text-right" type="number" ng-model="insumo.solicitado">
 									</td>
-									<td class="col-md-1">
+									<td>
 										<input class="form-control text-right" type="number" ng-model="insumo.despachado">
 									</td>
-									<td class="col-md-1 text-center">
+									<td>
 										<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 										</button>
 									</td>
@@ -167,6 +172,11 @@
 				           	</center>
 				        </div>
 				    </script>
+
+				    <script type="text/ng-template" id="lotes.html">
+						@include('salidas.modals.selectLote')	
+					</script>
+		
 			    </div>
 		    </div>
 		</div>

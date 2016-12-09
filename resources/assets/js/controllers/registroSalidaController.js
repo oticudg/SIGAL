@@ -144,6 +144,28 @@ controller('registroSalidaController',function($scope,$http,$modal){
     }
   }
 
+  $scope.LotesSelect = function(insumo){
+
+    $http.post('/inventario/getLotes/' + insumo.id)
+      .success( function(response){
+        
+        $scope.modalInstance = $modal.open({
+          animation: true,
+          templateUrl: 'lotes.html',
+          controller:'lotesSelectCtrl',
+          size:'lg',
+          resolve: {
+            data:function() {
+              return response;
+            },
+            insumo:function(){
+              return insumo;
+            }
+          }
+        }); 
+      });
+  }
+
   function validaCantidad(){
     var index;
 
@@ -226,3 +248,34 @@ angular.module('deposito').controller('successRegisterCtrl', function ($scope, $
   };
 
 });
+
+angular.module('deposito').controller('lotesSelectCtrl', function ($scope, $modalInstance, data, insumo) {
+
+  $scope.lotes = data.lotes;
+  $scope.insumo = data.insumo;  
+  $scope.search = {};
+  $scope.cRegistro = '5';
+  $scope.visibility = false;
+
+  if(insumo.lote){
+    $scope.search.codigo = insumo.lote;
+    $scope.visibility = true;
+  }
+
+
+  $scope.chvisibility = function(){
+    $scope.search = {};
+    $scope.visibility =  !$scope.visibility ? true:false;
+  }
+
+  $scope.cerrar = function () {
+      $modalInstance.dismiss('cancel');
+  };
+
+  $scope.select = function(codigo){
+    insumo.lote = codigo;
+    $modalInstance.dismiss('cancel');
+  }
+
+});
+
