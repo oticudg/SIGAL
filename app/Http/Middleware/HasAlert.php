@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Inventario;
+use App\Repositories\AlertsRepository;
 
 class HasAlert
 {
@@ -16,7 +16,7 @@ class HasAlert
      */
     public function handle($request, Closure $next)
     {   
-        if( Inventario::alert() == 0){
+        if( !AlertsRepository::alert() ){
             abort('404');
         }
 

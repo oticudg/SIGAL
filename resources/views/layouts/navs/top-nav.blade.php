@@ -18,7 +18,7 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
       <li class="active"><a><strong>{{Auth::user()->getDepositoName()}}</strong></a></li>
-      @if( Auth::user()->hasPermissions(['inventory_notification_alert']) && ( $var = App\Inventario::alert() ) > 0 )
+      @if( Auth::user()->hasPermissions(['inventory_notification_alert']) && ( $var = App\Repositories\AlertsRepository::alert() ) > 0 )
         <li class="dropdown notifications-menu">
           <a href="{{route('inven::herra::niveles')}}" class="dropdown-toggle">
             <i class="fa fa-bell-o"></i>

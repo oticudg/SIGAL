@@ -189,6 +189,7 @@ class LotesRepository
 
 		$lotes =  Lote::where('insumo', $insumo)
 					  ->where('cantidad', '>', 0)	
+					  ->where('deposito', Auth::user()->deposito)
 					  ->select('codigo','cantidad', DB::raw('DATE_FORMAT(vencimiento, "%d/%m/%Y") as fecha'))
 					  ->get();
 
