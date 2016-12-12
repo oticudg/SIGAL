@@ -355,6 +355,8 @@ Route::group(['middleware' => 'auth' ], function(){
 				Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
 				//Regresa todos los insumos en alerta del inventario
 				Route::get('getNivelesAlert','inventarioController@nivelesAlert');
+				//Regresa todos los insumos en alerta del inventario
+				Route::get('getVencimientosAlert','inventarioController@vencimientosAlert');
 			});
 
 

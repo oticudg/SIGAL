@@ -286,6 +286,13 @@ class inventarioController extends Controller
         return $alerts->insumosNivel();
     }
 
+    public function vencimientosAlert(){
+
+        $alerts = new AlertsRepository();
+
+        return $alerts->insumosVencimiento();
+    }
+
     public function kardex(Request $request){
 
       $data = $request->all();
