@@ -17,6 +17,7 @@ use App\Insumos_salida;
 use App\Inventario_operacione;
 use App\Deposito;
 use App\Repositories\LotesRepository;
+use App\Repositories\AlertsRepository;
 
 class inventarioController extends Controller
 {
@@ -278,28 +279,11 @@ class inventarioController extends Controller
 
     }
 
-    public function insumosAlert(){
+    public function nivelesAlert(){
 
-        $deposito = Auth::user()->deposito;
+        $alerts = new AlertsRepository();
 
-        $registros = Inventario::where('deposito', $deposito)
-                                 ->get(['id', 'existencia', 'Cmed', 'Cmin']);
-        $ids = [];
-
-        foreach ($registros as $registro) {
-            if( $registro['existencia'] <= $registro['Cmed'] || $registro['existencia'] <= $registro['Cmin'])
-                array_push($ids, $registro['id']);
-        }
-
-        $insumos = DB::table('insumos')
-                   ->join('inventarios', 'insumos.id', '=', 'inventarios.insumo')
-                   ->whereIn('inventarios.id', $ids)
-                   ->select('inventarios.insumo as id','insumos.codigo','insumos.descripcion',
-                    'inventarios.existencia','inventarios.Cmin as min', 'inventarios.Cmed as med')
-                   ->get();
-
-        return $insumos;
-
+        return $alerts->insumosNivel();
     }
 
     public function kardex(Request $request){

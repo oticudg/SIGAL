@@ -5,14 +5,16 @@
 
 @section('content')
 	
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="box box-primary">
-				<div class="box-header">
-					
-				</div>	
-				<div class="box-body">
-					<div class="dataTables_wrapper form-inline dt-bootstrap">
+	<div class="nav-tabs-custom">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs pull-right ui-sortable-handle">
+              <li class="active"><a href="#niveles" data-toggle="tab">Niveles</a></li>
+              <li><a href="#vencimiento" data-toggle="tab">Vencimiento</a></li>
+            </ul>
+            <div class="tab-content">
+            	<div class="tab-pane active" id="niveles">
+
+            		<div class="dataTables_wrapper form-inline dt-bootstrap">
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="dataTables_length">
@@ -60,10 +62,12 @@
 					      </div>
 					    </div>	
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>		
+            	</div>
 
+            	<div class="tab-pane" id="vencimiento">
+            	</div>
+          	</div>
+    </div>
+    
 @endsection
 

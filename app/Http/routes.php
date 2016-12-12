@@ -354,7 +354,7 @@ Route::group(['middleware' => 'auth' ], function(){
 				//Muestra la  vista de insumos en niveles bajos y criticos
 				Route::get('alertasInsumos',['middleware' => 'alert', 'as' => 'niveles', 'uses' => 'inventarioController@viewInsumosAlertas']);
 				//Regresa todos los insumos en alerta del inventario
-				Route::get('getAlertInsumos','inventarioController@insumosAlert');
+				Route::get('getNivelesAlert','inventarioController@nivelesAlert');
 			});
 
 
