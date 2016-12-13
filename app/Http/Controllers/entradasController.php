@@ -266,7 +266,7 @@ class entradasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_entrada',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos|req_lote'
+            'insumos'   =>  'required|insumos'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -313,20 +313,20 @@ class entradasController extends Controller
               $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
                   'entrada', $entrada);
 
-              $lote  = isset($insumo['lote'])  && !empty($insumo['lote'])   ? $insumo['lote']  : NULL;
-              $fecha = isset($insumo['fecha']) && !empty($insumo['fecha'])  ? $insumo['fecha'] : NULL;
+              $lote  = isset($insumo['lote'])  ? $insumo['lote']  : NULL;
 
               Insumos_entrada::create([
                   'entrada'    => $entrada,
                   'insumo'     => $insumo['id'],
                   'cantidad'   => $insumo['cantidad'],
                   'lote'       => $lote,
-                  'fechaV'     => $fecha,
                   'deposito'   => $deposito,
                   'existencia' => $existencia
               ]);
 
-              $loteRegister->registrar($insumo);
+              if($lote){
+                $loteRegister->registrar($insumo);
+              }
           }
 
           return Response()->json(['status' => 'success', 'menssage' =>

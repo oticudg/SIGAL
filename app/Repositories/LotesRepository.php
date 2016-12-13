@@ -108,17 +108,22 @@ class LotesRepository
 		$errores = [];
 
 	 	foreach ($insumos as $key => $insumo){
-                
-            foreach( $insumos as $key_validate => $insumo_validate){
+            
+            if(!isset($insumo['lote'])){
+            	continue;		
+            } 
+            else{
+	            foreach( $insumos as $key_validate => $insumo_validate){
 
-                if($key == $key_validate)
-                    continue;
+	                if($key == $key_validate || !isset($insumo_validate['lote']) )
+	                    continue;
 
-                if($insumo_validate['id'] == $insumo['id']){
-                    if($insumo_validate['lote'] == $insumo['lote'])
-                    	array_push($errores, $insumo['id']);
-                }
-            }               
+	                if($insumo_validate['id'] == $insumo['id']){
+	                    if($insumo_validate['lote'] == $insumo['lote'])
+	                    	array_push($errores, $insumo['id']);
+	                }
+	            }               
+	        }
         }
 
 
@@ -137,6 +142,9 @@ class LotesRepository
 		$errores = [];
 
 	 	foreach ($insumos as $key => $insumo){
+
+	 		if(!isset($insumo['lote']))
+	 			continue;
 
 	 		$loteRegister = Lote::where('insumo', $insumo['id'])
 						   	->where('codigo', $insumo['lote'])
