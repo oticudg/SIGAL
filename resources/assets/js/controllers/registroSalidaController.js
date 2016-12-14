@@ -102,7 +102,14 @@ controller('registroSalidaController',function($scope,$http,$modal){
 
           desmarcarInsumos();
 
-          if(response.status == 'unexist'){
+          if(response.status == 'unexist_lotes'){
+
+            marcaLotes(response.data);
+            $scope.alert = {type:'danger', msg:response.message};
+            return;
+          }
+
+          if(response.status == 'unexist_inventario'){
 
             marcaInsumos(response.data);
             $scope.alert = {type:'danger', msg:response.message};
@@ -191,7 +198,7 @@ controller('registroSalidaController',function($scope,$http,$modal){
     return insumos;
   }
 
-  function marcaInsumos(insumos){
+  function marcaLotes(insumos){
     var index1;
     var index2;
 
@@ -203,6 +210,19 @@ controller('registroSalidaController',function($scope,$http,$modal){
         }
       }
     } 
+  }
+
+  function marcaInsumos(ids){
+    var index;
+    var id;
+
+    for( id in ids){
+      for(index = 0; index < $scope.insumos.length; index++)
+
+        if($scope.insumos[index].id == ids[id] ){
+          $scope.insumos[index].style = 'danger';
+        }
+    }
   }
 
   function desmarcarInsumos(){

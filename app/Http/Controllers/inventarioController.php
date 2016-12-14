@@ -542,27 +542,6 @@ class inventarioController extends Controller
         }
     }
 
-    public static function validaExist($insumos, $deposito){
-
-        $invalidos = [];
-
-        foreach ($insumos as $insumo){
-
-            $inventario = Inventario::where('insumo' , $insumo['id'])
-                          ->where('deposito', $deposito)
-                          ->first();
-
-            $existencia = Inventario::where('insumo' , $insumo['id'])
-                          ->where('deposito', $deposito)
-                          ->value('existencia');
-
-            if( !$inventario || $existencia < $insumo['despachado'])
-                array_push($invalidos, $insumo['id']);
-        }
-
-        return $invalidos;
-    }
-
     public static function validaModifiEntrada($insumos){
 
         $deposito = Auth::user()->deposito;

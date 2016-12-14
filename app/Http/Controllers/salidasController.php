@@ -14,6 +14,7 @@ use App\Insumos_salida;
 use App\Deposito;
 use App\Documento;
 use App\Repositories\LotesRepository;
+use App\Repositories\InventarioRepository;
 
 class salidasController extends Controller
 {
@@ -237,14 +238,22 @@ class salidasController extends Controller
             }
 
             $loteRegister = new LotesRepository(); 
+            $inventario = new InventarioRepository();
 
             $insumos = $data['insumos'];
+
+            //Valida si hay en el inventario la cantidad de los insumos que se pasen
+            $insumosInvalidos = $inventario->validaExistencia($insumos, $deposito);
+
+            if($insumosInvalidos){
+              return Response()->json(['status' => 'unexist_inventario', 'data' => $insumosInvalidos, 'message' => 'Las cantidad de los insumos marcados es insuficiente']);
+            }
 
             //Valida que todos los lotes pasados existan 
             $insumosInvalidos = $loteRegister->LoteExist($insumos);
 
             if($insumosInvalidos){
-              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
+              return Response()->json(['status' => 'unexist_lotes', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
             }
 
             //Valida que todos los lotes pasados tengas la cantidad que se necesita
@@ -304,7 +313,7 @@ class salidasController extends Controller
                         ]);
                     }
                 }
-                //Si no tienes lotes asociados.
+                //Si no tiene lotes asociados.
                 else{
 
                     $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
