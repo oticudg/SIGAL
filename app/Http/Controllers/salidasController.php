@@ -210,7 +210,7 @@ class salidasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_salida',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos_salida|req_lote'
+            'insumos'   =>  'required|insumos_salida'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -265,21 +265,58 @@ class salidasController extends Controller
                         'deposito'     => $deposito
                     ])['id'];
 
-            foreach ($insumos as $insumo) {
+            foreach ($insumos as $insumo){
+                
+                //Si se especifico lote.
+                if(isset($insumo['lote'])){
 
-                $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+                    $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+                    $loteRegister->reducir($insumo);
 
-                Insumos_salida::create([
-                    'salida'      => $salida,
-                    'insumo'      => $insumo['id'],
-                    'solicitado'  => $insumo['solicitado'],
-                    'despachado'  => $insumo['despachado'],
-                    'deposito'    => $deposito,
-                    'lote'        => $insumo['lote'],
-                    'existencia'  => $existencia
-                ]);
+                    Insumos_salida::create([
+                        'salida'      => $salida,
+                        'insumo'      => $insumo['id'],
+                        'solicitado'  => $insumo['solicitado'],
+                        'despachado'  => $insumo['despachado'],
+                        'lote'        => $insumo['lote'],
+                        'deposito'    => $deposito,
+                        'existencia'  => $existencia
+                    ]);
 
-                $loteRegister->reducir($insumo);
+                }
+                //Si no se especifico lote y el insumo tienes lotes asociados.                
+                else if($loteRegister->hasLote($insumo)){ 
+
+                    $movimientos = $loteRegister->Fefo($insumo);
+
+                    foreach ($movimientos as $movimiento) {
+
+                        $existencia = inventarioController::reduceInsumo($insumo['id'], $movimiento['cantidad'], $deposito);
+
+                        Insumos_salida::create([
+                            'salida'      => $salida,
+                            'insumo'      => $insumo['id'],
+                            'solicitado'  => $insumo['solicitado'],
+                            'despachado'  => $movimiento['cantidad'],
+                            'lote'        => $movimiento['lote'],
+                            'deposito'    => $deposito,
+                            'existencia'  => $existencia
+                        ]);
+                    }
+                }
+                //Si no tienes lotes asociados.
+                else{
+
+                    $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
+                    Insumos_salida::create([
+                        'salida'      => $salida,
+                        'insumo'      => $insumo['id'],
+                        'solicitado'  => $insumo['solicitado'],
+                        'despachado'  => $insumo['despachado'],
+                        'deposito'    => $deposito,
+                        'existencia'  => $existencia
+                    ]);
+                }
             }
 
             return Response()->json(['status' => 'success', 'menssage' =>

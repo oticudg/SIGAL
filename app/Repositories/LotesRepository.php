@@ -173,6 +173,9 @@ class LotesRepository
 
 	 	foreach ($insumos as $key => $insumo){
 
+	 		if(!isset($insumo['lote']))
+	 			continue;
+
 	 		$loteRegister = Lote::where('insumo', $insumo['id'])
 						   	->where('codigo', $insumo['lote'])
 						   	->where('deposito', Auth::user()->deposito)
@@ -203,4 +206,72 @@ class LotesRepository
 
 		return $lotes;
 	}
+
+	/**
+	 * Reduce un lotes utilizando FEFO (First Expire First Out) 
+	 * 
+	 * @param int $insumo
+	 * @return array $movimientos
+	 */
+	public function Fefo($insumo){
+
+		$cantidad = $insumo['despachado'];
+		$movimientos  = [];
+
+		while( $cantidad > 0){
+
+			$lote = Lote::where('insumo', $insumo['id'])
+					    ->where('deposito', Auth::user()->deposito)
+					    ->where('cantidad', '>', 0)
+					    ->orderBy('vencimiento')
+					    ->orderBy('id')
+					    ->first();
+
+			if(!$lote){
+				break;
+			}
+
+			if( ($lote->cantidad - $cantidad) < 0 ){
+				
+				$cantidad -= $lote->cantidad;
+
+				$saldo = $lote->cantidad; 
+				$lote->cantidad = 0;
+				$lote->save();
+			}
+			else{
+
+				$saldo = $cantidad;
+				$lote->cantidad -= $cantidad;
+				$cantidad = 0;
+				$lote->save();
+			}
+
+			array_push($movimientos, 
+
+				[
+					'cantidad' => $saldo,
+					'lote' => $lote->codigo
+				]
+			);
+		}
+
+		return $movimientos;
+	}
+
+	/**
+	 * Verifica si un insumo tiene lotes asociados 
+	 * 
+	 * @return bool
+	 */
+	public function hasLote($insumo){
+
+		$lotes =  Lote::where('insumo', $insumo['id'])
+				  ->where('cantidad', '>', 0)	
+				  ->where('deposito', Auth::user()->deposito)
+				  ->first();
+
+		return (bool) $lotes;
+	}
 }
+
