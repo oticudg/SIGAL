@@ -109,7 +109,7 @@ class LotesRepository
 
 	 	foreach ($insumos as $key => $insumo){
             
-            if(!isset($insumo['lote'])){
+            if(!isset($insumo['lote']) || empty($insumo['lote'])){
             	continue;		
             } 
             else{
@@ -143,7 +143,7 @@ class LotesRepository
 
 	 	foreach ($insumos as $key => $insumo){
 
-	 		if(!isset($insumo['lote']))
+	 		if(!isset($insumo['lote']) || empty($insumo['lote']))
 	 			continue;
 
 	 		$loteRegister = Lote::where('insumo', $insumo['id'])
@@ -173,7 +173,7 @@ class LotesRepository
 
 	 	foreach ($insumos as $key => $insumo){
 
-	 		if(!isset($insumo['lote']))
+	 		if(!isset($insumo['lote']) || empty($insumo['lote']))
 	 			continue;
 
 	 		$loteRegister = Lote::where('insumo', $insumo['id'])
@@ -208,55 +208,73 @@ class LotesRepository
 	}
 
 	/**
-	 * Reduce un lotes utilizando FEFO (First Expire First Out) 
+	 * Calcula los movimientos de los lotes de un insumo utilizando 
+	 * FEFO (First Expire First Out) 
 	 * 
-	 * @param int $insumo
-	 * @return array $movimientos
+	 * @param array $insumos
+	 * @return array 
 	 */
-	public function Fefo($insumo){
+	private function fefo($insumo, $insumoMovimientos){
 
-		$cantidad = $insumo['despachado'];
+		$lotes = Lote::where('insumo', $insumo)
+						    ->where('deposito', Auth::user()->deposito)
+						    ->where('cantidad', '>', 0)
+						    ->orderBy('vencimiento')
+						    ->orderBy('id')
+						    ->get();
 		$movimientos  = [];
+	
+		$withLotes = $this->filterInsumosLote($insumoMovimientos);
+		$withoutLotes = $this->	filterInsumosLote($insumoMovimientos,false);
 
-		while( $cantidad > 0){
 
-			$lote = Lote::where('insumo', $insumo['id'])
-					    ->where('deposito', Auth::user()->deposito)
-					    ->where('cantidad', '>', 0)
-					    ->orderBy('vencimiento')
-					    ->orderBy('id')
-					    ->first();
+		if( !empty($withLotes) ){
 
-			if(!$lote){
-				break;
-			}
-
-			if( ($lote->cantidad - $cantidad) < 0 ){
+			foreach ($withLotes as $movimiento) {
 				
-				$cantidad -= $lote->cantidad;
+				$lotes = $lotes->each(function ($lote) use ($movimiento){
 
-				$saldo = $lote->cantidad; 
-				$lote->cantidad = 0;
-				$lote->save();
-			}
-			else{
-
-				$saldo = $cantidad;
-				$lote->cantidad -= $cantidad;
-				$cantidad = 0;
-				$lote->save();
+				    if ($lote->codigo == $movimiento['lote']) {
+				        $lote->cantidad -= $movimiento['despachado'];
+				    	false;
+				    }
+				});	
 			}
 
-			array_push($movimientos, 
-
-				[
-					'cantidad' => $saldo,
-					'lote' => $lote->codigo
-				]
-			);
+			$movimientos = $withLotes;
 		}
 
-		return $movimientos;
+		foreach ($withoutLotes as $movimiento)
+		{
+			$cantidad = $movimiento['despachado'];
+
+			while( $cantidad > 0){
+
+				$lote = $lotes->first(function ($key,$lote) {
+				    return $lote['cantidad'] > 0;
+				});
+
+				if( $lote->cantidad < $cantidad ){
+					
+					$cantidad -= $lote->cantidad;
+					$saldo = $lote->cantidad;
+					$lote->cantidad = 0;
+				}
+				else{
+
+					$lote->cantidad -= $cantidad;
+					$saldo = $cantidad;
+					$cantidad = 0;
+				}
+
+				$movimiento['lote'] = $lote->codigo; 
+				$movimiento['despachado'] = $saldo;
+
+				array_push($movimientos, $movimiento);
+			}
+		}
+
+		return $movimientos; 
 	}
 
 	/**
@@ -272,6 +290,107 @@ class LotesRepository
 				  ->first();
 
 		return (bool) $lotes;
+	}
+
+	/**
+	 * Calcula, agrupa y devuelve, todos los movimientos de los insumos
+	 * que se pasen.
+	 *
+	 * @param array $insumos
+	 * @return arrray $groups
+	 */ 
+	public function calculaMovimientos($insumos){
+
+		$movimientos = [];
+		$groups = [];
+
+		//Calcula los lotes de los insumos a realizar movimientos utilizando el metodo fefo,
+		//Si este posee lotes en los registros y su lote no ha sido especificado.
+		foreach ($insumos as $insumo) {
+
+			if( array_search($insumo['id'], array_column($movimientos, 'id')) !== false )
+				continue;	
+
+			if( $this->hasLote($insumo) ){
+
+				$insumoMovimientos = array_filter($insumos, function($element) use ($insumo){
+					return $element['id'] == $insumo['id'];
+				});
+
+				if( !empty($this->filterInsumosLote($insumoMovimientos, false)) ){
+					$insumoMovimientos = $this->fefo($insumo['id'], $insumoMovimientos);
+				}
+
+				$movimientos = array_merge($movimientos, $insumoMovimientos);
+			}
+			else{
+				array_push($movimientos, $insumo);
+			}
+		}
+
+		//Agrupa los lotes de los movimientos de insumos.
+		foreach ($movimientos as $movimiento){
+
+			if(isset($movimiento['lote']) && !empty($movimiento['lote'])){
+
+				$calculado = array_filter($groups, function($element) use ($movimiento){
+	  				return $element['id'] == $movimiento['id'] && $element['lote'] == $movimiento['lote'];
+				});
+
+				if( !empty($calculado) )
+					continue;
+
+				$lotes = array_filter($movimientos, function($element) use ($movimiento){
+	  				return $element['id'] == $movimiento['id'] && $element['lote'] == $movimiento['lote'];
+				});
+
+				$despachado = 0;
+				$solicitado = 0;
+
+				foreach ($lotes as $lote) {
+					$despachado += $lote['despachado'];
+					$solicitado += $lote['solicitado'];
+				}
+
+				$movimiento['despachado'] = $despachado;
+				$movimiento['solicitado'] = $solicitado;
+			}
+
+			array_push($groups, $movimiento);
+		}
+
+		//Devuelve un arreglo con todos los movimientos de insumos a realizar
+		//con lotes espeficicados y cantidades. Nota: Si no pose lote un movimiento de insumo en el arreglo
+		//sera debido a que no posee lotes en los registros de lotes.
+		return $groups;
+	}
+
+	/**
+	 * Devuelve un sub-arreglo del arreglo de insumos que se pase
+	 * conteniendo los insumos con lotes (por defecto) o si se pasa  FALSE
+	 * los insumos sin lotes
+	 *
+	 * @param array $insumos
+	 * @param bool $filter
+	 */
+	public function filterInsumosLote($insumos,$filter=true){
+
+		$insumosFiltrados = [];
+
+		if($filter){
+
+			$insumosFiltrados = array_filter($insumos, function($element){
+	  			return isset($element['lote']) && !empty($element['lote']);
+			});
+		}
+		else{
+
+			$insumosFiltrados = array_filter($insumos, function($element){
+	  			return !isset($element['lote']) || empty($element['lote']);
+			});
+		}
+
+		return $insumosFiltrados;
 	}
 }
 

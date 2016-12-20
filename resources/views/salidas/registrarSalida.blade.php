@@ -93,7 +93,7 @@
 									<th class="col-sm-2">lote</th>
 									<th class="col-sm-1 text-right">Solicitado</th>
 									<th class="col-sm-1 text-right">Despachado</th>
-									<th class="col-sm-1 text-center">Eliminar</th>
+									<th class="col-sm-1">Eliminar</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -114,7 +114,7 @@
 									<td>
 										<input class="form-control text-right" type="number" ng-model="insumo.despachado">
 									</td>
-									<td>
+									<td class="text-center">
 										<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 										</button>
 									</td>

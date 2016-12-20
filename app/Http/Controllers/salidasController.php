@@ -256,11 +256,11 @@ class salidasController extends Controller
               return Response()->json(['status' => 'unexist_lotes', 'data' => $insumosInvalidos, 'message' => 'Los lotes de los insumos marcados no existen en los registros.']);
             }
 
-            //Valida que todos los lotes pasados tengas la cantidad que se necesita
+            //Valida que todos los lotes pasados tenga la cantidad que se necesita
             $insumosInvalidos = $loteRegister->saldoExist($insumos);
 
             if($insumosInvalidos){
-              return Response()->json(['status' => 'unexist', 'data' => $insumosInvalidos, 'message' => 'Las cantidad de los insumos marcados son insuficientes']);
+              return Response()->json(['status' => 'unexist_lotes', 'data' => $insumosInvalidos, 'message' => 'Las cantidad de los insumos marcados son insuficientes']);
             }
 
             //Codigo para la salida
@@ -274,10 +274,12 @@ class salidasController extends Controller
                         'deposito'     => $deposito
                     ])['id'];
 
+            $insumos = $loteRegister->calculaMovimientos($insumos);
+
             foreach ($insumos as $insumo){
                 
                 //Si se especifico lote.
-                if(isset($insumo['lote'])){
+                if(isset($insumo['lote']) and !empty($insumo['lote'])){
 
                     $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
                     $loteRegister->reducir($insumo);
@@ -293,27 +295,7 @@ class salidasController extends Controller
                     ]);
 
                 }
-                //Si no se especifico lote y el insumo tienes lotes asociados.                
-                else if($loteRegister->hasLote($insumo)){ 
-
-                    $movimientos = $loteRegister->Fefo($insumo);
-
-                    foreach ($movimientos as $movimiento) {
-
-                        $existencia = inventarioController::reduceInsumo($insumo['id'], $movimiento['cantidad'], $deposito);
-
-                        Insumos_salida::create([
-                            'salida'      => $salida,
-                            'insumo'      => $insumo['id'],
-                            'solicitado'  => $insumo['solicitado'],
-                            'despachado'  => $movimiento['cantidad'],
-                            'lote'        => $movimiento['lote'],
-                            'deposito'    => $deposito,
-                            'existencia'  => $existencia
-                        ]);
-                    }
-                }
-                //Si no tiene lotes asociados.
+                //Si no tiene lote.
                 else{
 
                     $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
