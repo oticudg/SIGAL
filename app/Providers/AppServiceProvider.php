@@ -439,6 +439,31 @@ class AppServiceProvider extends ServiceProvider
 
             return true;
         });
+
+        Validator::extend('one_empty_lote', function($attribute,$value){
+
+            $lote = new LotesRepository();
+            $movimientos = [];
+
+            foreach($value as $insumo) {
+
+                if( array_search($insumo['id'], $movimientos) !== false )
+                    continue;   
+
+                $insumoMovimientos = array_filter($value, function($element) use ($insumo){
+                    return $element['id'] == $insumo['id'];
+                });
+
+                if(count($lote->filterInsumosLote($insumoMovimientos, false)) > 1)
+                    return false;
+
+                array_push($movimientos, $insumo['id']);
+
+            }
+
+
+            return true;
+        });
     }
 
     /**

@@ -22,6 +22,7 @@ class salidasController extends Controller
         'departamento.required'   =>  'Seleccione un Servicio',
         'insumos.required'        =>  'No se han especificado insumos para esta salida',
         'insumos.insumos_salida'  =>  'Valores de insumos no validos',
+        'insumos.one_empty_lote'  =>  'Solo es posible registrar un insumos sin especificar el lote una vez.'
     ];
 
 	  public function index(){
@@ -211,7 +212,7 @@ class salidasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_salida',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos_salida'
+            'insumos'   =>  'required|insumos_salida|one_empty_lote'
         ], $this->menssage);
 
         if($validator->fails()){
