@@ -63,6 +63,8 @@
 		    <div class="text-center">
 		 	 <dir-pagination-controls  pagination-id="lotespag" boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 		  	</div>
+
+		  	<blockquote ng-hide="lotes.length">No hay lotes registrados.</<blockquote>
 		</div>
 	</div>
 </div>

@@ -69,4 +69,18 @@ class InventarioRepository
 
 		return $groups;
 	}	
+
+	/**
+	 * Devuelve la cantidad en el inventario del insumo que se pase.   
+	 *
+	 * @param int $insumo
+	 * @param int $deposito
+	 * @return array $groups
+	 */
+	public function balance($insumo, $deposito){
+
+		return Inventario::where('insumo', $insumo)
+						 ->where('deposito',$deposito)
+						 ->value('existencia');
+	}	
 }

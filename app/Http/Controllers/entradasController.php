@@ -21,6 +21,7 @@ class entradasController extends Controller
         'provedor.required' =>  'Seleccione un proveedor.',
         'insumos.required'  =>  'No se han especificado insumos para esta entrada.',
         'insumos.diff_date_vencimiento' => 'Las fechas de vencimientos de lotes no coinciden con los registros.',
+        'insumos.one_empty_lote'  =>  'Solo es posible registrar un insumos sin especificar el lote una vez.'
     ];
 
     public function index(){
@@ -266,7 +267,7 @@ class entradasController extends Controller
         $validator = Validator::make($data,[
             'documento' =>  'required|numeric|documento_entrada',
             'tercero'   =>  'numeric|tercero:documento',
-            'insumos'   =>  'required|insumos'
+            'insumos'   =>  'required|insumos|one_empty_lote'
         ], $this->menssage);
 
         if($validator->fails()){
@@ -310,23 +311,21 @@ class entradasController extends Controller
 
           foreach ($insumos as $insumo){
 
-              $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
-                  'entrada', $entrada);
+            $loteRegister->registrar($insumo);
+            $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
+                'entrada', $entrada);
 
-              $lote  = isset($insumo['lote'])  ? $insumo['lote']  : NULL;
+            $lote  = isset($insumo['lote'])  ? $insumo['lote']  : NULL;
 
-              Insumos_entrada::create([
-                  'entrada'    => $entrada,
-                  'insumo'     => $insumo['id'],
-                  'cantidad'   => $insumo['cantidad'],
-                  'lote'       => $lote,
-                  'deposito'   => $deposito,
-                  'existencia' => $existencia
-              ]);
+            Insumos_entrada::create([
+                'entrada'    => $entrada,
+                'insumo'     => $insumo['id'],
+                'cantidad'   => $insumo['cantidad'],
+                'lote'       => $lote,
+                'deposito'   => $deposito,
+                'existencia' => $existencia
+            ]);
 
-              if($lote){
-                $loteRegister->registrar($insumo);
-              }
           }
 
           return Response()->json(['status' => 'success', 'menssage' =>
