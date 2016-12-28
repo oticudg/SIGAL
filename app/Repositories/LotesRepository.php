@@ -36,7 +36,7 @@ class LotesRepository
 			$inventario = new InventarioRepository();
 			$existencia = $inventario->balance($insumo['id'],Auth::user()->deposito);
 
-			if($existencia > 0 and !($this->hasLote($insumo['id'])) ){
+			if( $existencia > 0 and !($this->hasLote($insumo)) ){
 
 				$lote = new Lote();
 				$lote->codigo = 'SIN LOTES';
@@ -51,7 +51,7 @@ class LotesRepository
 							   ->where('deposito', Auth::user()->deposito)
 							   ->orderBy('id', 'desc')
 							   ->first();
-
+							   
 			if($loteRegister){
 				$loteRegister->cantidad = $loteRegister->cantidad + $insumo['cantidad'];
 
@@ -110,7 +110,10 @@ class LotesRepository
 
 		foreach($insumos as $insumo){
 
-            if(isset($insumo['fecha']) and !empty($insumo['fecha'])){
+			if(!isset($insumo['lote']) || empty($insumo['lote']))
+				continue;
+
+            if(isset($insumo['fecha']) && !empty($insumo['fecha'])){
 
                 $vencimiento = Lote::where('insumo', $insumo['id'])
                             ->where('codigo', $insumo['lote'])

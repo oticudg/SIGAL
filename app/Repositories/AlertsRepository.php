@@ -58,7 +58,7 @@ class AlertsRepository
                     ->where('vencimiento', '<>', '')
                     ->where('deposito', Auth::user()->deposito)
                     ->where('vencimiento', '>', DB::raw('CURDATE()'))
-                    ->where('vencimiento', '<=', DB::raw('DATE_ADD(CURDATE(), INTERVAL 6 MONTH)'))
+                    ->where('vencimiento', '<=', DB::raw('DATE_ADD(CURDATE(), INTERVAL 1 MONTH)'))
                     ->join('insumos', 'insumos.id', '=', 'lotes.insumo')
                     ->select('lotes.id','insumos.descripcion', 'insumos.codigo', 'lotes.codigo as lote', 'lotes.cantidad', DB::raw('DATE_FORMAT(vencimiento, "%d/%m/%Y") as fecha'), DB::raw('"warning" as type'))
                     ->union($vencidos)
@@ -90,7 +90,7 @@ class AlertsRepository
                             ->where('cantidad', '>', 0)
                             ->where('vencimiento', '<>', '')
                             ->where('deposito', $deposito)
-                            ->where('vencimiento', '<=', DB::raw('DATE_ADD(CURDATE(), INTERVAL 6 MONTH)'))
+                            ->where('vencimiento', '<=', DB::raw('DATE_ADD(CURDATE(), INTERVAL 1 MONTH)'))
                             ->get();
 
                 if($lotes)
