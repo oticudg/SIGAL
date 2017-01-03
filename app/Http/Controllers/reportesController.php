@@ -86,7 +86,7 @@ class reportesController extends Controller
         }
 
         //Año inicial del rango de fecha a consultar
-        $init_year_search = date('Y-01-01',strtotime($date));
+        $init_year_search = date('2015-01-01',strtotime($date));
 
         /**
           *Define la fecha inicial en el rango de fecha a consultar
