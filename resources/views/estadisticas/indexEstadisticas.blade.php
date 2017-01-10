@@ -1,53 +1,28 @@
 @extends('base')
 @section('bodytag', 'ng-controller="estadisticasController"')
+
 @section('addscript')
 <script src="{{asset('js/vendor/highcharts.js')}}"></script>
 <script src="{{asset('js/vendor/drilldown.js')}}"></script>
-{{--<script src="{{asset('js/vendor/exporting.js')}}"></script>--}}
-<script src="{{asset('js/vendor/dark-unica.js')}}"></script>
 @endsection
 
-@section('front-page')
+@section('panel-name', 'Estadísticas')
+
+@section('content')
 	
-	<div data-loading class="div_loader">
-		<div id="img_loader" class="img_loader">
-			<img src="{{asset('imagen/loader.gif')}}" alt="">
-			<p> Cargando ...</p>
-		</div>
-	</div>
-	
-	<nav class="nav-ubication">
-		<ul class="nav-enlaces">	
-			<li class="nav-active"><span class="glyphicon glyphicon-tasks"></span> Estadísticas</li>
-		</ul>
-	</nav>
-	<br>
-	
-	<div ng-show="formVisivility">
-		<button  class="btn btn-success" ng-click="formConsulta()"><span class="glyphicon glyphicon-list-alt"></span> Consultar</button>
-		<br>
-		<br>
-	</div>
-
-	<div ng-hide="formVisivility">
-		
-		<center><h2 class="text-title-modal">Estadisticas Personalizadas</h2></center>
-
-		<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
-
-		<ul class="nav nav-tabs">
-		    <li class="active"><a data-toggle="tab" class="text-enlace" href="#insumos">Insumos</a></li>
-		    <li><a data-toggle="tab" class="text-enlace" href="#servicios">Servicios</a></li>
-		</ul>
-
-		<div class="tab-content">
-			<div id="insumos" class="tab-pane fade in active">
-				  
-				<h3 class="text-title-modal">Consulta por insumo</h3>
-
+	<div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs pull-right ui-sortable-handle">
+          <li class="active"><a href="#insumo" data-toggle="tab" ng-click="obtenerInsumos()">Consulta por insumo</a></li>
+          <li><a href="#servicio" data-toggle="tab" ng-click="obtenerInsumosv()">Consulta por Servicio</a></li>
+        </ul>
+        <div class="tab-content">
+        	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
+        	<br>
+        	<div class="tab-pane active" id="insumo">
 				<div class="row">
-					<div class="form-group">
-						<div class="col-md-6 col-md-offset-3">				
+					<div class="col-sm-6">
+						<div class="form-group">
 			      			<ui-select ng-model="insumoSelect.selected"
 						             ng-disabled="disabled"
 						             reset-search-input="true">
@@ -62,105 +37,77 @@
 						    </ui-select>
 						</div>
 					</div>
+									
+					<div class="col-sm-2">
+					 	<div class="form-group">
+						 	<p class="input-group">
+				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/ placeholder="Desde">
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-primary text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+			        		</p>
+			        	</div>
+				    </div>
+
+					<div class="col-sm-2">
+					 	<div class="form-group">
+						 	<p class="input-group">
+				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" placeholder="Hasta" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-primary text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+			        		</p>
+			        	</div>
+					</div>
+
+					<div class="col-sm-2 text-left"><button class="btn btn-primary" ng-click="consultaInsumo()">Consultar</button></div>
 				</div>
-				
-				<br>
-				
+        	</div>
+
+        	<div class="tab-pane" id="servicio">
 				<div class="row">
-					<div class="col-md-4 col-md-offset-2">
-						<div class="col-md-6 col-md-offset-3">
-						 	<div class="form-group">
-						 		<label class="text-muted" for="dateI">Desde</label>
-							 	<p class="input-group">
-					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-					              <span class="input-group-btn">
-					                <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					              </span>
-				        		</p>
-				        	</div>
-				        </div>
-					</div>
-
-					<div class="col-md-4">
-						<div class="col-md-6 col-md-offset-3">
-						 	<div class="form-group">
-						 		<label class="text-muted" for="dateI">Hasta</label>
-							 	<p class="input-group">
-					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-					              <span class="input-group-btn">
-					                <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					              </span>
-				        		</p>
-				        	</div>
-				        </div>
-					</div>
-				</div>
-				
-				<center><button class="btn btn-success" ng-click="consultaInsumo()">Consultar</button></center>
-
-			</div>
-		    <div id="servicios" class="tab-pane fade">
-		      <h3 class="text-title-modal">Consulta por Servicio</h3>
-			
-			  <div class="row">
-			  		<div class="form-group col-md-4  col-md-offset-4 text-title-modal">
-			  			<select class="form-control" id="provedor" ng-model="servicio">
+					<div class="col-sm-6">
+						<select class="form-control" id="provedor" ng-model="servicio">
 			  				<option value="" selected disabled>Servicio</option>
 			  				<option value="{#departamento.id#}" ng-repeat="departamento in departamentos">
 			  				{#departamento.nombre#}</option>
-			  			</select>
+			  			</select>	
 					</div>
-			  </div>
-			  
-			  <div class="row">
-					<div class="col-md-4 col-md-offset-2">
-						<div class="col-md-6 col-md-offset-3">
-						 	<div class="form-group">
-						 		<label class="text-muted" for="dateI">Desde</label>
-							 	<p class="input-group">
-					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-					              <span class="input-group-btn">
-					                <button type="button" class="btn btn-success text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					              </span>
-				        		</p>
-				        	</div>
-				        </div>
+									
+					<div class="col-sm-2">
+					 	<div class="form-group">
+						 	<p class="input-group">
+				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/ placeholder="Desde">
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-primary text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+			        		</p>
+			        	</div>
+				    </div>
+
+					<div class="col-sm-2">
+					 	<div class="form-group">
+						 	<p class="input-group">
+				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" placeholder="Hasta" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-primary text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+			        		</p>
+			        	</div>
 					</div>
 
-					<div class="col-md-4">
-						<div class="col-md-6 col-md-offset-3">
-						 	<div class="form-group">
-						 		<label class="text-muted" for="dateI">Hasta</label>
-							 	<p class="input-group">
-					              <input type="text" id="dateI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
-					              <span class="input-group-btn">
-					                <button type="button" class="btn btn-success text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					              </span>
-				        		</p>
-				        	</div>
-				        </div>
-					</div>
-				</div>
-				
-				<center><button class="btn btn-success" ng-click="consultaServicio()">Consultar</button></center>
-		    </div>
+					<div class="col-sm-2 text-left"><button class="btn btn-primary" ng-click="consultaServicio()">Consultar</button></div>
+				</div> 
+        	</div>
+      	</div>
+    </div>
+
+    <div class="box box-primary">
+		<div class="box-header">
+			
+		</div>	
+		<div class="box-body">
+			<div id="graficaInicial" style="width:100%; height:500px;"></div>
 		</div>
-
-		<br>
-		<hr>
-		<div class="row">
-			<div class="col-md-2 col-md-offset-10">
-				<center>
-					<button class="btn btn-warning" ng-click="formCerrar()"><span class="glyphicon glyphicon-remove-sign"></span> Cerrar</button>
-				</center>
-			</div>
-		</div>
-
-	</div>
-	
-	<br>
-	<br>
-
-	<div id="graficaInicial" style="width:100%; height:500px;"></div>
-
+    </div>
 @endsection

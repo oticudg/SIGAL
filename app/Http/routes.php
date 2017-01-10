@@ -437,6 +437,23 @@ Route::group(['middleware' => 'auth' ], function(){
 				/*** Fin de modulo de salidas ***/
 			});
 
+			/*** Modulo de Estadisticas ***/
+			Route::group(['prefix' => 'estadisticas', 'as' => 'esta::'], function(){
+
+					//Muesta el panel de estadisticas
+					Route::get('/', ['as' => 'index', 'uses' => 'estadisticasController@index']);
+
+					//Regresa las salidas de todo los servicios del mes actual
+					Route::get('getEstadisticas', 'estadisticasController@getServicios');
+
+					//Regresa todas las salidad de un insumo por sevicio en un rango de fecha
+					Route::post('estadisticasInsumo', 'estadisticasController@getInsumo');
+
+					//Regresa todas los insumos que han salido de un servicio en un ranfo de fecha
+					Route::post('estadisticasServicio', 'estadisticasController@getServicio');
+			});
+			/*** Fin de modulo de Estadisticas ***/
+
 			/**
 			 *Regresa una lista de insumos que existen en el inventario que
 			 *coincidan con la descripcion o codigo que se pase
@@ -447,6 +464,8 @@ Route::group(['middleware' => 'auth' ], function(){
 			 *Regresa una lista de todos los lotes que tiene un insumo
 			 */
 			Route::post('getLotes/{id}', 'inventarioController@insumoLotes');
+
+;
 
 	});
 
@@ -470,22 +489,6 @@ Route::group(['middleware' => 'auth' ], function(){
 		});	
 	});
 
-
-	/*** Modulo de Estadisticas ***/
-
-		//Muesta el panel de estadisticas
-		Route::get('estadisticas', 'estadisticasController@index');
-
-		//Regresa las salidas de todo los servicios del mes actual
-		Route::get('getEstadisticas', 'estadisticasController@getServicios');
-
-		//Regresa todas las salidad de un insumo por sevicio en un rango de fecha
-		Route::post('estadisticasInsumo', 'estadisticasController@getInsumo');
-
-		//Regresa todas los insumos que han salido de un servicio en un ranfo de fecha
-		Route::post('estadisticasServicio', 'estadisticasController@getServicio');
-
-	/*** Fin de modulo de Estadisticas ***/
 
 	/*** Modulo de Reportes ***/
 

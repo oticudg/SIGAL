@@ -830,8 +830,9 @@ controller('estadisticasController',function($scope,$http){
 	$scope.dI = null;
 	$scope.dF = null;
 	$scope.searchAjax = false;
+	$scope.loader = true;
 
-	$http.get('/getDepartamentos')
+	$http.get('/administracion/departamentos/getDepartamentos')
       .success( function(response){ $scope.departamentos = response;});
 
 	$scope.openI = function($event) {
@@ -853,7 +854,7 @@ controller('estadisticasController',function($scope,$http){
 		$scope.searchAjax = true;
     	var params = {insumo: insumo};
 	    return $http.get(
-	      '/getInsumosConsulta',
+	      '/administracion/insumos/getInsumosConsulta',
 	      {params: params}
 	    ).then(function(response){
 	      $scope.listInsumos =  response.data
@@ -917,7 +918,7 @@ controller('estadisticasController',function($scope,$http){
 
     function estadisticas(){
 	    
-	    $http.get('/getEstadisticas')
+	    $http.get('/inventario/estadisticas/getEstadisticas')
 	    	.success( 
 	    		function(response){
 					
@@ -965,7 +966,7 @@ controller('estadisticasController',function($scope,$http){
 			'insumo': $scope.insumoSelect.hasOwnProperty('selected') ? $scope.insumoSelect.selected.id : null 
 		};
 
-		$http.post('/estadisticasInsumo', data)
+		$http.post('/inventario/estadisticas/estadisticasInsumo', data)
 			.success(
 				function(response){
 
@@ -998,7 +999,7 @@ controller('estadisticasController',function($scope,$http){
 			'servicio': $scope.servicio
 		};
 
-		$http.post('/estadisticasServicio', data)
+		$http.post('/inventario/estadisticas/estadisticasServicio', data)
 			.success(
 				function(response){
 					

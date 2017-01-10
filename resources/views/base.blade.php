@@ -86,8 +86,6 @@
 <script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/app.min.js')}}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('dist/js/pages/dashboard2.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <script src="{{elixir('js/config.js')}}"></script>
