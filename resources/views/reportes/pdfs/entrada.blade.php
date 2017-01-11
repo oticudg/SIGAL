@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Content-Type" content="application/pdf" charset="utf-8"/>
 	<title>Entrada</title>
-	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{public_path().'/css/pdf.css'}}">
 </head>
 <body>
 
-	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
+	<img class="cintillo" src="{{public_path().'/imagen/cintillo.jpg'}}">
 
   <h2 class="title" style="color:gray">PRO-FORMA DE ENTRADA</h2>
 
@@ -32,10 +32,10 @@
 				<td>{{ strtoupper($entrada->usuario) }}</td>
 			</tr>
 			<tr>
-					<td>INSUMOS</td>
-					<td>{{count($insumos)}}</td>
-					<td>CONCEPTO</td>
-					<td>{{ strtoupper($entrada->concepto) }}</td>
+				<td>INSUMOS</td>
+				<td>{{count($insumos)}}</td>
+				<td>CONCEPTO</td>
+				<td>{{ strtoupper($entrada->concepto) }}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -47,7 +47,6 @@
 				<th>CÓDIGO</th>
 				<th>DESCRIPCIÓN</th>
 				<th>LOTE</th>
-				<th>FECHA VTO</th>
 				<th>CANTIDAD</th>
 			</tr>
 		</thead>
@@ -57,7 +56,6 @@
 					<td>{{$insumo->codigo}}</td>
 					<td class="decp">{{$insumo->descripcion}}</td>
 					<td>{{$insumo->lote}}</td>
-					<td>{{$insumo->fecha}}</td>
 					<td>{{$insumo->cantidad}}</td>
 				</tr>
 			@endforeach

@@ -3,11 +3,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Kardex</title>
-	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{public_path().'/css/pdf.css'}}">
 </head>
 <body>
 
-	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
+	<img class="cintillo" src="{{public_path().'/imagen/cintillo.jpg'}}">
 
   <h2 class="title" style="color:gray">KARDEX</h2>
 

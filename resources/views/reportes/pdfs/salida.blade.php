@@ -3,11 +3,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Salida</title>
-	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{public_path().'/css/pdf.css'}}">
 </head>
 <body>
 
-	<img class="cintillo" src="{{asset('imagen/cintillo.jpg')}}">
+	<img class="cintillo" src="{{public_path().'/imagen/cintillo.jpg'}}">
 
   <h2 class="title" style="color:gray">PRO-FORMA DE PEDIDO</h2>
 
@@ -46,6 +46,7 @@
 			<tr>
 				<th>CÓDIGO</th>
 				<th>DESCRIPCIÓN</th>
+				<th>LOTE</th>
 				<th>SOLICITADO</th>
 				<th>DESPACHADO</th>
 			</tr>
@@ -53,10 +54,11 @@
 		<tbody>
 			@foreach ($insumos as $insumo)
 				<tr>
-					<td width="100">{{$insumo->codigo}}</td>
-					<td width="275" class="decp">{{$insumo->descripcion}}</td>
-					<td width="10">{{$insumo->solicitado}}</td>
-					<td width="10">{{$insumo->despachado}}</td>
+					<td>{{$insumo->codigo}}</td>
+					<td class="decp">{{$insumo->descripcion}}</td>
+					<td >{{$insumo->lote}}</td>
+					<td >{{$insumo->solicitado}}</td>
+					<td>{{$insumo->despachado}}</td>
 				</tr>
 			@endforeach
 		</tbody>

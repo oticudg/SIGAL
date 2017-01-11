@@ -284,8 +284,7 @@ class reportesController extends Controller
       //Consulta los insumos de la entrada
       $insumos = DB::table('insumos_entradas')->where('insumos_entradas.entrada', $id)
         ->join('insumos', 'insumos_entradas.insumo', '=', 'insumos.id')
-        ->select('insumos.codigo', 'insumos.descripcion','insumos_entradas.cantidad',
-          DB::raw('DATE_FORMAT(insumos_entradas.fechaV, "%d/%m/%Y") as fecha'), 'insumos_entradas.lote')
+        ->select('insumos.codigo', 'insumos.descripcion','insumos_entradas.cantidad','insumos_entradas.lote')
         ->get();
 
 
@@ -360,7 +359,7 @@ class reportesController extends Controller
       $insumos = DB::table('insumos_salidas')->where('insumos_salidas.salida', $id)
            ->join('insumos', 'insumos_salidas.insumo', '=', 'insumos.id')
            ->select('insumos.codigo', 'insumos.descripcion', 'insumos_salidas.solicitado',
-             'insumos_salidas.despachado')
+             'insumos_salidas.despachado', 'insumos_salidas.lote')
            ->get();
 
       $view =  \View::make('reportes.pdfs.salida', compact('salida' , 'insumos'))->render();
