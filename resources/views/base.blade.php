@@ -60,7 +60,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.1.0
     </div>
-    <strong>Copyleft &copy; 2015-2016 <a href="http://sahum.gob.ve">Servicio Autónomo Hospital Universitario de Maracaibo</a><strong> 
+    <strong>Copyleft &copy; 2015-2016 <a href="http://www.sahum.gob.ve">Servicio Autónomo Hospital Universitario de Maracaibo</a><strong> 
 
 
 
