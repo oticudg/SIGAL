@@ -20,9 +20,7 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::group(['middleware' => 'auth' ], function(){
 
 	//Inicio del panel de administracion
-	Route::get('inicio', function(){
-		return view('inicio');
-	});
+	Route::get('inicio', 'HomeController@index');
 
 	Route::group(['prefix' => 'administracion', 'as' => 'admin::'],
 		function(){
