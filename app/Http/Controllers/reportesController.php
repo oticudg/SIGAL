@@ -16,6 +16,7 @@ use App\Insumos_entrada;
 use App\Insumos_salida;
 use App\Insumo;
 use App\Documento;
+use Excel;
 
 class reportesController extends Controller
 {
@@ -545,5 +546,149 @@ class reportesController extends Controller
        $pdf  =  \App::make('dompdf.wrapper');
        $pdf->loadHTML($view);
        return $pdf->stream('Kardex');
+    }
+
+    public function allInventarioToExcel(Request $request){
+
+          $data = $request->all();
+          $deposito   = Auth::user()->deposito;
+          $usuario    = Auth::user()->email;
+          $depositoN  = Deposito::where('id', $deposito)->value('nombre');
+
+          $fecha      = date("d/m/Y");
+          $hora       = date("H:i:s");
+          $validator = Validator::make($data,[
+              'date'   => 'date_format:d/m/Y|date_limit_current',
+          ]);
+
+          if($validator->fails()){
+            abort('404');
+          }
+
+          /**
+            *Si se pasa una fecha se transforma al formato a utilizar,
+            *de lo contrario se toma la fecha del mes actual.
+            */
+          if(isset($data['date']) && !empty($data['date'])){
+            $dateConvert = str_replace('/', '-', $data['date']);
+            $date = Date('Y-m-d', strtotime($dateConvert));
+          }
+          else{
+            $date = date('Y-m-d');
+          }
+
+          //Año inicial del rango de fecha a consultar
+          $init_year_search = date('2015-01-01',strtotime($date));
+
+          /**
+            *Define la fecha inicial en el rango de fecha a consultar
+            *como la fecha de la ultima carga de inventario.
+            */
+          $first_date = DB::table('entradas')
+                        ->where('deposito', $deposito)
+                        ->where('type','cinventario')
+                        ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                        ,[$init_year_search, $date])
+                        ->orderBy('id', 'desc')
+                        ->value(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
+
+          /**
+            *Si no se encontro carga de inventario, la fecha incial en el rango de
+            *fecha a consultar se define como el año inicial del rango
+            *de fecha a consultar.
+            */
+          if(!$first_date)
+            $first_date = $init_year_search;
+
+
+            /**
+              *Obtiene los ids de todos los insumos que han entrada en el inventario
+              *desde el año inicial de la fecha a consultar, hasta la fecha a consultar.
+              */
+            $insumoIds = Insumos_entrada::distinct('insumo')
+                   ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                   ,[$first_date, $date])->where('deposito', $deposito)
+                   ->lists('insumo');
+
+          //Obtiene los datos de los insumos cuyos ids se han encontrado.
+          $query = DB::table('insumos')
+                         ->leftjoin('inventarios', function($join) use ($deposito){
+                           $join->on('insumos.id','=','inventarios.insumo')
+                           ->where('inventarios.deposito','=',$deposito);
+                         })
+                         ->select('insumos.id as id','insumos.codigo','insumos.descripcion');
+
+          $query->whereIn('insumos.id', $insumoIds);
+          $title = "INVENTARIO TOTAL";
+
+          $query->orderBy('insumos.descripcion', 'asc');
+
+          /**
+            *Si el inventario consultado es el de la fecha actual, obtiene la existencia en
+            *base a la tabla inventarios. de lo contrario obtiene la existencia en base al
+            *ultimo movimiento del insumo en el periodo de fecha consultado.
+            */
+          if( date('Y-m-d') == $date ){
+
+            $insumos = $query
+                       ->addSelect(DB::raw('IFNULL(inventarios.existencia, 0) as existencia'))
+                       ->get();
+          }
+          else{
+
+            //Obtiene todos los insumos sin existencia.
+            $insumos = $query->get();
+
+            //Calcula la existencia de cada insumo que se ha encontrado.
+            foreach($insumos as $insumo){
+
+              //Obtien la ultima entrada del insumo a calcular existencia
+              $entradas = DB::table('insumos_entradas')->where('insumo', $insumo->id)
+                     ->where('deposito', $deposito)
+                     ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'),
+                     [$first_date, $date])
+                     ->select('existencia', 'created_at')
+                     ->orderBy('created_at', 'desc')
+                     ->take(1);
+
+              //Obtiene la ultima salida del insumo a calcular existencia
+              $salidas = DB::table('insumos_salidas')->where('insumo', $insumo->id)
+                          ->where('deposito', $deposito)
+                          ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
+                          ,[$first_date, $date])
+                          ->select('existencia', 'created_at')
+                          ->orderBy('created_at','desc')
+                          ->take(1);
+
+              /**
+                *Une los resultados de la ultima entrada y la ultima salida del insumo a calcular
+                *y obtiene el ultimo movimiento.
+                */
+              $existencia = $entradas->unionAll($salidas)
+                            ->orderBy('created_at', 'desc')
+                            ->first();
+
+              //Asigna la existencia del insumo en base al ultimo movimiento.
+              $insumo->existencia = $existencia->existencia;
+
+            }
+          }
+
+          Excel::create('Inventario total', function($excel) 
+              use ($insumos,$usuario,$depositoN,$fecha,$hora,$date){
+
+              $excel->sheet('Total', function($sheet) use ($insumos,$usuario,$depositoN,$fecha,$hora,$date){
+                   $sheet->loadView('reportes.excels.allInventario', 
+                    compact('insumos','usuario', 'depositoN', 'fecha','hora','date'));
+              });
+
+              $excel->setcreator("SIGAL/".$usuario);
+              $excel->settitle("Inventario total de ". $depositoN);
+              $excel->setsubject("Inventario exportado a excel");
+              $excel->setkeywords("Inventario,excel,exportado");
+              $excel->setlastModifiedBy("SIGAL");
+              $excel->setdescription("Inventario total de un almacen exportado a excel");
+
+          })->export('xls');
     }
 }

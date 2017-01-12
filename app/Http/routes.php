@@ -498,6 +498,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		Route::get('entrada/{id}',    ['as' => 'Ent', 'uses' => 'reportesController@getEntrada']);
 		Route::get('salida/{id}',  ['as' => 'Sal', 'uses' => 'reportesController@getSalida']);
 		Route::get('kardex',  ['as' => 'kardex', 'uses' => 'reportesController@getKardex']);
+		Route::get('inventario/total/excel', ['as' => 'Excel', 'uses' => 'reportesController@allInventarioToExcel']);
 	});
 
 	/*** Fin de modulo de Reportes ***/

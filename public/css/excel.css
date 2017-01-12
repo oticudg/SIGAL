@@ -1,0 +1,15 @@
+.head td{
+	background: #3c8dbc;
+	color:#FFFFFF;
+}
+
+.head-title td{
+	background: #3c8dbc;
+	color:#FFFFFF;
+	font-weight:bold;	
+	text-align:center;
+}
+
+tr:nth-child(odd){
+	background-color: #f2f2f2
+}
