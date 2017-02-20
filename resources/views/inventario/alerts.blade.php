@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="alertController"')
 
-@section('panel-name', 'Configuracion de alarmas')
+@section('panel-name', '<i class="glyphicon glyphicon-bell text-info"></i> Configuración de alarmas')
 
 @section('content')
 	
@@ -19,7 +19,7 @@
 			          			<ui-select ng-model="insumoSelect.selected"
 							             ng-disabled="disabled"
 							             reset-search-input="true">
-							    <ui-select-match placeholder="Ingrese una Descripción o un codigo">
+									<ui-select-match placeholder="Ingrese una descripción o un código">
 							    {#$select.selected.descripcion#}</ui-select-match>
 							    <ui-select-choices repeat="insumo in listInsumos track by $index"
 							             refresh="refreshInsumos($select.search)"
@@ -37,15 +37,15 @@
 				</div>
 				<br>
 				<div ng-show="existInsumos()">
-					<table class="table table-striped">
+					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="col-md-2">Codigo</th>
-								<th>Descripción</th>
-								<th class="col-md-1">Nvl. Critico</th>
-								<th class="col-md-1">Nvl. Bajo</th>
-								<th class="col-md-1">Promedio</th>
-								<th class="col-md-1">Eliminar</th>
+								<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
+								<th><i class="fa fa-commenting"></i> Descripción</th>
+								<th class="col-md-2"><i class="fa fa-cart-arrow-down"></i> Nivel critico</th>
+								<th class="col-md-2"><i class="fa fa-caret-square-o-down"></i> Nivel bajo</th>
+								<th class="col-md-2"><i class="fa fa-sort-numeric-asc"></i> Promedio</th>
+								<th class="col-md-2"><i class="glyphicon glyphicon-trash"></i> Eliminar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -62,7 +62,7 @@
 									<input class="form-control text-right" type="number" ng-model="insumo.promedio">
 								</td>
 								<td class="text-center">
-									<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
+									<button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Presione para remover" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 									</button>
 								</td>
 							</tr>

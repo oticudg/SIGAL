@@ -25,7 +25,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="form-group">
-					<label class="text-muted" for="pass">Comfirmar nueva contraseña</label>
+					<label class="text-muted" for="pass">Confirmar nueva contraseña</label>
 					<input class="form-control" id="pass"type="password" ng-model="data.password_confirmation">
 			</div>
 		</div>		

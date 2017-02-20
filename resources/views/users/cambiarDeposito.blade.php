@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title"><span class="glyphicon glyphicon-inbox text-primary"></span> Cambiar Almacén</h3>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-inbox text-primary"></span> Cambiar almacén</h3>
 </div>
 <div class="modal-body">
 	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>

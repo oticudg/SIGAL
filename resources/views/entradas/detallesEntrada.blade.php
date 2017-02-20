@@ -2,13 +2,13 @@
     <div class="row">
     	<div class="col-md-6">
 		    <h3 class="modal-title">
-		    	<span class="glyphicon glyphicon-circle-arrow-down text-primary"></span> Pro-Forma de Entrada: <strong class="text-primary">{#nota.codigo | codeforma#}</strong>
+		    	<span class="fa fa-arrow-circle-right text-warning"></span> Pro-Forma de entrada: <strong class="text-primary"><i class="fa fa-barcode"></i> {#nota.codigo | codeforma#}</strong>
 		    </h3>
 		  </div>
       <div style="text-align:right" class="col-md-offset-4 col-md-2">
-        <button class="btn btn-primary" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+		  <button class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Filtrar registros" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
         @if(Auth::user()->hasPermissions(['inventory_report']))
-          <a class="btn btn-warning" href="/reportes/entrada/{#nota.id#}" target="_blank">
+		  <a class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Generar reporte" href="/reportes/entrada/{#nota.id#}" target="_blank">
             <span class="glyphicon glyphicon glyphicon-print"></span>
           </a>
         @endif
@@ -20,12 +20,12 @@
 	<table class="table table-bordered custon-table-bottom-off" >
 		<thead>
 			<tr>
-				<th class="col-md-1">Fecha</th>
-				<th class="col-md-1">Hora</th>
-        <th class="col-md-1">Concepto</th>
-        <th class="col-md-1">Insumos</th>
-				<th>Tercero</th>
-				<th class="col-md-3">Usuario</th>
+				<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+				<th class="col-md-1"><i class="fa fa-clock-o"></i> Hora</th>
+   		        <th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
+        		<th class="col-md-1"><i class="glyphicon glyphicon-th"></i> Insumos</th>
+				<th class="col-md-3"><i class="glyphicon glyphicon-user"></i> Tercero</th>
+				<th class="col-md-2"><i class="fa fa-user"></i> Usuario</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,19 +40,19 @@
 		</tbody>
 	</table>
 
-	<table class="table table-striped custon-table-top-off">
+	<table class="table table-bordered custon-table-top-off">
 		<thead>
 			<tr>
-				<th class="col-md-2">Codigo</th>
-				<th>Descripción</th>
-				<th class="col-md-1">Lote</th>
-				<th class="col-md-1 text-right">Cantidad</th>
+				<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
+				<th class="col-md-3"><i class="fa fa-commenting"></i> Descripción</th>
+				<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
+				<th class="col-md-1"><i class="fa fa-list-ol"></i> Cantidad</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-show="visibility">
 				<td>
-					<input type="text" class="form-control" placeholder="Codigo" ng-model="search.codigo">
+					<input type="text" class="form-control" placeholder="Código" ng-model="search.codigo">
 				</td>
 				<td>
 					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.descripcion">
@@ -61,7 +61,7 @@
 					<input type="text" class="form-control" placeholder="Lote" ng-model="search.lote">
 				</td>
 				<td>
-					<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="search.cantidad">
+					<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">
 				</td>
 			</tr>
 			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">

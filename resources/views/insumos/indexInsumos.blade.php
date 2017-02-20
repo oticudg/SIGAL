@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="insumosController"')
 
-@section('panel-name', 'Insumos')
+@section('panel-name', '<i class="glyphicon glyphicon-th text-info"></i> Insumos')
 
 @section('content')
 
@@ -16,7 +16,7 @@
 					@if( Auth::user()->hasPermissions(['items_register']) )
 						<div class="row">
 							<div class="col-md-2">
-								<button class="btn btn-primary" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo Insumo</button>	
+								<button class="btn btn-primary" ng-click="registrarInsumo()"><span class="glyphicon glyphicon-plus"></span> Nuevo insumo</button>	
 							</div>								
 						</div>
 					@endif
@@ -47,10 +47,10 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-1">Codigo</th>
-									<th>Descripción</th>
+									<th class="col-md-1"><i class="fa fa-barcode"></i> Código</th>
+									<th class="col-md-5"><i class="fa fa-commenting"></i> Descripción</th>
 									@if( Auth::user()->hasPermissions(['items_edit', 'items_delete'], true))
-										<th colspan="2" class="col-sm-1">Modificaciones</th>
+										<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['items_edit', 'items_delete']) )
 										<th class="col-sm-1">Modificaciones</th>
 									@endif
@@ -64,7 +64,7 @@
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarInsumo(insumo.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif
 									@if( Auth::user()->hasPermissions(['items_delete']))
-										<td class="text-center"><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+										<td class="text-center"><button class="btn btn-danger"  ng-click="elimInsumo(insumo.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></td>
 									@endif
 								</tr>
 							</tbody>

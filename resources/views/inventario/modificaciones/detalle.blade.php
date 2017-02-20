@@ -11,8 +11,8 @@
 
   <div class="row">
     <div class="col-md-6">
-      <div class="panel panel-default">
-          <div class="panel-heading">Concepto</div>
+      <div class="panel panel-primary">
+          <div class="panel-heading"><i class="fa fa-object-group"></i> Concepto</div>
           <div class="panel-body">
             <table class="table table-bordered custon-table-bottom-off">
               <tbody>
@@ -27,7 +27,7 @@
             <table class="table table-bordered tableWarning custon-table-top-off" ng-show="modificacion.updated_documento">
               <tbody>
                 <tr>
-                  <th>Modificación</th>
+                  <th><i class="glyphicon glyphicon-edit"></i> Modificación</th>
                 </tr>
                 <tr>
                   <td>{#modificacion.updated_documento#}</td>
@@ -39,8 +39,8 @@
     </div>
 
     <div class="col-md-6">
-      <div class="panel panel-default">
-          <div class="panel-heading">Tercero</div>
+      <div class="panel panel-primary">
+          <div class="panel-heading"><i class="glyphicon glyphicon-user"></i> Tercero</div>
           <div class="panel-body">
             <table class="table table-bordered custon-table-bottom-off">
               <tbody>
@@ -55,7 +55,7 @@
             <table class="table table-bordered tableWarning custon-table-top-off" ng-show="modificacion.updated_tercero">
               <tbody>
                 <tr>
-                  <th>Modificación</th>
+                  <th><i class="glyphicon glyphicon-edit"></i> Modificación</th>
                 </tr>
                 <tr>
                   <td>{#modificacion.updated_tercero#}</td>
@@ -69,19 +69,19 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="panel panel-default">
-          <div class="panel-heading">Movimiento</div>
+      <div class="panel panel-primary">
+          <div class="panel-heading"><i class="fa fa-arrows"></i> Movimiento</div>
           <div class="panel-body">
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th class="col-md-1">Fecha</th>
-                  <th class="col-md-1">Codigo</th>
-                  <th class="col-md-1">Concepto</th>
-                  <th class="col-md-1">Tipo</th>
-                  <th class="col-md-5">Tercero</th>
+                  <th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+                  <th class="col-md-1"><i class="fa fa-barcode"></i> Codigo</th>
+                  <th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
+                  <th class="col-md-1"><i class="fa fa-cube"></i> Tipo</th>
+                  <th class="col-md-5"><i class="glyphicon glyphicon-user"></i> Tercero</th>
                   @if( Auth::user()->hasPermissions(['inventory_movements']))
-                    <th class="col-md-1">Detalles</th>
+                    <th class="col-md-1"><i class="fa fa-plus-square-o"></i> Detalles</th>
                   @endif
                 </tr>
               </thead>
@@ -93,7 +93,7 @@
                   <td>{#movimiento.type#}</td>
                   <td>{#movimiento.tercero#}</td>
                   @if( Auth::user()->hasPermissions(['inventory_movements']))
-                    <td class="text-center"><button class="btn btn-warning" ng-click="detallesNota(movimiento.type,movimiento.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+					<td class="text-center"><button class="btn btn-warning" ng-click="detallesNota(movimiento.type,movimiento.id)" data-toggle="tooltip" data-placement="top" title="Ver Pro-Forma de movimiento"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
                   @endif
                 </tr>
               </tbody>

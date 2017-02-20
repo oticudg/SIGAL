@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="salidasController"')
 
-@section('panel-name', 'Salidas')
+@section('panel-name', '<i class="fa fa-arrow-circle-left text-info"></i> Salidas')
 
 @section('content')
 	{{--Buscador y Seleccion de Listados de datos--}}
@@ -37,8 +37,8 @@
 								        </button>
 
 								        <ul class="dropdown-menu pull-right" role="menu">
-								          <li ng-click="registrosProformas()" ><a href="#">Pro-Formas</a></li>
-								          <li ng-click="registrosInsumos()" ><a href="#">Insumos</a></li>
+											<li ng-click="registrosProformas()" ><a href="#"><i class="fa fa-file-text-o"></i> Pro-Formas</a></li>
+											<li ng-click="registrosInsumos()" ><a href="#"><i class="glyphicon glyphicon-th"></i> Insumos</a></li>
 								        </ul>
 									</div>
 								</div>
@@ -51,13 +51,13 @@
 						<div ng-show="status">
 							<table class="table table-bordered table-hover">
 								<thead>
-									<caption>Pro-Formas de Pedido</caption>
+									<caption>Pro-Formas de salidas</caption>
 									<tr>
-										<th class="col-md-1">Fecha</th>
-										<th class="col-md-1">Codigo</th>
-										<th class="col-md-1">Concepto</th>
-										<th class="col-md-6">Tercero</th>
-										<th class="col-md-1">Detalles</th>
+										<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+										<th class="col-md-1"><i class="fa fa-barcode"></i> Código</th>
+										<th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
+										<th class="col-md-6"><i class="glyphicon glyphicon-user"></i> Tercero</th>
+										<th class="col-md-1"><i class="fa fa-plus-square-o"></i> Detalles</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -66,7 +66,7 @@
 										<td>{#salida.codigo | codeforma#}</td>
 										<td><span class="text-enlace" tooltip="{#salida.concepto#}">{#salida.abreviatura#}</span></td>
 										<td>{#salida.tercero#}</td>
-										<td class="text-center"><button class="btn btn-warning" ng-click="detallesSalida(salida.id)"><span class="glyphicon glyphicon glyphicon-eye-open"></span></button></td>
+										<td class="text-center"><button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Pro-Forma" ng-click="detallesSalida(salida.id)"><span class="glyphicon glyphicon glyphicon-eye-open"></span></button></td>
 									</tr>
 								</tbody>
 							</table>
@@ -81,15 +81,15 @@
 						<div ng-hide="status">
 							<table class="table table-bordered table-hover">
 								<thead>
-									<caption>Insumos que han Salido</caption>
+									<caption>Insumos que han salido</caption>
 									<tr>
-										<th class="col-md-1">Fecha</th>
-										<th class="col-md-2">Pro-Forma de Pedido</th>
-										<th class="col-md-2">Codigo de Insumo</th>
-										<th class="col-md-5">Descripción</th>
-										<th class="col-md-1">Lote</th>
-										<th class="col-md-1 text-right">Solicitado</th>
-										<th class="col-md-1 text-right">Despachado</th>
+										<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+										<th class="col-md-2"><i class="fa fa-file-text"></i> Pro-Forma de salida</th>
+										<th class="col-md-2"><i class="fa fa-barcode"></i> Código de insumo</th>
+										<th class="col-md-2"><i class="fa fa-commenting"></i> Descripción</th>
+										<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
+										<th class="col-md-1"><i class="fa fa-opencart"></i> Solicitado</th>
+										<th class="col-md-1"><i class="fa fa-cart-plus"></i> Despachado</th>
 									</tr>
 								</thead>
 								<tbody>

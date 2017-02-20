@@ -20,7 +20,7 @@
       <li class="active"><a><strong>{{Auth::user()->getDepositoName()}}</strong></a></li>
       @if( Auth::user()->hasPermissions(['inventory_notification_alert']) && ( $var = App\Repositories\AlertsRepository::alert() ) > 0 )
         <li class="dropdown notifications-menu">
-          <a href="{{route('inven::herra::niveles')}}" class="dropdown-toggle">
+			<a href="{{route('inven::herra::niveles')}}" data-toggle="tooltip" data-placement="bottom" title="Notificaciones" class="dropdown-toggle">
             <i class="fa fa-bell-o"></i>
             <span class="label label-warning">{{$var}}</span>
           </a>

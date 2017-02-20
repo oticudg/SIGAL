@@ -11,7 +11,7 @@
   </script>
 @endsection
 
-@section('panel-name', 'Kardex')
+@section('panel-name', '<i class="fa fa-book text-info"></i> Kardex')
 
 @section('content')
 
@@ -55,8 +55,8 @@
                   <span class="glyphicon glyphicon-search"></span></button>
 
                 <ul class="dropdown-menu pull-right" role="menu">
-                  <li ng-click="filterPanel()" ><a href="#">Filtros</a></li>
-                  <li ng-click="search()" ><a href="#">Busqueda avanzada</a></li>
+                  <li ng-click="filterPanel()" ><a href="#"><i class="glyphicon glyphicon-sort"></i> Filtros</a></li>
+					<li ng-click="search()" ><a href="#"><i class="fa fa-search-plus"></i> Búsqueda avanzada</a></li>
                 </ul>
 
                 <button type="button" class="btn btn-primary" ng-click="update()" tooltip="Actualizar registros">
@@ -75,8 +75,8 @@
           <table class="table table-bordered custon-table-bottom-off">
             <thead>
               <tr>
-                <th class="col-md-2">Codigo</th>
-                <th>Descripción</th>
+				  <th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
+                <th><i class="fa fa-commenting"></i> Descripción</th>
               </tr>
             </thead>
             <tbody>
@@ -87,17 +87,17 @@
             </tbody>
           </table>
 
-          <table class="table table-bordered table-striped table-hover">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th class="col-md-1">Fecha</th>
-                <th class="col-md-1">Concepto</th>
-                <th>Procedencia o Destino</th>
-                <th class="col-md-1">Tipo</th>
-                <th class="col-md-1 text-right">Moviminto</th>
-                <th class="col-md-1 text-right">Existencia</th>
+                <th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+                <th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
+                <th class="col-md-3"><i class="fa fa-arrows-h"></i> Procedencia o destino</th>
+                <th class="col-md-1"><i class="fa fa-cube"></i> Tipo</th>
+                <th class="col-md-1"><i class="fa fa-arrows"></i> Movimiento</th>
+                <th class="col-md-1"><i class="glyphicon glyphicon-equalizer"></i> Existencia</th>
                 @if(Auth::user()->hasPermissions(['inventory_movements']))
-                  <th class="col-md-1">Nota</th>
+                  <th class="col-md-1"><i class="fa fa-sticky-note"></i> Nota</th>
                 @endif
               </tr>
             </thead>
@@ -131,7 +131,7 @@
                 <td class="text-right">{#movimiento.movido#}</td>
                 <td class="text-right">{#movimiento.existencia#}</td>
                 @if(Auth::user()->hasPermissions(['inventory_movements']))
-                  <td class="text-center"><button class="btn btn-warning" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+				  <td class="text-center"><button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Pro-Forma" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                 @endif
               </tr>
             </tbody>

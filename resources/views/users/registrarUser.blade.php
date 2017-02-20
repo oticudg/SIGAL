@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title"><span class="glyphicon glyphicon-plus text-primary"></span> Nuevo Usuario</h3>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-plus text-primary"></span> Nuevo usuario</h3>
 </div>
 <div class="modal-body modal-body-custon">
   <alert ng-show="alert" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
@@ -7,8 +7,8 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="cedula">Cedula</label>
-					<input class="form-control" id="cedula" type="text" placeholder="Cedula" ng-model="data.cedula">
+					<label class="text-muted" for="cedula"><i class="fa fa-id-card-o" aria-hidden="true"></i> Cédula</label>
+					<input class="form-control" id="cedula" type="text" placeholder="Cédula" ng-model="data.cedula">
 				</div>
 			</div>
 		</div>
@@ -16,7 +16,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label  class="text-muted" for="nombre">Nombre</label>
+					<label  class="text-muted" for="nombre"><i class="fa fa-user" aria-hidden="true"></i> Nombre</label>
 					<input class="form-control" id="nombre" type="text" placeholder="Nombre" ng-model="data.nombre">
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="apellido">Apellido</label>
+					<label class="text-muted" for="apellido"><i class="fa fa-user-o" aria-hidden="true"></i> Apellido</label>
 					<input class="form-control" id="apellido" type="text" placeholder="Apellido" ng-model="data.apellido">
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="correo">Correo</label>
+					<label class="text-muted" for="correo"><i class="fa fa-envelope" aria-hidden="true"></i> Correo</label>
 					<input class="form-control" id="correo" type="text" placeholder="Correo" ng-model="data.email">
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="pass">Contraseña</label>
+					<label class="text-muted" for="pass"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Contraseña</label>
 					<input class="form-control" id="pass"type="password" placeholder="Contraseña" ng-model="data.password">
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="rpass">Repetir contraseña</label>
+					<label class="text-muted" for="rpass"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Repetir contraseña</label>
 					<input class="form-control" id="rpass" type="password" placeholder="Repetir contraseña" ng-model="data.password_confirmation">
 				</div>
 			</div>
@@ -69,7 +69,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="rdepo">Almacén</label>
+					<label class="text-muted" for="rdepo"><i class="glyphicon glyphicon-inbox"></i> Almacén</label>
 					<select class="form-control" id="rdepo" ng-model="data.deposito">
 						<option value="" selected disabled>Almacén</option>
 						<option value="{#deposito.id#}" ng-repeat="deposito in depositos">{#deposito.nombre#}</option>
@@ -80,7 +80,7 @@
 		<div class="col-md-4">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="form-group">
-					<label class="text-muted" for="rdepo">Rol</label>
+					<label class="text-muted" for="rdepo"><i class="glyphicon glyphicon-compressed"></i> Rol</label>
 					<select class="form-control" id="rdepo" ng-model="data.rol">
 						<option value="" selected disabled>Rol</option>
 						<option value="{#rol.id#}" ng-repeat="rol in roles">{#rol.nombre#}</option>

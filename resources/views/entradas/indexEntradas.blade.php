@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="entradasController"')
 
-@section('panel-name', 'Entradas')
+@section('panel-name', '<i class="fa fa-arrow-circle-right text-info"></i> Entradas')
 
 @section('content')
 	
@@ -28,7 +28,7 @@
 
 							<div class="col-sm-6 text-right">		
 								<div class="input-group">
-							  		<input type="text" class="form-control" ng-model="busqueda">
+							  		<input type="text" class="form-control" placeholder="Buscar.." ng-model="busqueda">
 							  		<div class="input-group-btn">
 								        <button type="button" class="btn btn-primary dropdown-toggle"
 								                data-toggle="dropdown">
@@ -36,8 +36,8 @@
 								        </button>
 
 								        <ul class="dropdown-menu pull-right" role="menu">
-								          <li ng-click="registrosProformas()" ><a href="#">Pro-Formas</a></li>
-								          <li ng-click="registrosInsumos()" ><a href="#">Insumos</a></li>
+								          <li ng-click="registrosProformas()" ><a href="#"><i class="fa fa-file-text-o"></i> Pro-Formas</a></li>
+								          <li ng-click="registrosInsumos()" ><a href="#"><i class="glyphicon glyphicon-th"></i> Insumos</a></li>
 								        </ul>
 									</div>
 								</div>
@@ -52,11 +52,11 @@
 								<thead>
 									<caption>Pro-Formas de entradas</caption>
 									<tr>
-										<th class="col-md-1">Fecha</th>
-										<th class="col-md-1">Codigo</th>
-										<th class="col-md-1">Concepto</th>
-										<th class="col-md-6">Tercero</th>
-										<th class="col-md-1">Detalles</th>
+										<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+										<th class="col-md-1"><i class="fa fa-barcode"></i> Código</th>
+										<th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
+										<th class="col-md-4"><i class="glyphicon glyphicon-user"></i> Tercero</th>
+										<th class="col-md-1"><i class="fa fa-plus-square-o"></i> Detalles</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -65,7 +65,7 @@
 										<td>{#entrada.codigo | codeforma#}</td>
 										<td><span class="text-enlace" tooltip="{#entrada.concepto#}">{#entrada.abreviatura#}</span></td>
 										<td>{#entrada.tercero#}</td>
-										<td class="text-center"><button class="btn btn-warning" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+										<td class="text-center"><button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Pro-Forma" ng-click="detallesEntrada(entrada.id)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
 									</tr>
 								</tbody>
 							</table>
@@ -82,12 +82,12 @@
 								<thead>
 									<caption>Insumos que han entrado</caption>
 									<tr>
-										<th class="col-md-1">Fecha</th>
-										<th class="col-md-1">Entrada</th>
-										<th class="col-md-2">Codigo de Insumo</th>
-										<th class="col-md-6">Descripción</th>
-										<th class="col-md-1">Lote</th>
-										<th class="col-md-1 text-right">Cantidad</th>
+										<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+										<th class="col-md-1"><i class="fa fa-arrow-circle-right"></i> Entrada</th>
+										<th class="col-md-2"><i class="fa fa-barcode"></i> Código de insumo</th>
+										<th class="col-md-6"><i class="fa fa-commenting"></i> Descripción</th>
+										<th class="col-md-1"><i class="fa fa-cart-plus"></i> Lote</th>
+										<th class="col-md-1"><i class="fa fa-list-ol"></i> Cantidad</th>
 									</tr>
 								</thead>
 								<tbody>

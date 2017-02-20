@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="registroSalidaController"')
 
-@section('panel-name', 'Registro de Pro-Forma de Pedido')
+@section('panel-name', '<i class="fa fa-arrow-circle-left text-info"></i> Registro de Pro-Forma de salida')
 
 @section('content')
 	
@@ -42,7 +42,7 @@
 				          			<ui-select ng-model="insumoSelect.selected"
 								             ng-disabled="disabled"
 								             reset-search-input="true">
-								    <ui-select-match placeholder="Ingrese una Descripción o un codigo">
+										<ui-select-match placeholder="Ingrese una descripción o un código">
 								    {#$select.selected.descripcion#}</ui-select-match>
 								    <ui-select-choices repeat="insumo in listInsumos track by $index"
 								             refresh="refreshInsumos($select.search)"
@@ -85,15 +85,15 @@
 						</div>
 
 						<br>
-						<table class="table table-striped">
+						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th class="col-sm-2">Codigo</th>
-									<th>Descripción</th>
-									<th class="col-sm-2">lote</th>
-									<th class="col-sm-1 text-right">Solicitado</th>
-									<th class="col-sm-1 text-right">Despachado</th>
-									<th class="col-sm-1">Eliminar</th>
+									<th class="col-sm-2"><i class="fa fa-barcode"></i> Código</th>
+									<th class="col-sm-3"><i class="fa fa-commenting"></i> Descripción</th>
+									<th class="col-sm-2"><i class="fa fa-cubes"></i> Lote</th>
+									<th class="col-sm-1"><i class="fa fa-opencart"></i> Solicitado</th>
+									<th class="col-sm-1"><i class="fa fa-cart-plus"></i> Despachado</th>
+									<th class="col-sm-1"><i class="glyphicon glyphicon-trash"></i> Eliminar</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -102,20 +102,20 @@
 									<td>{#insumo.descripcion#}</td>
 									<td>
 										<div class="input-group">
-											<input class="form-control" type="text" ng-model="insumo.lote">
+											<input class="form-control" placeholder="Lote" type="text" ng-model="insumo.lote">
 											<div class="input-group-btn">
-								    			<button class="btn btn-primary" ng-click="LotesSelect(insumo)"><span class="glyphicon glyphicon-barcode"></span></button>
+												<button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Seleccione un lote" ng-click="LotesSelect(insumo)"><i class="fa fa-cubes"></i></button>
 											</div>
 										</div
 									</td>
 									<td>
-										<input class="form-control text-right" type="number" ng-model="insumo.solicitado">
+										<input class="form-control" placeholder="Cantidad" type="number" ng-model="insumo.solicitado">
 									</td>
 									<td>
-										<input class="form-control text-right" type="number" ng-model="insumo.despachado">
+										<input class="form-control" placeholder="Cantidad" type="number" ng-model="insumo.despachado">
 									</td>
 									<td class="text-center">
-										<button class="btn btn-danger" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
+										<button class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Presione para remover" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>
 										</button>
 									</td>
 								</tr>

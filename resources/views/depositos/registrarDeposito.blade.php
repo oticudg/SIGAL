@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title"><span class="glyphicon glyphicon-plus text-primary"></span> Nuevo Almacén</h3>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-plus text-primary"></span> Nuevo almacén</h3>
 </div>
 <div class="modal-body">
 
@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="form-group">
-				<label  class="text-muted" for="nombre">Nombre</label>
+				<label  class="text-muted" for="nombre"><i class="glyphicon glyphicon-inbox"></i> Nombre</label>
 				<input class="form-control" id="nombre" type="text" placeholder="Nombre" ng-model="nombre">
 			</div>
 		</div>		

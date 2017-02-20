@@ -24,12 +24,12 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<h3 class="text-title">Consultas Eficientes</h3>
-							<p class="text-muted">Consultas al inventario con eficiencia y eficacia. Control de ingresos y salidas de productos, así como busquedas avanzadas relacionadas con todo el movimiento causado en el inventario.</p>
+							<p class="text-muted">Consultas al inventario con eficiencia y eficacia. Control de ingresos y salidas de productos, así como búsquedas avanzadas relacionadas con todo el movimiento causado en el inventario.</p>
 						</div>
 
 						<div class="col-sm-4">
 							<h3 class="text-title">Kardex Digital</h3>
-							<p class="text-muted">Consultas el movimiento de un producto a través de un Módulo Avanzado de Busqueda, permitiendo generar el Kardex Digital, respetando los críterios de la publicación °15 que provee la Oficina de Contraloría y Consumo.</p>
+							<p class="text-muted">Consultas el movimiento de un producto a través de un Módulo Avanzado de Búsqueda, permitiendo generar el Kardex Digital, respetando los criterios de la publicación °15 que provee la Oficina de Controlaría y Consumo.</p>
 						</div>
 
 						<div class="col-sm-4">

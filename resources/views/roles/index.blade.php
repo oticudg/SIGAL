@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="rolesController"')
 
-@section('panel-name', 'Roles')
+@section('panel-name', '<i class="glyphicon glyphicon-compressed text-info"></i> Roles')
 
 @section('content')
 
@@ -16,7 +16,7 @@
 					@if( Auth::user()->hasPermissions(['roles_register']) )
 						<div class="row">
 							<div class="col-md-2">
-								<button class="btn btn-primary" ng-click="registrarRol()"><span class="glyphicon glyphicon-plus"></span> Nuevo Rol</button>
+								<button class="btn btn-primary" ng-click="registrarRol()"><span class="glyphicon glyphicon-plus"></span> Nuevo rol</button>
 							</div>								
 						</div>
 					@endif
@@ -47,9 +47,9 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-10">Nombre</th>
+									<th class="col-md-5"><i class="glyphicon glyphicon-compressed"></i> Nombre</th>
 									@if( Auth::user()->hasPermissions(['roles_edit', 'roles_delete'], true))
-										<th colspan="2" class="col-sm-1">Modificaciones</th>
+									<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['roles_edit', 'roles_delete']))
 										<th class="col-sm-1">Modificaciones</th>
 									@endif
@@ -62,7 +62,7 @@
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarRol(rol.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif
 									@if( Auth::user()->hasPermissions(['roles_delete']))
-										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarRol(rol.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarRol(rol.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></td>
 									@endif
 								</tr>
 							</tbody>

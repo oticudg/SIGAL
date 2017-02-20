@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="usersController"')
 
-@section('panel-name', 'Usuarios')
+@section('panel-name', '<i class="fa fa-user text-info"></i> Usuarios')
 
 @section('content')
 
@@ -16,7 +16,7 @@
 					@if( Auth::user()->hasPermissions(['users_register']) )
 						<div class="row">
 							<div class="col-md-2">
-									<button class="btn btn-primary" ng-click="registrarUser()"><span class="glyphicon glyphicon-plus"></span> Nuevo Usuario</button>
+									<button class="btn btn-primary" ng-click="registrarUser()"><span class="glyphicon glyphicon-plus"></span> Nuevo usuario</button>
 							</div>								
 						</div>
 					@endif
@@ -37,8 +37,8 @@
 								</div>
 							</div>
 
-							<div class="col-sm-6 text-right">		
-							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+							<div class="col-sm-6 text-right">
+								<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
 							</div>
 						</div>
 
@@ -47,12 +47,12 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Nombre</th>
-									<th>Usuario</th>
-									<th class="col-md-2">Cedula</th>
-									<th class="col-md-2">Almacén</th>
+									<th class="col-md-2"><i class="fa fa-user-o" aria-hidden="true"></i> Nombre</th>
+									<th class="col-md-2"><i class="fa fa-user" aria-hidden="true"></i> Usuario</th>
+									<th class="col-md-2"><i class="fa fa-id-card-o" aria-hidden="true"></i> Cédula</th>
+									<th class="col-md-2"><i class="glyphicon glyphicon-inbox"></i> Almacén</th>
 									@if( Auth::user()->hasPermissions(['users_edit', 'users_delete'], true))
-										<th class="col-md-1" colspan="2">Modificaciones</th>
+									<th class="col-md-1" colspan="2"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['users_edit', 'users_delete']) )
 										<th class="col-md-1">Modificaciones</th>
 									@endif
@@ -69,7 +69,7 @@
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif
 									@if( Auth::user()->hasPermissions(['users_delete']))
-										<td class="text-center"><button class="btn btn-danger"  ng-click="elimUsuario(usuario.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+									<td class="text-center"><button class="btn btn-danger"  ng-click="elimUsuario(usuario.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></td>
 									@endif
 								</tr>
 							</tbody>

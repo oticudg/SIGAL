@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3  class="modal-title"><span class="glyphicon glyphicon-plus text-primary"></span> Nuevo Proveedor</h3>
+    <h3  class="modal-title"><span class="glyphicon glyphicon-plus text-primary"></span> Nuevo proveedor</h3>
 </div>
 <div class="modal-body">
 
@@ -8,14 +8,14 @@
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
 			<div class="form-group">
-				<label  class="text-muted" for="rif">Rif</label>
+				<label  class="text-muted" for="rif"><i class="fa fa-certificate"></i> RIF</label>
 				<input class="form-control" id="rif" type="text" placeholder="J-888888888" ng-model="rif">
 			</div>
 		</div>
 
 		<div class="col-md-7">
 			<div class="form-group">
-				<label  class="text-muted" for="nombre">Nombre</label>
+				<label  class="text-muted" for="nombre"><i class="glyphicon glyphicon-folder-open"></i> Nombre</label>
 				<input class="form-control" id="nombre" type="text" placeholder="Nombre" ng-model="nombre">
 			</div>
 		</div>

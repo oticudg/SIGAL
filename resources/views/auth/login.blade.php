@@ -27,7 +27,7 @@
 <div class="login-box">
  
   <div class="login-logo">
-    <a href="../../index2.html"><b>SIGAL</b></a>
+    <a href="../"><b>SIGAL</b></a>
   </div>
 
   @if($errors->has())
@@ -38,12 +38,12 @@
   @endif  
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Iniciar sesión</p>
+    <p class="login-box-msg">Inicio de sesión</p>
 
     <form method="POST" action="/auth/login">
       {!! csrf_field() !!}
       <div class="form-group has-feedback">
-        <input class="form-control" type="email" name="email" placeholder="Correo electronico" value="{{ old('email') }}"> 
+		  <input class="form-control" type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}"> 
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -52,8 +52,8 @@
       </div>
       <div class="row">
         <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+		  <div class="col-xs-6 col-xs-offset-3">
+			<button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
         </div>
         <!-- /.col -->
       </div>

@@ -22,7 +22,7 @@
 	<select name="rol">
 		<option value="">Departamento</option>
 		<option value="farmacia">Farmacia</option>
-		<option value="alimentacion">Alimentacion</optison>
+		<option value="alimentacion">Alimentacion</option>
 	</select>
 	Rango:
 	<select name="rango">

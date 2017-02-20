@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
 	     <h3 class="modal-title text-title-modal">
-	    	   <span class="glyphicon glyphicon glyphicon-search text-primary"></span> Nueva modificacion
+			 <span class="glyphicon glyphicon glyphicon-plus text-primary"></span> Nueva modificación
 	     </h3>
 		</div>
 	</div>
@@ -11,12 +11,12 @@
   <alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
   <div class="row" ng-hide="uiStatus">
     <div class="col-md-offset-4 col-md-4">
-      <div class="panel panel-default">
-          <div class="panel-heading">Codigo del movimiento</div>
+      <div class="panel panel-primary">
+		  <div class="panel-heading"><i class="fa fa-barcode"></i> Código de la Pro-Forma</div>
           <div class="panel-body">
             <div class="input-group">
-                <input type="text" class="form-control text-center" ng-model="code">
-                <span class="input-group-addon btn-primary text-white" ng-click="search()"><span class="glyphicon glyphicon-search"></span></span>
+				<input type="text" class="form-control text-center" placeholder="Ingrese el código" ng-model="code">
+				<span class="input-group-addon btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Presione para buscar" ng-click="search()"><span class="glyphicon glyphicon-search"></span></span>
             </div>
           </div>
        </div>
@@ -26,8 +26,8 @@
   <div ng-show="uiStatus">
     <div class="row">
       <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Concepto</div>
+		  <div class="panel panel-primary">
+			<div class="panel-heading"><i class="fa fa-object-group"></i> Concepto</div>
             <div class="panel-body">
               <ui-select ng-model="documentoSelect.selected"
         							 ng-disabled="disabled"
@@ -43,8 +43,8 @@
       </div>
 
       <div class="col-md-6" ng-show="panelTerceros">
-        <div class="panel panel-default">
-            <div class="panel-heading">Tercero</div>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><i class="glyphicon glyphicon-user"></i> Tercero</div>
             <div class="panel-body">
               <ui-select ng-model="terceroSelect.selected"
       								 ng-disabled="disabled"
@@ -62,19 +62,19 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">Movimiento</div>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><i class="fa fa-arrows"></i> Movimiento</div>
             <div class="panel-body">
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th class="col-md-1">Fecha</th>
-                    <th class="col-md-1">Codigo</th>
-                    <th class="col-md-1">Concepto</th>
-                    <th class="col-md-1">Tipo</th>
-                    <th class="col-md-5">Tercero</th>
+                    <th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+					  <th class="col-md-1"><i class="fa fa-barcode"></i> Código</th>
+                    <th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
+                    <th class="col-md-1"><i class="fa fa-cube"></i> Tipo</th>
+                    <th class="col-md-5"><i class="glyphicon glyphicon-user"></i> Tercero</th>
                     @if( Auth::user()->hasPermissions(['inventory_movements']))
-                      <th class="col-md-1">Detalles</th>
+                      <th class="col-md-1"><i class="fa fa-plus-square-o"></i> Detalles</th>
                     @endif
                   </tr>
                 </thead>
@@ -86,7 +86,7 @@
                     <td>{#movimiento.type#}</td>
                     <td>{#movimiento.tercero#}</td>
                     @if( Auth::user()->hasPermissions(['inventory_movements']))
-                      <td><button class="btn btn-warning" ng-click="detallesNota(movimiento.type,movimiento.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+					  <td><button class="btn btn-warning col-md-offset-3" data-toggle="tooltip" data-placement="top" title="Pro-Forma de movimiento" ng-click="detallesNota(movimiento.type,movimiento.id)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
                     @endif
                   </tr>
                 </tbody>

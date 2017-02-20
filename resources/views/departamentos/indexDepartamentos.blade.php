@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="departamentosController"')
 
-@section('panel-name', 'Departamentos')
+@section('panel-name', '<i class="glyphicon glyphicon-briefcase text-info"></i> Departamentos')
 
 @section('content')
 	
@@ -16,7 +16,7 @@
 					@if( Auth::user()->hasPermissions(['departs_register']))
 						<div class="row">
 							<div class="col-md-2">
-								<button class="btn btn-primary" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Departamento</button>
+								<button class="btn btn-primary" ng-click="registrarDepartamento()"><span class="glyphicon glyphicon-plus"></span> Nuevo departamento</button>
 
 							</div>								
 						</div>
@@ -48,9 +48,9 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Departamento</th>
+									<th class="col-md-6"><i class="glyphicon glyphicon-briefcase"></i> Departamento</th>
 									@if( Auth::user()->hasPermissions(['departs_edit', 'departs_delete'], true))
-										<th colspan="2" class="col-sm-1">Modificaciones</th>
+									<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['departs_edit', 'departs_delete']))
 										<th class="col-sm-1">Modificaciones</th>
 									@endif
@@ -63,7 +63,7 @@
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarDepartamento(departamento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif
 									@if( Auth::user()->hasPermissions(['departs_delete']))
-										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarDepartamento(departamento.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></td>
 									@endif
 								</tr>
 							</tbody>

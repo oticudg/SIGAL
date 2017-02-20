@@ -38,11 +38,11 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Codigo</th>
-									<th>Descripcion</th>
+									<th class="col-md-2">Código</th>
+									<th>Descripción</th>
 									<th class="col-md-1 text-right">Existencia</th>
-									<th class="col-md-1 text-right">Nivel Critico</th>
-									<th class="col-md-1 text-right">Nivel Bajo</th>
+									<th class="col-md-1 text-right">Nivel critico</th>
+									<th class="col-md-1 text-right">Nivel bajo</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -89,8 +89,8 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Codigo</th>
-									<th>Descripcion</th>
+									<th class="col-md-2">Código</th>
+									<th>Descripción</th>
 									<th class="col-md-1">Lote</th>
 									<th class="col-md-1">Fecha</th>
 									<th class="col-md-1 text-right">Cantidad</th>

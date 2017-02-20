@@ -5,9 +5,9 @@
     <!-- /.search form -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
-      <li class="header text-center">Manú de navegacion</li>
+		<li class="header text-center">Menú de navegación</li>
 
-      <li><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> 
+      <li><a href="/"><i class="fa fa-dashboard"></i> <span>Tablero</span></a></li> 
 
       {{-- Menu de administracion --}}
       @if( Auth::user()->hasPermissions(['users_consult', 'stores_consult', 'documents_consult', 'roles_consult', 'departs_consult', 'providers_consult', 'items_consult']) )
@@ -20,19 +20,19 @@
           </a>
           <ul class="treeview-menu">
             @if( Auth::user()->hasPermissions(['users_consult']))
-              <li class="@if(Request()->is('administracion/usuarios')) active @endif"><a href="{{route('admin::user::index')}}"><i class="glyphicon glyphicon-user"></i> Usuario</a></li>
+              <li class="@if(Request()->is('administracion/usuarios')) active @endif"><a href="{{route('admin::user::index')}}"><i class="fa fa-user"></i> Usuarios</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['stores_consult']) )
-              <li class="@if(Request()->is('administracion/almacenes')) active @endif"><a href="{{route('admin::almac::index')}}"><i class="glyphicon glyphicon-inbox"></i> Almacenes</a></li></li>
+              <li class="@if(Request()->is('administracion/almacenes')) active @endif"><a href="{{route('admin::almac::index')}}"><i class="glyphicon glyphicon-inbox"></i> Almacenes</a></li>
             @endif
 
             @if(Auth::user()->hasPermissions(['documents_consult']))
-              <li class="@if(Request()->is('administracion/documentos')) active @endif"><a href="{{route('admin::docum::index')}}"><i class="glyphicon glyphicon-folder-close"></i> Documentos</a></li></li>
+              <li class="@if(Request()->is('administracion/documentos')) active @endif"><a href="{{route('admin::docum::index')}}"><i class="glyphicon glyphicon-folder-close"></i> Documentos</a></li>
             @endif
 
             @if(Auth::user()->hasPermissions(['roles_consult']))
-              <li class="@if(Request()->is('administracion/roles')) active @endif"><a href="{{route('admin::roles::index')}}"><i class="glyphicon glyphicon-compressed"></i> Roles</a></li></li>
+              <li class="@if(Request()->is('administracion/roles')) active @endif"><a href="{{route('admin::roles::index')}}"><i class="glyphicon glyphicon-compressed"></i> Roles</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['departs_consult']) )
@@ -67,11 +67,11 @@
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_movements']) )
-              <li class="@if(Request()->is('inventario/entradas')) active @endif"><a href="{{route('inven::entr::index')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Entradas</a></li>
+              <li class="@if(Request()->is('inventario/entradas')) active @endif"><a href="{{route('inven::entr::index')}}"><i class="fa fa-arrow-circle-right"></i> Entradas</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_movements']) )
-              <li class="@if(Request()->is('inventario/salidas')) active @endif"><a href="{{route('inven::sali::index')}}"><i class="glyphicon glyphicon-circle-arrow-up"></i> Salidas</a></li>
+              <li class="@if(Request()->is('inventario/salidas')) active @endif"><a href="{{route('inven::sali::index')}}"><i class="fa fa-arrow-circle-left"></i> Salidas</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['inventory_alerts']) )
@@ -83,7 +83,7 @@
             @endif
 
             <li class="@if(Request()->is('inventario/estadisticas')) active @endif"><a href="{{route('inven::esta::index')}}"><i class="glyphicon glyphicon-tasks"></i> 
-              Estadisticas</a></li>
+				Estadísticas</a></li>
           </ul>
         </li>
       @endif
@@ -100,11 +100,11 @@
           </a>
           <ul class="treeview-menu">
             @if( Auth::user()->hasPermissions(['movements_register_entry']) )
-              <li class="@if(Request()->is('transferencias/entradas/registrar')) active @endif"><a href="{{route('tran::entr::registrar')}}"><i class="glyphicon glyphicon-circle-arrow-down"></i> Registro de Entrada</a></li>
+			  <li class="@if(Request()->is('transferencias/entradas/registrar')) active @endif"><a href="{{route('tran::entr::registrar')}}"><i class="fa fa-arrow-circle-right"></i> Registro de entrada</a></li>
             @endif
 
             @if( Auth::user()->hasPermissions(['movements_register_egress']) )
-              <li class="@if(Request()->is('transferencias/salidas/registrar')) active @endif"><a href="{{route('tran::sali::registrar')}}"><i class="glyphicon glyphicon-circle-arrow-up"></i> Registro de Salida</a></li>
+			  <li class="@if(Request()->is('transferencias/salidas/registrar')) active @endif"><a href="{{route('tran::sali::registrar')}}"><i class="fa fa-arrow-circle-left"></i> Registro de salida</a></li>
             @endif 
           </ul>
         </li>

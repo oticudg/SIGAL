@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="provedoresController"')
 
-@section('panel-name', 'Proveedores')
+@section('panel-name', '<i class="glyphicon glyphicon-folder-open text-info"></i> Proveedores')
 
 @section('content')
 
@@ -47,10 +47,10 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Rif</th>
-									<th>Nombre</th>
+									<th class="col-md-2"><i class="fa fa-certificate"></i> RIF</th>
+									<th class="col-md-2"><i class="glyphicon glyphicon-folder-open"></i> Nombre</th>
 									@if( Auth::user()->hasPermissions(['providers_edit', 'providers_delete'], true))
-										<th colspan="2" class="col-sm-1">Modificaciones</th>
+									<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['providers_edit','providers_delete']))
 										<th class="col-sm-1">Modificaciones</th>
 									@endif
@@ -64,7 +64,7 @@
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarProvedor(provedor.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif
 									@if( Auth::user()->hasPermissions(['providers_delete']))
-										<td class="text-center"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+										<td class="text-center"><button class="btn btn-danger"  ng-click="elimProvedor(provedor.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></td>
 									@endif
 								</tr>
 							</tbody>

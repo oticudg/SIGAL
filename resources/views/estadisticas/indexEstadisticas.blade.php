@@ -6,15 +6,15 @@
 <script src="{{asset('js/vendor/drilldown.js')}}"></script>
 @endsection
 
-@section('panel-name', 'Estadísticas')
+@section('panel-name', '<i class="glyphicon glyphicon-tasks text-info"></i> Estadísticas')
 
 @section('content')
 	
-	<div class="nav-tabs-custom">
+<div class="nav-tabs-custom nav-pills">
         <!-- Tabs within a box -->
         <ul class="nav nav-tabs pull-right ui-sortable-handle">
           <li class="active"><a href="#insumo" data-toggle="tab" ng-click="obtenerInsumos()">Consulta por insumo</a></li>
-          <li><a href="#servicio" data-toggle="tab" ng-click="obtenerInsumosv()">Consulta por Servicio</a></li>
+          <li><a href="#servicio" data-toggle="tab" ng-click="obtenerInsumosv()">Consulta por servicio</a></li>
         </ul>
         <div class="tab-content">
         	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
@@ -43,7 +43,7 @@
 						 	<p class="input-group">
 				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/ placeholder="Desde">
 				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-primary text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+								  <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Seccione una fecha" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 				              </span>
 			        		</p>
 			        	</div>
@@ -54,13 +54,13 @@
 						 	<p class="input-group">
 				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" placeholder="Hasta" />
 				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-primary text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+								  <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="Seleccione una fecha" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 				              </span>
 			        		</p>
 			        	</div>
 					</div>
 
-					<div class="col-sm-2 text-left"><button class="btn btn-primary" ng-click="consultaInsumo()">Consultar</button></div>
+					<div class="col-sm-2 text-left"><button class="btn btn-primary" ng-click="consultaInsumo()"><i class="glyphicon glyphicon-search"></i> Consultar</button></div>
 				</div>
         	</div>
 
@@ -79,7 +79,7 @@
 						 	<p class="input-group">
 				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dI" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/ placeholder="Desde">
 				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-primary text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+								  <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Seccione una fecha" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 				              </span>
 			        		</p>
 			        	</div>
@@ -90,13 +90,13 @@
 						 	<p class="input-group">
 				              <input type="text" id="dateI" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dF" is-open="openedF" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" placeholder="Hasta" />
 				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-primary text-white" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+								  <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="Seleccione una fecha" ng-click="openF($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 				              </span>
 			        		</p>
 			        	</div>
 					</div>
 
-					<div class="col-sm-2 text-left"><button class="btn btn-primary" ng-click="consultaServicio()">Consultar</button></div>
+					<div class="col-sm-2 text-left"><button class="btn btn-primary" ng-click="consultaServicio()"><i class="glyphicon glyphicon-search"></i> Consultar</button></div>
 				</div> 
         	</div>
       	</div>

@@ -2,11 +2,11 @@
 	<div class="row">
     	<div class="col-md-6">
 		    <h3 class="modal-title">
-		    	<span class="glyphicon glyphicon-barcode text-primary"></span> Lotes
+		    	<span class="fa fa-cubes text-primary"></span> Lotes
 		    </h3>
 		</div>
       	<div style="text-align:right" class="col-md-offset-4 col-md-2">
-        	<button class="btn btn-primary" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
+			<button class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Filtrar registros" ng-click="chvisibility()"><span class="glyphicon glyphicon-search"></span></button>
       	</div>
 	</div>
 </div>
@@ -16,8 +16,8 @@
 			<table class="table table-bordered custon-table-bottom-off table-hover">
 				<thead>
 					<tr>
-						<th>Insumo</th>
-						<th class="col-sm-1 text-right">N° lotes</th>	
+						<th class="col-md-4"><i class="glyphicon glyphicon-th"></i> Insumo</th>
+						<th class="col-sm-1 text-right"><i class="fa fa-cubes"></i> N° lotes</th>	
 					</tr>
 				</thead>
 				<tbody>
@@ -34,21 +34,21 @@
 			<table class="table table-striped table-bordered custon-table-top-off table-hover">
 				<thead>
 					<tr>
-						<th>Codigo</th>
-						<th>Fecha Vto.</th>	
-						<th class="text-right">Cantidad</th>
+						<th><i class="fa fa-barcode"></i> Código</th>
+						<th><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento.</th>	
+						<th><i class="fa fa-list-ol"></i> Cantidad</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-show="visibility">
 						<td>
-							<input type="text" class="form-control" placeholder="Codigo" ng-model="search.codigo">
+							<input type="text" class="form-control" placeholder="Código" ng-model="search.codigo">
 						</td>
 						<td>
-							<input type="text" class="form-control" placeholder="Fecha Vto." ng-model="search.fecha">
+							<input type="text" class="form-control" placeholder="Fecha de vencimiento" ng-model="search.fecha">
 						</td>
 						<td>
-							<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="search.cantidad">
+							<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">
 						</td>
 					</tr>
 					<tr dir-paginate="lote in lotes | filter:search:strict | itemsPerPage:cRegistro" pagination-id="lotespag" ng-click="select(lote.codigo)">
@@ -64,7 +64,7 @@
 		 	 <dir-pagination-controls  pagination-id="lotespag" boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}"></dir-pagination-controls>
 		  	</div>
 
-		  	<blockquote ng-hide="lotes.length">No hay lotes registrados.</<blockquote>
+		  	<blockquote ng-hide="lotes.length">No hay lotes registrados.</blockquote>
 		</div>
 	</div>
 </div>

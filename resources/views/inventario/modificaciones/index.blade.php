@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="modificacionesController"')
 
-@section('panel-name', 'Modificaciones')
+@section('panel-name', '<i class="glyphicon glyphicon-edit text-info"></i> Modificaciones')
 
 @section('content')
 
@@ -28,7 +28,7 @@
 								</div>
 
 								<div class="col-md-6 text-right" >
-									<button class="btn btn-primary" ng-click="registrarModificacion()" tooltip="Nueva modificacion"><span class="glyphicon glyphicon-plus"></span></button>
+									<button class="btn btn-primary" ng-click="registrarModificacion()" tooltip="Nueva modificación"><span class="glyphicon glyphicon-plus"></span></button>
 									<button class="btn btn-primary" ng-click="search()" tooltip="Filtrar registros">
 										<span class="glyphicon glyphicon-search"></span></button>
 
@@ -44,27 +44,27 @@
 								<thead>
 									<caption>Pro-Formas modificadas</caption>
 									<tr>
-										<th class="col-md-2">Fecha de modificacion</th>
-										<th class="col-md-2">Fecha de registro</th>
-										<th class="col-md-2">Pro-Forma</th>
-										<th class="col-md-2">Tipo</th>
-										<th class="col-md-1">Detalles</th>
+										<th class="col-md-2"><i class="glyphicon glyphicon-calendar"></i> Fecha de modificación</th>
+										<th class="col-md-2"><i class="glyphicon glyphicon-calendar"></i> Fecha de registro</th>
+										<th class="col-md-2"><i class="fa fa-file-text"></i> Pro-Forma</th>
+										<th class="col-md-2"><i class="fa fa-cube"></i> Tipo</th>
+										<th class="col-md-1"><i class="fa fa-plus-square-o"></i> Detalles</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-show="barSearch">
 										<td ng-show="status"></td>
 										<td>
-											<input type="text" class="form-control" placeholder="Codigo" ng-model="busqueda.fechaM">
+											<input type="text" class="form-control" placeholder="Fecha" ng-model="busqueda.fechaM">
 										</td>
 										<td>
-											<input type="text" class="form-control" placeholder="Descripción" ng-model="busqueda.fechaR">
+											<input type="text" class="form-control" placeholder="Fecha" ng-model="busqueda.fechaR">
 										</td>
 										<td>
-											<input type="text" class="form-control" placeholder="Exist." ng-model="busqueda.codigo">
+											<input type="text" class="form-control" placeholder="Código" ng-model="busqueda.codigo">
 										</td>
 										<td>
-											<input type="text" class="form-control" placeholder="Exist." ng-model="busqueda.type">
+											<input type="text" class="form-control" placeholder="Naturaleza" ng-model="busqueda.type">
 										</td>
 										<td></td>
 									</tr>
@@ -73,7 +73,7 @@
 										<td>{#modificacion.fechaR#}</td>
 										<td>{#modificacion.codigo | codeforma#}</td>
 										<td>{#modificacion.type#}</td>
-										<td class="text-center"><button ng-click="detallesModificacion(modificacion.id)" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
+										<td class="text-center"><button ng-click="detallesModificacion(modificacion.id)" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver  modificación"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
 									</tr>
 								</tbody>
 							</table>

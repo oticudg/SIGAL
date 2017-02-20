@@ -34,15 +34,15 @@
 							        @endif
 
 											@if( Auth::user()->hasPermissions(['stores_consult']) )
-												<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Almacenes</a></li></li>
+												<li><a href="{{route('depoInicio')}}"><span class="glyphicon glyphicon-inbox"></span> Almacenes</a></li>
 											@endif
 
 											@if(Auth::user()->hasPermissions(['documents_consult']))
-												<li><a href="{{route('documIndex')}}"><span class="glyphicon glyphicon-folder-close"></span> Documentos</a></li></li>
+												<li><a href="{{route('documIndex')}}"><span class="glyphicon glyphicon-folder-close"></span> Documentos</a></li>
 											@endif
 
 											@if(Auth::user()->hasPermissions(['roles_consult']))
-												<li><a href="{{route('rolesIndex')}}"><span class="glyphicon glyphicon-compressed"></span> Roles</a></li></li>
+												<li><a href="{{route('rolesIndex')}}"><span class="glyphicon glyphicon-compressed"></span> Roles</a></li>
 											@endif
 
 					            @if( Auth::user()->hasPermissions(['departs_consult']) )

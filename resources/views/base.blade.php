@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SIGAL | Dashboard</title>
+  <title>SIGAL | Tablero</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -58,11 +58,9 @@
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.1.0
+		<b>Versión</b> 2.1.0
     </div>
     <strong>Copyleft &copy; 2015-2016 <a href="http://www.sahum.gob.ve">Servicio Autónomo Hospital Universitario de Maracaibo</a><strong> 
-
-
 
   </footer>
 

@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="documentosController"')
 
-@section('panel-name', 'Documentos')
+@section('panel-name', '<i class="glyphicon glyphicon-folder-close text-info"></i> Documentos')
 
 @section('content')
 
@@ -16,7 +16,7 @@
 					@if( Auth::user()->hasPermissions(['documents_register']))	
 						<div class="row">
 							<div class="col-md-2">
-								<button class="btn btn-primary" ng-click="registrarDocumento()"><span class="glyphicon glyphicon-plus"></span> Nuevo Documento</button>
+								<button class="btn btn-primary" ng-click="registrarDocumento()"><span class="glyphicon glyphicon-plus"></span> Nuevo documento</button>
 							</div>								
 						</div>
 					@endif
@@ -47,13 +47,13 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-1">Abreviatura</th>
-									<th class="col-md-2">Nombre</th>
-									<th class="col-md-1">Tipo</th>
-									<th class="col-md-1">Naturaleza</th>
-									<th>Uso</th>
+									<th class="col-md-1"><i class="fa fa-pencil" aria-hidden="true"></i> Abreviatura</th>
+									<th class="col-md-1"><i class="glyphicon glyphicon-folder-close"></i> Nombre</th>
+									<th class="col-md-1"><i class="fa fa-cube" aria-hidden="true"></i> Tipo</th>
+									<th class="col-md-1"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i> Naturaleza</th>
+									<th class="col-md-4"><i class="fa fa-hand-lizard-o" aria-hidden="true"></i> Uso</th>
 									@if( Auth::user()->hasPermissions(['documents_edit', 'documents_delete'], true))
-										<th colspan="2" class="col-sm-1">Modificaciones</th>
+									<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif(  Auth::user()->hasPermissions(['documents_edit', 'documents_delete']))
 										<th class="col-sm-1">Modificaciones</th>
 									@endif
@@ -71,7 +71,7 @@
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarDocumento(documento.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif
 									@if( Auth::user()->hasPermissions(['documents_delete']))
-										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarDocumento(documento.id)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button></td>
+										<td class="text-center"><button class="btn btn-danger" ng-click="eliminarDocumento(documento.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</button></td>
 									@endif
 								</tr>
 							</tbody>

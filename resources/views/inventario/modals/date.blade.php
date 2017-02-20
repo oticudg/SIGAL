@@ -10,9 +10,9 @@
 		</div>
 		<div class="col-md-offset-2 col-md-8">
 			<p class="input-group">
-				<input type="text" id="fechaI" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="fecha" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+				<input type="text" id="fechaI" placeholder="Introduzca una fecha" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="fecha" is-open="openedI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-primary text-white" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							<button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Presione y seleccione la fecha" ng-click="openI($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 						</span>
 			</p>
 		</div>

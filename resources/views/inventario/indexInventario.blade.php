@@ -1,7 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="inventarioController"')
 
-@section('panel-name', 'Existencia')
+@section('panel-name', '<i class="glyphicon glyphicon-equalizer text-info"></i> Existencia')
 
 @section('content')
 	
@@ -44,10 +44,10 @@
 										<span class="glyphicon glyphicon-list-alt"></span></button>
 
 										<ul class="dropdown-menu" role="menu">
-											<li ng-click="parcialInventario()"><a href="#">Inventario parcial</a></li>
-											<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}&filter=true" target="_blank">Inventario sin fallas</a></li>
-								          	<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}" target="_blank">Inventario total PDF</a></li>
-								          	<li><a href="{{route('reporExcel')}}?date={#dateF#}">Inventario total EXCEL</a></li>
+											<li ng-click="parcialInventario()"><a href="#"><i class="fa fa-square"></i> Inventario parcial</a></li>
+											<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}&filter=true" target="_blank"><i class="fa fa-check-square-o"></i> Inventario sin fallas</a></li>
+								          	<li><a href="{{route('reporInv', ['report' => 'total'])}}?date={#dateF#}" target="_blank"><i class="fa fa-file-pdf-o"></i> Inventario total PDF</a></li>
+								          	<li><a href="{{route('reporExcel')}}?date={#dateF#}"><i class="fa fa-file-excel-o"></i> Inventario total EXCEL</a></li>
 										</ul>
 
 										<span ng-show="status">
@@ -80,12 +80,12 @@
 									<input type="checkbox" ng-checked="all" ng-model="all" ng-click="select()">
 									Todos</label>
 								</th>
-								<th class="col-md-2">Codigo</th>
-								<th>Descripción</th>
-								<th class="col-md-1 text-right">Promedio</th>
-								<th class="col-md-1 text-right">Existencia</th>
+								<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
+								<th class="col-md-2"><i class="fa fa-commenting"></i> Descripción</th>
+								<th class="col-md-1"><i class="fa fa-sort-numeric-asc"></i> Promedio</th>
+								<th class="col-md-1"><i class="glyphicon glyphicon-equalizer"></i> Existencia</th>
 								@if(Auth::user()->hasPermissions(['inventory_kardex']))
-									<th class="col-md-1">Kardex</th>
+									<th class="col-md-1"><i class="fa fa-book"></i> Kardex</th>
 								@endif
 							</tr>
 						</thead>
@@ -93,16 +93,16 @@
 							<tr ng-show="barSearch">
 								<td ng-show="status"></td>
 								<td>
-									<input type="text" class="form-control" placeholder="Codigo" ng-model="busqueda.codigo">
+									<input type="text" class="form-control" placeholder="Código" ng-model="busqueda.codigo">
 								</td>
 								<td>
 									<input type="text" class="form-control" placeholder="Descripción" ng-model="busqueda.descripcion">
 								</td>
 								<td>
-									<input type="text" class="form-control text-right" placeholder="Promd." ng-model="busqueda.promedio">
+									<input type="text" class="form-control text-right" placeholder="Promedio" ng-model="busqueda.promedio">
 								</td>
 								<td>
-									<input type="text" class="form-control text-right" placeholder="Exist." ng-model="busqueda.existencia">
+									<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="busqueda.existencia">
 								</td>
 				        		<td></td>
 							</tr>
@@ -115,7 +115,7 @@
 								<td class="text-right">{#insumo.promedio#}</td>
 								<td class="text-right"><a class="text-enlace" ng-click="LotesView(insumo.id)">{#insumo.existencia#}</a></td>
 								@if(Auth::user()->hasPermissions(['inventory_kardex']))
-									<td class="text-center"><a class="btn btn-warning" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
+								<td class="text-center"><a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Kardex" href="/inventario/kardex?insumo={#insumo.id#}&dateI={#dateI#}&dateF={#dateF#}" target="_blank">
 										<span class="glyphicon glyphicon-eye-open"></span></a>
 									</td>
 								@endif
