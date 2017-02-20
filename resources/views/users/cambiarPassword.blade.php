@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="form-group">
-					<label class="text-muted" for="pass">Actual contraseña </label>
+					<label class="text-muted" for="pass"><i class="fa fa-unlock-alt"></i> Actual contraseña </label>
 					<input class="form-control" id="pass"type="password" ng-model="data.passwordOri">
 			</div>
 		</div>		
@@ -16,7 +16,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="form-group">
-					<label class="text-muted" for="pass">Nueva contraseña</label>
+				<label class="text-muted" for="pass"><i class="fa fa-unlock-alt"></i> Nueva contraseña</label>
 					<input class="form-control" id="pass"type="password" ng-model="data.password">
 			</div>
 		</div>		
@@ -25,7 +25,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="form-group">
-					<label class="text-muted" for="pass">Confirmar nueva contraseña</label>
+				<label class="text-muted" for="pass"><i class="fa fa-unlock-alt"></i> Confirmar nueva contraseña</label>
 					<input class="form-control" id="pass"type="password" ng-model="data.password_confirmation">
 			</div>
 		</div>		
