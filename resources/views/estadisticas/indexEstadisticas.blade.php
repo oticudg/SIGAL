@@ -6,15 +6,15 @@
 <script src="{{asset('js/vendor/drilldown.js')}}"></script>
 @endsection
 
-@section('panel-name', '<i class="glyphicon glyphicon-tasks text-info"></i> Estadísticas')
+@section('panel-name', '<i class="fa fa-line-chart text-info"></i> Estadísticas')
 
 @section('content')
 	
 <div class="nav-tabs-custom nav-pills">
         <!-- Tabs within a box -->
         <ul class="nav nav-tabs pull-right ui-sortable-handle">
-          <li class="active"><a href="#insumo" data-toggle="tab" ng-click="obtenerInsumos()">Consulta por insumo</a></li>
-          <li><a href="#servicio" data-toggle="tab" ng-click="obtenerInsumosv()">Consulta por servicio</a></li>
+          <li class="active"><a href="#insumo" data-toggle="tab" ng-click="obtenerInsumos()"><i class="glyphicon glyphicon-th text-primary"></i> Consulta por insumo</a></li>
+          <li><a href="#servicio" data-toggle="tab" ng-click="obtenerInsumosv()"><i class="glyphicon glyphicon-briefcase text-primary"></i> Consulta por servicio</a></li>
         </ul>
         <div class="tab-content">
         	<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>

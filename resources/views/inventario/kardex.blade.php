@@ -110,16 +110,16 @@
                   <input type="text" class="form-control" placeholder="Concepto" ng-model="filtro.abreviatura">
                 </td>
                 <td>
-                  <input type="text" class="form-control" placeholder="Procedencia o Destino" ng-model="filtro.pod">
+                  <input type="text" class="form-control" placeholder="Procedencia o destino" ng-model="filtro.pod">
                 </td>
                 <td>
                   <input type="text" class="form-control" placeholder="Tipo" ng-model="filtro.type">
                 </td>
                 <td>
-                  <input type="text" class="form-control text-right" placeholder="Movim" ng-model="filtro.movido">
+                  <input type="text" class="form-control text-right" placeholder="Movimiento" ng-model="filtro.movido">
                 </td>
                 <td>
-                  <input type="text" class="form-control text-right" placeholder="Exist" ng-model="filtro.existencia">
+                  <input type="text" class="form-control text-right" placeholder="Existencia" ng-model="filtro.existencia">
                 </td>
                 <td></td>
               </tr>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SIGAL | Log in</title>
+	<title>SIGAL | Inicio de sesión</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="{{asset('css/vendor/font-awesome.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{asset('css/vendor/ionicons.min.css')}}">
-
   <!-- Theme style -->
   <link rel="stylesheet" href="{{elixir('css/app.css')}}">
 
@@ -53,7 +52,7 @@
       <div class="row">
         <!-- /.col -->
 		  <div class="col-xs-6 col-xs-offset-3">
-			<button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
+			<button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar sesión</button>
         </div>
         <!-- /.col -->
       </div>

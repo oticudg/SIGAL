@@ -82,7 +82,7 @@
               <li class="@if(Request()->is('inventario/modificaciones')) active @endif"><a href="{{route('inven::modif::index')}}"><i class="glyphicon glyphicon-edit"></i> Modificaciones</a></li>
             @endif
 
-            <li class="@if(Request()->is('inventario/estadisticas')) active @endif"><a href="{{route('inven::esta::index')}}"><i class="glyphicon glyphicon-tasks"></i> 
+            <li class="@if(Request()->is('inventario/estadisticas')) active @endif"><a href="{{route('inven::esta::index')}}"><i class="fa fa-line-chart"></i> 
 				Estadísticas</a></li>
           </ul>
         </li>

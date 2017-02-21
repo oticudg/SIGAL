@@ -1,15 +1,15 @@
 @extends('base')
 @section('bodytag', 'ng-controller="insumosAlertController"')
 
-@section('panel-name', 'Insumos en alerta')
+@section('panel-name', '<i class="fa fa-bell-o text-primary"></i> Insumos en alerta')
 
 @section('content')
 	
 	<div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs pull-right ui-sortable-handle">
-              <li class="active"><a href="#niveles" data-toggle="tab" ng-click="obtenerInsumos()">Niveles</a></li>
-              <li><a href="#vencimiento" data-toggle="tab" ng-click="obtenerInsumosv()">Vencimiento</a></li>
+              <li class="active"><a href="#niveles" data-toggle="tab" ng-click="obtenerInsumos()"><i class="glyphicon glyphicon-tasks text-primary"></i> Niveles</a></li>
+              <li><a href="#vencimiento" data-toggle="tab" ng-click="obtenerInsumosv()"><i class="glyphicon glyphicon-calendar text-primary"></i> Vencimiento</a></li>
             </ul>
             <div class="tab-content">
             	<div class="tab-pane active" id="niveles">
@@ -38,11 +38,11 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Código</th>
-									<th>Descripción</th>
-									<th class="col-md-1 text-right">Existencia</th>
-									<th class="col-md-1 text-right">Nivel critico</th>
-									<th class="col-md-1 text-right">Nivel bajo</th>
+									<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
+									<th class="col-md-4"><i class="fa fa-commenting"></i> Descripción</th>
+									<th class="col-md-1"><i class="glyphicon glyphicon-equalizer"></i> Existencia</th>
+									<th class="col-md-1"><i class="fa fa-cart-arrow-down"></i> Nivel crítico</th>
+									<th class="col-md-1"><i class="fa fa-caret-square-o-down"></i> Nivel bajo</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -89,11 +89,11 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Código</th>
-									<th>Descripción</th>
-									<th class="col-md-1">Lote</th>
-									<th class="col-md-1">Fecha</th>
-									<th class="col-md-1 text-right">Cantidad</th>
+									<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
+									<th class="col-md-3"><i class="fa fa-commenting"></i> Descripción</th>
+									<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
+									<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
+									<th class="col-md-1 text-right"><i class="fa fa-list-ol"></i> Cantidad</th>
 								</tr>
 							</thead>
 							<tbody>

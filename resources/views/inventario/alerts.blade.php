@@ -42,7 +42,7 @@
 							<tr>
 								<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
 								<th><i class="fa fa-commenting"></i> Descripción</th>
-								<th class="col-md-2"><i class="fa fa-cart-arrow-down"></i> Nivel critico</th>
+								<th class="col-md-2"><i class="fa fa-cart-arrow-down"></i> Nivel crítico</th>
 								<th class="col-md-2"><i class="fa fa-caret-square-o-down"></i> Nivel bajo</th>
 								<th class="col-md-2"><i class="fa fa-sort-numeric-asc"></i> Promedio</th>
 								<th class="col-md-2"><i class="glyphicon glyphicon-trash"></i> Eliminar</th>

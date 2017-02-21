@@ -76,7 +76,7 @@
               <thead>
                 <tr>
                   <th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
-                  <th class="col-md-1"><i class="fa fa-barcode"></i> Codigo</th>
+					<th class="col-md-1"><i class="fa fa-barcode"></i> Código</th>
                   <th class="col-md-1"><i class="fa fa-object-group"></i> Concepto</th>
                   <th class="col-md-1"><i class="fa fa-cube"></i> Tipo</th>
                   <th class="col-md-5"><i class="glyphicon glyphicon-user"></i> Tercero</th>

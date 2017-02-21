@@ -86,7 +86,7 @@
 										<th class="col-md-1"><i class="fa fa-arrow-circle-right"></i> Entrada</th>
 										<th class="col-md-2"><i class="fa fa-barcode"></i> Código de insumo</th>
 										<th class="col-md-6"><i class="fa fa-commenting"></i> Descripción</th>
-										<th class="col-md-1"><i class="fa fa-cart-plus"></i> Lote</th>
+										<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
 										<th class="col-md-1"><i class="fa fa-list-ol"></i> Cantidad</th>
 									</tr>
 								</thead>
