@@ -220,3 +220,5 @@ $('[data-toggle="offcanvas"]').click(function () {
 $(window).load(function() {
   $("#loader").fadeOut("fast");
 });
+
+

@@ -29,7 +29,7 @@
 
 						<div class="col-sm-4">
 							<h3 class="text-title">Kardex digital</h3>
-							<p class="text-muted">Consultas el movimiento de un producto a través de un módulo avanzado de búsqueda, permitiendo generar el kardex digital, respetando los criterios de la publicación °15 que provee la Oficina de Controlaría y Consumo.</p>
+							<p class="text-muted">Consultas el movimiento de un producto a través de un módulo avanzado de búsqueda, permitiendo generar el kardex digital, respetando los criterios de la publicación °15 que provee la oficina de controlaría y consumo.</p>
 						</div>
 
 						<div class="col-sm-4">
