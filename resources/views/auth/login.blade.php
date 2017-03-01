@@ -6,7 +6,6 @@
 	<title>SIGAL | Inicio de sesión</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('css/vendor/font-awesome.min.css')}}">
@@ -23,10 +22,11 @@
   <![endif]-->
 </head>
 <body class="hold-transition login-page">
+
 <div class="login-box">
  
   <div class="login-logo">
-    <a href="../"><b>SIGAL</b></a>
+	  <img src="/imagen/sigal2.png">
   </div>
 
   @if($errors->has())
@@ -37,7 +37,7 @@
   @endif  
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Inicio de sesión</p>
+	  <p class="login-box-msg"><strong> Inicio de sesión</strong></p>
 
     <form method="POST" action="/auth/login">
       {!! csrf_field() !!}
@@ -52,7 +52,7 @@
       <div class="row">
         <!-- /.col -->
 		  <div class="col-xs-6 col-xs-offset-3">
-			<button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar sesión</button>
+			  <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar sesión <i class="glyphicon glyphicon-log-in"></i></button>
         </div>
         <!-- /.col -->
       </div>

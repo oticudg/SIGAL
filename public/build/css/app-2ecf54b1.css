@@ -936,7 +936,6 @@ a:focus {
 .navbar-nav > .notifications-menu > .dropdown-menu > li.header,
 .navbar-nav > .messages-menu > .dropdown-menu > li.header,
 .navbar-nav > .tasks-menu > .dropdown-menu > li.header {
-  border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -3175,7 +3174,7 @@ table.text-center th {
 }
 .login-page,
 .register-page {
-  background: #d2d6de;
+  background: white;
 }
 .login-box,
 .register-box {
@@ -3191,7 +3190,7 @@ table.text-center th {
 }
 .login-box-body,
 .register-box-body {
-  background: #fff;
+  background: #ecf0f5;
   padding: 20px;
   border-top: 0;
   color: #666;

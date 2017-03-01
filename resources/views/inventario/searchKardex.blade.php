@@ -92,7 +92,7 @@
               </div>
 
               <div class="col-md-2">
-                <button type="button" class="btn btn-primary btn-block" ng-click="amounESearch()"><i class="glyphicon glyphicon-transfer"></i> Rango existencias</button>
+                <button type="button" class="btn btn-primary btn-block" ng-click="amounESearch()"><i class="glyphicon glyphicon-equalizer"></i> Rango existencia</button>
               </div>
             </div>
             <br>

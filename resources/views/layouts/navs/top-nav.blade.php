@@ -3,9 +3,9 @@
   <!-- Logo -->
   <a href="/" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>SIG</b></span>
+	  <span class="logo-mini"><img src="/imagen/favicon-32x32.png"></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>SIGAL</b></span>
+	  <span class="logo-lg"><img src="/imagen/sigal3.png"></span>
   </a>
 
   <!-- Header Navbar: style can be found in header.less -->
