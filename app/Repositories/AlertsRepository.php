@@ -78,13 +78,15 @@ class AlertsRepository
         $deposito = Auth::user()->deposito;
     	$registros = Inventario::where('deposito', $deposito)
                                 ->get(['id', 'existencia', 'insumo','Cmed', 'Cmin']);
-
+		$cantidad = 0;
         foreach ($registros as $registro) {
 
             if( $registro['existencia'] <= $registro['Cmed'] || $registro['existencia'] <= $registro['Cmin']){
-                return true;
-            }
-            else{
+                //return true;
+            	$cantidad++;
+			}
+			/*en espera de activar contador de vencimiento*/
+            /*else{
 
                 $lotes = Lote::where('insumo', $registro->insumo) 
                             ->where('cantidad', '>', 0)
@@ -96,9 +98,9 @@ class AlertsRepository
                 if($lotes)
                     return true; 
 
-            }
+            }*/
         }
-
-        return false;
+		return $cantidad;
+        //return false;
     } 
 }
