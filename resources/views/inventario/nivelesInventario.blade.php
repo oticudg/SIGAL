@@ -93,14 +93,14 @@
 									<th class="col-md-3"><i class="fa fa-commenting"></i> Descripción</th>
 									<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
 									<th class="col-md-1"><i class="glyphicon glyphicon-calendar"></i> Fecha</th>
-									<th class="col-md-1 text-right"><i class="fa fa-list-ol"></i> Cantidad</th>
+									<th class="col-md-1"><i class="fa fa-list-ol"></i> Cantidad</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="{#insumo.type#}" dir-paginate="insumo in insumosv | filter:busqueda | itemsPerPage:cRegistro" pagination-id="vencimiento">
 									<td>{#insumo.codigo#}</td>
 									<td>{#insumo.descripcion#}</td>
-									<td>{#insumo.lote#}</td>
+									<td class="text-center">{#insumo.lote#}</td>
 									<td>{#insumo.fecha#}</td>
 									<td class="text-right">{#insumo.cantidad#}</td>
 								</tr>

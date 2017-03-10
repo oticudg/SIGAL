@@ -35,11 +35,11 @@
 				<thead>
 					<tr>
 						<th><i class="fa fa-barcode"></i> Código</th>
-						<th><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento.</th>	
-						<th><i class="fa fa-list-ol"></i> Cantidad</th>
+						<th><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento</th>	
+						<th><i class="fa fa-list-ol text-right"></i> Cantidad</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody style="cursor:pointer;">
 					<tr ng-show="visibility">
 						<td>
 							<input type="text" class="form-control" placeholder="Código" ng-model="search.codigo">

@@ -99,10 +99,10 @@
 									<input type="text" class="form-control" placeholder="Descripción" ng-model="busqueda.descripcion">
 								</td>
 								<td>
-									<input type="text" class="form-control text-right" placeholder="Promedio" ng-model="busqueda.promedio">
+									<input type="text" class="form-control" placeholder="Cantidad" ng-model="busqueda.promedio">
 								</td>
 								<td>
-									<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="busqueda.existencia">
+									<input type="text" class="form-control" placeholder="Cantidad" ng-model="busqueda.existencia">
 								</td>
 				        		<td></td>
 							</tr>
