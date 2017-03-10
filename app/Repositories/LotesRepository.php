@@ -27,6 +27,13 @@ class LotesRepository
 			if($lote){
 				$lote->cantidad += $insumo['cantidad'];
 				$lote->save();
+			} else {
+				$lote = new Lote();
+				$lote->codigo = 'SIN LOTES';
+				$lote->insumo = $insumo['id'];
+				$lote->cantidad = $insumo['cantidad'];
+				$lote->deposito = Auth::user()->deposito;
+				$lote->save(); 
 			}
 
 			return;
