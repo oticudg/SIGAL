@@ -67,8 +67,8 @@
 			<tr dir-paginate="insumo in insumos |filter:search:strict| itemsPerPage:5">
 				<td>{#insumo.codigo#}</td>
 				<td>{#insumo.descripcion#}</td>
-				<td class="text-center">{#insumo.lote#}</td>
-				<td class="text-center">{#insumo.cantidad#}</td>
+				<td>{#insumo.lote#}</td>
+				<td class="text-right">{#insumo.cantidad#}</td>
 			</tr>
 		</tbody>
 	</table>

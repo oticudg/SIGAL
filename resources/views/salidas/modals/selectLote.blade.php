@@ -17,7 +17,7 @@
 				<thead>
 					<tr>
 						<th class="col-md-4"><i class="glyphicon glyphicon-th"></i> Insumo</th>
-						<th class="col-sm-1 text-right"><i class="fa fa-cubes"></i> N° lotes</th>	
+						<th class="col-sm-1"><i class="fa fa-cubes"></i> Número de lote</th>	
 					</tr>
 				</thead>
 				<tbody>

@@ -39,7 +39,7 @@
 							</div>
 
 							<div class="col-sm-6 text-right">		
-							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar...">
 							</div>
 						</div>
 

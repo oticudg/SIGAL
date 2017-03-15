@@ -29,7 +29,7 @@
 
 							<div class="col-sm-6 text-right">		
 								<div class="input-group">
-							  		<input type="text" class="form-control" ng-model="busqueda">
+							  		<input type="text" class="form-control" placeholder="Buscar..." ng-model="busqueda">
 							  		<div class="input-group-btn">
 								        <button type="button" class="btn btn-primary dropdown-toggle"
 								                data-toggle="dropdown">
