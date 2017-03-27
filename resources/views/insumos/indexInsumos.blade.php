@@ -52,7 +52,7 @@
 									@if( Auth::user()->hasPermissions(['items_edit', 'items_delete'], true))
 										<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['items_edit', 'items_delete']) )
-										<th class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
+										<th class="col-sm-1">Modificaciones</th>
 									@endif
 								</tr>
 							</thead>
