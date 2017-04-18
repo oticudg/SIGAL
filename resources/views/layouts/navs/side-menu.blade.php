@@ -108,7 +108,11 @@
           </ul>
         </li>
       @endif
-		<li><a href="{{asset('pdf/manual'.Auth::user()->rol.'.pdf')}}" target="_blank"><i class="glyphicon glyphicon-question-sign"></i> <span>Ayuda</span></a></li>
+      @if($var = Auth::user()->rol)
+        @if($var > 0)
+    		  <li><a href="{{asset('pdf/manual'.Auth::user()->rol.'.pdf')}}" target="_blank"><i class="glyphicon glyphicon-question-sign"></i> <span>Ayuda</span></a></li>
+        @endif
+      @endif
     </ul>
   </section>
   <!-- /.sidebar -->
