@@ -79,8 +79,13 @@ class InventarioRepository
 	 */
 	public function balance($insumo, $deposito){
 
-		return Inventario::where('insumo', $insumo)
+		$balance = Inventario::where('insumo', $insumo)
 						 ->where('deposito',$deposito)
 						 ->value('existencia');
+		if($balance){
+			return $balance;
+		} 
+
+		return 0;
 	}	
 }

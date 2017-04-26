@@ -17,72 +17,62 @@ class LotesRepository
 	 */
 	public function registrar($insumo){
 
-		if( !isset($insumo['lote']) || empty($insumo['lote']) ){
-				
-			$lote = Lote::where('insumo', $insumo['id'])
-							   ->where('codigo','SIN LOTES')
-							   ->where('deposito', Auth::user()->deposito)
-							   ->orderBy('id', 'desc')
-							   ->first();			
-			if($lote){
-				$lote->cantidad += $insumo['cantidad'];
-				$lote->save();
-			} else {
-				$lote = new Lote();
-				$lote->codigo = 'SIN LOTES';
-				$lote->insumo = $insumo['id'];
-				$lote->cantidad = $insumo['cantidad'];
-				$lote->deposito = Auth::user()->deposito;
-				$lote->save(); 
-			}
-
-			return;
-		} 
-		else{
+		if( !($this->hasLote($insumo)) ){
 
 			$inventario = new InventarioRepository();
 			$existencia = $inventario->balance($insumo['id'],Auth::user()->deposito);
 
-			if( $existencia > 0 and !($this->hasLote($insumo)) ){
+			$lote = new Lote();
+			$lote->codigo = 'S/L';
+			$lote->insumo = $insumo['id'];
+			$lote->cantidad = $existencia;
+			$lote->deposito = Auth::user()->deposito;
+			$lote->save();	
+		}
 
-				$lote = new Lote();
-				$lote->codigo = 'SIN LOTES';
-				$lote->insumo = $insumo['id'];
-				$lote->cantidad = $existencia;
-				$lote->deposito = Auth::user()->deposito;
-				$lote->save();	
-			}
-
-			$loteRegister = Lote::where('insumo', $insumo['id'])
-							   ->where('codigo', $insumo['lote'])
+		if( (!isset($insumo['lote']) || empty($insumo['lote'])) ){					
+			
+			$lote = Lote::where('insumo', $insumo['id'])
+							   ->where('codigo','S/L')
 							   ->where('deposito', Auth::user()->deposito)
 							   ->orderBy('id', 'desc')
 							   ->first();
-							   
-			if($loteRegister){
-				$loteRegister->cantidad = $loteRegister->cantidad + $insumo['cantidad'];
 
-				if(!$loteRegister->vencimiento and (isset($insumo['fecha']) and !empty($insumo['fecha']))){
-					$loteRegister->vencimiento = new Carbon($insumo['fecha']);
-				}				
+			$lote->cantidad += $insumo['cantidad'];
+			$lote->save();
 
-				$loteRegister->save();
-			}
-			else{
+			return;
+		} 
 
-				$lote = new Lote();
+		$loteRegister = Lote::where('insumo', $insumo['id'])
+						   ->where('codigo', $insumo['lote'])
+						   ->where('deposito', Auth::user()->deposito)
+						   ->orderBy('id', 'desc')
+						   ->first();
+						   
+		if($loteRegister){
+			$loteRegister->cantidad = $loteRegister->cantidad + $insumo['cantidad'];
 
-				$lote->codigo = $insumo['lote'];
-				$lote->insumo = $insumo['id'];
-				$lote->cantidad = $insumo['cantidad'];
-				$lote->deposito = Auth::user()->deposito;
+			if(!$loteRegister->vencimiento and (isset($insumo['fecha']) and !empty($insumo['fecha']))){
+				$loteRegister->vencimiento = new Carbon($insumo['fecha']);
+			}				
 
-				if( isset($insumo['fecha']) and !empty($insumo['fecha']) ){
-					$lote->vencimiento = new Carbon($insumo['fecha']);
-				}	
+			$loteRegister->save();
+		}
+		else{
 
-				$lote->save();	
-			}
+			$lote = new Lote();
+
+			$lote->codigo = $insumo['lote'];
+			$lote->insumo = $insumo['id'];
+			$lote->cantidad = $insumo['cantidad'];
+			$lote->deposito = Auth::user()->deposito;
+
+			if( isset($insumo['fecha']) and !empty($insumo['fecha']) ){
+				$lote->vencimiento = new Carbon($insumo['fecha']);
+			}	
+
+			$lote->save();	
 		}
 	}
 
@@ -268,7 +258,7 @@ class LotesRepository
 		$movimientos  = [];
 	
 		$withLotes = $this->filterInsumosLote($insumoMovimientos);
-		$withoutLotes = $this->	filterInsumosLote($insumoMovimientos,false);
+		$withoutLotes = $this->filterInsumosLote($insumoMovimientos,false);
 
 
 		if( !empty($withLotes) ){

@@ -315,7 +315,7 @@ class entradasController extends Controller
             $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
                 'entrada', $entrada);
 
-            $lote  = isset($insumo['lote'])  ? $insumo['lote']  : NULL;
+            $lote  = isset($insumo['lote'])  ? $insumo['lote']  : 'S/L';
 
             Insumos_entrada::create([
                 'entrada'    => $entrada,

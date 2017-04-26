@@ -285,9 +285,6 @@ class salidasController extends Controller
                     $existencia = inventarioController::reduceInsumo($insumo['id'], $insumo['despachado'], $deposito);
                     $loteRegister->reducir($insumo);
 
-                    if($insumo['lote'] === 'SIN LOTES')
-                        $insumo['lote'] = NULL;
-
                     Insumos_salida::create([
                         'salida'      => $salida,
                         'insumo'      => $insumo['id'],
