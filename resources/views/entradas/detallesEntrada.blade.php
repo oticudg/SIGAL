@@ -33,7 +33,7 @@
 				<td>{#nota.fecha#}</td>
 				<td>{#nota.hora#}</td>
         <td><span class="text-enlace" tooltip="{#nota.concepto#}">{#nota.abreviatura#}</span></td>
-				<td>{#insumos.length#}</td>
+				<td class="text-center">{#insumos.length#}</td>
 				<td>{#nota.tercero#}</td>
 				<td>{#nota.usuario#}</td>
 			</tr>
@@ -58,7 +58,7 @@
 					<input type="text" class="form-control" placeholder="Descripción" ng-model="search.descripcion">
 				</td>
 				<td>
-					<input type="text" class="form-control" placeholder="Lote" ng-model="search.lote">
+					<input type="text" class="form-control" placeholder="Número de lote" ng-model="search.lote">
 				</td>
 				<td>
 					<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">

@@ -1,10 +1,7 @@
 @extends('base')
 @section('bodytag', 'ng-controller="usersController"')
-
 @section('panel-name', '<i class="fa fa-user text-info"></i> Usuarios')
-
 @section('content')
-
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="box box-primary">
@@ -12,7 +9,6 @@
 					
 				</div>	
 				<div class="box-body">
-
 					@if( Auth::user()->hasPermissions(['users_register']) )
 						<div class="row">
 							<div class="col-md-2">
@@ -20,7 +16,6 @@
 							</div>								
 						</div>
 					@endif
-
 					<br>
 					<br>
 					<div class="dataTables_wrapper form-inline dt-bootstrap">
@@ -36,14 +31,11 @@
 									</select> 
 								</div>
 							</div>
-
 							<div class="col-sm-6 text-right">
-								<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+								<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar...">
 							</div>
 						</div>
-
 						<br>
-
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -54,7 +46,7 @@
 									@if( Auth::user()->hasPermissions(['users_edit', 'users_delete'], true))
 									<th class="col-md-1" colspan="2"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['users_edit', 'users_delete']) )
-										<th class="col-md-1">Modificaciones</th>
+									<th class="col-md-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@endif
 								</tr>
 							</thead>
@@ -64,7 +56,6 @@
 									<td>{#usuario.email#}</td>
 									<td>{#usuario.cedula#}</td>
 									<td>{#usuario.deposito | capitalize#}</td>
-
 									@if( Auth::user()->hasPermissions(['users_edit']) )
 										<td class="text-center"><button class="btn btn-warning" ng-click="editarUsuario(usuario.id)"><span class="glyphicon glyphicon-pencil"></span> Editar</button></td>
 									@endif

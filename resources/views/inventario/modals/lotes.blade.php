@@ -17,7 +17,7 @@
 				<thead>
 					<tr>
 						<th class="col-md-4"><i class="glyphicon glyphicon-th"></i> Insumo</th>
-						<th class="col-sm-1 text-right"><i class="fa fa-list-ol"></i> Número de lotes</th>	
+						<th class="col-sm-1"><i class="fa fa-list-ol"></i> Número de lotes</th>	
 					</tr>
 				</thead>
 				<tbody>
@@ -36,7 +36,7 @@
 					<tr>
 						<th><i class="fa fa-barcode"></i> Código</th>
 						<th><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento</th>	
-						<th class="text-right"><i class="fa fa-list-ol"></i> Cantidad</th>
+						<th><i class="fa fa-list-ol"></i> Cantidad</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,7 +48,7 @@
 							<input type="text" class="form-control" placeholder="Fecha de vencimiento" ng-model="search.fecha">
 						</td>
 						<td>
-							<input type="text" class="form-control text-right" placeholder="Cantidad" ng-model="search.cantidad">
+							<input type="text" class="form-control" placeholder="Cantidad" ng-model="search.cantidad">
 						</td>
 					</tr>
 					<tr dir-paginate="lote in lotes | filter:search:strict | itemsPerPage:cRegistro" pagination-id="lotespag">

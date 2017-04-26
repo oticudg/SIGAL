@@ -8,7 +8,6 @@
 		<li class="header text-center">Menú de navegación</li>
 
       <li><a href="/"><i class="fa fa-dashboard"></i> <span>Tablero</span></a></li> 
-
       {{-- Menu de administracion --}}
       @if( Auth::user()->hasPermissions(['users_consult', 'stores_consult', 'documents_consult', 'roles_consult', 'departs_consult', 'providers_consult', 'items_consult']) )
         <li class="treeview @if(Request()->is('administracion/*')) active @endif">
@@ -108,6 +107,11 @@
             @endif 
           </ul>
         </li>
+      @endif
+      @if($var = Auth::user()->rol)
+        @if($var > 0)
+    		  <li><a href="{{asset('pdf/manual'.Auth::user()->rol.'.pdf')}}" target="_blank"><i class="glyphicon glyphicon-question-sign"></i> <span>Ayuda</span></a></li>
+        @endif
       @endif
     </ul>
   </section>

@@ -39,7 +39,7 @@
 							</div>
 
 							<div class="col-sm-6 text-right">		
-							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar...">
 							</div>
 						</div>
 
@@ -52,7 +52,7 @@
 									@if( Auth::user()->hasPermissions(['departs_edit', 'departs_delete'], true))
 									<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif( Auth::user()->hasPermissions(['departs_edit', 'departs_delete']))
-										<th class="col-sm-1">Modificaciones</th>
+									<th class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@endif
 								</tr>
 							</thead>

@@ -116,10 +116,10 @@
                   <input type="text" class="form-control" placeholder="Tipo" ng-model="filtro.type">
                 </td>
                 <td>
-                  <input type="text" class="form-control text-right" placeholder="Movimiento" ng-model="filtro.movido">
+                  <input type="text" class="form-control" placeholder="Movimiento" ng-model="filtro.movido">
                 </td>
                 <td>
-                  <input type="text" class="form-control text-right" placeholder="Existencia" ng-model="filtro.existencia">
+                  <input type="text" class="form-control" placeholder="Cantidad" ng-model="filtro.existencia">
                 </td>
                 <td></td>
               </tr>
@@ -128,8 +128,8 @@
                 <td><span class="text-enlace" tooltip="{#movimiento.concepto#}">{#movimiento.abreviatura#}</span></td>
                 <td>{#movimiento.pod | uppercase #}</td>
                 <td>{#movimiento.type | uppercase #}</td>
-                <td class="text-right">{#movimiento.movido#}</td>
-                <td class="text-right">{#movimiento.existencia#}</td>
+				  <td class="text-right">{#movimiento.movido#}</td>
+				  <td class="text-right">{#movimiento.existencia#}</td>
                 @if(Auth::user()->hasPermissions(['inventory_movements']))
 				  <td class="text-center"><button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ver Pro-Forma" ng-click="detallesNota(movimiento.type, movimiento.referencia, movimiento.i)"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                 @endif

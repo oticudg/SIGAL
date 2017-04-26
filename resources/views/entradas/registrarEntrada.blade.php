@@ -7,16 +7,13 @@
 	
 	<div class="row">
 		<div class="col-xs-12">
-			<div class="box box-primary">
-				<div class="box-header">					
-				</div>	
+			<div class="box box-primary">	
 				<div class="box-body">
 					<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 					<div class="row">						
 						<div class="col-sm-4">
 							<ui-select ng-model="documentoSelect.selected"
-							 ng-disabled="disabled"
-												 reset-search-input="true" on-select="searchTerceros()">
+							 ng-disabled="disabled" reset-search-input="true" on-select="searchTerceros()">
 								<ui-select-match placeholder="Seleccione un concepto de entrada">
 								{#$select.selected.nombre#}</ui-select-match>
 								<ui-select-choices repeat="documento in documentos | filter:$select.search track by documento.id">
@@ -77,7 +74,7 @@
 								</div>
 
 								<div class="col-sm-6 text-right">		
-								  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+								  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar...">
 								</div>
 							</div>
 						</div>
@@ -88,10 +85,10 @@
 							<thead>
 								<tr>
 									<th class="col-md-1"><i class="fa fa-barcode"></i> Código</th>
-									<th><i class="fa fa-commenting"></i> Descripción</th>
-									<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
+									<th class="col-md-3"><i class="fa fa-commenting"></i> Descripción</th>
+									<th class="col-md-2"><i class="fa fa-cubes"></i> Lote</th>
 									<th class="col-md-2"><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento</th>
-									<th class="col-md-1 text-right"><i class="fa fa-list-ol"></i> Cantidad</th>
+									<th class="col-md-1"><i class="fa fa-list-ol"></i> Cantidad</th>
 									<th><i class="glyphicon glyphicon-trash"></i> Eliminar</th>
 								</tr>
 							</thead>
@@ -100,18 +97,18 @@
 									<td class="col-md-2">{#insumo.codigo#}</td>
 									<td>{#insumo.descripcion#}</td>
 									<td class="col-md-1">
-										<input class="form-control text-center" placeholder="N. Lote" type="text" ng-model="insumo.lote">
+										<input class="form-control" placeholder="Número de lote" type="text" ng-model="insumo.lote">
 									</td>
 									<td>
 										<p class="input-group">
-							              <input type="text" id="dateI" placeholder="Ingrese una fecha" class="form-control text-center" datepicker-popup="yyyy-MM-dd" ng-model="insumo.fecha" is-open="insumo.dI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
+							              <input type="text" id="dateI" placeholder="Ingrese una fecha" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="insumo.fecha" is-open="insumo.dI" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"/>
 							              <span class="input-group-btn">
 											  <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="Seleccione una fecha" ng-click="openI($event, insumos.indexOf(insumo))"><i class="glyphicon glyphicon-calendar"></i></button>
 							              </span>
 						        		</p>
 									</td>
 									<td class="col-md-1">
-										<input class="form-control text-right" placeholder="Cantidad" type="number" ng-model="insumo.cantidad">
+										<input class="form-control" placeholder="Cantidad" type="number" ng-model="insumo.cantidad">
 									</td>
 									<td class="col-md-1 text-center">
 										<button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Presione para remover" ng-click="eliminarInsumo(insumos.indexOf(insumo))"><span class="glyphicon glyphicon-remove"></span>

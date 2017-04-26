@@ -8,8 +8,6 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="box box-primary">
-				<div class="box-header">					
-				</div>	
 				<div class="box-body">
 					<alert ng-show="alert.type" type="{#alert.type#}" close="closeAlert()">{#alert.msg#}</alert>
 					<div class="row">						
@@ -79,7 +77,7 @@
 								</div>
 
 								<div class="col-sm-6 text-right">		
-								  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+									<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar...">
 								</div>
 							</div>
 						</div>
@@ -102,11 +100,11 @@
 									<td>{#insumo.descripcion#}</td>
 									<td>
 										<div class="input-group">
-											<input class="form-control" placeholder="Lote" type="text" ng-model="insumo.lote">
+											<input class="form-control" placeholder="Seleccione un lote" type="text" ng-model="insumo.lote">
 											<div class="input-group-btn">
 												<button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Seleccione un lote" ng-click="LotesSelect(insumo)"><i class="fa fa-cubes"></i></button>
 											</div>
-										</div
+										</div>
 									</td>
 									<td>
 										<input class="form-control" placeholder="Cantidad" type="number" ng-model="insumo.solicitado">

@@ -17,7 +17,7 @@
 				<thead>
 					<tr>
 						<th class="col-md-4"><i class="glyphicon glyphicon-th"></i> Insumo</th>
-						<th class="col-sm-1 text-right"><i class="fa fa-cubes"></i> N° lotes</th>	
+						<th class="col-sm-1"><i class="fa fa-cubes"></i> Número de lote</th>	
 					</tr>
 				</thead>
 				<tbody>
@@ -35,11 +35,11 @@
 				<thead>
 					<tr>
 						<th><i class="fa fa-barcode"></i> Código</th>
-						<th><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento.</th>	
-						<th><i class="fa fa-list-ol"></i> Cantidad</th>
+						<th><i class="glyphicon glyphicon-calendar"></i> Fecha de vencimiento</th>	
+						<th><i class="fa fa-list-ol text-right"></i> Cantidad</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody style="cursor:pointer;">
 					<tr ng-show="visibility">
 						<td>
 							<input type="text" class="form-control" placeholder="Código" ng-model="search.codigo">

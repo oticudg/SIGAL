@@ -34,7 +34,7 @@
 				<td>{#nota.fecha#}</td>
 				<td>{#nota.hora#}</td>
 				<td><span class="text-enlace" tooltip="{#nota.concepto#}">{#nota.abreviatura#}</span></td>
-				<td>{#insumos.length#}</td>
+				<td class="text-center">{#insumos.length#}</td>
 				<td>{#nota.tercero#}</td>
 				<td>{#nota.usuario#}</td>
 			</tr>
@@ -47,8 +47,8 @@
 				<th class="col-md-2"><i class="fa fa-barcode"></i> Código</th>
 				<th class="col-md-3"><i class="fa fa-commenting"></i> Descripción</th>
 				<th class="col-md-1"><i class="fa fa-cubes"></i> Lote</th>
-				<th class="col-md-1 text-right"><i class="fa fa-opencart"></i> Solicitado</th>
-				<th class="col-md-1 text-right"><i class="fa fa-cart-plus"></i> Despachado</th>
+				<th class="col-md-1"><i class="fa fa-opencart"></i> Solicitado</th>
+				<th class="col-md-1"><i class="fa fa-cart-plus"></i> Despachado</th>
 			</tr>
 		</thead>
 		<tbody>

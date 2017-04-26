@@ -38,7 +38,7 @@
 							</div>
 
 							<div class="col-sm-6 text-right">		
-							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar..">
+							  	<input type="text" class="form-control" ng-model="busqueda" placeholder="Buscar...">
 							</div>
 						</div>
 
@@ -53,9 +53,9 @@
 									<th class="col-md-1"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i> Naturaleza</th>
 									<th class="col-md-4"><i class="fa fa-hand-lizard-o" aria-hidden="true"></i> Uso</th>
 									@if( Auth::user()->hasPermissions(['documents_edit', 'documents_delete'], true))
-									<th colspan="2" class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
+									<th colspan="2" class="col-sm-2"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@elseif(  Auth::user()->hasPermissions(['documents_edit', 'documents_delete']))
-										<th class="col-sm-1">Modificaciones</th>
+										<th class="col-sm-1"><i class="glyphicon glyphicon-edit"></i> Modificar</th>
 									@endif
 								</tr>
 							</thead>
