@@ -112,7 +112,7 @@ Route::group(['middleware' => 'auth' ], function(){
 		/*** Modulo de usuarios ***/
 
 		Route::group(['prefix' => 'usuarios', 'as' => 'user::'], function(){
-			
+
 			Route::group(['middleware' => 'permission:users_consult'], function(){
 
 				//Muestra el panel de usuarios
@@ -162,7 +162,7 @@ Route::group(['middleware' => 'auth' ], function(){
 
 			//Regresa todos los usuarios del deposito del usuario logueado
 			Route::get('getUsuariosDeposito', 'usersController@getUsuariosDeposito');
-		
+
 		});
 
 		/*** fin de modulo usuario ***/
@@ -484,7 +484,7 @@ Route::group(['middleware' => 'auth' ], function(){
 			Route::get('registrar', ['as' => 'registrar', 'uses' => 'salidasController@viewRegistrar']);
 			//Registra una salida
 			Route::post('registrar' ,'salidasController@registrar');
-		});	
+		});
 	});
 
 
@@ -502,4 +502,3 @@ Route::group(['middleware' => 'auth' ], function(){
 	/*** Fin de modulo de Reportes ***/
 
 });
-

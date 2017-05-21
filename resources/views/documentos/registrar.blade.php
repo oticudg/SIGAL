@@ -24,6 +24,7 @@
         <select class="form-control" id="natu" ng-model="registro.naturaleza">
           <option value="entrada">Entrada</option>
           <option value="salida">Salida</option>
+          <option value="establecer">Establecer</option>
         </select>
       </div>
     </div>

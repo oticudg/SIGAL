@@ -1578,7 +1578,7 @@ controller('kardexController',function($scope,$http,$modal){
 
 	$scope.detallesNota = function(type,index,inv){
 
-		if(type == "entrada"){
+		if(type == "entrada" || type == 'establecer'){
 			if(inv){
 				var search = {
 					view:"/inventario/herramientas/detallesCarga",

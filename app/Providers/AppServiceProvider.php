@@ -167,7 +167,7 @@ class AppServiceProvider extends ServiceProvider
                         return false;
 
                     if( $insumo['min'] <= 0 || $insumo['med'] <= 0 ||
-                        $insumo['min'] >= $insumo['med'] || 
+                        $insumo['min'] >= $insumo['med'] ||
                         $insumo['promedio'] <= $insumo['min'] ||
                         $insumo['promedio'] <= $insumo['med'])
                            return false;
@@ -315,7 +315,13 @@ class AppServiceProvider extends ServiceProvider
             if(!$documento)
               return false;
 
-            return $documento->naturaleza == 'entrada';
+
+            if( $documento->naturaleza != 'entrada' &&
+                $documento->naturaleza != 'establecer'){
+                return false;
+            }
+
+            return true;
 
         });
 
@@ -413,7 +419,7 @@ class AppServiceProvider extends ServiceProvider
 
             if( !empty($lote->equal_insumos_lotes($value))){
                 return false;
-            } 
+            }
 
             return true;
         });
@@ -423,7 +429,7 @@ class AppServiceProvider extends ServiceProvider
             foreach ($value as $insumo){
                if( !isset($insumo['lote']) || empty($insumo['lote']) ){
                     return false;
-               } 
+               }
             }
 
             return true;
@@ -435,7 +441,7 @@ class AppServiceProvider extends ServiceProvider
 
             if( !empty($lote->nequal_vencimiento($value)) ){
                 return false;
-            } 
+            }
 
             return true;
         });
@@ -448,7 +454,7 @@ class AppServiceProvider extends ServiceProvider
             foreach($value as $insumo) {
 
                 if( array_search($insumo['id'], $movimientos) !== false )
-                    continue;   
+                    continue;
 
                 $insumoMovimientos = array_filter($value, function($element) use ($insumo){
                     return $element['id'] == $insumo['id'];

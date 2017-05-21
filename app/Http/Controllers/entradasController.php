@@ -67,7 +67,7 @@ class entradasController extends Controller
                       ->join('departamentos','entradas.tercero', '=', 'departamentos.id')
                       ->where('entradas.deposito', $deposito)
                       ->where('documentos.tipo', 'servicio')
-                      ->where('documentos.naturaleza', 'entrada')
+                      ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                       ->select($select)
                       ->addSelect('departamentos.nombre as tercero');
 
@@ -76,7 +76,7 @@ class entradasController extends Controller
                       ->join('provedores','entradas.tercero', '=', 'provedores.id')
                       ->where('entradas.deposito', $deposito)
                       ->where('documentos.tipo', 'proveedor')
-                      ->where('documentos.naturaleza', 'entrada')
+                      ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                       ->select($select)
                       ->addSelect('provedores.nombre as tercero');
 
@@ -85,7 +85,7 @@ class entradasController extends Controller
                       ->join('depositos','entradas.tercero', '=', 'depositos.id')
                       ->where('entradas.deposito', $deposito)
                       ->where('documentos.tipo', 'deposito')
-                      ->where('documentos.naturaleza', 'entrada')
+                      ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                       ->select($select)
                       ->addSelect('depositos.nombre as tercero');
 
@@ -94,7 +94,7 @@ class entradasController extends Controller
                       ->join('depositos','entradas.tercero', '=', 'depositos.id')
                       ->where('entradas.deposito', $deposito)
                       ->where('documentos.tipo', 'interno')
-                      ->where('documentos.naturaleza', 'entrada')
+                      ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                       ->select($select)
                       ->addSelect('depositos.nombre as tercero');
 

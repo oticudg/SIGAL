@@ -136,7 +136,7 @@ class documentosController extends Controller
  public function allFilter($naturaleza){
    if($naturaleza == 'entradas'){
     return Documento::orderBy('id', 'desc')
-          ->where('naturaleza', 'entrada')
+          ->whereIn('naturaleza', ['entrada','establecer'])
           ->get(['id','nombre', 'abreviatura','tipo']);
    }
    elseif($naturaleza == 'salidas'){

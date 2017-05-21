@@ -427,25 +427,25 @@ class inventarioController extends Controller
       $entradas_servicios = $query_e[0]
                           ->join('departamentos', 'entradas.tercero', '=', 'departamentos.id')
                           ->where('documentos.tipo', 'servicio')
-                          ->where('documentos.naturaleza', 'entrada')
+                          ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                           ->addSelect('departamentos.nombre as pod', 'insumos_entradas.existencia');
 
       $entradas_provedores = $query_e[1]
                           ->join('provedores', 'entradas.tercero', '=', 'provedores.id')
                           ->where('documentos.tipo', 'proveedor')
-                          ->where('documentos.naturaleza', 'entrada')
+                          ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                           ->addSelect('provedores.nombre as pod', 'insumos_entradas.existencia');
 
       $entradas_depositos = $query_e[2]
                           ->join('depositos', 'entradas.tercero', '=', 'depositos.id')
                           ->where('documentos.tipo', 'deposito')
-                          ->where('documentos.naturaleza', 'entrada')
+                          ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                           ->addSelect('depositos.nombre as pod', 'insumos_entradas.existencia');
 
       $entradas_internos  = $query_e[3]
                           ->join('depositos', 'entradas.tercero', '=', 'depositos.id')
                           ->where('documentos.tipo', 'interno')
-                          ->where('documentos.naturaleza', 'entrada')
+                          ->whereIn('documentos.naturaleza', ['entrada','establecer'])
                           ->addSelect('depositos.nombre as pod', 'insumos_entradas.existencia');
 
       //Une todas las consultas de entradas y salidas.
@@ -476,7 +476,7 @@ class inventarioController extends Controller
       if(!$insumo)
           abort('404');
 
-      $loteRegister = new LotesRepository(); 
+      $loteRegister = new LotesRepository();
 
       $nombre = insumo::where('id',$id)->value('descripcion');
       $lotes = $loteRegister->lotes($id);
@@ -484,7 +484,7 @@ class inventarioController extends Controller
       return Response()->json(
         [
           'insumo' => ['nombre' => $nombre, 'cantidad' => count($lotes)],
-          'lotes'  => $lotes 
+          'lotes'  => $lotes
         ]
       );
     }

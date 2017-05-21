@@ -926,7 +926,7 @@ controller('estadisticasController',function($scope,$http){
 					chartOption.drilldown.series = response.Ddata; 
 					chartOption.yAxis.title.text = 'Salidas de insumos';
 					chartOption.title.text = response.title;
-					chartOption.subtitle.text = 'Haga click en una columna para ver los insumos que han salido por servicio';
+					chartOption.subtitle.text = 'Haga clic en una columna para ver los insumos que han salido por servicio';
 
 					$(function () {
 				    	$('#graficaInicial').highcharts(chartOption);
@@ -1578,7 +1578,7 @@ controller('kardexController',function($scope,$http,$modal){
 
 	$scope.detallesNota = function(type,index,inv){
 
-		if(type == "entrada"){
+		if(type == "entrada" || type == 'establecer'){
 			if(inv){
 				var search = {
 					view:"/inventario/herramientas/detallesCarga",
