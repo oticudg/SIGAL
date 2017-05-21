@@ -345,24 +345,26 @@ class inventarioController extends Controller
       //Campos comunes a seleccionar en las salidas.
       $select_salida = [
         'insumos_salidas.id as id',
-        'insumos_salidas.despachado as movido',
         'salidas.id as referencia',
         'insumos_salidas.created_at as fulldate',
         'documentos.naturaleza as type',
         'documentos.nombre as concepto',
         'documentos.abreviatura',
+        DB::raw('MIN(insumos_salidas.existencia) as existencia'),
+        DB::raw('sum(insumos_salidas.despachado) as movido'),
         DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%d/%m/%Y") as fecha'),
       ];
 
       //Campos comunes a seleccionar en las entradas.
       $select_entrada = [
         'insumos_entradas.id as id',
-        'insumos_entradas.cantidad as movido',
         'entradas.id as referencia',
         'insumos_entradas.created_at as fulldate',
         'documentos.naturaleza as type',
         'documentos.nombre as concepto',
         'documentos.abreviatura',
+        DB::raw('MAX(insumos_entradas.existencia) as existencia'),
+        DB::raw('sum(insumos_entradas.cantidad) as movido'),
         DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%d/%m/%Y") as fecha'),
       ];
 
@@ -378,6 +380,7 @@ class inventarioController extends Controller
                       ->join('salidas', 'insumos_salidas.salida',  '=', 'salidas.id')
                       ->join('documentos', 'salidas.documento',    '=', 'documentos.id')
                       ->whereBetween(DB::raw('DATE_FORMAT(insumos_salidas.created_at, "%Y-%m-%d")'), [$dateI, $dateF])
+                      ->groupBy('insumos_salidas.salida')
                       ->select($select_salida);
       }
 
@@ -393,6 +396,7 @@ class inventarioController extends Controller
                       ->join('entradas', 'insumos_entradas.entrada',  '=', 'entradas.id')
                       ->join('documentos', 'entradas.documento',      '=', 'documentos.id')
                       ->whereBetween(DB::raw('DATE_FORMAT(insumos_entradas.created_at, "%Y-%m-%d")'), [$dateI, $dateF])
+                      ->groupBy('insumos_entradas.entrada')
                       ->select($select_entrada);
       }
 
@@ -401,26 +405,26 @@ class inventarioController extends Controller
                           ->join('departamentos', 'salidas.tercero', '=', 'departamentos.id')
                           ->where('documentos.tipo', 'servicio')
                           ->where('documentos.naturaleza', 'salida')
-                          ->addSelect('departamentos.nombre as pod', 'insumos_salidas.existencia');
+                          ->addSelect('departamentos.nombre as pod');
 
       $salida_provedores = $query_s[1]
                           ->join('provedores', 'salidas.tercero', '=', 'provedores.id')
                           ->where('documentos.tipo', 'proveedor')
                           ->where('documentos.naturaleza', 'salida')
-                          ->addSelect('provedores.nombre as pod', 'insumos_salidas.existencia');
+                          ->addSelect('provedores.nombre as pod');
 
 
       $salida_depositos  = $query_s[2]
                           ->join('depositos', 'salidas.tercero', '=', 'depositos.id')
                           ->where('documentos.tipo', 'deposito')
                           ->where('documentos.naturaleza', 'salida')
-                          ->addSelect('depositos.nombre as pod', 'insumos_salidas.existencia');
+                          ->addSelect('depositos.nombre as pod');
 
       $salida_internos   = $query_s[3]
                           ->join('depositos', 'salidas.tercero', '=', 'depositos.id')
                           ->where('documentos.tipo', 'interno')
                           ->where('documentos.naturaleza', 'salida')
-                          ->addSelect('depositos.nombre as pod', 'insumos_salidas.existencia');
+                          ->addSelect('depositos.nombre as pod');
 
 
       //Querys espesificas para cada tipo de entrada.
@@ -428,25 +432,25 @@ class inventarioController extends Controller
                           ->join('departamentos', 'entradas.tercero', '=', 'departamentos.id')
                           ->where('documentos.tipo', 'servicio')
                           ->whereIn('documentos.naturaleza', ['entrada','establecer'])
-                          ->addSelect('departamentos.nombre as pod', 'insumos_entradas.existencia');
+                          ->addSelect('departamentos.nombre as pod');
 
       $entradas_provedores = $query_e[1]
                           ->join('provedores', 'entradas.tercero', '=', 'provedores.id')
                           ->where('documentos.tipo', 'proveedor')
                           ->whereIn('documentos.naturaleza', ['entrada','establecer'])
-                          ->addSelect('provedores.nombre as pod', 'insumos_entradas.existencia');
+                          ->addSelect('provedores.nombre as pod');
 
       $entradas_depositos = $query_e[2]
                           ->join('depositos', 'entradas.tercero', '=', 'depositos.id')
                           ->where('documentos.tipo', 'deposito')
                           ->whereIn('documentos.naturaleza', ['entrada','establecer'])
-                          ->addSelect('depositos.nombre as pod', 'insumos_entradas.existencia');
+                          ->addSelect('depositos.nombre as pod');
 
       $entradas_internos  = $query_e[3]
                           ->join('depositos', 'entradas.tercero', '=', 'depositos.id')
                           ->where('documentos.tipo', 'interno')
                           ->whereIn('documentos.naturaleza', ['entrada','establecer'])
-                          ->addSelect('depositos.nombre as pod', 'insumos_entradas.existencia');
+                          ->addSelect('depositos.nombre as pod');
 
       //Une todas las consultas de entradas y salidas.
       $uniones = $this->filterKardex($salida_servicios, $data,1)

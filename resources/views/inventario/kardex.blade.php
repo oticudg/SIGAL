@@ -19,7 +19,7 @@
     <div class="col-xs-12">
       <div class="box box-primary">
         <div class="box-header">
-        </div>  
+        </div>
         <div class="box-body">
           <div class="dataTables_wrapper form-inline dt-bootstrap">
             <div class="row">
@@ -31,7 +31,7 @@
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
-                  </select> 
+                  </select>
                 </div>
               </div>
 
@@ -50,7 +50,7 @@
                 </table>
               </div>
 
-              <div class="col-sm-offset-1 col-sm-3 text-right">   
+              <div class="col-sm-offset-1 col-sm-3 text-right">
                 <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" tooltip="Filtrar registros">
                   <span class="glyphicon glyphicon-search"></span></button>
 
@@ -142,7 +142,7 @@
                <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{asset('/template/dirPagination.tpl.html')}}" pagination-id="movimientos"></dir-pagination-controls>
               </div>
           </div>
-    
+
         </div>
       </div>
     </div>
