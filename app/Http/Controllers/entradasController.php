@@ -13,6 +13,7 @@ use App\Insumos_entrada;
 use App\Deposito;
 use App\Documento;
 use App\Repositories\LotesRepository;
+use App\Repositories\InventarioRepository;
 
 class entradasController extends Controller
 {
@@ -317,6 +318,10 @@ class entradasController extends Controller
           //los movimientos de lotes que genera la entrada.
           $loteRegister = new LotesRepository();
 
+          //Crea una instancia de InventarioRepository para registrar
+          //los movimeintos de los insumos en el inventario.
+          $inventario = new InventarioRepository();
+
           //Si la naturaleza es entrada registra los movimientos como una
           //sumatoria de cantidades.
           if($documentoNaturaleza == 'entrada'){
@@ -324,7 +329,11 @@ class entradasController extends Controller
               foreach ($insumos as $insumo){
 
                 $loteRegister->registrar($insumo);
-                $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
+                $existencia = $inventario->almacenaInsumo(
+                    $insumo['id'],
+                    $insumo['cantidad'],
+                    $deposito
+                );
 
                 $lote  = isset($insumo['lote'])  ? $insumo['lote']  : 'S/L';
 
@@ -339,19 +348,23 @@ class entradasController extends Controller
 
               }
           }
-          //Si la naturaleza es establecer registrar los movimientos como
+          //Si la naturaleza es establecer registra los movimientos como
           //el valor absoluto de la cantidades.
           elseif( $documentoNaturaleza == 'establecer'){
 
+
+              $unique = $this->getDistinctInsumos($insumos);
+              $loteRegister->deleteAll($unique);
+              $inventario->estableceAll($unique,0,$deposito);
+
               foreach ($insumos as $insumo){
 
-                $existencia = inventarioController::estableceInsumo(
+                $loteRegister->registrar($insumo);
+                $existencia = $inventario->almacenaInsumo(
                     $insumo['id'],
                     $insumo['cantidad'],
                     $deposito
                 );
-                $loteRegister->deleteAll($insumo);
-                $loteRegister->registrar($insumo,0);
 
                 $lote  = isset($insumo['lote'])  ? $insumo['lote']  : 'S/L';
 
@@ -381,5 +394,18 @@ class entradasController extends Controller
         $depCode = Deposito::where('id' , $deposito)->value('codigo');
 
         return strtoupper( $depCode .'-'.$prefix.str_random(7) );
+    }
+
+    /**
+     * Devuelve una lista de insumos no repetidos.
+     *
+     * @param array $insumo
+     */
+    private function getDistinctInsumos($insumos)
+    {
+        $insumos = collect($insumos);
+        $unique  = $insumos->unique('id');
+
+        return $unique;
     }
 }

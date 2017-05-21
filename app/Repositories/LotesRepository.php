@@ -15,21 +15,15 @@ class LotesRepository
 	 *
 	 * @param array $insumo
 	 */
-	public function registrar($insumo, $notLoteDefaultValue = false){
+	public function registrar($insumo){
 
 		if( !($this->hasLote($insumo)) ){
 
 			$inventario = new InventarioRepository();
-
-			if($notLoteDefaultValue !== false){
-				$existencia = 0;
-			}
-			else{
-				$existencia = $inventario->balance(
-					$insumo['id'],
-					Auth::user()->deposito
-				);
-			}
+			$existencia = $inventario->balance(
+				$insumo['id'],
+				Auth::user()->deposito
+			);
 
 			$lote = new Lote();
 			$lote->codigo = 'S/L';
@@ -104,13 +98,15 @@ class LotesRepository
 	}
 
 	/**
-	 * Elimina todos los lotes de un insumo que se pase.
+	 * Elimina todos los lotes de los insumos que se pasen.
 	 *
-	 * @param array $insumo
+	 * @param array $insumos
 	 */
-	public function deleteAll($insumo){
+	public function deleteAll($insumos){
 
-		Lote::where('insumo', $insumo['id'])
+		$insumos = collect($insumos)->pluck('id');
+
+		Lote::whereIn('insumo', $insumos)
 			->where('deposito', Auth::user()->deposito)
 			->delete();
 	}
