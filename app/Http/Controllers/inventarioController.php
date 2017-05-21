@@ -513,11 +513,35 @@ class inventarioController extends Controller
     		Inventario::create([
     			'insumo'     => $insumo,
     			'existencia' => $cantidad,
-          'deposito'   => $deposito
+                'deposito'   => $deposito
     		]);
 
-        return $cantidad;
+            return $cantidad;
     	}
+    }
+
+    public static function estableceInsumo($insumo, $cantidad, $deposito){
+
+    	$inventario = Inventario::where('insumo',$insumo)
+                      ->where('deposito', $deposito)
+                      ->first();
+
+        if( $inventario ){
+
+            Inventario::where('insumo' , $insumo)
+                ->where('deposito', $deposito)
+                ->update(['existencia' => $cantidad]);
+    	}
+    	else{
+
+            Inventario::create([
+    			'insumo'     => $insumo,
+    			'existencia' => $cantidad,
+                'deposito'   => $deposito
+    		]);
+    	}
+
+        return $cantidad;
     }
 
     public static function reduceInsumo($insumo, $cantidad, $deposito){

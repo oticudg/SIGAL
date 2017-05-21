@@ -293,12 +293,16 @@ class entradasController extends Controller
             return Response()->json(['status' => 'danger', 'menssage' => $validator->errors()->first()]);
           }
 
+          //Obtiene la naturaleza del documento de la entrada que se registrara
+          $documentoNaturaleza = Documento::where('id', $data['documento'])->value('naturaleza');
 
           $insumos = $data['insumos'];
 
-          //Codigo para la entrada
-          $code = $this->generateCode('E', $deposito);
+          /*** Registra una nueva entrada ***/
 
+          // Genera el codigo para la nueva entrada
+          $code = $this->generateCode('E', $deposito);
+          // Almacena la entrada en la base de datos
           $entrada = Entrada::create([
                       'codigo'   => $code,
                       'tercero'  => $data['tercero'],
@@ -307,25 +311,60 @@ class entradasController extends Controller
                       'deposito' => $deposito
                   ])['id'];
 
+          /*** Registra los movimientos de los insumos en la entrada ***/
+
+          //Crea una instancia de LotesRepository para registrar
+          //los movimientos de lotes que genera la entrada.
           $loteRegister = new LotesRepository();
 
-          foreach ($insumos as $insumo){
+          //Si la naturaleza es entrada registra los movimientos como una
+          //sumatoria de cantidades.
+          if($documentoNaturaleza == 'entrada'){
 
-            $loteRegister->registrar($insumo);
-            $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito,
-                'entrada', $entrada);
+              foreach ($insumos as $insumo){
 
-            $lote  = isset($insumo['lote'])  ? $insumo['lote']  : 'S/L';
+                $loteRegister->registrar($insumo);
+                $existencia = inventarioController::almacenaInsumo($insumo['id'], $insumo['cantidad'], $deposito);
 
-            Insumos_entrada::create([
-                'entrada'    => $entrada,
-                'insumo'     => $insumo['id'],
-                'cantidad'   => $insumo['cantidad'],
-                'lote'       => $lote,
-                'deposito'   => $deposito,
-                'existencia' => $existencia
-            ]);
+                $lote  = isset($insumo['lote'])  ? $insumo['lote']  : 'S/L';
 
+                Insumos_entrada::create([
+                    'entrada'    => $entrada,
+                    'insumo'     => $insumo['id'],
+                    'cantidad'   => $insumo['cantidad'],
+                    'lote'       => $lote,
+                    'deposito'   => $deposito,
+                    'existencia' => $existencia
+                ]);
+
+              }
+          }
+          //Si la naturaleza es establecer registrar los movimientos como
+          //el valor absoluto de la cantidades.
+          elseif( $documentoNaturaleza == 'establecer'){
+
+              foreach ($insumos as $insumo){
+
+                $existencia = inventarioController::estableceInsumo(
+                    $insumo['id'],
+                    $insumo['cantidad'],
+                    $deposito
+                );
+                $loteRegister->deleteAll($insumo);
+                $loteRegister->registrar($insumo,0);
+
+                $lote  = isset($insumo['lote'])  ? $insumo['lote']  : 'S/L';
+
+                Insumos_entrada::create([
+                    'entrada'    => $entrada,
+                    'insumo'     => $insumo['id'],
+                    'cantidad'   => $insumo['cantidad'],
+                    'lote'       => $lote,
+                    'deposito'   => $deposito,
+                    'existencia' => $existencia
+                ]);
+
+              }
           }
 
           return Response()->json(['status' => 'success', 'menssage' =>

@@ -15,23 +15,32 @@ class LotesRepository
 	 *
 	 * @param array $insumo
 	 */
-	public function registrar($insumo){
+	public function registrar($insumo, $notLoteDefaultValue = false){
 
 		if( !($this->hasLote($insumo)) ){
 
 			$inventario = new InventarioRepository();
-			$existencia = $inventario->balance($insumo['id'],Auth::user()->deposito);
+
+			if($notLoteDefaultValue !== false){
+				$existencia = 0;
+			}
+			else{
+				$existencia = $inventario->balance(
+					$insumo['id'],
+					Auth::user()->deposito
+				);
+			}
 
 			$lote = new Lote();
 			$lote->codigo = 'S/L';
 			$lote->insumo = $insumo['id'];
 			$lote->cantidad = $existencia;
 			$lote->deposito = Auth::user()->deposito;
-			$lote->save();	
+			$lote->save();
 		}
 
-		if( (!isset($insumo['lote']) || empty($insumo['lote'])) ){					
-			
+		if( (!isset($insumo['lote']) || empty($insumo['lote'])) ){
+
 			$lote = Lote::where('insumo', $insumo['id'])
 							   ->where('codigo','S/L')
 							   ->where('deposito', Auth::user()->deposito)
@@ -42,20 +51,20 @@ class LotesRepository
 			$lote->save();
 
 			return;
-		} 
+		}
 
 		$loteRegister = Lote::where('insumo', $insumo['id'])
 						   ->where('codigo', $insumo['lote'])
 						   ->where('deposito', Auth::user()->deposito)
 						   ->orderBy('id', 'desc')
 						   ->first();
-						   
+
 		if($loteRegister){
 			$loteRegister->cantidad = $loteRegister->cantidad + $insumo['cantidad'];
 
 			if(!$loteRegister->vencimiento and (isset($insumo['fecha']) and !empty($insumo['fecha']))){
 				$loteRegister->vencimiento = new Carbon($insumo['fecha']);
-			}				
+			}
 
 			$loteRegister->save();
 		}
@@ -70,24 +79,24 @@ class LotesRepository
 
 			if( isset($insumo['fecha']) and !empty($insumo['fecha']) ){
 				$lote->vencimiento = new Carbon($insumo['fecha']);
-			}	
+			}
 
-			$lote->save();	
+			$lote->save();
 		}
 	}
 
 	/**
-	 * reduce la cantidad de un lote asociando con un insumo 
+	 * reduce la cantidad de un lote asociando con un insumo
 	 *
 	 * @param array $insumo
 	 */
 	public function reducir($insumo){
-		
+
 		$insumoRegister =  Lote::where('insumo', $insumo['id'])
 						   ->where('codigo', $insumo['lote'])
 						   ->where('deposito', Auth::user()->deposito)
 						   ->orderBy('id', 'desc')
-						   ->first();			
+						   ->first();
 
 		$insumoRegister->cantidad = $insumoRegister->cantidad - $insumo['despachado'];
 
@@ -95,11 +104,23 @@ class LotesRepository
 	}
 
 	/**
-	 * Devuelve insumos asociado con un lote que tengan una fecha de  
+	 * Elimina todos los lotes de un insumo que se pase.
+	 *
+	 * @param array $insumo
+	 */
+	public function deleteAll($insumo){
+
+		Lote::where('insumo', $insumo['id'])
+			->where('deposito', Auth::user()->deposito)
+			->delete();
+	}
+
+	/**
+	 * Devuelve insumos asociado con un lote que tengan una fecha de
 	 * vencimiento diferente a la previamente almacenada.
-	 * 
+	 *
 	 * @param array $insumos
-	 * @return array $errores 
+	 * @return array $errores
 	 */
 	public function nequal_vencimiento($insumos){
 
@@ -128,21 +149,21 @@ class LotesRepository
 	}
 
 	/**
-	 * Devuelve insumos cuyo lotes esten duplicados en el 
-	 * arreglo que se pase. 
-	 * 
+	 * Devuelve insumos cuyo lotes esten duplicados en el
+	 * arreglo que se pase.
+	 *
 	 * @param array $insumos
-	 * @return array $errores 
+	 * @return array $errores
 	 */
 	public function equal_insumos_lotes($insumos){
 
 		$errores = [];
 
 	 	foreach ($insumos as $key => $insumo){
-            
+
             if(!isset($insumo['lote']) || empty($insumo['lote'])){
-            	continue;		
-            } 
+            	continue;
+            }
             else{
 	            foreach( $insumos as $key_validate => $insumo_validate){
 
@@ -153,7 +174,7 @@ class LotesRepository
 	                    if($insumo_validate['lote'] == $insumo['lote'])
 	                    	array_push($errores, $insumo['id']);
 	                }
-	            }               
+	            }
 	        }
         }
 
@@ -162,11 +183,11 @@ class LotesRepository
 	}
 
 	/**
-	 * Devuelve insumos cuyos lotes no existan en el 
-	 * arreglo que se pase. 
-	 * 
+	 * Devuelve insumos cuyos lotes no existan en el
+	 * arreglo que se pase.
+	 *
 	 * @param array $insumos
-	 * @return array $errores 
+	 * @return array $errores
 	 */
 	public function loteExist($insumos){
 
@@ -181,7 +202,7 @@ class LotesRepository
 						   	->where('codigo', $insumo['lote'])
 						   	->where('deposito', Auth::user()->deposito)
 						   	->orderBy('id', 'desc')
-						   	->first(); 
+						   	->first();
 
             if(!$loteRegister){
                 array_push($errores, ['insumo' => $insumo['id'], 'lote' => $insumo['lote']]);
@@ -193,10 +214,10 @@ class LotesRepository
 
 	/**
 	 * Devuelve insumos cuyos lotes no tengan la cantidad
-	 * especificada en el arreglo que se pase. 
-	 * 
+	 * especificada en el arreglo que se pase.
+	 *
 	 * @param array $insumos
-	 * @return array $errores 
+	 * @return array $errores
 	 */
 	public function saldoExist($insumos){
 
@@ -211,7 +232,7 @@ class LotesRepository
 						   	->where('codigo', $insumo['lote'])
 						   	->where('deposito', Auth::user()->deposito)
 						   	->orderBy('id', 'desc')
-						   	->first(); 
+						   	->first();
 
             if( ($loteRegister->cantidad - $insumo['despachado']) < 0){
                 array_push($errores, ['insumo' => $insumo['id'], 'lote' => $insumo['lote']]);
@@ -222,15 +243,15 @@ class LotesRepository
 	}
 
 	/**
-	 * Devuelve todos los lotes de un insumo que se pase 
-	 * 
+	 * Devuelve todos los lotes de un insumo que se pase
+	 *
 	 * @param int $insumo
 	 * @return Illuminate\Database\Eloquent\Collection $lotes
 	 */
 	public function lotes($insumo){
 
 		$lotes =  Lote::where('insumo', $insumo)
-					  ->where('cantidad', '>', 0)	
+					  ->where('cantidad', '>', 0)
 					  ->where('deposito', Auth::user()->deposito)
 					  ->select('codigo','cantidad', DB::raw('DATE_FORMAT(vencimiento, "%d/%m/%Y") as fecha'))
 					  ->orderBy('vencimiento')
@@ -241,11 +262,11 @@ class LotesRepository
 	}
 
 	/**
-	 * Calcula los movimientos de los lotes de un insumo utilizando 
-	 * FEFO (First Expire First Out) 
-	 * 
+	 * Calcula los movimientos de los lotes de un insumo utilizando
+	 * FEFO (First Expire First Out)
+	 *
 	 * @param array $insumos
-	 * @return array 
+	 * @return array
 	 */
 	private function fefo($insumo, $insumoMovimientos){
 
@@ -256,7 +277,7 @@ class LotesRepository
 						    ->orderBy('id')
 						    ->get();
 		$movimientos  = [];
-	
+
 		$withLotes = $this->filterInsumosLote($insumoMovimientos);
 		$withoutLotes = $this->filterInsumosLote($insumoMovimientos,false);
 
@@ -264,14 +285,14 @@ class LotesRepository
 		if( !empty($withLotes) ){
 
 			foreach ($withLotes as $movimiento) {
-				
+
 				$lotes = $lotes->each(function ($lote) use ($movimiento){
 
 				    if ($lote->codigo == $movimiento['lote']) {
 				        $lote->cantidad -= $movimiento['despachado'];
 				    	false;
 				    }
-				});	
+				});
 			}
 
 			$movimientos = $withLotes;
@@ -288,7 +309,7 @@ class LotesRepository
 				});
 
 				if( $lote->cantidad < $cantidad ){
-					
+
 					$cantidad -= $lote->cantidad;
 					$saldo = $lote->cantidad;
 					$lote->cantidad = 0;
@@ -300,25 +321,25 @@ class LotesRepository
 					$cantidad = 0;
 				}
 
-				$movimiento['lote'] = $lote->codigo; 
+				$movimiento['lote'] = $lote->codigo;
 				$movimiento['despachado'] = $saldo;
 
 				array_push($movimientos, $movimiento);
 			}
 		}
 
-		return $movimientos; 
+		return $movimientos;
 	}
 
 	/**
-	 * Verifica si un insumo tiene lotes asociados 
-	 * 
+	 * Verifica si un insumo tiene lotes asociados
+	 *
 	 * @return bool
 	 */
 	public function hasLote($insumo){
 
 		$lotes =  Lote::where('insumo', $insumo['id'])
-				  ->where('cantidad', '>', 0)	
+				  ->where('cantidad', '>', 0)
 				  ->where('deposito', Auth::user()->deposito)
 				  ->first();
 
@@ -331,7 +352,7 @@ class LotesRepository
 	 *
 	 * @param array $insumos
 	 * @return arrray $groups
-	 */ 
+	 */
 	public function calculaMovimientos($insumos){
 
 		$movimientos = [];
@@ -342,7 +363,7 @@ class LotesRepository
 		foreach ($insumos as $insumo) {
 
 			if( array_search($insumo['id'], array_column($movimientos, 'id')) !== false )
-				continue;	
+				continue;
 
 			if( $this->hasLote($insumo) ){
 
@@ -426,4 +447,3 @@ class LotesRepository
 		return $insumosFiltrados;
 	}
 }
-
