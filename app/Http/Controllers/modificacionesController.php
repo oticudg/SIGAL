@@ -59,10 +59,17 @@ class modificacionesController extends Controller
       }
 
       //Obtiene el documento asociado al movimiento.
-      $documento = Documento::where('id', $movimiento->documento)->first(['tipo', 'id']);
+      $documento = Documento::where('id', $movimiento->documento)->first(['tipo', 'id','naturaleza']);
 
       //Obtiene el movimento.
       if($type == 'entradas'){
+
+        if($documento->naturaleza == 'establecer'){
+            return Response()->json(['status' => 'danger',
+                'message' =>
+                'No es posible modificar la entrada'
+            ]);
+        }
 
         //Campos a consultar
         $select = [
@@ -437,6 +444,13 @@ class modificacionesController extends Controller
 
         //Obtiene el documento actual asignado al movimiento.
         $ori_documento = Documento::where('id', $data['documento'])->firstOrFail();
+
+        if($ori_documento->naturaleza == 'establecer'){
+            return Response()->json(['status' => 'danger',
+                'message' =>
+                'No es posible modificar la entrada'
+            ]);
+        }
 
         if(!empty($data['update_documento'])){
           //Obtiene el documento a modificar.
