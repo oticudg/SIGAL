@@ -9,24 +9,24 @@
 
 	<img class="cintillo" src="{{public_path().'/imagen/cintillo.jpg'}}">
 
-	<h2 class="title" style="color:gray">{{$title}}</h2>
+	<h2 class="title" style="color:black">{{$title}}</h2>
 
-	<table class="custon-table-bottom-off table-side">
+	<table class="custon-table-bottom-off">
 		<tbody>
 			<tr>
-				<td class="green-td" width="100">FECHA DEL INVENTARIO</td>
+				<th width="100">FECHA DEL INVENTARIO</th>
 				<td>{{$date}}</td>
-				<td>INSUMOS</td>
+				<th>INSUMOS</th>
 				<td>{{count($insumos)}}</td>
-				<td>DEPÓSITO</td>
+				<th>DEPÓSITO</th>
 				<td>{{strtoupper($depositoN)}}</td>
 			</tr>
 			<tr>
-				<td>FECHA DE IMPRESIÓN</td>
+				<th>FECHA DE IMPRESIÓN</th>
 				<td>{{$fecha}}</td>
-				<td>HORA</td>
+				<th>HORA</th>
 				<td>{{$hora}}</td>
-				<td>USUARIO</td>
+				<th>USUARIO</th>
 				<td>{{ strtoupper($usuario) }}</td>
 			</tr>
 		</tbody>
@@ -34,42 +34,45 @@
 
 	<br>
 	@foreach ($insumos as $insumo)
-        <table class="table-title custon-table-top-off custon-table-bottom-off">
+        <!--<table class="table-title custon-table-top-off custon-table-bottom-off">
             <tbody>
                 <tr>
                     <td>Insumo</td>
                 </tr>
             </tbody>
-        </table>
-        <table class="custon-table-top-off @if(count($insumo->lotes))custon-table-bottom-off @endif">
-            <thead>
+        </table>-->
+        <table class="custon-table-top-off @if(count($insumo->lotes))custon-table-bottom-off @endif res">
+            <!-- <thead>
                 <tr>
+                    <th>CANT. LOTES</th>
                     <th>CÓDIGO</th>
-                    <th>DESCRIPCIÓN</th>
-                    <th>EXISTENCIA</th>
+                    <th>DESCRIPCIÓN</th> 
                 </tr>
-            </thead>
+            </thead> -->
             <tbody>
                     <tr>
+                        <!--<th>CANT. LOTES</th>
+                        <td class="decp">{{count($insumo->lotes)}}</td>-->
+                        <th>CÓDIGO</th>
                         <td>{{$insumo->codigo}}</td>
+                        <th>DESCRIPCIÓN</th> 
                         <td class="decp">{{$insumo->descripcion}}</td>
-                        <td>{{$insumo->existencia}}</td>
                     </tr>
             </tbody>
         </table>
 
         @if(count($insumo->lotes) > 0)
-            <table class="table-title custon-table-top-off custon-table-bottom-off">
+           <!-- <table class="table-title custon-table-top-off custon-table-bottom-off">
                 <tbody>
                     <tr>
-                        <td class="decp">Lotes: {{count($insumo->lotes)}}</tdi>
+                        <td class="decp">Lotes: {{count($insumo->lotes)}}</td>
                     </tr>
                 </tbody>
-            </table>
-            <table class="custon-table-top-off">
+            </table>-->
+            <table>
                 <thead>
                 <tr>
-                    <th>CÓDIGO</th>
+                    <th># LOTE</th>
                     <th>FECHA DE VENCIMIENTO</th>
                     <th>CANTIDAD</th>
                 </tr>
@@ -81,11 +84,15 @@
                         @if($lote->vencimiento)
                             <td>{{$lote->vencimiento->format('d/m/Y')}}</td>
                         @else
-                            <td></td>
+                            <td>No se ha registrado la fecha de vencimiento</td>
                         @endif
-                        <td>{{$lote->cantidad}}</td>
+                        <td class="cant">{{$lote->cantidad}}</td>
                     </tr>
                 @endforeach
+                    <tr>
+                        <td colspan="2"></td> 
+                        <td class="cant">{{$insumo->existencia}}</td>
+                    </tr>
                 </tbody>
             </table>
         @endif
