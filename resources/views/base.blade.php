@@ -6,6 +6,7 @@
 		<title>SIGAL | Tablero</title>
 		<!-- Tell the browser to be responsive to screen width -->
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- favicon emaspc93 -->
 		<link rel="shortcut icon" href="/imagen/favicon-32x32.png" type="image/x-icon">
 		<link rel="icon" href="/imagen/favicon-32x32.png" type="image/x-icon"> 
 		<!-- Bootstrap 3.3.6 -->
