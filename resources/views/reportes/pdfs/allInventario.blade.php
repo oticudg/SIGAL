@@ -33,24 +33,62 @@
 	</table>
 
 	<br>
-	<table class="custon-table-top-off">
-		<thead>
-			<tr>
-				<th>CÓDIGO</th>
-				<th>DESCRIPCIÓN</th>
-				<th>EXISTENCIA</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach ($insumos as $insumo)
-				<tr>
-					<td>{{$insumo->codigo}}</td>
-					<td class="decp">{{$insumo->descripcion}}</td>
-					<td>{{$insumo->existencia}}</td>
-				</tr>
-			@endforeach
-		</tbody>
-	</table>
+	@foreach ($insumos as $insumo)
+        <table class="table-title custon-table-top-off custon-table-bottom-off">
+            <tbody>
+                <tr>
+                    <td>Insumo</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="custon-table-top-off @if(count($insumo->lotes))custon-table-bottom-off @endif">
+            <thead>
+                <tr>
+                    <th>CÓDIGO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>EXISTENCIA</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>{{$insumo->codigo}}</td>
+                        <td class="decp">{{$insumo->descripcion}}</td>
+                        <td>{{$insumo->existencia}}</td>
+                    </tr>
+            </tbody>
+        </table>
 
+        @if(count($insumo->lotes) > 0)
+            <table class="table-title custon-table-top-off custon-table-bottom-off">
+                <tbody>
+                    <tr>
+                        <td class="decp">Lotes: {{count($insumo->lotes)}}</tdi>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="custon-table-top-off">
+                <thead>
+                <tr>
+                    <th>CÓDIGO</th>
+                    <th>FECHA DE VENCIMIENTO</th>
+                    <th>CANTIDAD</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($insumo->lotes as $lote)
+                    <tr>
+                        <td>{{$lote->codigo}}</td>
+                        @if($lote->vencimiento)
+                            <td>{{$lote->vencimiento->format('d/m/Y')}}</td>
+                        @else
+                            <td></td>
+                        @endif
+                        <td>{{$lote->cantidad}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
+	@endforeach
 </body>
 </html>

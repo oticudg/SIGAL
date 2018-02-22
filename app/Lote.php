@@ -12,4 +12,21 @@ class Lote extends Model
      * @var array
      */
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'vencimiento'];
+
+    protected $date = [
+        'created_at',
+        'updated_at',
+        'vencimiento',
+    ];
+
+    /**
+     * Filtra los lostes mayores que cero
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeWithExistence($query)
+    {
+       return $query->where('cantidad', '>', 0);
+    }
 }

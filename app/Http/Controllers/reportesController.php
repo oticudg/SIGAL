@@ -119,7 +119,7 @@ class reportesController extends Controller
                  ->whereBetween(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")')
                  ,[$first_date, $date])->where('deposito', $deposito)
                  ->lists('insumo');
-       }
+        }
 
         //Obtiene los datos de los insumos cuyos ids se han encontrado.
         $query = DB::table('insumos')
@@ -207,6 +207,15 @@ class reportesController extends Controller
                 unset($insumos[$key]);
             }
           }
+        }
+
+        //Get lotes
+        foreach( $insumos as $insumo){
+           $insumo->lotes  = Insumo::withTrashed()->find($insumo->id)
+               ->getLotesbyDeposito($deposito)
+               ->withExistence()
+               ->orderBy('vencimiento')
+               ->get(['codigo', 'cantidad', 'vencimiento']);
         }
 
         $view =  \View::make('reportes.pdfs.allInventario',
