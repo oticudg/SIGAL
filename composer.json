@@ -15,7 +15,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "doctrine/dbal": "^2.5",
-        "barryvdh/laravel-dompdf": "0.6.*",
+        "barryvdh/laravel-dompdf": "0.8.2",
         "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
